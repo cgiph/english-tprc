@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import logo from "@assets/generated_images/minimalist_academic_shield_logo_icon.png";
-import { BookOpen, MessageSquare, Home, Menu, X } from "lucide-react";
+import { BookOpen, MessageSquare, Home, Menu, X, Mic } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -19,6 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { href: "/", label: "Home", icon: Home },
+    { href: "/practice/speaking", label: "Practice", icon: Mic },
     { href: "/reviews", label: "Exam Reviews", icon: MessageSquare },
     { href: "/resources", label: "Study Resources", icon: BookOpen },
   ];
@@ -123,7 +124,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><Link href="/reviews" className="hover:text-primary transition-colors">Exam Reviews</Link></li>
                 <li><Link href="/resources" className="hover:text-primary transition-colors">Study Materials</Link></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Score Calculator</a></li>
+                <li><Link href="/practice/speaking" className="hover:text-primary transition-colors">Speaking Practice</Link></li>
                 <li><a href="#" className="hover:text-primary transition-colors">Success Stories</a></li>
               </ul>
             </div>
