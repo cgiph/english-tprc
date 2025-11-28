@@ -1,0 +1,111 @@
+export type Review = {
+  id: string;
+  author: string;
+  avatar: string;
+  date: string;
+  overallScore: number;
+  scores: {
+    speaking: number;
+    writing: number;
+    reading: number;
+    listening: number;
+  };
+  center: string;
+  content: string;
+  tags: string[];
+  verified: boolean;
+};
+
+export type Resource = {
+  id: string;
+  title: string;
+  description: string;
+  type: "Guide" | "Practice Test" | "Video" | "Tool";
+  level: "Beginner" | "Intermediate" | "Advanced";
+  author: string;
+  downloads: number;
+  rating: number;
+  image?: string;
+};
+
+export const MOCK_REVIEWS: Review[] = [
+  {
+    id: "1",
+    author: "Sarah Chen",
+    avatar: "https://i.pravatar.cc/150?u=sarah",
+    date: "Oct 15, 2025",
+    overallScore: 82,
+    scores: { speaking: 85, writing: 79, reading: 80, listening: 84 },
+    center: "Pearson Professional Centers-London Holborn",
+    content: "The speaking section was faster than I practiced. Make sure to keep speaking even if you make a small mistake. The microphone quality at Holborn was excellent, heavily noise-cancelled.",
+    tags: ["Speaking Tips", "London Center"],
+    verified: true
+  },
+  {
+    id: "2",
+    author: "Michael O'Connor",
+    avatar: "https://i.pravatar.cc/150?u=michael",
+    date: "Nov 02, 2025",
+    overallScore: 76,
+    scores: { speaking: 72, writing: 75, reading: 78, listening: 79 },
+    center: "Manchester Media City",
+    content: "Writing essay topic was about 'Remote Work'. A very standard topic. I used the template from this site and it worked perfectly. Remember to manage your time in the reading section!",
+    tags: ["Writing Template", "Time Management"],
+    verified: true
+  },
+  {
+    id: "3",
+    author: "Priya Patel",
+    avatar: "https://i.pravatar.cc/150?u=priya",
+    date: "Nov 10, 2025",
+    overallScore: 90,
+    scores: { speaking: 90, writing: 90, reading: 90, listening: 90 },
+    center: "Birmingham PPC",
+    content: "Achieved a perfect 90! My strategy was consistent practice with mock tests. Don't underestimate Describe Image - it's a high scoring task. The staff at Birmingham were very supportive.",
+    tags: ["Perfect Score", "Success Story"],
+    verified: true
+  }
+];
+
+export const MOCK_RESOURCES: Resource[] = [
+  {
+    id: "1",
+    title: "Ultimate Essay Template 2025",
+    description: "A foolproof structure for the 'Write Essay' task that fits 95% of topics. Includes transition words and vocabulary bank.",
+    type: "Guide",
+    level: "Intermediate",
+    author: "PrepUK Team",
+    downloads: 12500,
+    rating: 4.9
+  },
+  {
+    id: "2",
+    title: "Describe Image - 50 Practice Charts",
+    description: "High-resolution charts, graphs, and maps commonly seen in the real exam with model answers.",
+    type: "Practice Test",
+    level: "Advanced",
+    author: "Dr. A. Smith",
+    downloads: 8200,
+    rating: 4.7
+  },
+  {
+    id: "3",
+    title: "Repeat Sentence Audio Trainer",
+    description: "Interactive audio tool to improve your short-term memory and pronunciation for the Repeat Sentence task.",
+    type: "Tool",
+    level: "Beginner",
+    author: "TechPrep",
+    downloads: 5400,
+    rating: 4.5
+  },
+  {
+    id: "4",
+    title: "Full Mock Test - UKVI Edition",
+    description: "A complete 2-hour simulation of the PTE Academic UKVI exam with instant AI scoring.",
+    type: "Practice Test",
+    level: "Intermediate",
+    author: "PrepUK Team",
+    downloads: 3100,
+    rating: 4.8
+  }
+];
