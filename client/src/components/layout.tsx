@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import logo from "@assets/generated_images/minimalist_academic_shield_logo_icon.png";
-import { BookOpen, MessageSquare, Home, Menu, X, Mic } from "lucide-react";
+import { BookOpen, MessageSquare, Home, Menu, X, Mic, Book } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -19,9 +19,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { href: "/", label: "Home", icon: Home },
-    { href: "/practice/speaking", label: "Practice", icon: Mic },
-    { href: "/reviews", label: "Exam Reviews", icon: MessageSquare },
-    { href: "/resources", label: "Study Resources", icon: BookOpen },
+    { href: "/practice/speaking", label: "Speaking", icon: Mic },
+    { href: "/practice/reading", label: "Reading", icon: Book },
+    { href: "/reviews", label: "Reviews", icon: MessageSquare },
+    { href: "/resources", label: "Resources", icon: BookOpen },
   ];
 
   return (
