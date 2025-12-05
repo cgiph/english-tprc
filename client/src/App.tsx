@@ -10,6 +10,7 @@ import Resources from "@/pages/resources";
 import SpeakingPractice from "@/pages/speaking-practice";
 import ReadingPractice from "@/pages/reading-practice";
 import TypingPractice from "@/pages/typing-practice";
+import ResourceViewer from "@/pages/resource-viewer";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,6 +20,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/reviews" component={Reviews} />
         <Route path="/resources" component={Resources} />
+        <Route path="/resources/viewer" component={ResourceViewer} />
         <Route path="/practice/speaking" component={SpeakingPractice} />
         <Route path="/practice/reading" component={ReadingPractice} />
         <Route path="/practice/typing" component={TypingPractice} />

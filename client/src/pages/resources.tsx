@@ -49,10 +49,18 @@ export default function Resources() {
     // Mock password validation
     if (password === "admin123" || password === "TPRC2025") {
       setPasswordDialogOpen(false);
-      window.open(selectedResource?.downloadUrl || "#", "_blank");
+      
+      if (selectedResource?.viewerUrl) {
+        // Navigate to viewer
+        window.location.href = selectedResource.viewerUrl;
+      } else {
+        // Download file
+        window.open(selectedResource?.downloadUrl || "#", "_blank");
+      }
+      
       toast({
         title: "Access Granted",
-        description: "Download starting...",
+        description: selectedResource?.viewerUrl ? "Opening resource..." : "Download starting...",
         variant: "default",
       });
     } else {

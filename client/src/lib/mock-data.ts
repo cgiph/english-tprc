@@ -28,6 +28,7 @@ export type Resource = {
   image?: string;
   locked?: boolean;
   downloadUrl?: string;
+  viewerUrl?: string;
 };
 
 export const MOCK_REVIEWS: Review[] = [
@@ -92,7 +93,8 @@ export const MOCK_RESOURCES: Resource[] = [
     downloads: 8200,
     rating: 4.7,
     locked: true,
-    downloadUrl: "/downloads/DESCRIBE_IMAGE_50_CHARTS.txt"
+    downloadUrl: "/downloads/DESCRIBE_IMAGE_50_CHARTS.txt",
+    viewerUrl: "/resources/viewer"
   },
   {
     id: "3",
