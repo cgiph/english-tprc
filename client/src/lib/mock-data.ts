@@ -90,7 +90,9 @@ export const MOCK_RESOURCES: Resource[] = [
     level: "Advanced",
     author: "Dr. A. Smith",
     downloads: 8200,
-    rating: 4.7
+    rating: 4.7,
+    locked: true,
+    downloadUrl: "/downloads/DESCRIBE_IMAGE_50_CHARTS.txt"
   },
   {
     id: "3",
