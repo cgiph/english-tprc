@@ -26,6 +26,8 @@ export type Resource = {
   downloads: number;
   rating: number;
   image?: string;
+  locked?: boolean;
+  downloadUrl?: string;
 };
 
 export const MOCK_REVIEWS: Review[] = [
@@ -70,13 +72,15 @@ export const MOCK_REVIEWS: Review[] = [
 export const MOCK_RESOURCES: Resource[] = [
   {
     id: "1",
-    title: "Ultimate Essay Template 2025",
-    description: "A foolproof structure for the 'Write Essay' task that fits 95% of topics. Includes transition words and vocabulary bank.",
+    title: "Ultimate Essay Guide 2026",
+    description: "A comprehensive guide for the 'Write Essay' task. Includes templates and outlines for A1-B1 levels.",
     type: "Guide",
     level: "Intermediate",
     author: "PrepUK Team",
     downloads: 12500,
-    rating: 4.9
+    rating: 4.9,
+    locked: true,
+    downloadUrl: "/downloads/USEFUL_GUIDE_FOR_ESSAY_WRITING.txt"
   },
   {
     id: "2",

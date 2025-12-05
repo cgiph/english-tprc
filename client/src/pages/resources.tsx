@@ -1,9 +1,21 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MOCK_RESOURCES } from "@/lib/mock-data";
-import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard } from "lucide-react";
+import { MOCK_RESOURCES, Resource } from "@/lib/mock-data";
+import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard, Lock } from "lucide-react";
 import { Link } from "wouter";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
 const iconMap = {
   "Guide": FileText,
@@ -13,6 +25,45 @@ const iconMap = {
 };
 
 export default function Resources() {
+  const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
+  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
+  const [password, setPassword] = useState("");
+  const { toast } = useToast();
+
+  const handleDownloadClick = (resource: Resource) => {
+    if (resource.locked) {
+      setSelectedResource(resource);
+      setPasswordDialogOpen(true);
+      setPassword("");
+    } else {
+      // Simulate download
+      window.open(resource.downloadUrl || "#", "_blank");
+      toast({
+        title: "Download Started",
+        description: `Downloading ${resource.title}...`,
+      });
+    }
+  };
+
+  const handleUnlock = () => {
+    // Mock password validation
+    if (password === "admin123" || password === "TPRC2025") {
+      setPasswordDialogOpen(false);
+      window.open(selectedResource?.downloadUrl || "#", "_blank");
+      toast({
+        title: "Access Granted",
+        description: "Download starting...",
+        variant: "default",
+      });
+    } else {
+      toast({
+        title: "Access Denied",
+        description: "Invalid access key. Please contact your administrator.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 space-y-12">
       <div className="text-center max-w-3xl mx-auto space-y-4">
@@ -53,7 +104,15 @@ export default function Resources() {
           const Icon = iconMap[resource.type] || FileText;
           
           return (
-            <Card key={resource.id} className="flex flex-col hover:shadow-lg transition-all duration-300 group border-muted">
+            <Card key={resource.id} className="flex flex-col hover:shadow-lg transition-all duration-300 group border-muted relative">
+              {resource.locked && (
+                <div className="absolute top-4 right-4 z-20">
+                  <div className="bg-background/80 backdrop-blur p-1.5 rounded-full border shadow-sm" title="Restricted Access">
+                    <Lock className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                </div>
+              )}
+              
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-start mb-4">
                   <div className="p-3 rounded-lg bg-secondary/10 text-secondary-foreground group-hover:bg-secondary group-hover:text-white transition-colors">
@@ -81,14 +140,59 @@ export default function Resources() {
                     ★ {resource.rating}
                   </span>
                 </div>
-                <Button size="sm" variant="ghost" className="text-primary font-medium hover:bg-primary/5">
-                  Download
+                <Button 
+                  size="sm" 
+                  variant={resource.locked ? "outline" : "ghost"}
+                  className={resource.locked ? "gap-2 border-primary/20 text-primary" : "text-primary font-medium hover:bg-primary/5"}
+                  onClick={() => handleDownloadClick(resource)}
+                >
+                  {resource.locked ? (
+                    <>
+                      <Lock className="h-3 w-3" /> Unlock
+                    </>
+                  ) : (
+                    "Download"
+                  )}
                 </Button>
               </CardFooter>
             </Card>
           );
         })}
       </div>
+
+      <Dialog open={passwordDialogOpen} onOpenChange={setPasswordDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Restricted Access</DialogTitle>
+            <DialogDescription>
+              This resource is protected. Please enter your log-in key from Cirrus Global Inc. and TPRC to verify your access level.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center space-x-2 py-4">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="access-key" className="sr-only">
+                Access Key
+              </Label>
+              <Input
+                id="access-key"
+                type="password"
+                placeholder="Enter Access Key"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleUnlock()}
+              />
+            </div>
+          </div>
+          <DialogFooter className="sm:justify-between">
+             <div className="text-xs text-muted-foreground self-center">
+               * Contact administrator if you lost your key
+             </div>
+            <Button type="button" onClick={handleUnlock} className="bg-primary">
+              Verify & Download
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
