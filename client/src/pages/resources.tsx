@@ -2,7 +2,8 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MOCK_RESOURCES } from "@/lib/mock-data";
-import { Download, FileText, PlayCircle, BarChart, Shield } from "lucide-react";
+import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard } from "lucide-react";
+import { Link } from "wouter";
 
 const iconMap = {
   "Guide": FileText,
@@ -20,6 +21,31 @@ export default function Resources() {
           Curated materials to help you master every section of the PTE Academic UKVI. 
           From templates to full mock tests.
         </p>
+      </div>
+
+      {/* Featured Tool: Typing Practice */}
+      <div className="w-full max-w-4xl mx-auto">
+        <Link href="/practice/typing">
+          <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-2 border-primary/10 hover:border-primary/30 transition-all cursor-pointer group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500" />
+            <CardContent className="p-8 flex items-center justify-between gap-6 relative z-10">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-primary font-bold">
+                  <Keyboard className="h-5 w-5" />
+                  <span className="uppercase tracking-wider text-xs">New Interactive Tool</span>
+                </div>
+                <h3 className="text-2xl font-serif font-bold text-foreground">Typing Speed Trainer</h3>
+                <p className="text-muted-foreground max-w-md">
+                  Practice your typing speed and accuracy with our new simulation tool. 
+                  Includes a 60-minute timer and real-time WPM scoring.
+                </p>
+              </div>
+              <Button size="lg" className="shrink-0 bg-primary text-white shadow-lg group-hover:translate-x-1 transition-transform">
+                Start Practicing
+              </Button>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
