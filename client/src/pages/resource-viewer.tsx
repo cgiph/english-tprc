@@ -447,6 +447,141 @@ export default function ResourceViewer() {
                </div>
              </CardContent>
           </Card>
+
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-2">Understanding WH Questions</h2>
+               <p className="text-muted-foreground mb-6">Learn how to use Who, What, Where, Why, and How correctly.</p>
+
+               <div className="space-y-6">
+                 <div className="bg-muted/30 p-6 rounded-lg border">
+                   <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                     <HelpCircle className="h-5 w-5 text-primary" /> Key Concepts
+                   </h3>
+                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                     <div className="bg-white p-3 rounded border text-center">
+                       <span className="block font-bold text-primary mb-1">Who</span>
+                       <span className="text-sm text-muted-foreground">Person / People</span>
+                     </div>
+                     <div className="bg-white p-3 rounded border text-center">
+                       <span className="block font-bold text-primary mb-1">What</span>
+                       <span className="text-sm text-muted-foreground">Thing / Action</span>
+                     </div>
+                     <div className="bg-white p-3 rounded border text-center">
+                       <span className="block font-bold text-primary mb-1">Where</span>
+                       <span className="text-sm text-muted-foreground">Place</span>
+                     </div>
+                     <div className="bg-white p-3 rounded border text-center">
+                       <span className="block font-bold text-primary mb-1">Why</span>
+                       <span className="text-sm text-muted-foreground">Reason</span>
+                     </div>
+                     <div className="bg-white p-3 rounded border text-center">
+                       <span className="block font-bold text-primary mb-1">How</span>
+                       <span className="text-sm text-muted-foreground">Way / Method</span>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div className="space-y-6">
+                   <Card>
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 1: Short Text + Questions</CardTitle></CardHeader>
+                     <CardContent className="space-y-4">
+                       <div className="bg-muted p-4 rounded-lg mb-4">
+                         <p className="font-medium">Text:</p>
+                         <p>Maria goes to the market. She buys bananas and apples. She wants to make fruit salad.</p>
+                       </div>
+                       <div className="space-y-3">
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
+                           <p className="text-sm font-medium">Who goes to the market?</p>
+                           <div className="bg-muted/50 p-2 rounded text-sm border-b border-primary/20">Maria</div>
+                         </div>
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
+                           <p className="text-sm font-medium">What does she buy?</p>
+                           <div className="bg-muted/50 p-2 rounded text-sm border-b border-primary/20">Bananas and apples</div>
+                         </div>
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
+                           <p className="text-sm font-medium">Where does she go?</p>
+                           <div className="bg-muted/50 p-2 rounded text-sm border-b border-primary/20">To the market</div>
+                         </div>
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
+                           <p className="text-sm font-medium">Why does she buy fruit?</p>
+                           <div className="bg-muted/50 p-2 rounded text-sm border-b border-primary/20">To make fruit salad</div>
+                         </div>
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
+                           <p className="text-sm font-medium">How will she use the fruit?</p>
+                           <div className="bg-muted/50 p-2 rounded text-sm border-b border-primary/20">By making a salad</div>
+                         </div>
+                       </div>
+                     </CardContent>
+                   </Card>
+
+                   <Card>
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 2: Fill in the Blanks</CardTitle></CardHeader>
+                     <CardContent className="space-y-4">
+                       <div className="bg-muted p-4 rounded-lg mb-4">
+                         <p className="font-medium">Text:</p>
+                         <p>Ben plays football in the park. He plays with his friends because he likes sports.</p>
+                       </div>
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Who:</span>
+                           <span className="border-b-2 border-primary flex-1 p-1 bg-muted/20">Ben, Friends</span>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">What:</span>
+                           <span className="border-b-2 border-primary flex-1 p-1 bg-muted/20">Plays football</span>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Where:</span>
+                           <span className="border-b-2 border-primary flex-1 p-1 bg-muted/20">In the park</span>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Why:</span>
+                           <span className="border-b-2 border-primary flex-1 p-1 bg-muted/20">Because he likes sports</span>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">How:</span>
+                           <span className="border-b-2 border-primary flex-1 p-1 bg-muted/20">With his friends</span>
+                         </div>
+                       </div>
+                     </CardContent>
+                   </Card>
+
+                   <Card>
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 3: Match Questions to Answers</CardTitle></CardHeader>
+                     <CardContent className="space-y-4">
+                       <div className="bg-muted p-4 rounded-lg mb-4">
+                         <p className="font-medium">Text:</p>
+                         <p>Sara reads books in the library. She reads every Saturday to learn new things.</p>
+                       </div>
+                       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                         <div className="bg-white p-3 rounded border text-center hover:border-primary cursor-pointer transition-colors">
+                           <span className="block font-bold text-primary mb-2">Who?</span>
+                           <span className="text-sm text-muted-foreground block border-t pt-2 mt-2">Sara</span>
+                         </div>
+                         <div className="bg-white p-3 rounded border text-center hover:border-primary cursor-pointer transition-colors">
+                           <span className="block font-bold text-primary mb-2">What?</span>
+                           <span className="text-sm text-muted-foreground block border-t pt-2 mt-2">Reads books</span>
+                         </div>
+                         <div className="bg-white p-3 rounded border text-center hover:border-primary cursor-pointer transition-colors">
+                           <span className="block font-bold text-primary mb-2">Where?</span>
+                           <span className="text-sm text-muted-foreground block border-t pt-2 mt-2">In the library</span>
+                         </div>
+                         <div className="bg-white p-3 rounded border text-center hover:border-primary cursor-pointer transition-colors">
+                           <span className="block font-bold text-primary mb-2">Why?</span>
+                           <span className="text-sm text-muted-foreground block border-t pt-2 mt-2">To learn new things</span>
+                         </div>
+                         <div className="bg-white p-3 rounded border text-center hover:border-primary cursor-pointer transition-colors">
+                           <span className="block font-bold text-primary mb-2">How?</span>
+                           <span className="text-sm text-muted-foreground block border-t pt-2 mt-2">Every Saturday</span>
+                         </div>
+                       </div>
+                     </CardContent>
+                   </Card>
+                 </div>
+               </div>
+             </CardContent>
+          </Card>
         </main>
       </div>
     );
