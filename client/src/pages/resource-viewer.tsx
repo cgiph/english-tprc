@@ -146,6 +146,85 @@ export default function ResourceViewer() {
         <main className="container mx-auto px-4 py-8 flex-1 max-w-4xl">
           <Card className="mb-8 border-l-4 border-l-primary">
              <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-2">Summarize Written Text Practice</h2>
+               <p className="text-muted-foreground mb-6">Learn to identify main ideas and summarize effectively.</p>
+               
+               <div className="space-y-6">
+                 <div className="bg-muted/30 p-6 rounded-lg border">
+                   <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                     <HelpCircle className="h-5 w-5 text-primary" /> Purpose
+                   </h3>
+                   <ul className="list-disc pl-5 text-lg font-medium space-y-1">
+                     <li>Help students identify the main idea of a short text.</li>
+                     <li>Practice writing one simple sentence that summarizes the text.</li>
+                   </ul>
+                 </div>
+
+                 <div className="space-y-4">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
+                     <FileText className="h-5 w-5 text-primary" /> Guidelines
+                   </h3>
+                   <div className="grid gap-4 md:grid-cols-2">
+                     <div className="bg-white p-4 rounded border">
+                       <span className="font-bold block text-sm text-muted-foreground uppercase">Text Length</span>
+                       30–50 words for Pre-A1, 50–70 words for A1.
+                     </div>
+                     <div className="bg-white p-4 rounded border">
+                       <span className="font-bold block text-sm text-muted-foreground uppercase">Vocabulary</span>
+                       Use familiar words and short sentences.
+                     </div>
+                     <div className="bg-white p-4 rounded border">
+                       <span className="font-bold block text-sm text-muted-foreground uppercase">Task</span>
+                       Read the text and write one sentence that tells the main idea.
+                     </div>
+                     <div className="bg-white p-4 rounded border">
+                       <span className="font-bold block text-sm text-muted-foreground uppercase">Sentence Structure</span>
+                       Encourage use of subject + verb + object.
+                     </div>
+                   </div>
+                 </div>
+
+                 <div className="space-y-4 border-t pt-6">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
+                     <BookOpen className="h-5 w-5 text-primary" /> Examples
+                   </h3>
+                   
+                   <div className="grid gap-6 md:grid-cols-2">
+                     <Card>
+                       <CardHeader className="pb-2"><CardTitle className="text-base">Example 1</CardTitle></CardHeader>
+                       <CardContent className="space-y-4">
+                         <div className="bg-muted p-3 rounded text-sm">
+                           <span className="font-bold block text-xs text-muted-foreground uppercase mb-1">Text</span>
+                           Anna likes apples. She eats apples every day. Apples are her favorite fruit.
+                         </div>
+                         <div className="bg-green-50 p-3 rounded text-sm border border-green-100">
+                           <span className="font-bold block text-xs text-green-700 uppercase mb-1">Summary</span>
+                           Anna likes to eat apples.
+                         </div>
+                       </CardContent>
+                     </Card>
+
+                     <Card>
+                       <CardHeader className="pb-2"><CardTitle className="text-base">Example 2</CardTitle></CardHeader>
+                       <CardContent className="space-y-4">
+                         <div className="bg-muted p-3 rounded text-sm">
+                           <span className="font-bold block text-xs text-muted-foreground uppercase mb-1">Text</span>
+                           Tom goes to the park every morning. He runs and plays football with his friends. Tom enjoys being outside.
+                         </div>
+                         <div className="bg-green-50 p-3 rounded text-sm border border-green-100">
+                           <span className="font-bold block text-xs text-green-700 uppercase mb-1">Summary</span>
+                           Tom enjoys playing in the park every morning.
+                         </div>
+                       </CardContent>
+                     </Card>
+                   </div>
+                 </div>
+               </div>
+             </CardContent>
+          </Card>
+
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
                <h2 className="text-2xl font-bold mb-2">Essay Practice 1</h2>
                <p className="text-muted-foreground mb-6">Topic: Extreme Sports / Dangerous Activities</p>
                
