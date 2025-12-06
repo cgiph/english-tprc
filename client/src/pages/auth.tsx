@@ -90,8 +90,8 @@ export default function AuthPage() {
         variant: "default",
       });
       
-      // Redirect to home or dashboard after short delay
-      setTimeout(() => setLocation("/"), 1000);
+      // Redirect to Resources for initial practice after short delay
+      setTimeout(() => setLocation("/resources"), 1000);
     } else {
       toast({
         title: "Validation Error",
