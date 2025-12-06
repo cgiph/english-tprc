@@ -334,6 +334,45 @@ export default function ResourceViewer() {
 
                  <div className="space-y-4 border-t pt-6">
                    <h3 className="font-bold text-lg flex items-center gap-2">
+                     <List className="h-5 w-5 text-primary" /> Sentence Structures
+                   </h3>
+                   <p className="text-muted-foreground">Use these templates to combine main ideas into one single sentence.</p>
+                   
+                   <div className="grid gap-4">
+                     <Card className="bg-blue-50 border-blue-100">
+                       <CardContent className="pt-6">
+                         <span className="font-bold text-sm text-blue-700 uppercase mb-2 block">Template 1: Contrast & Conclusion</span>
+                         <p className="font-medium text-lg mb-2">[Main idea], but [contrast idea], so [conclusion].</p>
+                         <div className="text-sm text-muted-foreground bg-white p-3 rounded border border-blue-100">
+                           <span className="font-bold text-blue-600">Example:</span> Technology makes life easier, but it can cause problems, so people should use it responsibly.
+                         </div>
+                       </CardContent>
+                     </Card>
+
+                     <Card className="bg-purple-50 border-purple-100">
+                       <CardContent className="pt-6">
+                         <span className="font-bold text-sm text-purple-700 uppercase mb-2 block">Template 2: Although Structure</span>
+                         <p className="font-medium text-lg mb-2">Although [idea 1], [idea 2] and [conclusion].</p>
+                         <div className="text-sm text-muted-foreground bg-white p-3 rounded border border-purple-100">
+                           <span className="font-bold text-purple-600">Example:</span> Although big malls offer many choices, small shops are important, and both should remain.
+                         </div>
+                       </CardContent>
+                     </Card>
+
+                     <Card className="bg-amber-50 border-amber-100">
+                       <CardContent className="pt-6">
+                         <span className="font-bold text-sm text-amber-700 uppercase mb-2 block">Template 3: Formal Cause & Effect</span>
+                         <p className="font-medium text-lg mb-2">[Topic] provides [benefit], yet [drawback], therefore [solution].</p>
+                         <div className="text-sm text-muted-foreground bg-white p-3 rounded border border-amber-100">
+                           <span className="font-bold text-amber-600">Example:</span> Technology provides convenience, yet it causes distractions, therefore balance is needed.
+                         </div>
+                       </CardContent>
+                     </Card>
+                   </div>
+                 </div>
+
+                 <div className="space-y-4 border-t pt-6">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
                      <BookOpen className="h-5 w-5 text-primary" /> Examples
                    </h3>
                    
