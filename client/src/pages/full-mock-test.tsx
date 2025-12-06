@@ -43,10 +43,63 @@ export default function FullMockTest() {
   const [micPlayback, setMicPlayback] = useState(false);
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
   
-  // Real Audio Recording State
+  // Real Audio Recording State (Question specific)
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [recordedAudioURL, setRecordedAudioURL] = useState<string | null>(null);
+  const [questionAudioURL, setQuestionAudioURL] = useState<string | null>(null);
+  
+  const playBeep = useCallback(() => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
 
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(880, audioContext.currentTime); 
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.5); 
+  }, []);
+
+  const startQuestionRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      const chunks: Blob[] = [];
+
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunks.push(e.data);
+      };
+
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: "audio/webm" });
+        const url = URL.createObjectURL(blob);
+        setQuestionAudioURL(url);
+        setResponses(prev => {
+           if (!currentTest) return prev;
+           const qId = currentTest.items[currentIndex].id;
+           return { ...prev, [qId + "_audio"]: url }; // Store audio URL in responses with suffix
+        });
+      };
+
+      recorder.start();
+      setMediaRecorder(recorder);
+    } catch (err) {
+      console.error("Mic error", err);
+      // Fallback?
+    }
+  };
+
+  const stopQuestionRecording = () => {
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+      mediaRecorder.stop();
+      mediaRecorder.stream.getTracks().forEach(track => track.stop());
+    }
+  };
+  
   // Real Microphone Functions
   const startMicCheckRecording = async () => {
     try {
@@ -160,9 +213,12 @@ export default function FullMockTest() {
           setSpeakingTimer(prev => {
             if (prev <= 1) {
               if (speakingState === "prep") {
+                playBeep(); // Beep on transition to recording
+                startQuestionRecording(); // Start recording
                 setSpeakingState("recording");
                 return 40; // Start 40s recording
               } else if (speakingState === "recording") {
+                stopQuestionRecording(); // Stop recording
                 handleNext(); // Auto next
                 return 0;
               }
@@ -186,13 +242,16 @@ export default function FullMockTest() {
 
   const stopAudio = () => window.speechSynthesis.cancel();
 
-  // Effect to play audio for Listening questions automatically
+  // Effect to play audio for Listening/Speaking questions automatically
   useEffect(() => {
     if (testState === "active" && currentTest) {
       const q = currentTest.items[currentIndex];
-      if (q.section === "Listening" && q.audioScript) {
+      // Determine text to speak: audioScript for Listening/Retell Lecture, content for Repeat Sentence
+      const textToSpeak = q.audioScript || (q.type === "Repeat Sentence" ? q.content : null);
+
+      if ((q.section === "Listening" || q.section === "Speaking") && textToSpeak) {
         // Brief delay to allow UI to settle
-        const timer = setTimeout(() => speakText(q.audioScript!), 1000);
+        const timer = setTimeout(() => speakText(textToSpeak), 1000);
         return () => {
           clearTimeout(timer);
           stopAudio();
@@ -271,6 +330,7 @@ export default function FullMockTest() {
     
     // Reset states for next question
     setSpeakingState("idle");
+    setQuestionAudioURL(null); // Clear current audio
     setTimeLeft(0);
 
     if (currentIndex < currentTest.items.length - 1) {
@@ -445,9 +505,9 @@ export default function FullMockTest() {
           )}
 
           {/* Audio Controls */}
-          {q.section === "Listening" && q.audioScript && (
+          {((q.section === "Listening" && q.audioScript) || (q.section === "Speaking" && (q.audioScript || q.type === "Repeat Sentence"))) && (
             <div className="bg-muted p-4 rounded-lg flex items-center gap-4">
-              <Button size="icon" variant="secondary" className="rounded-full" onClick={() => speakText(q.audioScript!)}>
+              <Button size="icon" variant="secondary" className="rounded-full" onClick={() => speakText(q.audioScript || q.content || "")}>
                 <PlayCircle className="h-6 w-6" />
               </Button>
               <div className="h-1 flex-1 bg-primary/20 rounded-full overflow-hidden">

@@ -33,9 +33,93 @@ export default function SpeakingPractice() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [showTranscript, setShowTranscript] = useState(false);
   const [silenceTimer, setSilenceTimer] = useState(0);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
+  const [recordedAudioUrl, setRecordedAudioUrl] = useState<string | null>(null);
   const silenceIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const { toast } = useToast();
+
+  const playBeep = () => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(880, audioContext.currentTime); // A5
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.5); // Beep for 0.5 seconds
+  };
+
+  const speakText = (text: string) => {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-GB';
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const stopAudio = () => {
+    window.speechSynthesis.cancel();
+  };
+
+  const startRecordingAudio = async () => {
+    try {
+      setRecordedChunks([]);
+      setRecordedAudioUrl(null);
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      
+      const chunks: Blob[] = [];
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunks.push(e.data);
+        }
+      };
+
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        setRecordedAudioUrl(url);
+        setRecordedChunks(chunks);
+        stream.getTracks().forEach(track => track.stop()); // Stop mic
+      };
+
+      recorder.start();
+      setMediaRecorder(recorder);
+    } catch (err) {
+      console.error("Error accessing microphone:", err);
+      toast({
+        variant: "destructive",
+        title: "Microphone Error",
+        description: "Could not access microphone. Recording simulated.",
+      });
+    }
+  };
+
+  const stopRecordingAudio = () => {
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+      mediaRecorder.stop();
+    }
+  };
+
+  const playRecording = () => {
+    if (recordedAudioUrl) {
+      const audio = new Audio(recordedAudioUrl);
+      audio.play();
+    } else {
+      toast({
+        title: "No Recording",
+        description: "No audio was recorded.",
+        variant: "destructive"
+      });
+    }
+  };
 
   const currentQuestionIndex = currentQuestionIndices[activeTab];
   const questions = SPEAKING_QUESTIONS[activeTab];
@@ -95,6 +179,8 @@ export default function SpeakingPractice() {
   };
 
   const startRecording = () => {
+    playBeep(); // Beep on start
+    startRecordingAudio(); // Start actual recording
     setStatus("recording");
     setTimeLeft(40); // 40s recording
     toast({
@@ -106,6 +192,7 @@ export default function SpeakingPractice() {
   };
 
   const stopRecording = () => {
+    stopRecordingAudio(); // Stop actual recording
     setStatus("completed");
     setTimeLeft(0);
     toast({
@@ -115,10 +202,14 @@ export default function SpeakingPractice() {
   };
 
   const resetState = () => {
+    stopAudio();
     setStatus("idle");
     setTimeLeft(0);
     setShowTranscript(false);
     setSilenceTimer(0);
+    setRecordedAudioUrl(null);
+    setRecordedChunks([]);
+    setMediaRecorder(null);
   };
 
   const handleNext = () => {
@@ -254,10 +345,10 @@ export default function SpeakingPractice() {
 
               {activeTab === "Repeat Sentence" && (
                 <div className="space-y-6">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto animate-pulse">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto animate-pulse cursor-pointer hover:bg-primary/20 transition-colors" onClick={() => speakText(currentQuestion.content)}>
                     <Volume2 className="h-8 w-8 text-primary" />
                   </div>
-                  <p className="text-sm text-muted-foreground">Click Start to prepare, then listen and repeat.</p>
+                  <p className="text-sm text-muted-foreground">Click Start or the icon above to listen, then repeat.</p>
                   <Button variant="secondary" onClick={() => setShowTranscript(!showTranscript)}>
                     {showTranscript ? "Hide Sentence" : "Show Sentence"}
                   </Button>
@@ -271,11 +362,14 @@ export default function SpeakingPractice() {
 
               {(activeTab === "Retell Lecture" || activeTab === "Summarize Group Discussion") && (
                  <div className="space-y-6">
-                   <div className="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                   <div className="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto cursor-pointer hover:bg-secondary/20 transition-colors" onClick={() => speakText(currentQuestion.audioScript || "")}>
                      <Volume2 className="h-10 w-10 text-secondary-foreground" />
                    </div>
                    <div className="space-y-2">
                      <h3 className="font-medium text-lg">Audio Simulation</h3>
+                     <Button variant="outline" size="sm" onClick={() => speakText(currentQuestion.audioScript || "")} className="gap-2 mb-2">
+                        <PlayCircle className="h-4 w-4" /> Play Audio
+                     </Button>
                      <div className="w-full max-w-md mx-auto h-2 bg-muted rounded-full overflow-hidden">
                        <div className="h-full bg-secondary w-1/2 animate-[pulse_2s_ease-in-out_infinite]" />
                      </div>
@@ -342,7 +436,7 @@ export default function SpeakingPractice() {
                )}
 
                {status === "completed" && (
-                 <Button size="lg" variant="outline" className="w-40 gap-2">
+                 <Button size="lg" variant="outline" className="w-40 gap-2" onClick={playRecording}>
                    <PlayCircle className="h-4 w-4" /> Playback
                  </Button>
                )}
