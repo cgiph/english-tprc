@@ -28,7 +28,7 @@ export default function Home() {
             </Badge>
             <h1 className="text-5xl md:text-6xl font-serif font-bold text-white leading-tight tracking-tight drop-shadow-sm">
               Your Path to <br/>
-              <span className="text-secondary">UKVI Success</span>
+              <span className="text-secondary">Academic Success</span>
             </h1>
             <p className="text-xl text-white/90 max-w-lg leading-relaxed font-light">
               Join thousands of students sharing real exam experiences, strategies, and verified study resources for the PTE Academic UKVI.
@@ -54,7 +54,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Features Grid */}
       <section className="container mx-auto px-4 -mt-24 relative z-20">
         <div className="grid md:grid-cols-3 gap-6">
@@ -90,7 +89,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
       {/* Recent Reviews Section */}
       <section className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-8">
@@ -159,7 +157,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
       {/* Resources CTA */}
       <section className="container mx-auto px-4">
         <div className="bg-primary rounded-3xl p-8 md:p-12 overflow-hidden relative">
