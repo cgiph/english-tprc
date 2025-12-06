@@ -117,6 +117,7 @@ export const MOCK_RESOURCES: Resource[] = [
     author: "PrepUK Team",
     downloads: 3100,
     rating: 4.8,
+    locked: true,
     viewerUrl: "/resources/full-mock-test"
   }
 ];
