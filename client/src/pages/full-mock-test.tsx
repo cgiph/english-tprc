@@ -18,10 +18,30 @@ export default function FullMockTest() {
   const [responses, setResponses] = useState<Record<string, any>>({});
   const [score, setScore] = useState<{ total: number, details: any[] } | null>(null);
 
-  const startTest = () => {
-    const test = generateMockTest(undefined, 20); // Generate 20 mixed questions
+  // Mock API Call simulation
+  const generateTest = async (section?: string, count = 20) => {
+    // In a real app, this would be:
+    // const res = await fetch("http://localhost:3000/api/generate-test", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ section: section, count: count })
+    // });
+    // const data = await res.json();
+    // console.log("Test:", data);
+
+    // Simulating network delay for realistic effect
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    // Return local mock data
+    const data = generateMockTest(section, count);
+    console.log("Test Generated (Mock API):", data);
+    return data;
+  };
+
+  const startTest = async () => {
+    setTestState("active"); // Show active state immediately (or loading state could be added)
+    const test = await generateTest(undefined, 20); // Generate 20 mixed questions
     setCurrentTest(test);
-    setTestState("active");
     setCurrentIndex(0);
     setResponses({});
   };
