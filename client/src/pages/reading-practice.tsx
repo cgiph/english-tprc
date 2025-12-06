@@ -97,6 +97,11 @@ export default function ReadingPractice() {
         return (
           <div className="space-y-6">
             <p className="text-lg leading-relaxed">{currentQuestion.text}</p>
+            {currentQuestion.prompt && (
+              <p className="font-medium text-primary bg-primary/5 p-3 rounded-md border border-primary/10">
+                {currentQuestion.prompt}
+              </p>
+            )}
             <RadioGroup 
               value={answers[questionId] || ""} 
               onValueChange={(val) => setAnswers(prev => ({ ...prev, [questionId]: val }))}
@@ -122,6 +127,11 @@ export default function ReadingPractice() {
         return (
           <div className="space-y-6">
             <p className="text-lg leading-relaxed">{currentQuestion.text}</p>
+            {currentQuestion.prompt && (
+              <p className="font-medium text-primary bg-primary/5 p-3 rounded-md border border-primary/10">
+                {currentQuestion.prompt}
+              </p>
+            )}
             <div className="space-y-3">
               {currentQuestion.options?.map((option) => {
                 const isSelected = (answers[questionId] || []).includes(option);

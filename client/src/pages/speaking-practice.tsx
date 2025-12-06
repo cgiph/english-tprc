@@ -65,50 +65,17 @@ export default function SpeakingPractice() {
     return () => clearInterval(interval);
   }, [status]);
 
-  // Silence detection simulation (Mock)
+  // Silence detection simulation (Mock) - REMOVED AGGRESSIVE ALERT
+  // Instead, we just use a visualizer to show "fake" audio presence
   useEffect(() => {
     if (status === "recording") {
-      silenceIntervalRef.current = setInterval(() => {
-        setSilenceTimer(prev => {
-          if (prev >= 2) {
-            toast({
-              variant: "destructive",
-              title: "Silence Detected",
-              description: "No audio detected for 2 seconds. Speak up!",
-              duration: 2000
-            });
-            return 0; // Reset to avoid spamming, or keep warning
-          }
-          return prev + 0.5; // Increment mock silence
-        });
-      }, 500); // Check every 0.5s
-    } else {
-      setSilenceTimer(0);
-      if (silenceIntervalRef.current) clearInterval(silenceIntervalRef.current);
+      // Auto-reset silence timer to prevent any weird states, though we removed the toast trigger
+      const interval = setInterval(() => {
+         // Do nothing, just keep interval for cleanup if we need it
+      }, 1000);
+      return () => clearInterval(interval);
     }
-
-    return () => {
-      if (silenceIntervalRef.current) clearInterval(silenceIntervalRef.current);
-    };
   }, [status]);
-
-  // Mock function to simulate "speaking" which resets silence timer
-  // In a real app, this would be connected to AudioContext analyzer
-  const simulateSpeaking = () => {
-    setSilenceTimer(0);
-  };
-
-  // Add keypress listener to simulate speaking for testing? 
-  // Or just assume user is "speaking" if they click something.
-  // Since we can't access mic volume in this mock easily without user permission prompt issues in iframe,
-  // we'll just show the alert if they DON'T interact or if we let the timer run.
-  // Actually, let's auto-reset silence timer randomly to simulate intermittent speech for the prototype feel,
-  // unless we really want to annoy the user. 
-  // Better: Just strictly warn if they don't click a "I'm Speaking" button? No that's bad UX.
-  // Let's just implement the timer and the *logic* for the alert, but maybe disable the actual trigger 
-  // to avoid annoying the user who is just testing the UI, OR make it trigger once to show the feature.
-  // I'll make it trigger if they don't click "Record" to stop? 
-  // Let's just implement the visual timer and state transitions.
 
   const handleTimerComplete = () => {
     if (status === "preparing") {
@@ -172,8 +139,14 @@ export default function SpeakingPractice() {
     }
   };
 
+  // Mock function to simulate "speaking" which resets silence timer
+  // In a real app, this would be connected to AudioContext analyzer
+  const simulateSpeaking = () => {
+    setSilenceTimer(0);
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl" onMouseMove={simulateSpeaking} onKeyDown={simulateSpeaking}>
+    <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="mb-8 space-y-4">
         <h1 className="text-4xl font-serif font-bold text-primary">Speaking Practice</h1>
         <p className="text-lg text-muted-foreground">
@@ -216,6 +189,23 @@ export default function SpeakingPractice() {
                      <Badge variant={status === "recording" ? "destructive" : "secondary"} className="ml-2">
                        {status === "preparing" ? "PREPARING" : "RECORDING"}
                      </Badge>
+                   </div>
+                 )}
+
+                 {/* Audio Visualizer Simulation */}
+                 {status === "recording" && (
+                   <div className="flex items-end gap-1 h-8 w-24">
+                     {[...Array(8)].map((_, i) => (
+                       <div 
+                         key={i} 
+                         className="w-2 bg-red-500 rounded-full animate-bounce"
+                         style={{ 
+                           height: `${Math.random() * 100}%`,
+                           animationDuration: `${0.5 + Math.random() * 0.5}s`,
+                           animationDelay: `${Math.random() * 0.5}s`
+                         }}
+                       />
+                     ))}
                    </div>
                  )}
 
