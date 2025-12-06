@@ -44,15 +44,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {navItems.map((item) => (
                   <NavigationMenuItem key={item.href}>
                     <Link href={item.href}>
-                      <NavigationMenuLink 
+                      <a 
                         className={cn(
                           navigationMenuTriggerStyle(), 
-                          "bg-transparent hover:bg-accent hover:text-accent-foreground cursor-pointer",
+                          "bg-transparent hover:bg-accent hover:text-accent-foreground cursor-pointer text-sm font-medium transition-colors",
                           location === item.href && "bg-accent text-accent-foreground font-medium"
                         )}
                       >
                         {item.label}
-                      </NavigationMenuLink>
+                      </a>
                     </Link>
                   </NavigationMenuItem>
                 ))}

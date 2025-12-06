@@ -31,7 +31,7 @@ export default function TypingPractice() {
 
   // Generate random text
   const generateText = useCallback(() => {
-    const newText = [];
+    const newText: string[] = [];
     for (let i = 0; i < 50; i++) {
       newText.push(WORDS[Math.floor(Math.random() * WORDS.length)]);
     }
@@ -94,7 +94,7 @@ export default function TypingPractice() {
       
       // If reached end of generated text, generate more
       if (currentIndex === text.length - 1) {
-        const newText = [];
+        const newText: string[] = [];
         for (let i = 0; i < 20; i++) {
           newText.push(WORDS[Math.floor(Math.random() * WORDS.length)]);
         }
