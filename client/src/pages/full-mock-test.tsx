@@ -652,8 +652,8 @@ export default function FullMockTest() {
           </CardContent>
           <CardFooter className="justify-center gap-4">
             <Button variant="outline" onClick={() => setTestState("intro")}>Retake Test</Button>
-            <Link href="/resources">
-              <a className={buttonVariants({ variant: "default" })}>Back to Resources</a>
+            <Link href="/resources" className={buttonVariants({ variant: "default" })}>
+              Back to Resources
             </Link>
           </CardFooter>
         </Card>
