@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Download, Lock, BookOpen, FileText, HelpCircle, List } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ArrowLeft, Download, Lock, BookOpen, FileText, HelpCircle, List, Check, X } from "lucide-react";
 import { Link, useSearch } from "wouter";
 import { useState, useEffect } from "react";
 
@@ -120,6 +123,85 @@ export default function ResourceViewer() {
   const resourceId = searchParams.get("id");
   
   const [activeTab, setActiveTab] = useState("Bar Charts");
+
+  // State for Signal Words Exercise
+  const [signalAnswers, setSignalAnswers] = useState<Record<string, string>>({});
+  const [signalResults, setSignalResults] = useState<Record<string, boolean>>({});
+  const [signalScore, setSignalScore] = useState<number | null>(null);
+
+  // State for WH Questions Exercise
+  const [whAnswers, setWhAnswers] = useState<Record<string, string>>({});
+  const [whResults, setWhResults] = useState<Record<string, boolean>>({});
+  const [whScore, setWhScore] = useState<number | null>(null);
+
+  const checkSignalWords = () => {
+    const KEY: Record<string, string[]> = {
+      "t1-1": ["to start with", "first"],
+      "t1-2": ["then", "next"],
+      "t1-3": ["as a result", "finally", "therefore"],
+      "t2-1": ["first", "to start with"],
+      "t2-2": ["next", "then"],
+      "t2-3": ["then", "next", "afterwards"],
+      "t2-4": ["finally", "as a result"],
+      "t3-1": ["first", "to start with"],
+      "t3-2": ["next", "then"],
+      "t3-3": ["then", "next"],
+      "t3-4": ["finally"]
+    };
+
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+
+    Object.keys(KEY).forEach(id => {
+      const userAns = (signalAnswers[id] || "").toLowerCase().trim().replace(/,$/, "");
+      const correctOptions = KEY[id].map(s => s.toLowerCase().replace(/,$/, ""));
+      const isCorrect = correctOptions.some(opt => userAns.includes(opt));
+      
+      newResults[id] = isCorrect;
+      if (isCorrect) correctCount++;
+    });
+
+    setSignalResults(newResults);
+    setSignalScore(correctCount);
+  };
+
+  const checkWhQuestions = () => {
+    const KEY: Record<string, string> = {
+      "ex1-who": "maria",
+      "ex1-what": "bananas and apples",
+      "ex1-where": "market",
+      "ex1-why": "fruit salad",
+      "ex1-how": "making a salad",
+      
+      "ex2-who": "ben",
+      "ex2-what": "plays football",
+      "ex2-where": "park",
+      "ex2-why": "likes sports",
+      "ex2-how": "with his friends",
+      
+      "ex3-who": "sara",
+      "ex3-what": "reads books",
+      "ex3-where": "in the library",
+      "ex3-why": "to learn new things",
+      "ex3-how": "every saturday"
+    };
+
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+
+    Object.keys(KEY).forEach(id => {
+      const userAns = (whAnswers[id] || "").toLowerCase().trim();
+      const correctKey = KEY[id].toLowerCase();
+      // Loose matching for text inputs
+      const isCorrect = userAns.includes(correctKey);
+      
+      newResults[id] = isCorrect;
+      if (isCorrect) correctCount++;
+    });
+
+    setWhResults(newResults);
+    setWhScore(correctCount);
+  };
 
   // Default to Describe Image if no ID or ID=2
   const isEssayGuide = resourceId === "1";
@@ -426,23 +508,151 @@ export default function ResourceViewer() {
                      <Card>
                        <CardHeader className="pb-2"><CardTitle className="text-base">Task 1: Trees</CardTitle></CardHeader>
                        <CardContent className="text-lg leading-loose">
-                         Trees are subject to disease, decay and death. <span className="border-b-2 border-primary w-24 inline-block"></span>, when a tree is wounded, the fungus spores get into the wound. <span className="border-b-2 border-primary w-24 inline-block"></span> it germinates and sends out creeping treads that attack the cell tissue. <span className="border-b-2 border-primary w-24 inline-block"></span> the tree dies unless a tree surgeon saves it.
+                         Trees are subject to disease, decay and death. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t1-1": v})}>
+                             <SelectTrigger className={signalResults["t1-1"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t1-1"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         , when a tree is wounded, the fungus spores get into the wound. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t1-2": v})}>
+                             <SelectTrigger className={signalResults["t1-2"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t1-2"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         it germinates and sends out creeping treads that attack the cell tissue. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t1-3": v})}>
+                             <SelectTrigger className={signalResults["t1-3"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t1-3"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         the tree dies unless a tree surgeon saves it.
                        </CardContent>
                      </Card>
 
                      <Card>
                        <CardHeader className="pb-2"><CardTitle className="text-base">Task 2: Processing Data</CardTitle></CardHeader>
                        <CardContent className="text-lg leading-loose">
-                         Processing data takes place in several stages. <span className="border-b-2 border-primary w-24 inline-block"></span> is input. The data, which is typed on the keyboard, arrives at the computer from an outside source. <span className="border-b-2 border-primary w-24 inline-block"></span>, the data will go straight into the computers central processing unit where it is being processed. <span className="border-b-2 border-primary w-24 inline-block"></span>, the data is processed for results. The computer makes the calculation with a device called the arithmetic / logic unit. <span className="border-b-2 border-primary w-24 inline-block"></span> the computer might display on the monitor or print the results on paper.
+                         Processing data takes place in several stages. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t2-1": v})}>
+                             <SelectTrigger className={signalResults["t2-1"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t2-1"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         is input. The data, which is typed on the keyboard, arrives at the computer from an outside source. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t2-2": v})}>
+                             <SelectTrigger className={signalResults["t2-2"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t2-2"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         , the data will go straight into the computers central processing unit where it is being processed. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t2-3": v})}>
+                             <SelectTrigger className={signalResults["t2-3"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t2-3"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         , the data is processed for results. The computer makes the calculation with a device called the arithmetic / logic unit. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t2-4": v})}>
+                             <SelectTrigger className={signalResults["t2-4"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t2-4"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         the computer might display on the monitor or print the results on paper.
                        </CardContent>
                      </Card>
 
                      <Card>
                        <CardHeader className="pb-2"><CardTitle className="text-base">Task 3: Canning Sardines</CardTitle></CardHeader>
                        <CardContent className="text-lg leading-loose">
-                         Here is how sardines are canned. <span className="border-b-2 border-primary w-24 inline-block"></span>, the head is removed, and each fish is cleaned and gutted. <span className="border-b-2 border-primary w-24 inline-block"></span> the fish is placed in an enormous pressure cooker to which soya oil, spices, salt, and artificial and flavoring are added. <span className="border-b-2 border-primary w-24 inline-block"></span>, the sardines are placed into cans. Carrots and pickled cucumbers are mixed before the cans are sealed to keep the contents contamination free. <span className="border-b-2 border-primary w-24 inline-block"></span> the cans are labeled, packed in boxes, and dispatched to the shops.
+                         Here is how sardines are canned. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t3-1": v})}>
+                             <SelectTrigger className={signalResults["t3-1"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t3-1"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         , the head is removed, and each fish is cleaned and gutted. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t3-2": v})}>
+                             <SelectTrigger className={signalResults["t3-2"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t3-2"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         the fish is placed in an enormous pressure cooker to which soya oil, spices, salt, and artificial and flavoring are added. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t3-3": v})}>
+                             <SelectTrigger className={signalResults["t3-3"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t3-3"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         , the sardines are placed into cans. Carrots and pickled cucumbers are mixed before the cans are sealed to keep the contents contamination free. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t3-4": v})}>
+                             <SelectTrigger className={signalResults["t3-4"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t3-4"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         the cans are labeled, packed in boxes, and dispatched to the shops.
                        </CardContent>
                      </Card>
+                     
+                     <div className="flex items-center justify-between pt-4 border-t">
+                        <div className="text-lg font-bold">
+                           {signalScore !== null && <span>Score: {signalScore} / 11</span>}
+                        </div>
+                        <Button onClick={checkSignalWords} className="w-32">Check Answers</Button>
+                     </div>
                   </div>
                </div>
              </CardContent>
@@ -493,23 +703,63 @@ export default function ResourceViewer() {
                        <div className="space-y-3">
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
                            <p className="text-sm font-medium">Who goes to the market?</p>
-                           <div className="bg-muted/50 p-2 rounded text-sm border-b border-primary/20">Maria</div>
+                           <div>
+                             <Input 
+                               value={whAnswers["ex1-who"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex1-who": e.target.value})}
+                               className={whResults["ex1-who"] === true ? "border-green-500 bg-green-50" : whResults["ex1-who"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex1-who"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Maria</span>}
+                           </div>
                          </div>
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
                            <p className="text-sm font-medium">What does she buy?</p>
-                           <div className="bg-muted/50 p-2 rounded text-sm border-b border-primary/20">Bananas and apples</div>
+                           <div>
+                             <Input 
+                               value={whAnswers["ex1-what"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex1-what": e.target.value})}
+                               className={whResults["ex1-what"] === true ? "border-green-500 bg-green-50" : whResults["ex1-what"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex1-what"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Bananas and apples</span>}
+                           </div>
                          </div>
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
                            <p className="text-sm font-medium">Where does she go?</p>
-                           <div className="bg-muted/50 p-2 rounded text-sm border-b border-primary/20">To the market</div>
+                           <div>
+                             <Input 
+                               value={whAnswers["ex1-where"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex1-where": e.target.value})}
+                               className={whResults["ex1-where"] === true ? "border-green-500 bg-green-50" : whResults["ex1-where"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex1-where"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: To the market</span>}
+                           </div>
                          </div>
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
                            <p className="text-sm font-medium">Why does she buy fruit?</p>
-                           <div className="bg-muted/50 p-2 rounded text-sm border-b border-primary/20">To make fruit salad</div>
+                           <div>
+                             <Input 
+                               value={whAnswers["ex1-why"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex1-why": e.target.value})}
+                               className={whResults["ex1-why"] === true ? "border-green-500 bg-green-50" : whResults["ex1-why"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex1-why"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: To make fruit salad</span>}
+                           </div>
                          </div>
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
                            <p className="text-sm font-medium">How will she use the fruit?</p>
-                           <div className="bg-muted/50 p-2 rounded text-sm border-b border-primary/20">By making a salad</div>
+                           <div>
+                             <Input 
+                               value={whAnswers["ex1-how"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex1-how": e.target.value})}
+                               className={whResults["ex1-how"] === true ? "border-green-500 bg-green-50" : whResults["ex1-how"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex1-how"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: By making a salad</span>}
+                           </div>
                          </div>
                        </div>
                      </CardContent>
@@ -525,23 +775,63 @@ export default function ResourceViewer() {
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                          <div className="flex items-center gap-2">
                            <span className="font-bold w-16">Who:</span>
-                           <span className="border-b-2 border-primary flex-1 p-1 bg-muted/20">Ben, Friends</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex2-who"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex2-who": e.target.value})}
+                               className={whResults["ex2-who"] === true ? "border-green-500 bg-green-50" : whResults["ex2-who"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Ben..."
+                             />
+                             {whResults["ex2-who"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Ben / Friends</span>}
+                           </div>
                          </div>
                          <div className="flex items-center gap-2">
                            <span className="font-bold w-16">What:</span>
-                           <span className="border-b-2 border-primary flex-1 p-1 bg-muted/20">Plays football</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex2-what"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex2-what": e.target.value})}
+                               className={whResults["ex2-what"] === true ? "border-green-500 bg-green-50" : whResults["ex2-what"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Plays..."
+                             />
+                             {whResults["ex2-what"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Plays football</span>}
+                           </div>
                          </div>
                          <div className="flex items-center gap-2">
                            <span className="font-bold w-16">Where:</span>
-                           <span className="border-b-2 border-primary flex-1 p-1 bg-muted/20">In the park</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex2-where"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex2-where": e.target.value})}
+                               className={whResults["ex2-where"] === true ? "border-green-500 bg-green-50" : whResults["ex2-where"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="In the..."
+                             />
+                             {whResults["ex2-where"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: In the park</span>}
+                           </div>
                          </div>
                          <div className="flex items-center gap-2">
                            <span className="font-bold w-16">Why:</span>
-                           <span className="border-b-2 border-primary flex-1 p-1 bg-muted/20">Because he likes sports</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex2-why"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex2-why": e.target.value})}
+                               className={whResults["ex2-why"] === true ? "border-green-500 bg-green-50" : whResults["ex2-why"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Because..."
+                             />
+                             {whResults["ex2-why"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Because he likes sports</span>}
+                           </div>
                          </div>
                          <div className="flex items-center gap-2">
                            <span className="font-bold w-16">How:</span>
-                           <span className="border-b-2 border-primary flex-1 p-1 bg-muted/20">With his friends</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex2-how"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex2-how": e.target.value})}
+                               className={whResults["ex2-how"] === true ? "border-green-500 bg-green-50" : whResults["ex2-how"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="With..."
+                             />
+                             {whResults["ex2-how"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: With his friends</span>}
+                           </div>
                          </div>
                        </div>
                      </CardContent>
@@ -555,29 +845,76 @@ export default function ResourceViewer() {
                          <p>Sara reads books in the library. She reads every Saturday to learn new things.</p>
                        </div>
                        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                         <div className="bg-white p-3 rounded border text-center hover:border-primary cursor-pointer transition-colors">
+                         <div className="bg-white p-3 rounded border text-center">
                            <span className="block font-bold text-primary mb-2">Who?</span>
-                           <span className="text-sm text-muted-foreground block border-t pt-2 mt-2">Sara</span>
+                           <Select onValueChange={(v) => setWhAnswers({...whAnswers, "ex3-who": v})}>
+                             <SelectTrigger className={whResults["ex3-who"] === true ? "border-green-500 bg-green-50 h-8 mt-2" : whResults["ex3-who"] === false ? "border-red-500 bg-red-50 h-8 mt-2" : "h-8 mt-2"}>
+                               <SelectValue placeholder="Select" />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["Sara", "Reads books", "In the library", "To learn new things", "Every Saturday"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                           {whResults["ex3-who"] === false && <span className="text-xs text-red-500 mt-1 block">Sara</span>}
                          </div>
-                         <div className="bg-white p-3 rounded border text-center hover:border-primary cursor-pointer transition-colors">
+                         <div className="bg-white p-3 rounded border text-center">
                            <span className="block font-bold text-primary mb-2">What?</span>
-                           <span className="text-sm text-muted-foreground block border-t pt-2 mt-2">Reads books</span>
+                           <Select onValueChange={(v) => setWhAnswers({...whAnswers, "ex3-what": v})}>
+                             <SelectTrigger className={whResults["ex3-what"] === true ? "border-green-500 bg-green-50 h-8 mt-2" : whResults["ex3-what"] === false ? "border-red-500 bg-red-50 h-8 mt-2" : "h-8 mt-2"}>
+                               <SelectValue placeholder="Select" />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["Sara", "Reads books", "In the library", "To learn new things", "Every Saturday"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                           {whResults["ex3-what"] === false && <span className="text-xs text-red-500 mt-1 block">Reads books</span>}
                          </div>
-                         <div className="bg-white p-3 rounded border text-center hover:border-primary cursor-pointer transition-colors">
+                         <div className="bg-white p-3 rounded border text-center">
                            <span className="block font-bold text-primary mb-2">Where?</span>
-                           <span className="text-sm text-muted-foreground block border-t pt-2 mt-2">In the library</span>
+                           <Select onValueChange={(v) => setWhAnswers({...whAnswers, "ex3-where": v})}>
+                             <SelectTrigger className={whResults["ex3-where"] === true ? "border-green-500 bg-green-50 h-8 mt-2" : whResults["ex3-where"] === false ? "border-red-500 bg-red-50 h-8 mt-2" : "h-8 mt-2"}>
+                               <SelectValue placeholder="Select" />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["Sara", "Reads books", "In the library", "To learn new things", "Every Saturday"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                           {whResults["ex3-where"] === false && <span className="text-xs text-red-500 mt-1 block">In the library</span>}
                          </div>
-                         <div className="bg-white p-3 rounded border text-center hover:border-primary cursor-pointer transition-colors">
+                         <div className="bg-white p-3 rounded border text-center">
                            <span className="block font-bold text-primary mb-2">Why?</span>
-                           <span className="text-sm text-muted-foreground block border-t pt-2 mt-2">To learn new things</span>
+                           <Select onValueChange={(v) => setWhAnswers({...whAnswers, "ex3-why": v})}>
+                             <SelectTrigger className={whResults["ex3-why"] === true ? "border-green-500 bg-green-50 h-8 mt-2" : whResults["ex3-why"] === false ? "border-red-500 bg-red-50 h-8 mt-2" : "h-8 mt-2"}>
+                               <SelectValue placeholder="Select" />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["Sara", "Reads books", "In the library", "To learn new things", "Every Saturday"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                           {whResults["ex3-why"] === false && <span className="text-xs text-red-500 mt-1 block">To learn new things</span>}
                          </div>
-                         <div className="bg-white p-3 rounded border text-center hover:border-primary cursor-pointer transition-colors">
+                         <div className="bg-white p-3 rounded border text-center">
                            <span className="block font-bold text-primary mb-2">How?</span>
-                           <span className="text-sm text-muted-foreground block border-t pt-2 mt-2">Every Saturday</span>
+                           <Select onValueChange={(v) => setWhAnswers({...whAnswers, "ex3-how": v})}>
+                             <SelectTrigger className={whResults["ex3-how"] === true ? "border-green-500 bg-green-50 h-8 mt-2" : whResults["ex3-how"] === false ? "border-red-500 bg-red-50 h-8 mt-2" : "h-8 mt-2"}>
+                               <SelectValue placeholder="Select" />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["Sara", "Reads books", "In the library", "To learn new things", "Every Saturday"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                           {whResults["ex3-how"] === false && <span className="text-xs text-red-500 mt-1 block">Every Saturday</span>}
                          </div>
                        </div>
                      </CardContent>
                    </Card>
+                   
+                   <div className="flex items-center justify-between pt-4 border-t">
+                      <div className="text-lg font-bold">
+                         {whScore !== null && <span>Score: {whScore} / 15</span>}
+                      </div>
+                      <Button onClick={checkWhQuestions} className="w-32">Check Answers</Button>
+                   </div>
                  </div>
                </div>
              </CardContent>
