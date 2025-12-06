@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { generateMockTest, MockQuestion } from "@/lib/mock-test-data";
+import { calculateSpeakingScore, SpeakingScore } from "@/lib/scoring-utils";
 import { CheckCircle2, Clock, PlayCircle, AlertCircle, ChevronRight, Mic, Volume2, UserCircle, Square, Play, RotateCcw, GripVertical } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -361,7 +362,7 @@ export default function FullMockTest() {
     let maxPoints = 0;
     
     // Communicative Skills Buckets
-    let speakingScore = 0, speakingMax = 0;
+    let speakingScoreTotal = 0, speakingMax = 0;
     let writingScore = 0, writingMax = 0;
     let readingScore = 0, readingMax = 0;
     let listeningScore = 0, listeningMax = 0;
@@ -426,14 +427,42 @@ export default function FullMockTest() {
       if (autoZero) itemScore = 0;
 
       // Aggregate Skills
-      if (item.section === "Speaking") { speakingScore += itemScore; speakingMax += item.max_score; }
+      if (item.section === "Speaking") { 
+        // Enhanced Scoring for Speaking
+        // Use our utility to generate consistent mock sub-scores
+        const speakingScore = calculateSpeakingScore(item.type as any, 20); // Mock duration
+        
+        // Update the item score to match the utility's result roughly scaled to max_score
+        // The utility returns 0-90, max_score might be different (e.g. 15)
+        const ratio = speakingScore.overall / 90;
+        itemScore = Math.round(item.max_score * ratio);
+        
+        // Add sub-skills
+        details.push({
+           question_id: item.id,
+           score: itemScore,
+           max: item.max_score,
+           type: item.type,
+           subscores: {
+             fluency: speakingScore.fluency,
+             pronunciation: speakingScore.pronunciation,
+             content: speakingScore.content
+           }
+        });
+
+        speakingScoreTotal += itemScore; 
+        speakingMax += item.max_score; 
+      } else {
+        // Normal handling for other sections
+        details.push({ question_id: item.id, score: itemScore, max: item.max_score, type: item.type });
+      }
+
       if (item.section === "Writing") { writingScore += itemScore; writingMax += item.max_score; }
       if (item.section === "Reading") { readingScore += itemScore; readingMax += item.max_score; }
       if (item.section === "Listening") { listeningScore += itemScore; listeningMax += item.max_score; }
 
       totalPoints += itemScore;
       maxPoints += item.max_score;
-      details.push({ question_id: item.id, score: itemScore, max: item.max_score, type: item.type });
     }
 
     // Scale to 90
@@ -442,15 +471,15 @@ export default function FullMockTest() {
     const finalScores = {
       overall: scale(totalPoints, maxPoints),
       communicative: {
-        speaking: scale(speakingScore, speakingMax),
+        speaking: scale(speakingScoreTotal, speakingMax),
         writing: scale(writingScore, writingMax),
         reading: scale(readingScore, readingMax),
         listening: scale(listeningScore, listeningMax)
       },
       skills: { // Mocked breakdown based on overall performance
         grammar: scale(totalPoints, maxPoints) - 5,
-        fluency: scale(speakingScore, speakingMax),
-        pronunciation: scale(speakingScore, speakingMax) - 2,
+        fluency: scale(speakingScoreTotal, speakingMax), // Use actual calc
+        pronunciation: scale(speakingScoreTotal, speakingMax) - 2, // Use actual calc
         spelling: scale(writingScore, writingMax),
         vocabulary: scale(readingScore, readingMax),
         discourse: scale(writingScore, writingMax)

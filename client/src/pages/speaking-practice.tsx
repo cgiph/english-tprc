@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { SPEAKING_QUESTIONS, SpeakingTaskType } from "@/lib/speaking-data";
+import { calculateSpeakingScore, SpeakingScore, SCORING_CRITERIA } from "@/lib/scoring-utils";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Mic, 
@@ -15,7 +17,8 @@ import {
   ChevronRight,
   ChevronLeft,
   Timer,
-  StopCircle
+  StopCircle,
+  BarChart3
 } from "lucide-react";
 
 export default function SpeakingPractice() {
@@ -36,6 +39,9 @@ export default function SpeakingPractice() {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
   const [recordedAudioUrl, setRecordedAudioUrl] = useState<string | null>(null);
+  const [score, setScore] = useState<SpeakingScore | null>(null);
+  const [isScoring, setIsScoring] = useState(false);
+  
   const silenceIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const { toast } = useToast();
@@ -226,6 +232,24 @@ export default function SpeakingPractice() {
     setRecordedAudioUrl(null);
     setRecordedChunks([]);
     setMediaRecorder(null);
+    setScore(null);
+    setIsScoring(false);
+  };
+
+  const handleScore = () => {
+    setIsScoring(true);
+    // Simulate processing delay
+    setTimeout(() => {
+      // Calculate mock score based on task and random factors
+      // In real app, we'd send the audio blob to backend
+      const newScore = calculateSpeakingScore(activeTab, 40 - timeLeft); // Using max time as proxy for now
+      setScore(newScore);
+      setIsScoring(false);
+      toast({
+        title: "Scoring Complete",
+        description: `Overall Score: ${newScore.overall}/90`,
+      });
+    }, 1500);
   };
 
   const handleNext = () => {
@@ -419,6 +443,49 @@ export default function SpeakingPractice() {
                    {currentQuestion.content}
                  </p>
                )}
+              {/* Score Display */}
+              {score && (
+                <div className="w-full max-w-3xl bg-slate-50 border rounded-xl p-6 animate-in fade-in slide-in-from-bottom-4">
+                   <div className="flex items-center justify-between mb-6">
+                     <h3 className="text-2xl font-bold text-primary flex items-center gap-2">
+                       <BarChart3 className="h-6 w-6" /> 
+                       Score Analysis
+                     </h3>
+                     <Badge variant={score.overall >= 65 ? "default" : "secondary"} className="text-lg px-3 py-1">
+                       Overall: {score.overall}/90
+                     </Badge>
+                   </div>
+                   
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                     <div className="space-y-2">
+                       <div className="flex justify-between text-sm font-medium">
+                         <span>Content</span>
+                         <span>{score.content}/90</span>
+                       </div>
+                       <Progress value={(score.content / 90) * 100} className="h-2" />
+                     </div>
+                     <div className="space-y-2">
+                       <div className="flex justify-between text-sm font-medium">
+                         <span>Fluency</span>
+                         <span>{score.fluency}/90</span>
+                       </div>
+                       <Progress value={(score.fluency / 90) * 100} className="h-2" />
+                     </div>
+                     <div className="space-y-2">
+                       <div className="flex justify-between text-sm font-medium">
+                         <span>Pronunciation</span>
+                         <span>{score.pronunciation}/90</span>
+                       </div>
+                       <Progress value={(score.pronunciation / 90) * 100} className="h-2" />
+                     </div>
+                   </div>
+
+                   <div className="bg-white border p-4 rounded-lg">
+                     <h4 className="font-bold mb-2 text-sm text-muted-foreground uppercase">Feedback</h4>
+                     <p className="text-foreground">{score.feedback}</p>
+                   </div>
+                </div>
+              )}
             </div>
 
           </CardContent>
@@ -452,9 +519,16 @@ export default function SpeakingPractice() {
                )}
 
                {status === "completed" && (
-                 <Button size="lg" variant="outline" className="w-40 gap-2" onClick={playRecording}>
-                   <PlayCircle className="h-4 w-4" /> Playback
-                 </Button>
+                 <>
+                   <Button size="lg" variant="outline" className="w-32 gap-2" onClick={playRecording}>
+                     <PlayCircle className="h-4 w-4" /> Playback
+                   </Button>
+                   {!score && (
+                     <Button size="lg" className="w-32 gap-2" onClick={handleScore} disabled={isScoring}>
+                       {isScoring ? "Analyzing..." : "Get Score"}
+                     </Button>
+                   )}
+                 </>
                )}
              </div>
           </CardFooter>
