@@ -59,8 +59,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </NavigationMenu>
             
             <div className="flex items-center space-x-2 pl-4 border-l border-border">
-              <Button variant="ghost" size="sm">Log in</Button>
-              <Button size="sm" className="bg-primary text-white hover:bg-primary/90">Get Started</Button>
+              <Button asChild variant="ghost" size="sm">
+                <Link href="/auth?mode=login">Log in</Link>
+              </Button>
+              <Button asChild size="sm" className="bg-primary text-white hover:bg-primary/90">
+                <Link href="/auth?mode=register">Get Started</Link>
+              </Button>
             </div>
           </div>
 
@@ -91,8 +95,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </Link>
                   ))}
                   <div className="h-px bg-border my-2" />
-                  <Button variant="outline" className="w-full justify-start">Log in</Button>
-                  <Button className="w-full justify-start bg-primary">Get Started</Button>
+                  <Button asChild variant="outline" className="w-full justify-start">
+                    <Link href="/auth?mode=login">Log in</Link>
+                  </Button>
+                  <Button asChild className="w-full justify-start bg-primary">
+                     <Link href="/auth?mode=register">Get Started</Link>
+                  </Button>
                 </nav>
               </SheetContent>
             </Sheet>

@@ -15,12 +15,14 @@ import AudioTrainer from "@/pages/audio-trainer";
 import ListeningPractice from "@/pages/listening-practice";
 import FullMockTest from "@/pages/full-mock-test";
 import NotFound from "@/pages/not-found";
+import AuthPage from "@/pages/auth";
 
 function Router() {
   return (
     <Layout>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/auth" component={AuthPage} />
         <Route path="/reviews" component={Reviews} />
         <Route path="/resources" component={Resources} />
         <Route path="/resources/viewer" component={ResourceViewer} />
