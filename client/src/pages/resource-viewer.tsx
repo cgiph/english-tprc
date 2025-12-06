@@ -129,6 +129,11 @@ export default function ResourceViewer() {
   const [swtBlanksResults, setSwtBlanksResults] = useState<Record<string, boolean>>({});
   const [swtBlanksScore, setSwtBlanksScore] = useState<number | null>(null);
 
+  // State for Summarize Written Text - Fill in Blanks Practice 2
+  const [swt2BlanksAnswers, setSwt2BlanksAnswers] = useState<Record<string, string>>({});
+  const [swt2BlanksResults, setSwt2BlanksResults] = useState<Record<string, boolean>>({});
+  const [swt2BlanksScore, setSwt2BlanksScore] = useState<number | null>(null);
+
   const checkSwtBlanks = () => {
     const KEY: Record<string, string> = {
       "b1": "easier",
@@ -153,6 +158,35 @@ export default function ResourceViewer() {
 
     setSwtBlanksResults(newResults);
     setSwtBlanksScore(correctCount);
+  };
+
+  const checkSwt2Blanks = () => {
+    const KEY: Record<string, string> = {
+      "swt2_b1": "offer many choices",
+      "swt2_b2": "fun activities",
+      "swt2_b3": "are close to home",
+      "swt2_b4": "feel personal",
+      "swt2_b5": "useful"
+    };
+
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+
+    Object.keys(KEY).forEach(id => {
+      const userAns = (swt2BlanksAnswers[id] || "").toLowerCase().trim();
+      const correctKey = KEY[id].toLowerCase();
+      // Allow partial matches for longer phrases or minor variations
+      const isCorrect = userAns.includes(correctKey) || correctKey.includes(userAns) && userAns.length > 3;
+      
+      // Strict match for now as per key
+      const strictCorrect = userAns === correctKey;
+      
+      newResults[id] = strictCorrect;
+      if (strictCorrect) correctCount++;
+    });
+
+    setSwt2BlanksResults(newResults);
+    setSwt2BlanksScore(correctCount);
   };
 
   // State for Signal Words Exercise
@@ -478,6 +512,82 @@ export default function ResourceViewer() {
                              {swtBlanksScore !== null && <span>Score: {swtBlanksScore} / 6</span>}
                           </div>
                           <Button onClick={checkSwtBlanks} className="w-32">Check Answers</Button>
+                       </div>
+                     </CardContent>
+                   </Card>
+
+                   <Card className="mt-8">
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 2: Fill-in-the-Blanks Summary (Practice 2)</CardTitle></CardHeader>
+                     <CardContent className="space-y-6">
+                       <div className="bg-muted p-4 rounded-lg border">
+                         <p className="mb-2 font-medium text-sm text-muted-foreground uppercase">Text</p>
+                         <p className="leading-relaxed">
+                           Many people enjoy shopping in big malls because they offer many choices and fun activities. However, small local shops are important too. They are close to home, save time, and feel personal. Both malls and small shops are useful for different reasons.
+                         </p>
+                       </div>
+                       
+                       <div className="space-y-4">
+                         <p className="font-medium text-sm text-muted-foreground uppercase">Complete the summary</p>
+                         <div className="bg-white p-6 rounded border leading-loose text-lg">
+                           Big malls are popular because they 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt2BlanksAnswers["swt2_b1"] || ""} 
+                               onChange={(e) => setSwt2BlanksAnswers({...swt2BlanksAnswers, "swt2_b1": e.target.value})}
+                               className={`w-40 inline-flex h-8 ${swt2BlanksResults["swt2_b1"] === true ? "border-green-500 bg-green-50" : swt2BlanksResults["swt2_b1"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swt2BlanksResults["swt2_b1"] === false && <span className="text-xs text-red-500 block text-center">offer many choices</span>}
+                           </span>
+                           and 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt2BlanksAnswers["swt2_b2"] || ""} 
+                               onChange={(e) => setSwt2BlanksAnswers({...swt2BlanksAnswers, "swt2_b2": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swt2BlanksResults["swt2_b2"] === true ? "border-green-500 bg-green-50" : swt2BlanksResults["swt2_b2"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swt2BlanksResults["swt2_b2"] === false && <span className="text-xs text-red-500 block text-center">fun activities</span>}
+                           </span>
+                           , while small shops are important because they 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt2BlanksAnswers["swt2_b3"] || ""} 
+                               onChange={(e) => setSwt2BlanksAnswers({...swt2BlanksAnswers, "swt2_b3": e.target.value})}
+                               className={`w-40 inline-flex h-8 ${swt2BlanksResults["swt2_b3"] === true ? "border-green-500 bg-green-50" : swt2BlanksResults["swt2_b3"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swt2BlanksResults["swt2_b3"] === false && <span className="text-xs text-red-500 block text-center">are close to home</span>}
+                           </span>
+                           and 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt2BlanksAnswers["swt2_b4"] || ""} 
+                               onChange={(e) => setSwt2BlanksAnswers({...swt2BlanksAnswers, "swt2_b4": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swt2BlanksResults["swt2_b4"] === true ? "border-green-500 bg-green-50" : swt2BlanksResults["swt2_b4"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swt2BlanksResults["swt2_b4"] === false && <span className="text-xs text-red-500 block text-center">feel personal</span>}
+                           </span>
+                           . Both are 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt2BlanksAnswers["swt2_b5"] || ""} 
+                               onChange={(e) => setSwt2BlanksAnswers({...swt2BlanksAnswers, "swt2_b5": e.target.value})}
+                               className={`w-24 inline-flex h-8 ${swt2BlanksResults["swt2_b5"] === true ? "border-green-500 bg-green-50" : swt2BlanksResults["swt2_b5"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swt2BlanksResults["swt2_b5"] === false && <span className="text-xs text-red-500 block text-center">useful</span>}
+                           </span>
+                           for different reasons.
+                         </div>
+                       </div>
+
+                       <div className="flex items-center justify-between pt-4 border-t">
+                          <div className="text-lg font-bold">
+                             {swt2BlanksScore !== null && <span>Score: {swt2BlanksScore} / 5</span>}
+                          </div>
+                          <Button onClick={checkSwt2Blanks} className="w-32">Check Answers</Button>
                        </div>
                      </CardContent>
                    </Card>
