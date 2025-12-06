@@ -306,6 +306,8 @@ export default function ResourceViewer() {
                  </div>
                </div>
              </CardContent>
+          </Card>
+
           <Card className="mb-8 border-l-4 border-l-primary">
              <CardContent className="pt-6">
                <h2 className="text-2xl font-bold mb-2">Essay Practice 2</h2>
@@ -338,6 +340,64 @@ export default function ResourceViewer() {
                      <p>
                        In conclusion, small shops and big malls are both useful. Small shops help people in the neighborhood. Big malls give many options. We should not replace small shops. We should keep both so people can choose where to shop.
                      </p>
+                   </div>
+                 </div>
+
+                 <div className="space-y-4 border-t pt-6">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
+                     <BookOpen className="h-5 w-5 text-primary" /> Reading Comprehension Questions
+                   </h3>
+                   
+                   <div className="grid gap-6 md:grid-cols-2">
+                     <Card>
+                       <CardHeader className="pb-2"><CardTitle className="text-base">Part A: Multiple Choice</CardTitle></CardHeader>
+                       <CardContent className="text-sm space-y-4">
+                         <div>
+                           <p className="font-medium mb-1">1. What is the writer’s opinion about small shops and big malls?</p>
+                           <p className="text-muted-foreground pl-4 border-l-2">c) Both are important</p>
+                         </div>
+                         <div>
+                           <p className="font-medium mb-1">2. Why do people like small shops?</p>
+                           <p className="text-muted-foreground pl-4 border-l-2">b) They are friendly and close to home</p>
+                         </div>
+                         <div>
+                           <p className="font-medium mb-1">3. What can people do in big malls?</p>
+                           <p className="text-muted-foreground pl-4 border-l-2">b) Eat, shop, and relax</p>
+                         </div>
+                         <div>
+                           <p className="font-medium mb-1">4. What is one problem with big malls?</p>
+                           <p className="text-muted-foreground pl-4 border-l-2">c) They can be far and tiring</p>
+                         </div>
+                         <div>
+                           <p className="font-medium mb-1">5. What does the writer suggest at the end?</p>
+                           <p className="text-muted-foreground pl-4 border-l-2">b) Keep both small shops and malls</p>
+                         </div>
+                       </CardContent>
+                     </Card>
+
+                     <div className="space-y-6">
+                        <Card>
+                          <CardHeader className="pb-2"><CardTitle className="text-base">Part B: True or False</CardTitle></CardHeader>
+                          <CardContent className="text-sm space-y-2">
+                            <p>1. Small shops are close to home. <strong>True</strong></p>
+                            <p>2. Big malls have fewer choices than small shops. <strong>False</strong></p>
+                            <p>3. Prices in malls can be higher. <strong>True</strong></p>
+                            <p>4. The writer likes only small shops. <strong>False</strong></p>
+                            <p>5. People can relax in big malls. <strong>True</strong></p>
+                          </CardContent>
+                        </Card>
+
+                        <Card>
+                          <CardHeader className="pb-2"><CardTitle className="text-base">Vocabulary Check</CardTitle></CardHeader>
+                          <CardContent className="text-sm space-y-2">
+                            <p><strong>1. Replace:</strong> b) To take the place of something</p>
+                            <p><strong>2. Neighborhood:</strong> d) Area near your home</p>
+                            <p><strong>3. Crowded:</strong> a) Full of people</p>
+                            <p><strong>4. Options:</strong> c) Choices</p>
+                            <p><strong>5. Personal:</strong> e) Friendly and warm</p>
+                          </CardContent>
+                        </Card>
+                     </div>
                    </div>
                  </div>
                </div>
