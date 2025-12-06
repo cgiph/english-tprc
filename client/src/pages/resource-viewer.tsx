@@ -122,7 +122,7 @@ export default function ResourceViewer() {
 
   // Default to Describe Image if no ID or ID=2
   const isEssayGuide = resourceId === "1";
-  const resourceTitle = isEssayGuide ? "Ultimate Essay Guide 2026" : "Describe Image - 50 Practice Charts";
+  const resourceTitle = isEssayGuide ? "Ultimate Writing Guide 2026" : "Describe Image - 50 Practice Charts";
 
   if (isEssayGuide) {
     return (

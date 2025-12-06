@@ -73,7 +73,7 @@ export const MOCK_REVIEWS: Review[] = [
 export const MOCK_RESOURCES: Resource[] = [
   {
     id: "1",
-    title: "Ultimate Essay Guide 2026",
+    title: "Ultimate Writing Guide 2026",
     description: "A comprehensive guide for the 'Write Essay' task. Includes templates and outlines for A1-B1 levels.",
     type: "Guide",
     level: "Intermediate",
