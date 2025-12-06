@@ -719,6 +719,34 @@ export default function ResourceViewer() {
                      </div>
                    </div>
                  </div>
+
+                 <div className="bg-muted/30 p-6 rounded-lg border">
+                   <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                     <List className="h-5 w-5 text-primary" /> Useful Connectors
+                   </h3>
+                   <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+                     <div className="bg-white p-3 rounded border">
+                       <span className="font-bold text-xs text-primary uppercase block mb-1">Adding Ideas</span>
+                       <p className="text-sm">and, also, moreover, in addition</p>
+                     </div>
+                     <div className="bg-white p-3 rounded border">
+                       <span className="font-bold text-xs text-primary uppercase block mb-1">Contrasting</span>
+                       <p className="text-sm">but, however, although, yet</p>
+                     </div>
+                     <div className="bg-white p-3 rounded border">
+                       <span className="font-bold text-xs text-primary uppercase block mb-1">Cause / Effect</span>
+                       <p className="text-sm">because, so, therefore, as a result</p>
+                     </div>
+                     <div className="bg-white p-3 rounded border">
+                       <span className="font-bold text-xs text-primary uppercase block mb-1">Examples</span>
+                       <p className="text-sm">for example, such as, for instance</p>
+                     </div>
+                     <div className="bg-white p-3 rounded border sm:col-span-2 md:col-span-2">
+                       <span className="font-bold text-xs text-primary uppercase block mb-1">Conclusion</span>
+                       <p className="text-sm">in conclusion, to sum up, finally</p>
+                     </div>
+                   </div>
+                 </div>
                </div>
              </CardContent>
           </Card>
