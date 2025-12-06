@@ -124,6 +124,37 @@ export default function ResourceViewer() {
   
   const [activeTab, setActiveTab] = useState("Bar Charts");
 
+  // State for Summarize Written Text - Fill in Blanks
+  const [swtBlanksAnswers, setSwtBlanksAnswers] = useState<Record<string, string>>({});
+  const [swtBlanksResults, setSwtBlanksResults] = useState<Record<string, boolean>>({});
+  const [swtBlanksScore, setSwtBlanksScore] = useState<number | null>(null);
+
+  const checkSwtBlanks = () => {
+    const KEY: Record<string, string> = {
+      "b1": "easier",
+      "b2": "connected",
+      "b3": "distractions",
+      "b4": "health problems",
+      "b5": "use",
+      "b6": "responsibly"
+    };
+
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+
+    Object.keys(KEY).forEach(id => {
+      const userAns = (swtBlanksAnswers[id] || "").toLowerCase().trim();
+      const correctKey = KEY[id].toLowerCase();
+      const isCorrect = userAns.includes(correctKey) || (id === "b4" && userAns.includes("poor health")); // Allow "poor health" as it's in the text
+      
+      newResults[id] = isCorrect;
+      if (isCorrect) correctCount++;
+    });
+
+    setSwtBlanksResults(newResults);
+    setSwtBlanksScore(correctCount);
+  };
+
   // State for Signal Words Exercise
   const [signalAnswers, setSignalAnswers] = useState<Record<string, string>>({});
   const [signalResults, setSignalResults] = useState<Record<string, boolean>>({});
@@ -361,6 +392,92 @@ export default function ResourceViewer() {
                               </div>
                             </div>
                           </details>
+                       </div>
+                     </CardContent>
+                   </Card>
+                   
+                   <Card className="mt-8">
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 1: Fill-in-the-Blanks Summary</CardTitle></CardHeader>
+                     <CardContent className="space-y-6">
+                       <div className="bg-muted p-4 rounded-lg border">
+                         <p className="mb-2 font-medium text-sm text-muted-foreground uppercase">Text</p>
+                         <p className="leading-relaxed">
+                           Technology helps people connect and work easily, but it can also cause problems like distractions and poor health. Experts say people should use technology responsibly and keep a balance.
+                         </p>
+                       </div>
+                       
+                       <div className="space-y-4">
+                         <p className="font-medium text-sm text-muted-foreground uppercase">Complete the summary</p>
+                         <div className="bg-white p-6 rounded border leading-loose text-lg">
+                           Technology makes life 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swtBlanksAnswers["b1"] || ""} 
+                               onChange={(e) => setSwtBlanksAnswers({...swtBlanksAnswers, "b1": e.target.value})}
+                               className={`w-24 inline-flex h-8 ${swtBlanksResults["b1"] === true ? "border-green-500 bg-green-50" : swtBlanksResults["b1"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swtBlanksResults["b1"] === false && <span className="text-xs text-red-500 block text-center">easier</span>}
+                           </span>
+                           and 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swtBlanksAnswers["b2"] || ""} 
+                               onChange={(e) => setSwtBlanksAnswers({...swtBlanksAnswers, "b2": e.target.value})}
+                               className={`w-28 inline-flex h-8 ${swtBlanksResults["b2"] === true ? "border-green-500 bg-green-50" : swtBlanksResults["b2"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swtBlanksResults["b2"] === false && <span className="text-xs text-red-500 block text-center">connected</span>}
+                           </span>
+                           , but it can also cause 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swtBlanksAnswers["b3"] || ""} 
+                               onChange={(e) => setSwtBlanksAnswers({...swtBlanksAnswers, "b3": e.target.value})}
+                               className={`w-28 inline-flex h-8 ${swtBlanksResults["b3"] === true ? "border-green-500 bg-green-50" : swtBlanksResults["b3"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swtBlanksResults["b3"] === false && <span className="text-xs text-red-500 block text-center">distractions</span>}
+                           </span>
+                           and 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swtBlanksAnswers["b4"] || ""} 
+                               onChange={(e) => setSwtBlanksAnswers({...swtBlanksAnswers, "b4": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swtBlanksResults["b4"] === true ? "border-green-500 bg-green-50" : swtBlanksResults["b4"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swtBlanksResults["b4"] === false && <span className="text-xs text-red-500 block text-center">health problems</span>}
+                           </span>
+                           , so people should 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swtBlanksAnswers["b5"] || ""} 
+                               onChange={(e) => setSwtBlanksAnswers({...swtBlanksAnswers, "b5": e.target.value})}
+                               className={`w-20 inline-flex h-8 ${swtBlanksResults["b5"] === true ? "border-green-500 bg-green-50" : swtBlanksResults["b5"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swtBlanksResults["b5"] === false && <span className="text-xs text-red-500 block text-center">use</span>}
+                           </span>
+                           it 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swtBlanksAnswers["b6"] || ""} 
+                               onChange={(e) => setSwtBlanksAnswers({...swtBlanksAnswers, "b6": e.target.value})}
+                               className={`w-28 inline-flex h-8 ${swtBlanksResults["b6"] === true ? "border-green-500 bg-green-50" : swtBlanksResults["b6"] === false ? "border-red-500 bg-red-50" : ""}`}
+                               placeholder=""
+                             />
+                             {swtBlanksResults["b6"] === false && <span className="text-xs text-red-500 block text-center">responsibly</span>}
+                           </span>
+                           .
+                         </div>
+                       </div>
+
+                       <div className="flex items-center justify-between pt-4 border-t">
+                          <div className="text-lg font-bold">
+                             {swtBlanksScore !== null && <span>Score: {swtBlanksScore} / 6</span>}
+                          </div>
+                          <Button onClick={checkSwtBlanks} className="w-32">Check Answers</Button>
                        </div>
                      </CardContent>
                    </Card>
