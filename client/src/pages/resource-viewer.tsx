@@ -332,6 +332,33 @@ export default function ResourceViewer() {
                             <div className="mt-3 p-4 bg-green-50 border border-green-100 rounded text-sm">
                               <span className="font-bold block text-xs text-green-700 uppercase mb-1">Sample Summary</span>
                               Although technology like smartphones enhances connectivity and work flexibility, it can lead to distractions and health issues, so maintaining a balance is essential for responsible usage.
+                              
+                              <div className="mt-4 pt-4 border-t border-green-200">
+                                <span className="font-bold block text-xs text-green-700 uppercase mb-2">Why is this a good summary?</span>
+                                <div className="space-y-3 text-green-900">
+                                  <div>
+                                    <p className="font-bold text-xs">1. Covers All Key Points</p>
+                                    <p className="text-xs mt-1 text-green-800">Matches structure: advantages → disadvantages → need for balance.</p>
+                                  </div>
+                                  <div>
+                                    <p className="font-bold text-xs">2. One Sentence Only</p>
+                                    <p className="text-xs mt-1 text-green-800">28 words (ideal length between 5-75 words).</p>
+                                  </div>
+                                  <div>
+                                    <p className="font-bold text-xs">3. Paraphrased Effectively</p>
+                                    <p className="text-xs mt-1 text-green-800">"offers convenience" → "enhances connectivity"</p>
+                                    <p className="text-xs text-green-800">"requires balance" → "maintaining a balance is essential"</p>
+                                  </div>
+                                  <div>
+                                    <p className="font-bold text-xs">4. Clear and Coherent</p>
+                                    <p className="text-xs mt-1 text-green-800">Uses connectors (Although, so) to link ideas smoothly.</p>
+                                  </div>
+                                  <div>
+                                    <p className="font-bold text-xs">5. Advanced Vocabulary</p>
+                                    <p className="text-xs mt-1 text-green-800">Uses academic words: enhances, connectivity, flexibility, maintaining.</p>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </details>
                        </div>
