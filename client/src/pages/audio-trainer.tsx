@@ -50,10 +50,44 @@ export default function AudioTrainer() {
   const togglePlay = (id: string) => {
     if (playingId === id) {
       setPlayingId(null);
+      window.speechSynthesis.cancel();
     } else {
-      setPlayingId(id);
-      // Mock auto-stop after 3 seconds
-      setTimeout(() => setPlayingId(null), 3000);
+      // Cancel any previous speech
+      window.speechSynthesis.cancel();
+      
+      const task = activeTab === "repeat-sentence" 
+        ? REPEAT_SENTENCE_ITEMS.find(i => i.id === id) 
+        : DICTATION_ITEMS.find(i => i.id === id);
+      
+      if (task) {
+        setPlayingId(id);
+        const utterance = new SpeechSynthesisUtterance(task.transcript);
+        
+        // Attempt to find a British voice for 'Standard British' focus
+        // Otherwise use default
+        if (task.focus?.includes("British")) {
+          const voices = window.speechSynthesis.getVoices();
+          const britishVoice = voices.find(v => v.lang.includes("GB") || v.name.includes("UK"));
+          if (britishVoice) utterance.voice = britishVoice;
+        }
+
+        // Adjust rate for "Fast Paced"
+        if (task.focus === "Fast Paced") {
+          utterance.rate = 1.2;
+        } else {
+          utterance.rate = 0.9; // Slightly slower for clarity by default
+        }
+
+        utterance.onend = () => {
+          setPlayingId(null);
+        };
+
+        utterance.onerror = () => {
+          setPlayingId(null);
+        };
+
+        window.speechSynthesis.speak(utterance);
+      }
     }
   };
 
