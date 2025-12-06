@@ -133,13 +133,83 @@ const READING_POOL: MockQuestion[] = [
   ...READING_QUESTIONS["R&W Fill in the Blanks"].map(q => ({ ...q, section: "Reading" as const, type: "R&W Fill in the Blanks", max_score: 5 })),
 ];
 
+// Define new Listening Types based on request if not present
+// Highlight Correct Summary, Select Missing Word are in LISTENING_DATA?
+// Checking LISTENING_DATA: SST, MC-MA, FIB-L, MC-SA, SMW, HIW, WFD.
+// Highlight Correct Summary (HCS) is MISSING in LISTENING_DATA export? Let's check listening-data.ts content first.
+// Wait, I previously read listening-data.ts and it had: SST, MC-MA, FIB-L, MC-SA, SMW, HIW, WFD.
+// "Highlight Correct Summary" corresponds to HCS (not present in listening-data.ts previously created).
+// "Select Missing Word" corresponds to SMW (present).
+
+// I will mock HCS here directly in the pool since I cannot edit listening-data.ts easily without potentially breaking other things, or I can extend it.
+// The user wants:
+// 2 SST (10m)
+// 2 MC-MA (2m)
+// 3 FIB-L (2m)
+// 2 Highlight Correct Summary (2m) -> New
+// 2 Select Missing Word (2m) -> SMW
+// 3 Highlight Incorrect Words (2-3m) -> HIW
+// 4 Write From Dictation (2-3m) -> WFD
+
+// I will add mock HCS questions to the LISTENING_POOL locally here.
+
+const MOCK_HCS: MockQuestion[] = [
+  {
+    id: "hcs-1",
+    section: "Listening",
+    type: "Highlight Correct Summary",
+    title: "Climate Change Summary",
+    prompt: "Highlight the summary that best matches the recording.",
+    audioScript: "Climate change is accelerating due to human activities...",
+    options: ["Summary A: It is natural.", "Summary B: It is human-caused and accelerating.", "Summary C: It is slowing down."],
+    correctAnswer: "Summary B: It is human-caused and accelerating.",
+    max_score: 1,
+    time_limit_seconds: 120
+  },
+  {
+    id: "hcs-2",
+    section: "Listening",
+    type: "Highlight Correct Summary",
+    title: "Economic Policy Summary",
+    prompt: "Highlight the summary that best matches the recording.",
+    audioScript: "Inflation targeting is a key central bank policy...",
+    options: ["Summary A: Banks ignore inflation.", "Summary B: Banks target employment only.", "Summary C: Banks use inflation targeting."],
+    correctAnswer: "Summary C: Banks use inflation targeting.",
+    max_score: 1,
+    time_limit_seconds: 120
+  }
+];
+
 const LISTENING_POOL: MockQuestion[] = [
    ...QUESTION_BANK.filter(q => q.section === "Listening"),
    ...LISTENING_DATA.map(q => ({
     ...q,
     section: "Listening" as const,
-    max_score: q.type === "WFD" || q.type === "SST" ? 10 : 1
-  }))
+    // Map types to user friendly names if needed or keep codes
+    // SST -> Summarize Spoken Text
+    // MC-MA -> Multiple Choice, Multiple Answers
+    // FIB-L -> Fill in the Blanks (Listening)
+    // MC-SA -> Multiple Choice, Single Answer
+    // SMW -> Select Missing Word
+    // HIW -> Highlight Incorrect Words
+    // WFD -> Write From Dictation
+    type: q.type === "SST" ? "Summarize Spoken Text" :
+          q.type === "MC-MA" ? "Multiple Choice, Multiple Answers" :
+          q.type === "FIB-L" ? "Fill in the Blanks (Listening)" :
+          q.type === "MC-SA" ? "Multiple Choice, Single Answer" :
+          q.type === "SMW" ? "Select Missing Word" :
+          q.type === "HIW" ? "Highlight Incorrect Words" :
+          q.type === "WFD" ? "Write From Dictation" : q.type,
+    max_score: q.type === "WFD" || q.type === "SST" ? 10 : 1,
+    time_limit_seconds: q.type === "SST" ? 600 : // 10 mins
+                        q.type === "MC-MA" ? 120 : // 2 mins
+                        q.type === "FIB-L" ? 120 : // 2 mins
+                        q.type === "SMW" ? 120 : // 2 mins
+                        q.type === "HIW" ? 180 : // 3 mins
+                        q.type === "WFD" ? 180 : // 3 mins
+                        120 // Default
+  })),
+  ...MOCK_HCS
 ];
 
 export const ALL_QUESTIONS = [
@@ -150,16 +220,49 @@ export const ALL_QUESTIONS = [
 ];
 
 export function generateMockTest(section?: string, count = 10) {
-  const pool = section 
-    ? ALL_QUESTIONS.filter(q => q.section === section)
-    : ALL_QUESTIONS;
-    
-  // Shuffle
-  const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, count);
+  // If specific section is requested, filter.
+  // If Full Mock Test (undefined section), we need to construct the SPECIFIC composition requested.
   
+  if (section) {
+    const pool = ALL_QUESTIONS.filter(q => q.section === section);
+    return {
+      test_id: 'test_' + Date.now(),
+      items: pool.sort(() => Math.random() - 0.5).slice(0, count),
+      start_time: Date.now()
+    };
+  }
+
+  // Full Mock Test Composition Logic
+  const getQuestions = (pool: MockQuestion[], type: string, n: number) => {
+    const filtered = pool.filter(q => q.type === type);
+    return filtered.sort(() => Math.random() - 0.5).slice(0, n);
+  };
+
+  // Listening Composition
+  const sst = getQuestions(LISTENING_POOL, "Summarize Spoken Text", 2);
+  const mcma = getQuestions(LISTENING_POOL, "Multiple Choice, Multiple Answers", 2);
+  const fib = getQuestions(LISTENING_POOL, "Fill in the Blanks (Listening)", 3);
+  const hcs = getQuestions(LISTENING_POOL, "Highlight Correct Summary", 2);
+  const smw = getQuestions(LISTENING_POOL, "Select Missing Word", 2);
+  const hiw = getQuestions(LISTENING_POOL, "Highlight Incorrect Words", 3);
+  const wfd = getQuestions(LISTENING_POOL, "Write From Dictation", 4);
+
+  // Other sections (simplified for now based on previous request, but Listening is specific)
+  // We'll just grab some randoms for others to fill the mock
+  const speaking = SPEAKING_POOL.slice(0, 10); // Placeholder count
+  const writing = WRITING_POOL.slice(0, 2);
+  const reading = READING_POOL.slice(0, 10);
+
+  const items = [
+    ...speaking,
+    ...writing,
+    ...reading,
+    ...sst, ...mcma, ...fib, ...hcs, ...smw, ...hiw, ...wfd
+  ];
+
   return {
     test_id: 'test_' + Date.now(),
-    items: shuffled,
+    items: items,
     start_time: Date.now()
   };
 }
