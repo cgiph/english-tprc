@@ -19,6 +19,9 @@ export type MockQuestion = {
   correct?: any; // Standardized field for correct answer
   max_score: number;
   time_limit_seconds?: number;
+  // New fields for complex types
+  paragraphs?: { id: string; text: string; correctOrder: number }[]; // For Reorder Paragraphs
+  blanks?: { index: number; correct: string; options?: string[] }[]; // For FIB
 };
 
 // User provided question bank

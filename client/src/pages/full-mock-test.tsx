@@ -42,6 +42,62 @@ export default function FullMockTest() {
   const [micRecording, setMicRecording] = useState(false);
   const [micPlayback, setMicPlayback] = useState(false);
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
+  
+  // Real Audio Recording State
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [recordedAudioURL, setRecordedAudioURL] = useState<string | null>(null);
+
+  // Real Microphone Functions
+  const startMicCheckRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      const chunks: Blob[] = [];
+
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunks.push(e.data);
+      };
+
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: "audio/webm" });
+        const url = URL.createObjectURL(blob);
+        setRecordedAudioURL(url);
+      };
+
+      recorder.start();
+      setMediaRecorder(recorder);
+      setMicRecording(true);
+      setMicPlayback(false);
+      setRecordedAudioURL(null);
+    } catch (err) {
+      console.error("Mic access denied:", err);
+      toast({
+        variant: "destructive",
+        title: "Microphone Access Error",
+        description: "Could not access microphone. Simulating recording mode.",
+      });
+      // Fallback simulation
+      setMicRecording(true);
+    }
+  };
+
+  const stopMicCheckRecording = () => {
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+      mediaRecorder.stop();
+      mediaRecorder.stream.getTracks().forEach(track => track.stop());
+    }
+    setMicRecording(false);
+    setMicPlayback(true);
+  };
+
+  const playMicRecording = () => {
+    if (recordedAudioURL) {
+      const audio = new Audio(recordedAudioURL);
+      audio.play();
+    } else {
+      speakText("Microphone access was denied or unavailable. This is a simulated playback.");
+    }
+  };
 
   // Intro Recording State
   const [isRecordingIntro, setIsRecordingIntro] = useState(false);
@@ -612,14 +668,14 @@ export default function FullMockTest() {
                 </div>
                 <div className="flex gap-2">
                   {!micRecording && !micPlayback && (
-                    <Button size="sm" onClick={() => setMicRecording(true)}>Record</Button>
+                    <Button size="sm" onClick={startMicCheckRecording}>Record</Button>
                   )}
                   {micRecording && (
-                    <Button size="sm" variant="destructive" onClick={() => { setMicRecording(false); setMicPlayback(true); }}>Stop</Button>
+                    <Button size="sm" variant="destructive" onClick={stopMicCheckRecording}>Stop</Button>
                   )}
                   {micPlayback && (
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline" onClick={() => speakText("Testing, testing, one two three")}> <Play className="h-3 w-3 mr-1"/> Playback</Button>
+                      <Button size="sm" variant="outline" onClick={playMicRecording}> <Play className="h-3 w-3 mr-1"/> Playback</Button>
                       <Button size="sm" onClick={() => { setMicChecked(true); setMicPlayback(false); }}>Confirm</Button>
                     </div>
                   )}
