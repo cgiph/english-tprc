@@ -98,7 +98,7 @@ export default function ReadingPractice() {
           <div className="space-y-6">
             <p className="text-lg leading-relaxed">{currentQuestion.text}</p>
             <RadioGroup 
-              value={answers[questionId]} 
+              value={answers[questionId] || ""} 
               onValueChange={(val) => setAnswers(prev => ({ ...prev, [questionId]: val }))}
               className="space-y-3"
             >
@@ -171,7 +171,7 @@ export default function ReadingPractice() {
                 return (
                   <span key={i} className="inline-block mx-1">
                     <Select 
-                      value={selected} 
+                      value={selected || ""} 
                       onValueChange={(val) => setAnswers(prev => ({ 
                         ...prev, 
                         [questionId]: { ...(prev[questionId] || {}), [index]: val } 
