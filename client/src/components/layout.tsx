@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2 hover:opacity-90 transition-opacity">
             <img src={logo} alt="PTE UKVI Shield" className="h-8 w-8" />
-            <span className="font-serif font-bold text-xl tracking-tight text-primary">
+            <span className="font-serif font-bold tracking-tight text-primary text-[15px]">
               PTE Prep<span className="text-secondary">UK</span>
             </span>
           </Link>
@@ -100,12 +100,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
-
       {/* Main Content */}
       <main className="flex-1">
         {children}
       </main>
-
       {/* Footer */}
       <footer className="bg-muted/30 border-t py-12 mt-12">
         <div className="container mx-auto px-4">
