@@ -302,6 +302,42 @@ export default function ResourceViewer() {
                      </Card>
                    </div>
                  </div>
+
+                 <div className="space-y-4 border-t pt-6">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
+                     <BookOpen className="h-5 w-5 text-primary" /> Practice Task
+                   </h3>
+                   
+                   <Card>
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Task 1: Technology and Life</CardTitle></CardHeader>
+                     <CardContent className="space-y-4">
+                       <div className="bg-muted p-4 rounded-lg border">
+                         <p className="mb-2 font-medium text-sm text-muted-foreground uppercase">Text</p>
+                         <p className="leading-relaxed">
+                           Many people believe that technology has made life easier, but it also brings challenges. Smartphones and social media help people connect quickly, share ideas, and work from anywhere. However, they can cause distractions and reduce face-to-face communication. Some experts say too much screen time affects mental health and sleep. Therefore, while technology offers convenience, it also requires balance and responsible use.
+                         </p>
+                       </div>
+                       
+                       <div className="bg-white p-4 rounded border">
+                         <p className="mb-2 font-bold text-sm text-muted-foreground uppercase">Task</p>
+                         <p>Write one sentence that summarizes the passage. Your sentence should be between 5 and 75 words.</p>
+                       </div>
+
+                       <div className="mt-4">
+                          <details className="group">
+                            <summary className="flex items-center gap-2 cursor-pointer font-medium text-primary hover:underline">
+                              <span>Show Sample Answer</span>
+                              <ArrowLeft className="h-4 w-4 rotate-180 transition-transform group-open:rotate-90" />
+                            </summary>
+                            <div className="mt-3 p-4 bg-green-50 border border-green-100 rounded text-sm">
+                              <span className="font-bold block text-xs text-green-700 uppercase mb-1">Sample Summary</span>
+                              Although technology like smartphones enhances connectivity and work flexibility, it can lead to distractions and health issues, so maintaining a balance is essential for responsible usage.
+                            </div>
+                          </details>
+                       </div>
+                     </CardContent>
+                   </Card>
+                 </div>
                </div>
              </CardContent>
           </Card>
