@@ -105,6 +105,7 @@ export const MOCK_RESOURCES: Resource[] = [
     author: "TechPrep",
     downloads: 5400,
     rating: 4.5,
+    locked: true,
     viewerUrl: "/resources/audio-trainer"
   },
   {
