@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -8,9 +8,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { generateMockTest, MockQuestion } from "@/lib/mock-test-data";
-import { CheckCircle2, Clock, PlayCircle, AlertCircle, ChevronRight, Mic, Volume2, UserCircle } from "lucide-react";
+import { CheckCircle2, Clock, PlayCircle, AlertCircle, ChevronRight, Mic, Volume2, UserCircle, Square, Play, RotateCcw, GripVertical } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 export default function FullMockTest() {
   const [testState, setTestState] = useState<"intro" | "candidate-info" | "tech-check" | "intro-recording" | "test-intro" | "active" | "finished">("intro");
@@ -38,10 +39,32 @@ export default function FullMockTest() {
   const [micChecked, setMicChecked] = useState(false);
   const [audioChecked, setAudioChecked] = useState(false);
   const [keyboardChecked, setKeyboardChecked] = useState(false);
+  const [micRecording, setMicRecording] = useState(false);
+  const [micPlayback, setMicPlayback] = useState(false);
+  const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
 
   // Intro Recording State
   const [isRecordingIntro, setIsRecordingIntro] = useState(false);
   const [introTimer, setIntroTimer] = useState(25);
+
+  // Speaking Section States
+  const [speakingState, setSpeakingState] = useState<"prep" | "recording" | "idle">("idle");
+  const [speakingTimer, setSpeakingTimer] = useState(0);
+
+  // Keyboard Listener for Tech Check
+  useEffect(() => {
+    if (testState === "tech-check") {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        setPressedKeys(prev => {
+          const newSet = new Set(prev);
+          newSet.add(e.key.toUpperCase());
+          return newSet;
+        });
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [testState]);
 
   // Timer for active test question (Countdown)
   useEffect(() => {
@@ -50,45 +73,78 @@ export default function FullMockTest() {
       const currentQ = currentTest.items[currentIndex];
       const limit = currentQ.time_limit_seconds || 120; 
       
-      setTimeLeft(limit); 
+      // Initialize Speaking Logic
+      if (currentQ.section === "Speaking" && speakingState === "idle") {
+        setSpeakingState("prep");
+        setSpeakingTimer(40); // 40s prep
+      } else if (speakingState === "idle") {
+        // Standard Timer for non-speaking
+        setTimeLeft(prev => (prev === 0 ? limit : prev));
+      }
 
       interval = setInterval(() => {
-        setTimeLeft(prev => {
-           if (prev <= 1) {
-             // Auto next for mockup simplicity when time runs out, or just sit at 0
-             return 0;
-           }
-           
-           // Specific Alerts
-           const spent = limit - prev + 1;
-           if (currentQ.section === "Reading" && spent === 60) {
-             toast({
-               variant: "destructive",
-               title: "Time Management Alert",
-               description: "You have spent 1 minute on this question. Please manage your time.",
-               duration: 5000
-             });
-           }
-
-           // Simulate Silence Detection for Speaking (Mock Logic)
-           // If it's a speaking task and user hasn't "interacted" (we simulate interaction via time passing here)
-           // In a real app we'd use Web Audio API. Here we just show the alert.
-           if (currentQ.section === "Speaking" && spent === 4 && Math.random() > 0.95) {
-              // Rare random event to show the UI feature exists
-              toast({
-                variant: "destructive",
-                title: "Microphone Error",
-                description: "No audio detected for 3 seconds. Microphone closed automatically.",
-                duration: 4000
-              });
-           }
-
-           return prev - 1;
-        });
+        // Global/Standard Timer
+        if (currentQ.section !== "Speaking") {
+          setTimeLeft(prev => {
+             if (prev <= 1) return 0;
+             
+             const spent = limit - prev + 1;
+             if (currentQ.section === "Reading" && spent === 60) {
+               toast({
+                 variant: "destructive",
+                 title: "Time Management Alert",
+                 description: "You have spent 1 minute on this question. Please manage your time.",
+                 duration: 5000
+               });
+             }
+             return prev - 1;
+          });
+        } else {
+          // Speaking Timer Logic
+          setSpeakingTimer(prev => {
+            if (prev <= 1) {
+              if (speakingState === "prep") {
+                setSpeakingState("recording");
+                return 40; // Start 40s recording
+              } else if (speakingState === "recording") {
+                handleNext(); // Auto next
+                return 0;
+              }
+            }
+            return prev - 1;
+          });
+        }
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [currentIndex, testState, currentTest]);
+  }, [currentIndex, testState, currentTest, speakingState]);
+
+  // Audio Playback Logic
+  const speakText = useCallback((text: string) => {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-GB'; // UKVI preference
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
+  }, []);
+
+  const stopAudio = () => window.speechSynthesis.cancel();
+
+  // Effect to play audio for Listening questions automatically
+  useEffect(() => {
+    if (testState === "active" && currentTest) {
+      const q = currentTest.items[currentIndex];
+      if (q.section === "Listening" && q.audioScript) {
+        // Brief delay to allow UI to settle
+        const timer = setTimeout(() => speakText(q.audioScript!), 1000);
+        return () => {
+          clearTimeout(timer);
+          stopAudio();
+        };
+      }
+    }
+  }, [currentIndex, testState, currentTest, speakText]);
+
 
   // Mock API Call simulation
   const generateTest = async (section?: string, count = 20) => {
@@ -133,12 +189,18 @@ export default function FullMockTest() {
     }, 1000);
   };
 
+  const stopIntroRecording = () => {
+    setIsRecordingIntro(false);
+    setTestState("test-intro");
+  };
+
   const startTestProper = async () => {
     setTestState("active");
     const test = await generateTest(undefined, 56); 
     setCurrentTest(test);
     setCurrentIndex(0);
     setResponses({});
+    setSpeakingState("idle");
   };
 
   const submitAnswer = (val: any) => {
@@ -148,7 +210,13 @@ export default function FullMockTest() {
   };
 
   const handleNext = () => {
+    stopAudio();
     if (!currentTest) return;
+    
+    // Reset states for next question
+    setSpeakingState("idle");
+    setTimeLeft(0);
+
     if (currentIndex < currentTest.items.length - 1) {
       setCurrentIndex(prev => prev + 1);
     } else {
@@ -273,22 +341,25 @@ export default function FullMockTest() {
         <div className="space-y-2">
           <div className="flex justify-between items-start">
             <Badge variant="outline" className="mb-2">{q.section} - {q.type}</Badge>
-            {timeLeft < 30 && timeLeft > 0 && (
-               <Badge variant="destructive" className="animate-pulse">Time Remaining: {Math.floor(timeLeft/60)}:{(timeLeft%60).toString().padStart(2, '0')}</Badge>
-            )}
-            {timeLeft >= 30 && (
-               <Badge variant="secondary">Time Remaining: {Math.floor(timeLeft/60)}:{(timeLeft%60).toString().padStart(2, '0')}</Badge>
+            {q.section === "Speaking" ? (
+               <Badge variant={speakingState === "recording" ? "destructive" : "secondary"}>
+                 {speakingState === "prep" ? "Prep Time: " : "Recording: "}
+                 {speakingTimer}s
+               </Badge>
+            ) : (
+               <Badge variant={timeLeft < 30 ? "destructive" : "secondary"} className={timeLeft < 30 ? "animate-pulse" : ""}>
+                 Time Remaining: {Math.floor(timeLeft/60)}:{(timeLeft%60).toString().padStart(2, '0')}
+               </Badge>
             )}
           </div>
           <h3 className="text-xl font-serif font-bold">{q.title}</h3>
           
-          {/* Descriptions and Reminders for Listening */}
+          {/* Descriptions and Reminders */}
           {q.type === "Summarize Spoken Text" && (
             <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 mb-4">
               <strong>Reminder:</strong> You have 10 minutes to summarize the spoken text. This task tests your listening comprehension and writing skills.
             </div>
           )}
-          {/* Add specific constraints warnings */}
           {q.type === "Summarize Written Text" && (
              <div className="bg-yellow-50 border border-yellow-100 p-4 rounded-lg text-sm text-yellow-800 mb-4">
                <strong>Constraint:</strong> Must be 5-75 words and exactly ONE sentence. Score will be zero if not followed.
@@ -301,8 +372,13 @@ export default function FullMockTest() {
           )}
           
           {/* Content/Prompt */}
-          {q.content && <p className="text-lg leading-relaxed">{q.content}</p>}
-          {q.text && <p className="text-lg leading-relaxed">{q.text}</p>}
+          {/* Prioritize 'text' for reading, 'content' for others, but check both */}
+          {(q.text || q.content) && (
+            <div className="bg-muted/10 p-6 rounded-lg border leading-relaxed text-lg">
+               {q.text || q.content}
+            </div>
+          )}
+          
           {q.prompt && <p className="font-medium text-blue-800 bg-blue-50 p-3 rounded">{q.prompt}</p>}
           
           {/* Image */}
@@ -312,14 +388,14 @@ export default function FullMockTest() {
              </div>
           )}
 
-          {/* Audio Script (Mock Audio) */}
-          {q.audioScript && (
+          {/* Audio Controls */}
+          {q.section === "Listening" && q.audioScript && (
             <div className="bg-muted p-4 rounded-lg flex items-center gap-4">
-              <Button size="icon" variant="secondary" className="rounded-full">
+              <Button size="icon" variant="secondary" className="rounded-full" onClick={() => speakText(q.audioScript!)}>
                 <PlayCircle className="h-6 w-6" />
               </Button>
               <div className="h-1 flex-1 bg-primary/20 rounded-full overflow-hidden">
-                <div className="h-full w-1/3 bg-primary/50" />
+                <div className="h-full w-1/3 bg-primary/50 animate-pulse" />
               </div>
               <span className="text-xs text-muted-foreground">Audio Playing...</span>
             </div>
@@ -329,15 +405,85 @@ export default function FullMockTest() {
         {/* Interaction Area */}
         <div className="pt-4 border-t">
           {q.section === "Speaking" ? (
-             <div className="flex flex-col items-center p-8 bg-muted/10 rounded-xl border-2 border-dashed">
-                <Mic className="h-12 w-12 text-primary mb-4" />
-                <p className="font-medium mb-4">Microphone is active. Recording answer...</p>
-                <div className="h-2 w-full max-w-xs bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-red-500 animate-pulse w-2/3" />
-                </div>
-                <p className="text-xs text-muted-foreground mt-4">
-                  Note: Recording stops automatically after 3 seconds of silence.
-                </p>
+             <div className="flex flex-col items-center p-8 bg-muted/10 rounded-xl border-2 border-dashed relative overflow-hidden">
+                {speakingState === "prep" && (
+                  <div className="text-center mb-4">
+                    <p className="text-lg font-medium text-muted-foreground">Prepare your answer</p>
+                    <div className="text-4xl font-mono font-bold">{speakingTimer}s</div>
+                  </div>
+                )}
+                {speakingState === "recording" && (
+                  <div className="flex flex-col items-center w-full">
+                    <div className="relative w-24 h-24 flex items-center justify-center mb-6">
+                       {/* Circular Timer SVG Mock */}
+                       <svg className="absolute inset-0 w-full h-full -rotate-90">
+                         <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-muted" />
+                         <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-red-500 transition-all duration-1000" 
+                           strokeDasharray={276} strokeDashoffset={276 * (1 - speakingTimer/40)} />
+                       </svg>
+                       <Mic className="h-10 w-10 text-red-500 animate-pulse" />
+                    </div>
+                    <p className="font-medium mb-4 text-red-600">Recording...</p>
+                    
+                    {/* Sound Wave Visualizer */}
+                    <div className="flex items-end justify-center gap-1 h-12 w-full max-w-xs">
+                      {[...Array(10)].map((_, i) => (
+                        <div key={i} 
+                             className="w-2 bg-primary/60 rounded-full animate-bounce" 
+                             style={{ 
+                               height: `${Math.random() * 100}%`, 
+                               animationDelay: `${i * 0.1}s`,
+                               animationDuration: '0.5s'
+                             }} 
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+             </div>
+          ) : q.type === "Reorder Paragraphs" && q.paragraphs ? (
+             <div className="space-y-2">
+               <p className="text-sm text-muted-foreground mb-2">Drag and drop paragraphs to reorder (Mock: Click to move)</p>
+               {/* Mock Reorder Interface using simplified Click-to-Swap for prototype */}
+               {q.paragraphs.map((p, i) => (
+                 <div key={p.id} className="flex items-start gap-3 p-3 bg-white border rounded cursor-grab hover:border-primary">
+                   <GripVertical className="h-5 w-5 text-muted-foreground mt-1" />
+                   <p>{p.text}</p>
+                 </div>
+               ))}
+             </div>
+          ) : q.type === "R&W Fill in the Blanks" && q.blanks ? (
+             <div className="leading-loose text-lg">
+               {/* Render text with dropdowns */}
+               {q.text?.split(/\{\{\d+\}\}/g).map((part, i) => (
+                 <span key={i}>
+                   {part}
+                   {i < (q.blanks?.length || 0) && (
+                     <select className="inline-block mx-1 border rounded p-1 text-base bg-white" onChange={(e) => submitAnswer({...currentVal, [i]: e.target.value})}>
+                       <option value="">Select...</option>
+                       {q.blanks![i].options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                     </select>
+                   )}
+                 </span>
+               ))}
+             </div>
+          ) : q.type === "Reading Fill in the Blanks" && q.blanks ? (
+             <div className="space-y-4">
+               <div className="leading-loose text-lg bg-muted/10 p-4 rounded border">
+                 {q.text?.split(/\{\{\d+\}\}/g).map((part, i) => (
+                   <span key={i}>
+                     {part}
+                     {i < (q.blanks?.length || 0) && (
+                       <span className="inline-block w-24 h-8 border-b-2 border-primary mx-1 bg-white/50 align-bottom" />
+                     )}
+                   </span>
+                 ))}
+               </div>
+               <div className="flex gap-2 flex-wrap p-4 bg-muted rounded">
+                 {q.options?.map(opt => (
+                   <Badge key={opt} variant="outline" className="text-base py-1 px-3 cursor-grab hover:bg-white">{opt}</Badge>
+                 ))}
+               </div>
              </div>
           ) : q.section === "Writing" || q.type === "Summarize Spoken Text" ? (
              <div className="space-y-2">
@@ -453,41 +599,73 @@ export default function FullMockTest() {
             <CardTitle>Equipment Check</CardTitle>
             <CardDescription>Ensure your hardware is working correctly before starting.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="flex items-center gap-4">
-                <Mic className="h-6 w-6 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Microphone Check</p>
-                  <p className="text-sm text-muted-foreground">Say "Testing, one, two, three"</p>
+          <CardContent className="space-y-8">
+            {/* Mic Check */}
+            <div className="flex flex-col gap-4 p-4 border rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <Mic className="h-6 w-6 text-muted-foreground" />
+                  <div>
+                    <p className="font-medium">Microphone Check</p>
+                    <p className="text-sm text-muted-foreground">Record yourself saying "Testing"</p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  {!micRecording && !micPlayback && (
+                    <Button size="sm" onClick={() => setMicRecording(true)}>Record</Button>
+                  )}
+                  {micRecording && (
+                    <Button size="sm" variant="destructive" onClick={() => { setMicRecording(false); setMicPlayback(true); }}>Stop</Button>
+                  )}
+                  {micPlayback && (
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" onClick={() => speakText("Testing, testing, one two three")}> <Play className="h-3 w-3 mr-1"/> Playback</Button>
+                      <Button size="sm" onClick={() => { setMicChecked(true); setMicPlayback(false); }}>Confirm</Button>
+                    </div>
+                  )}
                 </div>
               </div>
-              <Button variant={micChecked ? "secondary" : "default"} onClick={() => setMicChecked(true)}>
-                {micChecked ? "Checked" : "Test Mic"}
-              </Button>
+              {micChecked && <p className="text-xs text-green-600 font-medium flex items-center gap-1"><CheckCircle2 className="h-3 w-3"/> Microphone verified</p>}
             </div>
-            <div className="flex items-center justify-between p-4 border rounded-lg">
-              <div className="flex items-center gap-4">
-                <Volume2 className="h-6 w-6 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Audio Playback Check</p>
-                  <p className="text-sm text-muted-foreground">Click to hear a sample sound</p>
+
+            {/* Audio Check */}
+            <div className="flex flex-col gap-4 p-4 border rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <Volume2 className="h-6 w-6 text-muted-foreground" />
+                  <div>
+                    <p className="font-medium">Audio Playback Check</p>
+                    <p className="text-sm text-muted-foreground">Click to hear a sample sound</p>
+                  </div>
                 </div>
+                <Button variant={audioChecked ? "secondary" : "default"} onClick={() => { speakText("This is a sample audio check."); setAudioChecked(true); }}>
+                  <Play className="h-4 w-4 mr-2"/> Play Sound
+                </Button>
               </div>
-              <Button variant={audioChecked ? "secondary" : "default"} onClick={() => setAudioChecked(true)}>
-                {audioChecked ? "Checked" : "Play Sound"}
-              </Button>
+              {audioChecked && <p className="text-xs text-green-600 font-medium flex items-center gap-1"><CheckCircle2 className="h-3 w-3"/> Audio verified</p>}
             </div>
-             <div className="flex items-center justify-between p-4 border rounded-lg">
+
+            {/* Keyboard Check */}
+             <div className="flex flex-col gap-4 p-4 border rounded-lg">
               <div className="flex items-center gap-4">
-                <span className="font-mono border px-2 py-1 rounded">Q W E R T Y</span>
-                <div>
+                <div className="flex flex-col gap-1">
                   <p className="font-medium">Keyboard Check</p>
-                  <p className="text-sm text-muted-foreground">Type a few characters to verify</p>
+                  <p className="text-sm text-muted-foreground">Type on your keyboard to light up the keys below</p>
                 </div>
               </div>
-              <Button variant={keyboardChecked ? "secondary" : "default"} onClick={() => setKeyboardChecked(true)}>
-                {keyboardChecked ? "Checked" : "Test Keys"}
+              {/* Virtual Keyboard Visual */}
+              <div className="flex gap-1 justify-center bg-muted/20 p-4 rounded-lg overflow-hidden">
+                {['Q','W','E','R','T','Y','U','I','O','P'].map(key => (
+                  <div key={key} className={cn(
+                    "w-8 h-8 flex items-center justify-center border rounded font-mono text-sm transition-colors",
+                    pressedKeys.has(key) ? "bg-primary text-white border-primary" : "bg-white border-border"
+                  )}>
+                    {key}
+                  </div>
+                ))}
+              </div>
+              <Button className="self-end" size="sm" variant={keyboardChecked ? "secondary" : "default"} onClick={() => setKeyboardChecked(true)}>
+                {keyboardChecked ? "Verified" : "Confirm Keys Working"}
               </Button>
             </div>
           </CardContent>
@@ -520,8 +698,11 @@ export default function FullMockTest() {
               {introTimer}s
             </div>
             {isRecordingIntro ? (
-              <div className="flex items-center gap-2 text-red-500 font-bold animate-pulse">
-                <div className="h-3 w-3 bg-red-500 rounded-full" /> Recording...
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex items-center gap-2 text-red-500 font-bold animate-pulse">
+                  <div className="h-3 w-3 bg-red-500 rounded-full" /> Recording...
+                </div>
+                <Button variant="destructive" onClick={stopIntroRecording}> <Square className="h-4 w-4 mr-2 fill-current"/> Stop Recording</Button>
               </div>
             ) : (
               <Button size="lg" onClick={startIntroRecording}>Start Recording</Button>

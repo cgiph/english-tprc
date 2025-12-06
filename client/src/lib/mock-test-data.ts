@@ -113,16 +113,18 @@ const WRITING_POOL: MockQuestion[] = [
     section: "Writing",
     type: "Summarize Written Text",
     title: "Coffee History",
-    content: "Coffee was first discovered in Ethiopia... (Mock text for summary)",
-    max_score: 7
+    content: "Coffee was first discovered in Eastern Africa in an area we know today as Ethiopia. A popular legend refers to a goat herder by the name of Kaldi, who observed his goats becoming unusually frisky after eating berries from a certain tree. Curious about this phenomenon, Kaldi tried the berries himself and found that they gave him a renewed energy. The news of this energy-laden fruit quickly spread throughout the region. Monks hearing about this amazing fruit dried the berries so that they could be transported to distant monasteries. They reconstituted these berries in water, ate the fruit, and drank the liquid to provide stimulation for a more awakened time of prayer.",
+    max_score: 7,
+    time_limit_seconds: 600
   },
   {
     id: "we-1",
     section: "Writing",
     type: "Write Essay",
     title: "Remote Work",
-    content: "Do you think remote work is beneficial for society? Discuss.",
-    max_score: 15
+    content: "It is often argued that working from home is more productive than working in an office. Others believe that the office environment is essential for collaboration and company culture. Discuss both views and give your own opinion. Support your answer with relevant examples from your own knowledge or experience.",
+    max_score: 15,
+    time_limit_seconds: 1200
   }
 ];
 
@@ -131,6 +133,8 @@ const READING_POOL: MockQuestion[] = [
   ...READING_QUESTIONS["Multiple Choice (Single)"].map(q => ({ ...q, section: "Reading" as const, type: "Multiple Choice (Single)", max_score: 1 })),
   ...READING_QUESTIONS["Multiple Choice (Multiple)"].map(q => ({ ...q, section: "Reading" as const, type: "Multiple Choice (Multiple)", max_score: 2 })),
   ...READING_QUESTIONS["R&W Fill in the Blanks"].map(q => ({ ...q, section: "Reading" as const, type: "R&W Fill in the Blanks", max_score: 5 })),
+  ...READING_QUESTIONS["Reorder Paragraphs"].map(q => ({ ...q, section: "Reading" as const, type: "Reorder Paragraphs", max_score: 4 })),
+  ...READING_QUESTIONS["Reading Fill in the Blanks"].map(q => ({ ...q, section: "Reading" as const, type: "Reading Fill in the Blanks", max_score: 5 })),
 ];
 
 // Define new Listening Types based on request if not present
