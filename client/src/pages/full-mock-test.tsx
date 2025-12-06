@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -296,7 +296,7 @@ export default function FullMockTest() {
           )}
           {q.type === "Write Essay" && (
              <div className="bg-yellow-50 border border-yellow-100 p-4 rounded-lg text-sm text-yellow-800 mb-4">
-               <strong>Constraint:</strong> 200-300 words. Auto-zero if under/over limit or >3 grammar errors.
+               <strong>Constraint:</strong> 200-300 words. Auto-zero if under/over limit or more than 3 grammar errors.
              </div>
           )}
           
@@ -653,7 +653,7 @@ export default function FullMockTest() {
           <CardFooter className="justify-center gap-4">
             <Button variant="outline" onClick={() => setTestState("intro")}>Retake Test</Button>
             <Link href="/resources">
-              <Button>Back to Resources</Button>
+              <a className={buttonVariants({ variant: "default" })}>Back to Resources</a>
             </Link>
           </CardFooter>
         </Card>
