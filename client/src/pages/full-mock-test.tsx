@@ -8,19 +8,31 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { generateMockTest, MockQuestion } from "@/lib/mock-test-data";
-import { CheckCircle2, Clock, PlayCircle, AlertCircle, ChevronRight, Mic, Volume2 } from "lucide-react";
+import { CheckCircle2, Clock, PlayCircle, AlertCircle, ChevronRight, Mic, Volume2, UserCircle } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
 export default function FullMockTest() {
-  const [testState, setTestState] = useState<"intro" | "tech-check" | "intro-recording" | "test-intro" | "active" | "finished">("intro");
+  const [testState, setTestState] = useState<"intro" | "candidate-info" | "tech-check" | "intro-recording" | "test-intro" | "active" | "finished">("intro");
   const [currentTest, setCurrentTest] = useState<{ test_id: string; items: MockQuestion[]; start_time: number } | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [responses, setResponses] = useState<Record<string, any>>({});
-  const [score, setScore] = useState<{ total: number, details: any[] } | null>(null);
-  const [timer, setTimer] = useState(0);
+  const [score, setScore] = useState<{ 
+    overall: number, 
+    communicative: { speaking: number, writing: number, reading: number, listening: number },
+    skills: { grammar: number, fluency: number, pronunciation: number, spelling: number, vocabulary: number, discourse: number },
+    details: any[] 
+  } | null>(null);
   const [timeLeft, setTimeLeft] = useState(0); // For countdown
   const { toast } = useToast();
+
+  // Candidate Info
+  const [candidateInfo, setCandidateInfo] = useState({
+    name: "",
+    dob: "",
+    country: "",
+    id: "CGI-" + Math.floor(Math.random() * 10000)
+  });
 
   // Tech Check States
   const [micChecked, setMicChecked] = useState(false);
@@ -36,20 +48,14 @@ export default function FullMockTest() {
     let interval: NodeJS.Timeout;
     if (testState === "active" && currentTest) {
       const currentQ = currentTest.items[currentIndex];
-      const limit = currentQ.time_limit_seconds || 120; // Default 2 mins if not set
+      const limit = currentQ.time_limit_seconds || 120; 
       
-      setTimeLeft(limit); // Initialize countdown
+      setTimeLeft(limit); 
 
       interval = setInterval(() => {
         setTimeLeft(prev => {
            if (prev <= 1) {
-             // Auto-submit or alert when time is up? 
-             // Request says "alert timer if student has been on same question for more than 1 minute" for reading.
-             // For Listening, specific times are given. "2 minutes per task".
-             // Let's just alert at 0 for now or maybe auto-next? 
-             // User said "alert timer", not auto-next. 
-             // But for Listening "10 minutes per task" implies a hard limit usually.
-             // I'll show an alert at 0 but let them continue for now to be safe, or maybe flash red.
+             // Auto next for mockup simplicity when time runs out, or just sit at 0
              return 0;
            }
            
@@ -62,6 +68,19 @@ export default function FullMockTest() {
                description: "You have spent 1 minute on this question. Please manage your time.",
                duration: 5000
              });
+           }
+
+           // Simulate Silence Detection for Speaking (Mock Logic)
+           // If it's a speaking task and user hasn't "interacted" (we simulate interaction via time passing here)
+           // In a real app we'd use Web Audio API. Here we just show the alert.
+           if (currentQ.section === "Speaking" && spent === 4 && Math.random() > 0.95) {
+              // Rare random event to show the UI feature exists
+              toast({
+                variant: "destructive",
+                title: "Microphone Error",
+                description: "No audio detected for 3 seconds. Microphone closed automatically.",
+                duration: 4000
+              });
            }
 
            return prev - 1;
@@ -79,7 +98,19 @@ export default function FullMockTest() {
     return test;
   };
 
-  const startTechCheck = () => {
+  const startCandidateInfo = () => {
+    setTestState("candidate-info");
+  };
+
+  const submitCandidateInfo = () => {
+    if (!candidateInfo.name || !candidateInfo.dob || !candidateInfo.country) {
+      toast({
+        variant: "destructive",
+        title: "Missing Information",
+        description: "Please fill in all candidate details."
+      });
+      return;
+    }
     setTestState("tech-check");
   };
 
@@ -128,14 +159,60 @@ export default function FullMockTest() {
   const finishTest = () => {
     if (!currentTest) return;
     
-    let total = 0;
+    let totalPoints = 0;
+    let maxPoints = 0;
+    
+    // Communicative Skills Buckets
+    let speakingScore = 0, speakingMax = 0;
+    let writingScore = 0, writingMax = 0;
+    let readingScore = 0, readingMax = 0;
+    let listeningScore = 0, listeningMax = 0;
+
     const details = [];
 
     for (const item of currentTest.items) {
       const response = responses[item.id];
       let itemScore = 0;
+      let autoZero = false;
 
-      if (item.correctAnswer) {
+      // Logic for specific constraints
+      if (item.type === "Summarize Written Text") {
+         if (!response) {
+           itemScore = 0;
+         } else {
+            const wordCount = response.trim().split(/\s+/).length;
+            const sentenceCount = response.split(/[.!?]+/).filter((s: string) => s.trim().length > 0).length;
+            
+            // Constraint: 5-75 words, single sentence
+            if (wordCount < 5 || wordCount > 75 || sentenceCount > 1) {
+               autoZero = true;
+               itemScore = 0;
+            } else {
+               // Mock score if valid
+               itemScore = Math.floor(item.max_score * 0.8); 
+            }
+         }
+      } else if (item.type === "Write Essay") {
+         if (!response) {
+           itemScore = 0;
+         } else {
+           const wordCount = response.trim().split(/\s+/).length;
+           // Constraint: 200-300 words
+           if (wordCount < 200 || wordCount > 300) {
+             autoZero = true;
+             itemScore = 0;
+           } else {
+             // Mock Grammar Check (Simulated 10% failure rate)
+             const hasGrammarErrors = Math.random() > 0.9; 
+             if (hasGrammarErrors) {
+               autoZero = true; // > 3 errors logic simulation
+               itemScore = 0;
+             } else {
+               itemScore = Math.floor(item.max_score * 0.85);
+             }
+           }
+         }
+      } else if (item.correctAnswer) {
          if (Array.isArray(item.correctAnswer) && Array.isArray(response)) {
             const correct = item.correctAnswer.sort().join();
             const user = response.sort().join();
@@ -144,14 +221,46 @@ export default function FullMockTest() {
             itemScore = item.max_score;
          }
       } else {
-        if (response && response.length > 10) itemScore = Math.floor(item.max_score * 0.7);
+        // Speaking/Open ended mock
+        if (response && response.length > 5) itemScore = Math.floor(item.max_score * 0.75);
       }
 
-      total += itemScore;
-      details.push({ question_id: item.id, score: itemScore, max: item.max_score });
+      if (autoZero) itemScore = 0;
+
+      // Aggregate Skills
+      if (item.section === "Speaking") { speakingScore += itemScore; speakingMax += item.max_score; }
+      if (item.section === "Writing") { writingScore += itemScore; writingMax += item.max_score; }
+      if (item.section === "Reading") { readingScore += itemScore; readingMax += item.max_score; }
+      if (item.section === "Listening") { listeningScore += itemScore; listeningMax += item.max_score; }
+
+      totalPoints += itemScore;
+      maxPoints += item.max_score;
+      details.push({ question_id: item.id, score: itemScore, max: item.max_score, type: item.type });
     }
 
-    setScore({ total, details });
+    // Scale to 90
+    const scale = (curr: number, max: number) => max === 0 ? 0 : Math.round((curr / max) * 90);
+
+    const finalScores = {
+      overall: scale(totalPoints, maxPoints),
+      communicative: {
+        speaking: scale(speakingScore, speakingMax),
+        writing: scale(writingScore, writingMax),
+        reading: scale(readingScore, readingMax),
+        listening: scale(listeningScore, listeningMax)
+      },
+      skills: { // Mocked breakdown based on overall performance
+        grammar: scale(totalPoints, maxPoints) - 5,
+        fluency: scale(speakingScore, speakingMax),
+        pronunciation: scale(speakingScore, speakingMax) - 2,
+        spelling: scale(writingScore, writingMax),
+        vocabulary: scale(readingScore, readingMax),
+        discourse: scale(writingScore, writingMax)
+      },
+      details
+    };
+
+    setScore(finalScores);
     setTestState("finished");
   };
 
@@ -179,37 +288,18 @@ export default function FullMockTest() {
               <strong>Reminder:</strong> You have 10 minutes to summarize the spoken text. This task tests your listening comprehension and writing skills.
             </div>
           )}
-          {q.type === "Multiple Choice, Multiple Answers" && q.section === "Listening" && (
-            <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 mb-4">
-              <strong>Evaluates:</strong> Listening and analytical skills. Select all correct options.
-            </div>
+          {/* Add specific constraints warnings */}
+          {q.type === "Summarize Written Text" && (
+             <div className="bg-yellow-50 border border-yellow-100 p-4 rounded-lg text-sm text-yellow-800 mb-4">
+               <strong>Constraint:</strong> Must be 5-75 words and exactly ONE sentence. Score will be zero if not followed.
+             </div>
           )}
-          {q.type === "Fill in the Blanks (Listening)" && (
-            <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 mb-4">
-              <strong>Assesses:</strong> Listening and grammar skills. Fill in the missing words as you hear them.
-            </div>
+          {q.type === "Write Essay" && (
+             <div className="bg-yellow-50 border border-yellow-100 p-4 rounded-lg text-sm text-yellow-800 mb-4">
+               <strong>Constraint:</strong> 200-300 words. Auto-zero if under/over limit or >3 grammar errors.
+             </div>
           )}
-          {q.type === "Highlight Correct Summary" && (
-            <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 mb-4">
-              <strong>Tests:</strong> Ability to extract key information. Select the summary that best matches the recording.
-            </div>
-          )}
-          {q.type === "Select Missing Word" && (
-            <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 mb-4">
-              <strong>Evaluates:</strong> Contextual listening. Select the missing word that completes the recording.
-            </div>
-          )}
-          {q.type === "Highlight Incorrect Words" && (
-            <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 mb-4">
-              <strong>Tests:</strong> Listening and reading comprehension. Click on words in the transcript that differ from the audio.
-            </div>
-          )}
-          {q.type === "Write From Dictation" && (
-            <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 mb-4">
-              <strong>Assesses:</strong> Memory, spelling, and listening skills. Type the sentence exactly as you hear it. Answer promptly.
-            </div>
-          )}
-
+          
           {/* Content/Prompt */}
           {q.content && <p className="text-lg leading-relaxed">{q.content}</p>}
           {q.text && <p className="text-lg leading-relaxed">{q.text}</p>}
@@ -245,14 +335,22 @@ export default function FullMockTest() {
                 <div className="h-2 w-full max-w-xs bg-muted rounded-full overflow-hidden">
                   <div className="h-full bg-red-500 animate-pulse w-2/3" />
                 </div>
+                <p className="text-xs text-muted-foreground mt-4">
+                  Note: Recording stops automatically after 3 seconds of silence.
+                </p>
              </div>
           ) : q.section === "Writing" || q.type === "Summarize Spoken Text" ? (
-             <Textarea 
-               placeholder="Type your essay/summary here..." 
-               className="min-h-[300px] font-serif text-lg leading-relaxed p-6"
-               value={currentVal || ""}
-               onChange={(e) => submitAnswer(e.target.value)}
-             />
+             <div className="space-y-2">
+                <Textarea 
+                  placeholder={q.type === "Summarize Written Text" ? "Type one sentence summary..." : "Type your response here..."} 
+                  className="min-h-[300px] font-serif text-lg leading-relaxed p-6"
+                  value={currentVal || ""}
+                  onChange={(e) => submitAnswer(e.target.value)}
+                />
+                <div className="flex justify-end text-sm text-muted-foreground">
+                   Words: {currentVal ? currentVal.trim().split(/\s+/).length : 0}
+                </div>
+             </div>
           ) : q.options ? (
              <RadioGroup value={currentVal} onValueChange={submitAnswer}>
                {q.options.map(opt => (
@@ -290,11 +388,58 @@ export default function FullMockTest() {
             </CardDescription>
           </CardHeader>
           <CardFooter className="pb-10 justify-center">
-            <Button size="lg" className="w-full max-w-xs text-lg font-bold h-12" onClick={startTechCheck}>
-              Start Equipment Check
+            <Button size="lg" className="w-full max-w-xs text-lg font-bold h-12" onClick={startCandidateInfo}>
+              Start Assessment
             </Button>
           </CardFooter>
         </Card>
+      </div>
+    );
+  }
+
+  // 1.5 Candidate Info
+  if (testState === "candidate-info") {
+    return (
+      <div className="container mx-auto px-4 py-12 max-w-3xl">
+         <Card>
+           <CardHeader>
+             <CardTitle>Candidate Information</CardTitle>
+             <CardDescription>Please verify your details before proceeding.</CardDescription>
+           </CardHeader>
+           <CardContent className="space-y-4">
+             <div className="grid gap-2">
+               <Label>Full Name</Label>
+               <Input 
+                 value={candidateInfo.name} 
+                 onChange={e => setCandidateInfo({...candidateInfo, name: e.target.value})}
+                 placeholder="Enter your full name"
+               />
+             </div>
+             <div className="grid gap-2">
+               <Label>Date of Birth</Label>
+               <Input 
+                 type="date"
+                 value={candidateInfo.dob} 
+                 onChange={e => setCandidateInfo({...candidateInfo, dob: e.target.value})}
+               />
+             </div>
+             <div className="grid gap-2">
+               <Label>Country of Origin</Label>
+               <Input 
+                 value={candidateInfo.country} 
+                 onChange={e => setCandidateInfo({...candidateInfo, country: e.target.value})}
+                 placeholder="e.g. United Kingdom"
+               />
+             </div>
+             <div className="p-4 bg-muted rounded text-sm font-mono">
+               <p><strong>Test Center:</strong> CGI English Review</p>
+               <p><strong>Candidate ID:</strong> {candidateInfo.id}</p>
+             </div>
+           </CardContent>
+           <CardFooter className="justify-end">
+             <Button onClick={submitCandidateInfo}>Proceed to Equipment Check</Button>
+           </CardFooter>
+         </Card>
       </div>
     );
   }
@@ -406,6 +551,9 @@ export default function FullMockTest() {
               <li><strong>Reading:</strong> Fill in Blanks, MCQ, Reorder Paragraphs.</li>
               <li><strong>Listening:</strong> Summarize Spoken Text, MCQ, Dictation.</li>
             </ul>
+            <div className="mt-4 bg-muted p-4 rounded text-sm">
+              <strong>Note:</strong> You cannot save and exit. All questions must be attempted.
+            </div>
           </CardContent>
           <CardFooter>
             <Button size="lg" className="w-full" onClick={startTestProper}>Start Exam</Button>
@@ -417,38 +565,90 @@ export default function FullMockTest() {
 
   if (testState === "finished") {
     return (
-      <div className="container mx-auto px-4 py-12 max-w-3xl">
-        <Card className="border-green-100 bg-green-50/30">
+      <div className="container mx-auto px-4 py-12 max-w-4xl">
+        <Card className="border-green-100 bg-green-50/30 mb-6">
           <CardHeader className="text-center space-y-4">
             <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-2">
               <CheckCircle2 className="h-8 w-8 text-green-600" />
             </div>
-            <CardTitle className="text-3xl font-serif font-bold text-green-900">Test Completed!</CardTitle>
+            <CardTitle className="text-3xl font-serif font-bold text-green-900">Test Report</CardTitle>
             <CardDescription className="text-lg">
-              You have finished the full mock test simulation.
+              PTE Academic UKVI Simulation
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
-            <div className="text-center space-y-2">
-              <div className="text-5xl font-bold text-primary">
-                {score?.total} <span className="text-2xl text-muted-foreground font-normal">/ {score?.details.reduce((a, b) => a + b.max, 0)}</span>
-              </div>
-              <p className="text-muted-foreground font-medium">Estimated Overall Score</p>
+            {/* Candidate Info Display */}
+            <div className="grid grid-cols-2 gap-4 text-sm border-b pb-4">
+               <div>
+                 <span className="text-muted-foreground block">Name</span>
+                 <span className="font-bold">{candidateInfo.name}</span>
+               </div>
+               <div>
+                 <span className="text-muted-foreground block">Candidate ID</span>
+                 <span className="font-bold">{candidateInfo.id}</span>
+               </div>
+               <div>
+                 <span className="text-muted-foreground block">Date of Birth</span>
+                 <span className="font-bold">{candidateInfo.dob}</span>
+               </div>
+               <div>
+                 <span className="text-muted-foreground block">Test Center</span>
+                 <span className="font-bold">CGI English Review</span>
+               </div>
+               <div>
+                 <span className="text-muted-foreground block">Date Taken</span>
+                 <span className="font-bold">{new Date().toLocaleDateString()}</span>
+               </div>
+               <div>
+                 <span className="text-muted-foreground block">Country</span>
+                 <span className="font-bold">{candidateInfo.country}</span>
+               </div>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="font-bold text-lg">Performance Breakdown</h3>
-              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
-                {score?.details.map((d, i) => (
-                  <div key={i} className="flex items-center justify-between p-3 bg-white rounded border text-sm">
-                    <span className="font-medium text-muted-foreground">Question {i + 1}</span>
-                    <Badge variant={d.score === d.max ? "default" : "secondary"}>
-                      {d.score} / {d.max} pts
-                    </Badge>
-                  </div>
-                ))}
+            {/* Overall Score */}
+            <div className="text-center space-y-2">
+              <div className="text-6xl font-bold text-primary">
+                {score?.overall} <span className="text-2xl text-muted-foreground font-normal">/ 90</span>
               </div>
+              <p className="text-muted-foreground font-medium text-lg">Overall Score</p>
             </div>
+
+            {/* Communicative Skills */}
+            <div className="space-y-4">
+               <h3 className="font-bold text-lg border-b pb-2">Communicative Skills</h3>
+               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="p-4 bg-white rounded shadow-sm text-center">
+                     <div className="text-2xl font-bold text-blue-600">{score?.communicative.listening}</div>
+                     <div className="text-sm text-muted-foreground">Listening</div>
+                  </div>
+                  <div className="p-4 bg-white rounded shadow-sm text-center">
+                     <div className="text-2xl font-bold text-blue-600">{score?.communicative.reading}</div>
+                     <div className="text-sm text-muted-foreground">Reading</div>
+                  </div>
+                  <div className="p-4 bg-white rounded shadow-sm text-center">
+                     <div className="text-2xl font-bold text-blue-600">{score?.communicative.speaking}</div>
+                     <div className="text-sm text-muted-foreground">Speaking</div>
+                  </div>
+                  <div className="p-4 bg-white rounded shadow-sm text-center">
+                     <div className="text-2xl font-bold text-blue-600">{score?.communicative.writing}</div>
+                     <div className="text-sm text-muted-foreground">Writing</div>
+                  </div>
+               </div>
+            </div>
+
+            {/* Enabling Skills Breakdown */}
+            <div className="space-y-4">
+               <h3 className="font-bold text-lg border-b pb-2">Skills Breakdown</h3>
+               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Grammar</span> <b>{score?.skills.grammar}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Oral Fluency</span> <b>{score?.skills.fluency}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Pronunciation</span> <b>{score?.skills.pronunciation}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Spelling</span> <b>{score?.skills.spelling}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Vocabulary</span> <b>{score?.skills.vocabulary}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Written Discourse</span> <b>{score?.skills.discourse}</b></div>
+               </div>
+            </div>
+
           </CardContent>
           <CardFooter className="justify-center gap-4">
             <Button variant="outline" onClick={() => setTestState("intro")}>Retake Test</Button>
