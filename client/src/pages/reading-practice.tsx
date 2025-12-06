@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { READING_QUESTIONS, ReadingTaskType, ReadingQuestion } from "@/lib/reading-data";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,8 +8,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowUp, ArrowDown, Check, RotateCcw, ChevronLeft, ChevronRight, GripVertical } from "lucide-react";
+import { ArrowUp, ArrowDown, Check, RotateCcw, ChevronLeft, ChevronRight, GripVertical, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ReadingPractice() {
   const [activeTab, setActiveTab] = useState<ReadingTaskType>("Multiple Choice (Single)");
@@ -23,11 +24,44 @@ export default function ReadingPractice() {
   
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [showResult, setShowResult] = useState(false);
+  const [timeSpent, setTimeSpent] = useState(0);
+  const { toast } = useToast();
 
   const currentQuestionIndex = currentQuestionIndices[activeTab];
   const questions = READING_QUESTIONS[activeTab];
   const currentQuestion = questions[currentQuestionIndex];
   const questionId = currentQuestion.id;
+
+  // Timer logic
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeSpent(prev => {
+        const newVal = prev + 1;
+        if (newVal === 120) { // 2 minutes warning
+           toast({
+             variant: "destructive",
+             title: "Time Alert",
+             description: "You have spent 2 minutes on this question. Consider moving on.",
+             duration: 5000
+           });
+        }
+        return newVal;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [questionId, toast]); // Reset timer on question change
+
+  // Reset timer when question changes
+  useEffect(() => {
+    setTimeSpent(0);
+  }, [questionId]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -54,6 +88,7 @@ export default function ReadingPractice() {
     delete newAnswers[questionId];
     setAnswers(newAnswers);
     setShowResult(false);
+    setTimeSpent(0);
   };
 
   const renderQuestionContent = () => {
@@ -253,17 +288,6 @@ export default function ReadingPractice() {
           }
         };
 
-        // Initialize if not set
-        if (!answers[questionId] && currentQuestion.paragraphs) {
-           // Shuffle for initial state if desired, but for now just set default
-           // Ideally we shuffle them initially. 
-           // Let's just use them as provided in data (which are ordered 1-4). 
-           // Wait, the data has them in correct order. I should shuffle them.
-           // For this mockup, I'll assume the user needs to check order.
-           // I'll set the initial state in useEffect or just use a scrambled version derived from ID if not set.
-           // For simplicity, let's just render them.
-        }
-
         return (
           <div className="space-y-4 max-w-2xl mx-auto">
             {currentOrder?.map((para: any, index: number) => (
@@ -354,23 +378,35 @@ export default function ReadingPractice() {
                   {currentQuestion.title}
                 </CardTitle>
               </div>
-              <div className="flex gap-2">
-                 <Button 
-                   variant="outline" 
-                   size="icon" 
-                   onClick={handlePrev} 
-                   disabled={currentQuestionIndex === 0}
-                 >
-                   <ChevronLeft className="h-4 w-4" />
-                 </Button>
-                 <Button 
-                   variant="outline" 
-                   size="icon" 
-                   onClick={handleNext} 
-                   disabled={currentQuestionIndex === questions.length - 1}
-                 >
-                   <ChevronRight className="h-4 w-4" />
-                 </Button>
+              
+              <div className="flex items-center gap-4">
+                 {/* Timer Display */}
+                 <div className={cn(
+                   "flex items-center gap-2 font-mono text-lg",
+                   timeSpent >= 120 ? "text-red-500 font-bold animate-pulse" : "text-muted-foreground"
+                 )}>
+                   <Timer className="h-4 w-4" />
+                   {formatTime(timeSpent)}
+                 </div>
+
+                 <div className="flex gap-2">
+                   <Button 
+                     variant="outline" 
+                     size="icon" 
+                     onClick={handlePrev} 
+                     disabled={currentQuestionIndex === 0}
+                   >
+                     <ChevronLeft className="h-4 w-4" />
+                   </Button>
+                   <Button 
+                     variant="outline" 
+                     size="icon" 
+                     onClick={handleNext} 
+                     disabled={currentQuestionIndex === questions.length - 1}
+                   >
+                     <ChevronRight className="h-4 w-4" />
+                   </Button>
+                 </div>
               </div>
             </div>
           </CardHeader>
@@ -380,8 +416,8 @@ export default function ReadingPractice() {
           </CardContent>
           
           <CardFooter className="border-t p-6 bg-muted/5 flex justify-between items-center">
-             <Button variant="ghost" onClick={resetQuestion} disabled={!answers[questionId]}>
-               <RotateCcw className="mr-2 h-4 w-4" /> Reset
+             <Button variant="ghost" onClick={resetQuestion}>
+               <RotateCcw className="mr-2 h-4 w-4" /> Reset Question
              </Button>
              
              <div className="flex gap-4">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -9,8 +9,10 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Headphones, PlayCircle, PauseCircle, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
+import { Headphones, PlayCircle, PauseCircle, CheckCircle2, AlertCircle, ArrowRight, Timer, RotateCcw } from "lucide-react";
 import { LISTENING_DATA, ListeningQuestion } from "@/lib/listening-data";
+import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 export default function ListeningPractice() {
   const [activeTab, setActiveTab] = useState("SST");
@@ -26,8 +28,53 @@ export default function ListeningPractice() {
   const [wfdAnswers, setWfdAnswers] = useState<Record<string, string>>({});
   
   const [showResults, setShowResults] = useState<Record<string, boolean>>({});
+  const [questionTimers, setQuestionTimers] = useState<Record<string, number>>({});
+  
+  const { toast } = useToast();
 
   const filterQuestions = (type: string) => LISTENING_DATA.filter(q => q.type === type);
+
+  // Timer Logic
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setQuestionTimers(prev => {
+        const next = { ...prev };
+        // Only increment timer if audio is NOT playing for that question, 
+        // assuming timer counts "answering time" after audio.
+        // But simplified: just count time since component mount/reset, maybe pause during audio?
+        // Requirement: "audio timer plus answering time". 
+        // Let's just count total time for simplicity and alert on answering time threshold.
+        
+        filterQuestions(activeTab).forEach(q => {
+          if (playingId !== q.id && !showResults[q.id]) { // Count only when not playing audio and not finished
+             const currentTime = next[q.id] || 0;
+             next[q.id] = currentTime + 1;
+
+             // Alerts for specific types
+             // FIB-L, HIW, WFD
+             if (["FIB-L", "HIW", "WFD"].includes(q.type)) {
+               if (currentTime === 60) { // Alert at 60s for these types
+                  toast({
+                    variant: "destructive",
+                    title: "Time Alert",
+                    description: "You're taking a while! Try to answer faster.",
+                    duration: 3000
+                  });
+               }
+             }
+          }
+        });
+        return next;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [activeTab, playingId, showResults, toast]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const togglePlay = (id: string, text: string) => {
     if (playingId === id) {
@@ -52,6 +99,20 @@ export default function ListeningPractice() {
 
   const checkAnswer = (id: string) => {
     setShowResults(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const resetQuestion = (id: string, type: string) => {
+     // Clear answer based on type
+     if (type === "SST") setSstAnswers(prev => ({ ...prev, [id]: "" }));
+     else if (type === "MC-MA") setMcmaAnswers(prev => ({ ...prev, [id]: [] }));
+     else if (type === "FIB-L") setFibAnswers(prev => ({ ...prev, [id]: [] }));
+     else if (type === "MC-SA") setMcsaAnswers(prev => ({ ...prev, [id]: "" }));
+     else if (type === "SMW") setSmwAnswers(prev => ({ ...prev, [id]: "" }));
+     else if (type === "HIW") setHiwAnswers(prev => ({ ...prev, [id]: [] }));
+     else if (type === "WFD") setWfdAnswers(prev => ({ ...prev, [id]: "" }));
+
+     setShowResults(prev => ({ ...prev, [id]: false }));
+     setQuestionTimers(prev => ({ ...prev, [id]: 0 }));
   };
 
   // Renderers for different question types
@@ -108,11 +169,6 @@ export default function ListeningPractice() {
   );
 
   const renderFIB = (q: ListeningQuestion) => {
-    // Basic FIB rendering: split transcript by brackets []
-    // This is a simplified view. Real FIB would replace bracketed words with inputs.
-    // My data has full transcript with [brackets] around answers.
-    // I need to parse q.transcript.
-    
     if (!q.transcript) return null;
 
     const parts = q.transcript.split(/(\[.*?\])/g);
@@ -177,10 +233,9 @@ export default function ListeningPractice() {
     </div>
   );
 
-  const renderSMW = (q: ListeningQuestion) => renderMCSA(q); // Same UI as MCSA
+  const renderSMW = (q: ListeningQuestion) => renderMCSA(q); 
 
   const renderHIW = (q: ListeningQuestion) => {
-    // q.displayTranscript has the text. q.wrongWords has indices of words to click.
     if (!q.displayTranscript) return null;
     
     const words = q.displayTranscript.split(" ");
@@ -197,9 +252,9 @@ export default function ListeningPractice() {
             if (isSelected) className += "bg-yellow-200 border-b-2 border-yellow-400 ";
             
             if (showResults[q.id]) {
-               if (isWrong && isSelected) className += "bg-green-200 border-green-500 text-green-800 "; // Correctly identified
-               else if (isWrong && !isSelected) className += "bg-red-100 border-red-500 text-red-800 "; // Missed
-               else if (!isWrong && isSelected) className += "bg-red-100 text-red-500 line-through "; // False positive
+               if (isWrong && isSelected) className += "bg-green-200 border-green-500 text-green-800 "; 
+               else if (isWrong && !isSelected) className += "bg-red-100 border-red-500 text-red-800 "; 
+               else if (!isWrong && isSelected) className += "bg-red-100 text-red-500 line-through "; 
             }
 
             return (
@@ -289,14 +344,28 @@ export default function ListeningPractice() {
                         {type === "WFD" && "Write From Dictation"}
                       </CardDescription>
                     </div>
-                    <Button
-                      size="icon"
-                      variant={playingId === q.id ? "destructive" : "default"}
-                      className="rounded-full shadow-md"
-                      onClick={() => togglePlay(q.id, q.audioScript)}
-                    >
-                      {playingId === q.id ? <PauseCircle className="h-6 w-6" /> : <PlayCircle className="h-6 w-6" />}
-                    </Button>
+                    
+                    <div className="flex items-center gap-4">
+                      {/* Timer Display */}
+                      {playingId !== q.id && !showResults[q.id] && (questionTimers[q.id] || 0) > 0 && (
+                        <div className={cn(
+                          "flex items-center gap-1 font-mono text-sm",
+                          (questionTimers[q.id] || 0) > 60 ? "text-red-500 animate-pulse" : "text-muted-foreground"
+                        )}>
+                           <Timer className="h-3 w-3" />
+                           {formatTime(questionTimers[q.id] || 0)}
+                        </div>
+                      )}
+
+                      <Button
+                        size="icon"
+                        variant={playingId === q.id ? "destructive" : "default"}
+                        className="rounded-full shadow-md"
+                        onClick={() => togglePlay(q.id, q.audioScript)}
+                      >
+                        {playingId === q.id ? <PauseCircle className="h-6 w-6" /> : <PlayCircle className="h-6 w-6" />}
+                      </Button>
+                    </div>
                   </div>
                   {playingId === q.id && (
                     <div className="h-1 w-full bg-muted mt-4 overflow-hidden rounded-full">
@@ -313,7 +382,11 @@ export default function ListeningPractice() {
                   {type === "HIW" && renderHIW(q)}
                   {type === "WFD" && renderWFD(q)}
 
-                  <div className="mt-6 flex justify-end">
+                  <div className="mt-6 flex justify-between items-center">
+                    <Button variant="ghost" size="sm" onClick={() => resetQuestion(q.id, q.type)}>
+                       <RotateCcw className="h-3 w-3 mr-2" /> Reset
+                    </Button>
+
                     <Button 
                       onClick={() => checkAnswer(q.id)} 
                       variant={showResults[q.id] ? "outline" : "secondary"}
