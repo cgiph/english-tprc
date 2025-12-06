@@ -8,13 +8,24 @@ import {
   navigationMenuTriggerStyle 
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { BookOpen, MessageSquare, Home, Menu, X, Mic, Book, Headphones } from "lucide-react";
+import { BookOpen, MessageSquare, Home, Menu, X, Mic, Book, Headphones, User, LogOut } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useUser } from "@/hooks/use-user";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const { user, logout } = useUser();
 
   const navItems = [
     { href: "/", label: "Home", icon: Home },
@@ -59,12 +70,44 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </NavigationMenu>
             
             <div className="flex items-center space-x-2 pl-4 border-l border-border">
-              <Button asChild variant="ghost" size="sm">
-                <Link href="/auth?mode=login">Log in</Link>
-              </Button>
-              <Button asChild size="sm" className="bg-primary text-white hover:bg-primary/90">
-                <Link href="/auth?mode=register">Get Started</Link>
-              </Button>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} alt={user.name} />
+                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">{user.name}</p>
+                        <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout} className="text-red-600 focus:text-red-600">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  <Button asChild variant="ghost" size="sm">
+                    <Link href="/auth?mode=login">Log in</Link>
+                  </Button>
+                  <Button asChild size="sm" className="bg-primary text-white hover:bg-primary/90">
+                    <Link href="/auth?mode=register">Get Started</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
@@ -78,6 +121,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <nav className="flex flex-col gap-4 mt-8">
+                  {user && (
+                    <div className="flex items-center gap-3 px-4 py-2 mb-2 bg-muted/50 rounded-lg">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} alt={user.name} />
+                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium">{user.name}</span>
+                        <span className="text-xs text-muted-foreground">{user.email}</span>
+                      </div>
+                    </div>
+                  )}
+                  
                   {navItems.map((item) => (
                     <Link 
                       key={item.href} 
@@ -95,12 +151,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </Link>
                   ))}
                   <div className="h-px bg-border my-2" />
-                  <Button asChild variant="outline" className="w-full justify-start">
-                    <Link href="/auth?mode=login">Log in</Link>
-                  </Button>
-                  <Button asChild className="w-full justify-start bg-primary">
-                     <Link href="/auth?mode=register">Get Started</Link>
-                  </Button>
+                  
+                  {user ? (
+                    <Button variant="destructive" className="w-full justify-start" onClick={logout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Log out
+                    </Button>
+                  ) : (
+                    <>
+                      <Button asChild variant="outline" className="w-full justify-start">
+                        <Link href="/auth?mode=login">Log in</Link>
+                      </Button>
+                      <Button asChild className="w-full justify-start bg-primary">
+                         <Link href="/auth?mode=register">Get Started</Link>
+                      </Button>
+                    </>
+                  )}
                 </nav>
               </SheetContent>
             </Sheet>

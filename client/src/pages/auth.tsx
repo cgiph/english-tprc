@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle2, AlertCircle } from "lucide-react";
+import { useUser } from "@/hooks/use-user";
 
 export default function AuthPage() {
   const [location, setLocation] = useLocation();
@@ -14,6 +15,7 @@ export default function AuthPage() {
   const searchParams = new URLSearchParams(search);
   const initialMode = searchParams.get("mode") === "register" ? "register" : "login";
   const { toast } = useToast();
+  const { login } = useUser();
 
   const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [formData, setFormData] = useState({
@@ -77,6 +79,11 @@ export default function AuthPage() {
     e.preventDefault();
     if (validate()) {
       // Mock Authentication
+      // Use Name from form for register, or extract from email for login
+      const displayName = mode === "register" ? formData.name : formData.email.split('@')[0];
+      
+      login(displayName, formData.email);
+
       toast({
         title: mode === "login" ? "Login Successful" : "Registration Successful",
         description: mode === "login" ? "Welcome back!" : "Your account has been created.",
