@@ -637,6 +637,94 @@ export default function ResourceViewer() {
 
           <Card className="mb-8 border-l-4 border-l-primary">
              <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-4">Essay Writing Guide</h2>
+               <p className="text-muted-foreground mb-6">Master the structure of a high-scoring essay with these proven templates.</p>
+               
+               <div className="space-y-6">
+                 <div className="bg-muted/30 p-6 rounded-lg border">
+                   <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                     <List className="h-5 w-5 text-primary" /> Sentence Structures for Essay Writing
+                   </h3>
+                   
+                   <div className="space-y-6">
+                     {/* Introduction Section */}
+                     <div className="bg-white p-4 rounded border border-blue-100 shadow-sm">
+                       <h4 className="font-bold text-blue-700 uppercase text-sm mb-3 flex items-center gap-2">
+                         <span className="bg-blue-100 px-2 py-0.5 rounded">1</span> Introduction
+                       </h4>
+                       <div className="grid gap-4 md:grid-cols-2">
+                         <div>
+                           <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Opinion Template</p>
+                           <p className="text-sm font-medium bg-slate-50 p-2 rounded border">
+                             Some people believe that <span className="text-blue-600">[topic]</span>, while others think <span className="text-blue-600">[opposite idea]</span>. I believe <span className="text-blue-600">[your opinion]</span> because <span className="text-blue-600">[reason]</span>.
+                           </p>
+                         </div>
+                         <div>
+                           <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Discussion Template</p>
+                           <p className="text-sm font-medium bg-slate-50 p-2 rounded border">
+                             <span className="text-blue-600">[Topic]</span> is an important issue today. This essay will discuss <span className="text-blue-600">[point 1]</span> and <span className="text-blue-600">[point 2]</span>.
+                           </p>
+                         </div>
+                       </div>
+                     </div>
+
+                     {/* Body Paragraphs Section */}
+                     <div className="bg-white p-4 rounded border border-purple-100 shadow-sm">
+                       <h4 className="font-bold text-purple-700 uppercase text-sm mb-3 flex items-center gap-2">
+                         <span className="bg-purple-100 px-2 py-0.5 rounded">2</span> Body Paragraphs
+                       </h4>
+                       <div className="space-y-3">
+                         <div className="grid gap-4 md:grid-cols-2">
+                           <div>
+                             <p className="text-xs font-bold text-muted-foreground uppercase mb-1">First Point</p>
+                             <p className="text-sm font-medium bg-slate-50 p-2 rounded border">
+                               First, <span className="text-purple-600">[main point]</span>. This is because <span className="text-purple-600">[reason/example]</span>.
+                             </p>
+                           </div>
+                           <div>
+                             <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Second Point</p>
+                             <p className="text-sm font-medium bg-slate-50 p-2 rounded border">
+                               Second, <span className="text-purple-600">[main point]</span>. For example, <span className="text-purple-600">[supporting detail]</span>.
+                             </p>
+                           </div>
+                         </div>
+                         <div>
+                           <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Contrast Idea</p>
+                           <p className="text-sm font-medium bg-slate-50 p-2 rounded border">
+                             However, <span className="text-purple-600">[contrast idea]</span>. This shows that <span className="text-purple-600">[explanation]</span>.
+                           </p>
+                         </div>
+                       </div>
+                     </div>
+
+                     {/* Conclusion Section */}
+                     <div className="bg-white p-4 rounded border border-green-100 shadow-sm">
+                       <h4 className="font-bold text-green-700 uppercase text-sm mb-3 flex items-center gap-2">
+                         <span className="bg-green-100 px-2 py-0.5 rounded">3</span> Conclusion
+                       </h4>
+                       <div className="grid gap-4 md:grid-cols-2">
+                         <div>
+                           <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Summary Template</p>
+                           <p className="text-sm font-medium bg-slate-50 p-2 rounded border">
+                             In conclusion, <span className="text-green-600">[summarize main points]</span>. Therefore, <span className="text-green-600">[final opinion]</span>.
+                           </p>
+                         </div>
+                         <div>
+                           <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Balanced View</p>
+                           <p className="text-sm font-medium bg-slate-50 p-2 rounded border">
+                             To sum up, <span className="text-green-600">[topic]</span> has both advantages and disadvantages, but <span className="text-green-600">[your recommendation]</span>.
+                           </p>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </CardContent>
+          </Card>
+
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
                <h2 className="text-2xl font-bold mb-2">Essay Practice 1</h2>
                <p className="text-muted-foreground mb-6">Topic: Extreme Sports / Dangerous Activities</p>
                
