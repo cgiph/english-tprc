@@ -13,6 +13,7 @@ import TypingPractice from "@/pages/typing-practice";
 import ResourceViewer from "@/pages/resource-viewer";
 import AudioTrainer from "@/pages/audio-trainer";
 import ListeningPractice from "@/pages/listening-practice";
+import FullMockTest from "@/pages/full-mock-test";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,6 +25,7 @@ function Router() {
         <Route path="/resources" component={Resources} />
         <Route path="/resources/viewer" component={ResourceViewer} />
         <Route path="/resources/audio-trainer" component={AudioTrainer} />
+        <Route path="/resources/full-mock-test" component={FullMockTest} />
         <Route path="/practice/speaking" component={SpeakingPractice} />
         <Route path="/practice/reading" component={ReadingPractice} />
         <Route path="/practice/listening" component={ListeningPractice} />

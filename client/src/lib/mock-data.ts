@@ -116,6 +116,7 @@ export const MOCK_RESOURCES: Resource[] = [
     level: "Intermediate",
     author: "PrepUK Team",
     downloads: 3100,
-    rating: 4.8
+    rating: 4.8,
+    viewerUrl: "/resources/full-mock-test"
   }
 ];
