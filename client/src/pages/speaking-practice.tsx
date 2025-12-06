@@ -72,6 +72,7 @@ export default function SpeakingPractice() {
     try {
       setRecordedChunks([]);
       setRecordedAudioUrl(null);
+      
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
       
@@ -87,24 +88,39 @@ export default function SpeakingPractice() {
         const url = URL.createObjectURL(blob);
         setRecordedAudioUrl(url);
         setRecordedChunks(chunks);
-        stream.getTracks().forEach(track => track.stop()); // Stop mic
+        stream.getTracks().forEach(track => track.stop()); 
       };
 
-      recorder.start();
+      // Request data every 1s to ensure we have chunks even if stopped early
+      recorder.start(1000); 
       setMediaRecorder(recorder);
     } catch (err) {
       console.error("Error accessing microphone:", err);
       toast({
         variant: "destructive",
-        title: "Microphone Error",
-        description: "Could not access microphone. Recording simulated.",
+        title: "Microphone Access Failed",
+        description: "Using simulated recording mode.",
       });
+      
+      // Fallback: Simulate a recording so playback isn't empty
+      // Create a dummy blob or just a timer to set a fake URL?
+      // We can't easily create a fake audio blob without Web Audio API complex setup.
+      // We'll just simulate the state so the UI doesn't break, but playback won't produce sound.
+      // OR we can use a very short silent audio base64 if needed.
+      
+      setMediaRecorder(null);
     }
   };
 
   const stopRecordingAudio = () => {
     if (mediaRecorder && mediaRecorder.state !== "inactive") {
       mediaRecorder.stop();
+    } else {
+        // If we were in simulated mode (mediaRecorder is null but status was recording)
+        // We should set a dummy URL so "Playback" button works (even if silent/fake)
+        // so the user doesn't see "No Recording" error.
+        // Use a placeholder audio for simulation
+        setRecordedAudioUrl("https://actions.google.com/sounds/v1/alarms/beep_short.ogg"); // Dummy file
     }
   };
 

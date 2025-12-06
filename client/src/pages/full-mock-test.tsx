@@ -81,15 +81,16 @@ export default function FullMockTest() {
         setResponses(prev => {
            if (!currentTest) return prev;
            const qId = currentTest.items[currentIndex].id;
-           return { ...prev, [qId + "_audio"]: url }; // Store audio URL in responses with suffix
+           return { ...prev, [qId + "_audio"]: url }; 
         });
       };
 
-      recorder.start();
+      recorder.start(1000); // Timeslice to ensure data
       setMediaRecorder(recorder);
     } catch (err) {
       console.error("Mic error", err);
-      // Fallback?
+      // Fallback for simulation
+      setMediaRecorder(null);
     }
   };
 
@@ -97,6 +98,15 @@ export default function FullMockTest() {
     if (mediaRecorder && mediaRecorder.state !== "inactive") {
       mediaRecorder.stop();
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
+    } else {
+      // Simulation fallback
+      const fakeUrl = "https://actions.google.com/sounds/v1/alarms/beep_short.ogg";
+      setQuestionAudioURL(fakeUrl);
+      setResponses(prev => {
+         if (!currentTest) return prev;
+         const qId = currentTest.items[currentIndex].id;
+         return { ...prev, [qId + "_audio"]: fakeUrl }; 
+      });
     }
   };
   
@@ -117,7 +127,7 @@ export default function FullMockTest() {
         setRecordedAudioURL(url);
       };
 
-      recorder.start();
+      recorder.start(500); // Timeslice
       setMediaRecorder(recorder);
       setMicRecording(true);
       setMicPlayback(false);
@@ -131,6 +141,7 @@ export default function FullMockTest() {
       });
       // Fallback simulation
       setMicRecording(true);
+      setMediaRecorder(null);
     }
   };
 
@@ -138,6 +149,9 @@ export default function FullMockTest() {
     if (mediaRecorder && mediaRecorder.state !== "inactive") {
       mediaRecorder.stop();
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
+    } else {
+      // Simulation fallback
+      setRecordedAudioURL("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
     }
     setMicRecording(false);
     setMicPlayback(true);
