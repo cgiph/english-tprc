@@ -1,0 +1,20 @@
+[plugin:vite:import-analysis] Failed to resolve import "@assets/generated_images/pie_chart_of_student_major_distribution.png" from "client/src/pages/resource-viewer.tsx". Does the file exist?
+/home/runner/workspace/client/src/pages/resource-viewer.tsx:18:22
+14 |  import imgGoldPrice from "@assets/generated_images/line_graph_showing_gold_price_fluctuations.png";
+15 |  import imgEnergy from "@assets/generated_images/pie_chart_of_household_energy_consumption.png";
+16 |  import imgMajors from "@assets/generated_images/pie_chart_of_student_major_distribution.png";
+   |                         ^
+17 |  import imgCoffee from "@assets/generated_images/diagram_of_coffee_production_process.png";
+18 |  import imgRecycling from "@assets/generated_images/diagram_of_plastic_recycling_lifecycle.png";
+    at TransformPluginContext._formatLog (file:///home/runner/workspace/node_modules/vite/dist/node/chunks/config.js:31106:43)
+    at TransformPluginContext.error (file:///home/runner/workspace/node_modules/vite/dist/node/chunks/config.js:31103:14)
+    at normalizeUrl (file:///home/runner/workspace/node_modules/vite/dist/node/chunks/config.js:29590:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///home/runner/workspace/node_modules/vite/dist/node/chunks/config.js:29648:32
+    at async Promise.all (index 14)
+    at async TransformPluginContext.transform (file:///home/runner/workspace/node_modules/vite/dist/node/chunks/config.js:29616:4)
+    at async EnvironmentPluginContainer.transform (file:///home/runner/workspace/node_modules/vite/dist/node/chunks/config.js:30905:14)
+    at async loadAndTransform (file:///home/runner/workspace/node_modules/vite/dist/node/chunks/config.js:26043:26)
+    at async viteTransformMiddleware (file:///home/runner/workspace/node_modules/vite/dist/node/chunks/config.js:27118:20)
+Click outside, press Esc key, or fix the code to dismiss.
+You can also disable this overlay by setting server.hmr.overlay to false in vite.config.ts.
