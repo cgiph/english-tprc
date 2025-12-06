@@ -32,7 +32,7 @@ export default function SpeakingPractice() {
     "Respond to a Situation": 0
   });
   
-  const [status, setStatus] = useState<"idle" | "preparing" | "recording" | "completed">("idle");
+  const [status, setStatus] = useState<"idle" | "preparing" | "recording" | "completed" | "playing" | "waiting">("idle");
   const [timeLeft, setTimeLeft] = useState(0);
   const [showTranscript, setShowTranscript] = useState(false);
   const [silenceTimer, setSilenceTimer] = useState(0);
@@ -62,11 +62,14 @@ export default function SpeakingPractice() {
     oscillator.stop(audioContext.currentTime + 0.5); // Beep for 0.5 seconds
   };
 
-  const speakText = (text: string) => {
+  const speakText = (text: string, onEnd?: () => void) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-GB';
     utterance.rate = 0.9;
+    if (onEnd) {
+      utterance.onend = onEnd;
+    }
     window.speechSynthesis.speak(utterance);
   };
 
@@ -156,7 +159,7 @@ export default function SpeakingPractice() {
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
-    if (status === "preparing" || status === "recording") {
+    if (status === "preparing" || status === "recording" || status === "waiting") {
       interval = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
@@ -186,12 +189,31 @@ export default function SpeakingPractice() {
   const handleTimerComplete = () => {
     if (status === "preparing") {
       startRecording();
+    } else if (status === "waiting") {
+      startRecording();
     } else if (status === "recording") {
       stopRecording();
     }
   };
 
   const startPreparation = () => {
+    if (activeTab === "Repeat Sentence") {
+      setStatus("playing");
+      toast({
+        title: "Audio Playing",
+        description: "Listen carefully...",
+      });
+      speakText(currentQuestion.content, () => {
+        setStatus("waiting");
+        setTimeLeft(5); // 5 second delay before beep/recording
+        toast({
+           title: "Get Ready",
+           description: "Recording starts in 5 seconds...",
+        });
+      });
+      return;
+    }
+
     setStatus("preparing");
     setTimeLeft(40); // 40s prep
     toast({
@@ -313,14 +335,21 @@ export default function SpeakingPractice() {
               </div>
               <div className="flex items-center gap-4">
                  {/* Timer Display */}
-                 {(status === "preparing" || status === "recording") && (
+                 {(status === "preparing" || status === "recording" || status === "waiting") && (
                    <div className={`flex items-center gap-2 font-mono text-xl font-bold ${status === "recording" ? "text-red-500 animate-pulse" : "text-blue-600"}`}>
                      <Timer className="h-5 w-5" />
                      {timeLeft}s
                      <Badge variant={status === "recording" ? "destructive" : "secondary"} className="ml-2">
-                       {status === "preparing" ? "PREPARING" : "RECORDING"}
+                       {status === "preparing" ? "PREPARING" : status === "waiting" ? "GET READY" : "RECORDING"}
                      </Badge>
                    </div>
+                 )}
+                 
+                 {status === "playing" && (
+                    <div className="flex items-center gap-2 font-mono text-xl font-bold text-blue-600">
+                      <Volume2 className="h-5 w-5 animate-pulse" />
+                      <Badge variant="secondary" className="ml-2">PLAYING AUDIO</Badge>
+                    </div>
                  )}
 
                  {/* Audio Visualizer Simulation */}
@@ -505,6 +534,12 @@ export default function SpeakingPractice() {
                {status === "preparing" && (
                  <Button size="lg" className="w-40 gap-2 font-bold bg-blue-600 hover:bg-blue-700 text-white" onClick={startRecording}>
                    Skip Prep
+                 </Button>
+               )}
+               
+               {(status === "playing" || status === "waiting") && (
+                 <Button size="lg" className="w-40 gap-2 font-bold" disabled>
+                   {status === "playing" ? "Listening..." : "Wait..."}
                  </Button>
                )}
 
