@@ -81,7 +81,8 @@ export const MOCK_RESOURCES: Resource[] = [
     downloads: 12500,
     rating: 4.9,
     locked: true,
-    downloadUrl: "/downloads/USEFUL_GUIDE_FOR_ESSAY_WRITING.txt"
+    downloadUrl: "/downloads/USEFUL_GUIDE_FOR_ESSAY_WRITING.txt",
+    viewerUrl: "/resources/viewer?id=1"
   },
   {
     id: "2",
@@ -94,7 +95,7 @@ export const MOCK_RESOURCES: Resource[] = [
     rating: 4.7,
     locked: true,
     downloadUrl: "/downloads/DESCRIBE_IMAGE_50_CHARTS.txt",
-    viewerUrl: "/resources/viewer"
+    viewerUrl: "/resources/viewer?id=2"
   },
   {
     id: "3",

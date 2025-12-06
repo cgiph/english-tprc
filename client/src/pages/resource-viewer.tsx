@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Download, Lock } from "lucide-react";
-import { Link, useLocation } from "wouter";
+import { ArrowLeft, Download, Lock, BookOpen, FileText, HelpCircle } from "lucide-react";
+import { Link, useSearch } from "wouter";
 import { useState, useEffect } from "react";
 
 // Import existing images (generated previously)
@@ -45,7 +45,7 @@ const CHARTS: Record<string, ChartData[]> = {
     {
       id: "bar-3",
       title: "Smartphone Market Share",
-      image: imgSmartphone, // Using the pie chart image for smartphone share as generated earlier, though categorized as bar in prompt list, visual might be pie. Let's stick to the image we have.
+      image: imgSmartphone,
       answer: "The chart displays the market share of leading smartphone brands. Brand A dominates the market with the largest share, followed closely by Brand B. Smaller competitors make up the remaining portion. This indicates a highly consolidated market where a few key players hold the majority of influence."
     }
   ],
@@ -114,9 +114,125 @@ const CHARTS: Record<string, ChartData[]> = {
 };
 
 export default function ResourceViewer() {
-  const [activeTab, setActiveTab] = useState("Bar Charts");
-  // In a real app, we would verify access here again or rely on parent route protection
+  const search = useSearch();
+  const searchParams = new URLSearchParams(search);
+  const resourceId = searchParams.get("id");
   
+  const [activeTab, setActiveTab] = useState("Bar Charts");
+
+  // Default to Describe Image if no ID or ID=2
+  const isEssayGuide = resourceId === "1";
+  const resourceTitle = isEssayGuide ? "Ultimate Essay Guide 2026" : "Describe Image - 50 Practice Charts";
+
+  if (isEssayGuide) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/resources">
+              <Button variant="ghost" size="sm" className="gap-2">
+                <ArrowLeft className="h-4 w-4" /> Back to Resources
+              </Button>
+            </Link>
+            <h1 className="font-serif font-bold text-xl hidden md:block">
+              {resourceTitle}
+            </h1>
+          </div>
+          <Button variant="outline" size="sm" className="gap-2">
+            <Download className="h-4 w-4" /> Download PDF
+          </Button>
+        </header>
+
+        <main className="container mx-auto px-4 py-8 flex-1 max-w-4xl">
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-2">Essay Practice 1</h2>
+               <p className="text-muted-foreground mb-6">Topic: Extreme Sports / Dangerous Activities</p>
+               
+               <div className="space-y-6">
+                 <div className="bg-muted/30 p-6 rounded-lg border">
+                   <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                     <HelpCircle className="h-5 w-5 text-primary" /> Prompt
+                   </h3>
+                   <p className="text-lg font-medium">
+                     Extreme sports (Dangerous activities) like skiing, bungee jumping, rafting, diving should be banned. Agree or disagree?
+                   </p>
+                 </div>
+
+                 <div className="space-y-4">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
+                     <FileText className="h-5 w-5 text-primary" /> Sample Answer
+                   </h3>
+                   <div className="prose max-w-none leading-relaxed text-muted-foreground">
+                     <p className="mb-4">
+                       Extreme sports like skiing, diving, and bungee jumping are exciting and popular. Some people believe they are too dangerous and should be banned. I disagree with this idea. I think people should be free to choose their activities, if they follow safety rules.
+                     </p>
+                     <p className="mb-4">
+                       First, extreme sports help people stay fit and healthy. These activities require physical strength, balance, and focus. When people do sports like rafting or climbing, they improve their muscles and heart health. It also helps reduce stress and makes people feel more energetic.
+                     </p>
+                     <p className="mb-4">
+                       Second, extreme sports give people a sense of adventure. Many people enjoy trying new things and pushing their limits. For example, someone who goes skydiving may feel scared at first, but after the jump, they feel proud and confident. These experiences can help people grow and become stronger mentally.
+                     </p>
+                     <p>
+                       In conclusion, extreme sports should not be banned. They offer health benefits and help people build courage. Instead of stopping these activities, we should make sure they are done safely. With proper training and equipment, people can enjoy extreme sports without serious risk.
+                     </p>
+                   </div>
+                 </div>
+
+                 <div className="space-y-4 border-t pt-6">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
+                     <BookOpen className="h-5 w-5 text-primary" /> Comprehension Questions
+                   </h3>
+                   
+                   <div className="grid gap-6 md:grid-cols-2">
+                     <Card>
+                       <CardHeader className="pb-2"><CardTitle className="text-base">A. Understanding the Main Idea</CardTitle></CardHeader>
+                       <CardContent className="text-sm space-y-2">
+                         <p><strong>1. What is the writer’s opinion about banning extreme sports?</strong></p>
+                         <p className="text-muted-foreground pl-4 border-l-2">The writer disagrees with banning them.</p>
+                         
+                         <p><strong>2. Why does the writer think people should be allowed to do extreme sports?</strong></p>
+                         <p className="text-muted-foreground pl-4 border-l-2">People should be free to choose their activities if they follow safety rules.</p>
+                       </CardContent>
+                     </Card>
+
+                     <Card>
+                       <CardHeader className="pb-2"><CardTitle className="text-base">B. Vocabulary Check</CardTitle></CardHeader>
+                       <CardContent className="text-sm space-y-2">
+                         <p><strong>3. What does “banned” mean?</strong></p>
+                         <p className="text-muted-foreground pl-4 border-l-2">To be officially forbidden or stopped.</p>
+                         
+                         <p><strong>4. What is “skydiving”?</strong></p>
+                         <p className="text-muted-foreground pl-4 border-l-2">The sport of jumping from an aircraft and performing acrobatic maneuvers in the air.</p>
+
+                         <p><strong>5. What does “pushing their limits” mean?</strong></p>
+                         <p className="text-muted-foreground pl-4 border-l-2">Trying to do more than what they usually do or what they think they can do.</p>
+                       </CardContent>
+                     </Card>
+
+                     <Card className="md:col-span-2">
+                       <CardHeader className="pb-2"><CardTitle className="text-base">C. Details from the Essay</CardTitle></CardHeader>
+                       <CardContent className="text-sm space-y-2">
+                         <p><strong>6. Name two health benefits of doing extreme sports.</strong></p>
+                         <p className="text-muted-foreground pl-4 border-l-2">Improving muscles/heart health and reducing stress.</p>
+                         
+                         <p><strong>7. What example does the writer give to show how extreme sports help people feel confident?</strong></p>
+                         <p className="text-muted-foreground pl-4 border-l-2">Skydiving: feeling scared at first but proud and confident after the jump.</p>
+
+                         <p><strong>8. What does the writer suggest instead of banning extreme sports?</strong></p>
+                         <p className="text-muted-foreground pl-4 border-l-2">Ensuring they are done safely with proper training and equipment.</p>
+                       </CardContent>
+                     </Card>
+                   </div>
+                 </div>
+               </div>
+             </CardContent>
+          </Card>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
@@ -128,7 +244,7 @@ export default function ResourceViewer() {
             </Button>
           </Link>
           <h1 className="font-serif font-bold text-xl hidden md:block">
-            Describe Image - 50 Practice Charts
+            {resourceTitle}
           </h1>
         </div>
         <Button variant="outline" size="sm" className="gap-2">
