@@ -306,6 +306,42 @@ export default function ResourceViewer() {
                  </div>
                </div>
              </CardContent>
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-2">Essay Practice 2</h2>
+               <p className="text-muted-foreground mb-6">Topic: Small Local Shops vs. Big Shopping Malls</p>
+               
+               <div className="space-y-6">
+                 <div className="bg-muted/30 p-6 rounded-lg border">
+                   <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                     <HelpCircle className="h-5 w-5 text-primary" /> Prompt
+                   </h3>
+                   <p className="text-lg font-medium">
+                     In town and cities, the large shopping mall should replace the small local shop. To what extent do you agree or disagree? Discuss.
+                   </p>
+                 </div>
+
+                 <div className="space-y-4">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
+                     <FileText className="h-5 w-5 text-primary" /> Sample Answer
+                   </h3>
+                   <div className="prose max-w-none leading-relaxed text-muted-foreground">
+                     <p className="mb-4">
+                       In towns and cities, people go shopping every day. Some people think big shopping malls should replace small local shops. I do not agree. I think both are important and should stay because they help people in different ways.
+                     </p>
+                     <p className="mb-4">
+                       First, small shops are easy to find and close to home. People can walk to buy food, drinks, or other things. It saves time and money. Small shops also know their customers. They must be friendly and helpful since it’s a small shop. Many people like to talk to the shop owner. It feels personal and warm. Small shops also support local workers and families.
+                     </p>
+                     <p className="mb-4">
+                       Second, big malls have many choices. People can buy clothes, shoes, phones, and more. Malls are fun places to visit with family and friends. You can eat, shop, and relax in one place. But sometimes they are far and crowded. Not everyone likes that. Some people feel tired after walking in a big mall. Also, prices in malls can be higher.
+                     </p>
+                     <p>
+                       In conclusion, small shops and big malls are both useful. Small shops help people in the neighborhood. Big malls give many options. We should not replace small shops. We should keep both so people can choose where to shop.
+                     </p>
+                   </div>
+                 </div>
+               </div>
+             </CardContent>
           </Card>
         </main>
       </div>
