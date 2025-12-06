@@ -98,13 +98,14 @@ export const MOCK_RESOURCES: Resource[] = [
   },
   {
     id: "3",
-    title: "Repeat Sentence Audio Trainer",
-    description: "Interactive audio tool to improve your short-term memory and pronunciation for the Repeat Sentence task.",
+    title: "Repeat Sentence & Write From Dictation Audio Trainer",
+    description: "Interactive audio tool for short-term memory, accent familiarization, and simultaneous typing practice.",
     type: "Tool",
     level: "Beginner",
     author: "TechPrep",
     downloads: 5400,
-    rating: 4.5
+    rating: 4.5,
+    viewerUrl: "/resources/audio-trainer"
   },
   {
     id: "4",
