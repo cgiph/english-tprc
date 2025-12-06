@@ -12,6 +12,7 @@ import ReadingPractice from "@/pages/reading-practice";
 import TypingPractice from "@/pages/typing-practice";
 import ResourceViewer from "@/pages/resource-viewer";
 import AudioTrainer from "@/pages/audio-trainer";
+import ListeningPractice from "@/pages/listening-practice";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
         <Route path="/resources/audio-trainer" component={AudioTrainer} />
         <Route path="/practice/speaking" component={SpeakingPractice} />
         <Route path="/practice/reading" component={ReadingPractice} />
+        <Route path="/practice/listening" component={ListeningPractice} />
         <Route path="/practice/typing" component={TypingPractice} />
         <Route component={NotFound} />
       </Switch>

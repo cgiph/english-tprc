@@ -8,8 +8,7 @@ import {
   navigationMenuTriggerStyle 
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import logo from "@assets/generated_images/minimalist_academic_shield_logo_icon.png";
-import { BookOpen, MessageSquare, Home, Menu, X, Mic, Book } from "lucide-react";
+import { BookOpen, MessageSquare, Home, Menu, X, Mic, Book, Headphones } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -21,6 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { href: "/", label: "Home", icon: Home },
     { href: "/practice/speaking", label: "Speaking", icon: Mic },
     { href: "/practice/reading", label: "Reading", icon: Book },
+    { href: "/practice/listening", label: "Listening", icon: Headphones },
     { href: "/reviews", label: "Reviews", icon: MessageSquare },
     { href: "/resources", label: "Resources", icon: BookOpen },
   ];
@@ -109,7 +109,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <img src={logo} alt="Logo" className="h-6 w-6 grayscale opacity-70" />
                 <span className="font-serif font-bold text-lg text-foreground/80">PTE PrepUK</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
