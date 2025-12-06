@@ -13,6 +13,7 @@ export type ReadingQuestion = {
   difficulty: Difficulty;
   title: string;
   text: string; // The main passage or context
+  prompt?: string; // The specific question to answer
   options?: string[]; // For MCQs
   correctAnswer?: string | string[]; // For MCQs
   blanks?: { // For FIB questions
@@ -36,6 +37,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Easy",
       title: "Library Rules",
       text: "Students must remain quiet in the library to respect others who are studying. Talking on mobile phones is strictly prohibited.",
+      prompt: "What is the main rule mentioned in the text?",
       options: ["Students can talk loudly", "Mobile phones are allowed", "Silence is required", "Eating is encouraged"],
       correctAnswer: "Silence is required"
     },
@@ -45,6 +47,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Easy",
       title: "Daily Routine",
       text: "Sarah wakes up at 7 AM every day. She eats breakfast and then catches the bus to the university.",
+      prompt: "How does Sarah get to the university?",
       options: ["She drives to university", "She wakes up at 8 AM", "She takes the bus", "She skips breakfast"],
       correctAnswer: "She takes the bus"
     },
@@ -54,6 +57,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Easy",
       title: "Weather Forecast",
       text: "Tomorrow will be sunny and warm. It is a perfect day for a picnic in the park.",
+      prompt: "What is suggested for tomorrow?",
       options: ["It will rain", "It will be cold", "It is good for a picnic", "Stay indoors"],
       correctAnswer: "It is good for a picnic"
     },
@@ -63,6 +67,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Easy",
       title: "Class Schedule",
       text: "The history class starts at 10:00 AM on Mondays. Please do not be late.",
+      prompt: "When does the history class start?",
       options: ["Class is on Tuesday", "Class starts at 10:00 AM", "Being late is okay", "It is a math class"],
       correctAnswer: "Class starts at 10:00 AM"
     },
@@ -72,6 +77,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Easy",
       title: "Healthy Eating",
       text: "Eating fruits and vegetables keeps you healthy. You should also drink plenty of water.",
+      prompt: "According to the text, what helps keep you healthy?",
       options: ["Eat only meat", "Drink soda", "Water is important", "Vegetables are bad"],
       correctAnswer: "Water is important"
     },
@@ -82,6 +88,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Difficult",
       title: "Climate Change",
       text: "The rapid acceleration of climate change has led to unpredictable weather patterns. Scientists warn that without immediate intervention, the consequences could be irreversible.",
+      prompt: "What is the main warning given by scientists?",
       options: ["Weather is becoming more predictable", "Immediate action is unnecessary", "Consequences may be permanent", "Scientists are optimistic"],
       correctAnswer: "Consequences may be permanent"
     },
@@ -91,6 +98,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Difficult",
       title: "Economic Policy",
       text: "Inflationary pressures have forced the central bank to raise interest rates. This move is intended to cool down the economy but risks slowing growth.",
+      prompt: "What is a potential risk of raising interest rates?",
       options: ["Interest rates were lowered", "The goal is to increase inflation", "Growth might slow down", "The economy is already cool"],
       correctAnswer: "Growth might slow down"
     },
@@ -100,6 +108,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Difficult",
       title: "Artificial Intelligence",
       text: "While AI promises efficiency, ethical concerns regarding privacy and bias remain prevalent. Developers must prioritize transparency to build public trust.",
+      prompt: "What must developers prioritize to build public trust?",
       options: ["AI has no ethical issues", "Privacy is not a concern", "Transparency builds trust", "Efficiency is the only goal"],
       correctAnswer: "Transparency builds trust"
     },
@@ -109,6 +118,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Difficult",
       title: "Space Exploration",
       text: "The colonization of Mars presents numerous physiological challenges, including muscle atrophy due to lower gravity and radiation exposure.",
+      prompt: "What is mentioned as a challenge of colonizing Mars?",
       options: ["Mars has high gravity", "Radiation is not a threat", "Muscle atrophy is a risk", "Colonization is easy"],
       correctAnswer: "Muscle atrophy is a risk"
     },
@@ -118,6 +128,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Difficult",
       title: "Modern Literature",
       text: "Post-modern literature often deconstructs traditional narrative structures, challenging the reader to question the reliability of the narrator.",
+      prompt: "What does post-modern literature challenge the reader to do?",
       options: ["Narratives are always traditional", "The narrator is always reliable", "Readers should question the narrator", "It avoids deconstruction"],
       correctAnswer: "Readers should question the narrator"
     }
@@ -130,6 +141,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Easy",
       title: "Grocery List",
       text: "For the cake, we need eggs, flour, sugar, and butter. Do not buy milk or salt.",
+      prompt: "Which ingredients are needed for the cake?",
       options: ["Eggs", "Milk", "Sugar", "Salt", "Butter"],
       correctAnswer: ["Eggs", "Sugar", "Butter"]
     },
@@ -139,6 +151,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Easy",
       title: "Travel Plans",
       text: "We are visiting Paris and London. We will not go to Rome or Berlin this time.",
+      prompt: "Which cities will be visited?",
       options: ["Paris", "Rome", "London", "Berlin"],
       correctAnswer: ["Paris", "London"]
     },
@@ -148,6 +161,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Easy",
       title: "Sports Day",
       text: "Students can choose to play football or basketball. Tennis and swimming are not available.",
+      prompt: "Which sports are available for students?",
       options: ["Football", "Tennis", "Basketball", "Swimming"],
       correctAnswer: ["Football", "Basketball"]
     },
@@ -157,6 +171,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Easy",
       title: "Office Supplies",
       text: "Please order pens and notebooks. We have enough paper and staples.",
+      prompt: "What needs to be ordered?",
       options: ["Pens", "Paper", "Notebooks", "Staples"],
       correctAnswer: ["Pens", "Notebooks"]
     },
@@ -166,6 +181,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Easy",
       title: "Breakfast Menu",
       text: "The hotel serves coffee, tea, and juice. There is no hot chocolate.",
+      prompt: "Which drinks are served at the hotel?",
       options: ["Coffee", "Hot Chocolate", "Tea", "Juice"],
       correctAnswer: ["Coffee", "Tea", "Juice"]
     },
@@ -176,6 +192,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Difficult",
       title: "Renewable Energy Sources",
       text: "Renewable energy includes solar, wind, and hydro power. Fossil fuels like coal and natural gas are non-renewable and harmful to the environment.",
+      prompt: "Which of the following are renewable energy sources?",
       options: ["Solar", "Coal", "Wind", "Natural Gas", "Hydro"],
       correctAnswer: ["Solar", "Wind", "Hydro"]
     },
@@ -185,6 +202,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Difficult",
       title: "Causes of Inflation",
       text: "Inflation can be triggered by increased demand, rising production costs, or expanded money supply. It is rarely caused by increased savings or reduced government spending.",
+      prompt: "What are the potential triggers of inflation mentioned?",
       options: ["Increased demand", "Rising production costs", "Increased savings", "Expanded money supply", "Reduced spending"],
       correctAnswer: ["Increased demand", "Rising production costs", "Expanded money supply"]
     },
@@ -194,6 +212,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Difficult",
       title: "Renaissance Art",
       text: "Renaissance art focused on realism, perspective, and human anatomy. It moved away from the abstract and symbolic styles of the medieval period.",
+      prompt: "What were the focuses of Renaissance art?",
       options: ["Realism", "Abstract style", "Perspective", "Human anatomy", "Symbolic style"],
       correctAnswer: ["Realism", "Perspective", "Human anatomy"]
     },
@@ -203,6 +222,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Difficult",
       title: "Benefits of Meditation",
       text: "Meditation has been shown to reduce stress, improve concentration, and lower blood pressure. It does not typically increase heart rate or induce anxiety.",
+      prompt: "What are the benefits of meditation mentioned?",
       options: ["Reduce stress", "Increase heart rate", "Improve concentration", "Lower blood pressure", "Induce anxiety"],
       correctAnswer: ["Reduce stress", "Improve concentration", "Lower blood pressure"]
     },
@@ -212,6 +232,7 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       difficulty: "Difficult",
       title: "Characteristics of Mammals",
       text: "Mammals are characterized by having hair or fur, producing milk for their young, and being warm-blooded. Laying eggs is a trait of birds and reptiles, with few exceptions.",
+      prompt: "What are the characteristics of mammals?",
       options: ["Have hair/fur", "Lay eggs", "Produce milk", "Warm-blooded", "Cold-blooded"],
       correctAnswer: ["Have hair/fur", "Produce milk", "Warm-blooded"]
     }
