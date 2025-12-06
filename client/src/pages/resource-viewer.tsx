@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Download, Lock, BookOpen, FileText, HelpCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Download, Lock, BookOpen, FileText, HelpCircle, List } from "lucide-react";
 import { Link, useSearch } from "wouter";
 import { useState, useEffect } from "react";
 
@@ -400,6 +401,49 @@ export default function ResourceViewer() {
                      </div>
                    </div>
                  </div>
+               </div>
+             </CardContent>
+          </Card>
+
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-2">Writing Tasks: Signal Words</h2>
+               <p className="text-muted-foreground mb-6">Complete the sentences below by writing in the blanks the appropriate signal words.</p>
+
+               <div className="space-y-6">
+                  <div className="bg-muted/30 p-6 rounded-lg border">
+                     <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                       <List className="h-5 w-5 text-primary" /> Word Bank
+                     </h3>
+                     <div className="flex flex-wrap gap-2">
+                       {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map((word, i) => (
+                         <Badge key={i} variant="secondary" className="text-sm py-1 px-3 bg-white hover:bg-white">{word}</Badge>
+                       ))}
+                     </div>
+                  </div>
+
+                  <div className="space-y-6">
+                     <Card>
+                       <CardHeader className="pb-2"><CardTitle className="text-base">Task 1: Trees</CardTitle></CardHeader>
+                       <CardContent className="text-lg leading-loose">
+                         Trees are subject to disease, decay and death. <span className="border-b-2 border-primary w-24 inline-block"></span>, when a tree is wounded, the fungus spores get into the wound. <span className="border-b-2 border-primary w-24 inline-block"></span> it germinates and sends out creeping treads that attack the cell tissue. <span className="border-b-2 border-primary w-24 inline-block"></span> the tree dies unless a tree surgeon saves it.
+                       </CardContent>
+                     </Card>
+
+                     <Card>
+                       <CardHeader className="pb-2"><CardTitle className="text-base">Task 2: Processing Data</CardTitle></CardHeader>
+                       <CardContent className="text-lg leading-loose">
+                         Processing data takes place in several stages. <span className="border-b-2 border-primary w-24 inline-block"></span> is input. The data, which is typed on the keyboard, arrives at the computer from an outside source. <span className="border-b-2 border-primary w-24 inline-block"></span>, the data will go straight into the computers central processing unit where it is being processed. <span className="border-b-2 border-primary w-24 inline-block"></span>, the data is processed for results. The computer makes the calculation with a device called the arithmetic / logic unit. <span className="border-b-2 border-primary w-24 inline-block"></span> the computer might display on the monitor or print the results on paper.
+                       </CardContent>
+                     </Card>
+
+                     <Card>
+                       <CardHeader className="pb-2"><CardTitle className="text-base">Task 3: Canning Sardines</CardTitle></CardHeader>
+                       <CardContent className="text-lg leading-loose">
+                         Here is how sardines are canned. <span className="border-b-2 border-primary w-24 inline-block"></span>, the head is removed, and each fish is cleaned and gutted. <span className="border-b-2 border-primary w-24 inline-block"></span> the fish is placed in an enormous pressure cooker to which soya oil, spices, salt, and artificial and flavoring are added. <span className="border-b-2 border-primary w-24 inline-block"></span>, the sardines are placed into cans. Carrots and pickled cucumbers are mixed before the cans are sealed to keep the contents contamination free. <span className="border-b-2 border-primary w-24 inline-block"></span> the cans are labeled, packed in boxes, and dispatched to the shops.
+                       </CardContent>
+                     </Card>
+                  </div>
                </div>
              </CardContent>
           </Card>
