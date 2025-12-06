@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import heroImage from "@assets/generated_images/bright_modern_university_library_study_area_with_natural_light.png";
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle2, Star, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, CheckCircle2, Star, TrendingUp, Users, Mic, BookOpen, Headphones, PenTool } from "lucide-react";
 import { MOCK_REVIEWS, MOCK_RESOURCES } from "@/lib/mock-data";
 
 export default function Home() {
@@ -52,8 +52,60 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* Features Grid */}
+
+      {/* Practice Modules Section */}
       <section className="container mx-auto px-4 -mt-24 relative z-20">
+        <h2 className="text-3xl font-serif font-bold text-white mb-6 drop-shadow-md">Practice Modules</h2>
+        <div className="grid md:grid-cols-4 gap-6">
+          {[
+            {
+              title: "Speaking",
+              desc: "Read Aloud, Repeat Sentence, Describe Image, and more.",
+              icon: Mic,
+              color: "bg-blue-50 text-blue-700",
+              href: "/practice/speaking"
+            },
+            {
+              title: "Reading",
+              desc: "Fill in the blanks, Multiple Choice, Reorder Paragraphs.",
+              icon: BookOpen,
+              color: "bg-amber-50 text-amber-700",
+              href: "/practice/reading"
+            },
+            {
+              title: "Listening",
+              desc: "Summarize Spoken Text, Write from Dictation.",
+              icon: Headphones,
+              color: "bg-emerald-50 text-emerald-700",
+              href: "/practice/listening"
+            },
+            {
+              title: "Writing",
+              desc: "Summarize Written Text & Essay Writing (10 Practice Qs).",
+              icon: PenTool,
+              color: "bg-purple-50 text-purple-700",
+              href: "/practice/writing"
+            }
+          ].map((module, i) => (
+            <Link key={i} href={module.href}>
+              <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full">
+                <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                  <div className={`w-12 h-12 rounded-xl ${module.color} flex items-center justify-center`}>
+                    <module.icon className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif font-bold text-xl mb-2">{module.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{module.desc}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-6">
           {[
             {
@@ -75,7 +127,7 @@ export default function Home() {
               color: "bg-emerald-50 text-emerald-700"
             }
           ].map((feature, i) => (
-            <Card key={i} className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card key={i} className="border-none shadow-md hover:shadow-lg transition-shadow duration-300 bg-muted/30">
               <CardContent className="p-8 space-y-4">
                 <div className={`w-12 h-12 rounded-xl ${feature.color} flex items-center justify-center`}>
                   <feature.icon className="h-6 w-6" />
