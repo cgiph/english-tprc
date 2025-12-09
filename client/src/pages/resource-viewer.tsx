@@ -153,7 +153,7 @@ const CHARTS: Record<string, ChartData[]> = {
       id: "rts-3",
       title: "Noisy Neighbor",
       audio: audioRTS3,
-      secondAudio: audioRTS3, // Placeholder until specific audio is provided
+      secondAudio: audioRTSSample1, // Using sample 1 as a placeholder for the model answer
       answer: "You live in an apartment, and your upstairs neighbor plays loud music at night making it hard to sleep. You decide to knock on their door to have a polite conversation to resolve the issue. What would you say to them?"
     }
   ],
