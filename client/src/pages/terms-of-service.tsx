@@ -71,10 +71,7 @@ export default function TermsOfService() {
               The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied, 
               including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.
             </p>
-            <p>
-              PTE PrepUK does not guarantee that the results obtained from the use of the service will be effective, accurate or reliable or that the quality 
-              of any products, services, or information purchased or obtained by you from the service will meet your expectations or be free from mistakes, errors or defects.
-            </p>
+            <p>PTE PrepPH does not guarantee that the results obtained from the use of the service will be effective, accurate or reliable or that the quality of any products, services, or information purchased or obtained by you from the service will meet your expectations or be free from mistakes, errors or defects.</p>
             <p>
               We do not guarantee specific exam results or scores based on the use of our platform.
             </p>
