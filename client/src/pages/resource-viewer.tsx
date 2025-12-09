@@ -150,9 +150,9 @@ const CHARTS: Record<string, ChartData[]> = {
     },
     {
       id: "rts-3",
-      title: "Defective Product",
+      title: "Noisy Neighbor",
       audio: audioRTS3,
-      answer: "You bought a new camera yesterday, but when you tried to use it, the lens was stuck. You return to the store to speak with the manager. What would you say?"
+      answer: "You live in an apartment, and your upstairs neighbor plays loud music at night making it hard to sleep. You decide to knock on their door to have a polite conversation to resolve the issue. What would you say to them?"
     }
   ],
   "Summarize Group Discussion": [
