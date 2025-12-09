@@ -40,7 +40,9 @@ type ChartData = {
   answer: string;
 };
 
-const CHARTS: Record<string, ChartData[]> = {
+const PTE_SECTIONS = ["Read Aloud", "Retell Lecture", "Describe Image", "Respond to a Situation", "Summarize Group Discussion"];
+
+const DESCRIBE_IMAGE_DATA: Record<string, ChartData[]> = {
   "Bar Charts": [
     {
       id: "bar-1",
@@ -122,7 +124,10 @@ const CHARTS: Record<string, ChartData[]> = {
       image: imgIsland,
       answer: "The maps depict the development of an island before and after construction. Originally, the island was uninhabited with only trees and beaches. The developed map shows a new resort complex, a pier, and connecting roads. This development has transformed the natural landscape into a tourist destination."
     }
-  ],
+  ]
+};
+
+const CHARTS: Record<string, ChartData[]> = {
   "Retell Lecture": [
     {
       id: "rl-1",
@@ -3510,7 +3515,7 @@ export default function ResourceViewer() {
       <main className="container mx-auto px-4 py-8 flex-1">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
           <TabsList className="w-full justify-start md:justify-center bg-muted/50 p-1 h-auto flex-wrap">
-            {Object.keys(CHARTS).map((category) => (
+            {PTE_SECTIONS.map((category) => (
               <TabsTrigger 
                 key={category} 
                 value={category}
@@ -3521,85 +3526,159 @@ export default function ResourceViewer() {
             ))}
           </TabsList>
 
-          {Object.entries(CHARTS).map(([category, items]) => (
+          {PTE_SECTIONS.map((category) => (
             <TabsContent key={category} value={category} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               
-              <div className="grid md:grid-cols-2 gap-8">
-                {items.map((item) => (
-                  <Card key={item.id} className="overflow-hidden border-2 hover:border-primary/20 transition-colors">
-                    <div className="aspect-video w-full bg-muted border-b relative group flex items-center justify-center bg-gray-50">
-                      {item.image ? (
-                        <img 
-                          src={item.image} 
-                          alt={item.title} 
-                          className="w-full h-full object-contain bg-white p-4 transition-transform duration-500 group-hover:scale-105" 
-                        />
-                      ) : item.audio ? (
-                        <div className="w-full h-full p-8 flex flex-col items-center justify-center gap-6 bg-secondary/5">
-                           <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center shadow-inner">
-                             <PlayCircle className="w-10 h-10 text-primary animate-pulse" />
-                           </div>
-                           <audio controls className="w-full max-w-md shadow-sm rounded-full" src={item.audio}>
-                             Your browser does not support the audio element.
-                           </audio>
-                           <p className="text-sm text-muted-foreground font-medium">Listen to the sample answer</p>
-                        </div>
-                      ) : (
-                         <div className="text-muted-foreground">No media available</div>
-                      )}
-                    </div>
-                    <CardContent className="p-6 space-y-4">
-                      <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
-                      
-                      {(category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) ? (
-                        <div className="space-y-6">
-                           <Teleprompter text={item.answer} />
-                           <VoiceRecorder />
-                        </div>
-                      ) : (
-                        <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground">
-                          <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
-                            {category === "Read Aloud" ? "Passage to Read" : "Model Answer"}
-                          </span>
-                          {item.answer}
-                        </div>
-                      )}
-                      
-                      {category === "Read Aloud" && (item.id === "ra-1" || item.id === "ra-2") && (
-                        <div className="mt-4 pt-4 border-t">
-                          <h4 className="font-bold text-md mb-3 flex items-center gap-2">
-                            <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded">Sample Analysis</span>
-                          </h4>
-                          <div className="grid grid-cols-2 gap-4 text-sm mb-3">
-                            <div className="flex justify-between items-center bg-green-50 p-2 rounded border border-green-100">
-                              <span className="text-muted-foreground">Oral Fluency</span>
-                              <span className="font-bold text-green-700">{item.id === "ra-2" ? "3/5" : "5/5"}</span>
-                            </div>
-                            <div className="flex justify-between items-center bg-blue-50 p-2 rounded border border-blue-100">
-                              <span className="text-muted-foreground">Pronunciation</span>
-                              <span className="font-bold text-blue-700">{item.id === "ra-2" ? "3/5" : "4/5"}</span>
-                            </div>
-                            <div className="flex justify-between items-center bg-amber-50 p-2 rounded border border-amber-100">
-                              <span className="text-muted-foreground">Content</span>
-                              <span className="font-bold text-amber-700">{item.id === "ra-2" ? "4/5" : "5/5"}</span>
-                            </div>
-                            <div className="flex justify-between items-center bg-primary/10 p-2 rounded border border-primary/20">
-                              <span className="font-bold">Total</span>
-                              <span className="font-bold text-primary">{item.id === "ra-2" ? "10/15" : "14/15"}</span>
-                            </div>
+              {category === "Describe Image" ? (
+                <Tabs defaultValue="Bar Charts" className="w-full">
+                   <TabsList className="w-full justify-start overflow-x-auto bg-transparent border-b rounded-none h-auto p-0 mb-6">
+                     {Object.keys(DESCRIBE_IMAGE_DATA).map((type) => (
+                       <TabsTrigger 
+                         key={type} 
+                         value={type}
+                         className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
+                       >
+                         {type}
+                       </TabsTrigger>
+                     ))}
+                   </TabsList>
+                   
+                   {Object.entries(DESCRIBE_IMAGE_DATA).map(([type, items]) => (
+                      <TabsContent key={type} value={type} className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                         <div className="grid md:grid-cols-2 gap-8">
+                            {items.map((item) => (
+                              <Card key={item.id} className="overflow-hidden border-2 hover:border-primary/20 transition-colors">
+                                <div className="aspect-video w-full bg-muted border-b relative group flex items-center justify-center bg-gray-50">
+                                  {item.image ? (
+                                    <img 
+                                      src={item.image} 
+                                      alt={item.title} 
+                                      className="w-full h-full object-contain bg-white p-4 transition-transform duration-500 group-hover:scale-105" 
+                                    />
+                                  ) : (
+                                     <div className="text-muted-foreground">No media available</div>
+                                  )}
+                                </div>
+                                <CardContent className="p-6 space-y-4">
+                                  <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
+                                  <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground">
+                                    <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
+                                      Model Answer
+                                    </span>
+                                    {item.answer}
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            ))}
+                         </div>
+                      </TabsContent>
+                   ))}
+                </Tabs>
+              ) : (
+                <div className="grid md:grid-cols-2 gap-8">
+                  {CHARTS[category]?.map((item) => (
+                    <Card key={item.id} className="overflow-hidden border-2 hover:border-primary/20 transition-colors">
+                      <div className="aspect-video w-full bg-muted border-b relative group flex items-center justify-center bg-gray-50">
+                        {item.image ? (
+                          <img 
+                            src={item.image} 
+                            alt={item.title} 
+                            className="w-full h-full object-contain bg-white p-4 transition-transform duration-500 group-hover:scale-105" 
+                          />
+                        ) : item.audio ? (
+                          <div className="w-full h-full p-8 flex flex-col items-center justify-center gap-6 bg-secondary/5 overflow-y-auto">
+                             {item.secondAudio ? (
+                                <div className="w-full space-y-4">
+                                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                                    <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wide">Sample 1 (High Score)</p>
+                                    <audio controls className="w-full h-8" src={item.audio}>
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </div>
+                                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                                    <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wide">Sample 2 (Average Score)</p>
+                                    <audio controls className="w-full h-8" src={item.secondAudio}>
+                                      Your browser does not support the audio element.
+                                    </audio>
+                                  </div>
+                                </div>
+                             ) : (
+                               <>
+                                 <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center shadow-inner">
+                                   <PlayCircle className="w-10 h-10 text-primary animate-pulse" />
+                                 </div>
+                                 <audio controls className="w-full max-w-md shadow-sm rounded-full" src={item.audio}>
+                                   Your browser does not support the audio element.
+                                 </audio>
+                               </>
+                             )}
+                             <p className="text-sm text-muted-foreground font-medium text-center">
+                               {item.secondAudio ? "Compare the two sample answers" : "Listen to the sample answer"}
+                             </p>
                           </div>
-                          <p className="text-xs text-muted-foreground italic">
-                            {item.id === "ra-2" 
-                              ? "\"Good effort, but notice the hesitation before 'energy-efficient'. Try to maintain a steady speed. Some word endings were swallowed.\""
-                              : "\"Excellent pacing and natural rhythm. Minor stress error on 'unprecedented', but overall highly fluent.\""
-                            }
-                          </p>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+                        ) : (
+                           <div className="text-muted-foreground">No media available</div>
+                        )}
+                      </div>
+                      <CardContent className="p-6 space-y-4">
+                        <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
+                        
+                        {(category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) ? (
+                          <div className="space-y-6">
+                             <Teleprompter text={item.answer} />
+                             <VoiceRecorder />
+                          </div>
+                        ) : (
+                          <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground">
+                            <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
+                              {category === "Read Aloud" ? "Passage to Read" : "Model Answer"}
+                            </span>
+                            {item.answer}
+                          </div>
+                        )}
+                        
+                        {category === "Read Aloud" && (item.id === "ra-1" || item.id === "ra-2") && (
+                          <div className="mt-4 pt-4 border-t">
+                            <h4 className="font-bold text-md mb-3 flex items-center gap-2">
+                              <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded">Sample Analysis</span>
+                            </h4>
+                            <div className="grid grid-cols-2 gap-4 text-sm mb-3">
+                              <div className="flex justify-between items-center bg-green-50 p-2 rounded border border-green-100">
+                                <span className="text-muted-foreground">Oral Fluency</span>
+                                <span className="font-bold text-green-700">{item.id === "ra-2" ? "3/5" : "5/5"}</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-blue-50 p-2 rounded border border-blue-100">
+                                <span className="text-muted-foreground">Pronunciation</span>
+                                <span className="font-bold text-blue-700">{item.id === "ra-2" ? "3/5" : "4/5"}</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-amber-50 p-2 rounded border border-amber-100">
+                                <span className="text-muted-foreground">Content</span>
+                                <span className="font-bold text-amber-700">{item.id === "ra-2" ? "4/5" : "5/5"}</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-primary/10 p-2 rounded border border-primary/20">
+                                <span className="font-bold">Total</span>
+                                <span className="font-bold text-primary">{item.id === "ra-2" ? "10/15" : "14/15"}</span>
+                              </div>
+                            </div>
+                            <p className="text-xs text-muted-foreground italic">
+                              {item.id === "ra-2" 
+                                ? "\"Good effort, but notice the hesitation before 'energy-efficient'. Try to maintain a steady speed. Some word endings were swallowed.\""
+                                : "\"Excellent pacing and natural rhythm. Minor stress error on 'unprecedented', but overall highly fluent.\""
+                              }
+                            </p>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
+                  
+                  {(!CHARTS[category] || CHARTS[category].length === 0) && (
+                    <div className="col-span-2 text-center py-12 text-muted-foreground bg-muted/20 rounded-xl border-2 border-dashed">
+                      <p>Content for {category} is coming soon.</p>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {category === "Read Aloud" && (
                 <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 mb-8">
