@@ -3393,6 +3393,35 @@ export default function ResourceViewer() {
                         </span>
                         {item.answer}
                       </div>
+                      
+                      {category === "Read Aloud" && item.id === "ra-1" && (
+                        <div className="mt-4 pt-4 border-t">
+                          <h4 className="font-bold text-md mb-3 flex items-center gap-2">
+                            <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded">Sample Analysis</span>
+                          </h4>
+                          <div className="grid grid-cols-2 gap-4 text-sm mb-3">
+                            <div className="flex justify-between items-center bg-green-50 p-2 rounded border border-green-100">
+                              <span className="text-muted-foreground">Oral Fluency</span>
+                              <span className="font-bold text-green-700">5/5</span>
+                            </div>
+                            <div className="flex justify-between items-center bg-blue-50 p-2 rounded border border-blue-100">
+                              <span className="text-muted-foreground">Pronunciation</span>
+                              <span className="font-bold text-blue-700">4/5</span>
+                            </div>
+                            <div className="flex justify-between items-center bg-amber-50 p-2 rounded border border-amber-100">
+                              <span className="text-muted-foreground">Content</span>
+                              <span className="font-bold text-amber-700">5/5</span>
+                            </div>
+                            <div className="flex justify-between items-center bg-primary/10 p-2 rounded border border-primary/20">
+                              <span className="font-bold">Total</span>
+                              <span className="font-bold text-primary">14/15</span>
+                            </div>
+                          </div>
+                          <p className="text-xs text-muted-foreground italic">
+                            "Excellent pacing and natural rhythm. Minor stress error on 'unprecedented', but overall highly fluent."
+                          </p>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 ))}
