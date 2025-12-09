@@ -386,7 +386,7 @@ export default function ResourceViewer() {
                          </div>
                          <div className="bg-green-50 p-3 rounded text-sm border border-green-100">
                            <span className="font-bold block text-xs text-green-700 uppercase mb-1">Summary</span>
-                           Anna likes to eat apples.
+                           Anna likes to eat apples every day because it's her favorite fruit.
                          </div>
                        </CardContent>
                      </Card>
