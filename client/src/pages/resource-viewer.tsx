@@ -134,6 +134,12 @@ export default function ResourceViewer() {
   const [essayBlanksResults, setEssayBlanksResults] = useState<Record<string, boolean>>({});
   const [essayBlanksScore, setEssayBlanksScore] = useState<number | null>(null);
 
+  // State for Space Exploration - Extended Reading & Writing
+  const [spaceBlanksAnswers, setSpaceBlanksAnswers] = useState<Record<string, string>>({});
+  const [spaceBlanksResults, setSpaceBlanksResults] = useState<Record<string, boolean>>({});
+  const [spaceBlanksScore, setSpaceBlanksScore] = useState<number | null>(null);
+  const [showSpaceKey, setShowSpaceKey] = useState(false);
+
   // State for Summarize Written Text - Fill in Blanks Practice 2
   const [swt2BlanksAnswers, setSwt2BlanksAnswers] = useState<Record<string, string>>({});
   const [swt2BlanksResults, setSwt2BlanksResults] = useState<Record<string, boolean>>({});
@@ -237,6 +243,51 @@ export default function ResourceViewer() {
 
     setEssayBlanksResults(newResults);
     setEssayBlanksScore(correctCount);
+  };
+
+  const checkSpaceBlanks = () => {
+    const KEY: Record<string, string> = {
+      "1": "curiosity",
+      "2": "universe",
+      "3": "controversial",
+      "4": "technologies",
+      "5": "resources",
+      "6": "habitable",
+      "7": "budget",
+      "8": "prioritize",
+      "9": "benefits",
+      "10": "investment"
+    };
+
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+
+    Object.keys(KEY).forEach(id => {
+      const userAns = (spaceBlanksAnswers[id] || "").toLowerCase().trim();
+      const correctKey = KEY[id].toLowerCase();
+      const isCorrect = userAns === correctKey;
+      newResults[id] = isCorrect;
+      if (isCorrect) correctCount++;
+    });
+
+    setSpaceBlanksResults(newResults);
+    setSpaceBlanksScore(correctCount);
+  };
+
+  // Reset Functions
+  const resetSwtBlanks = () => { setSwtBlanksAnswers({}); setSwtBlanksResults({}); setSwtBlanksScore(null); };
+  const resetSwt2Blanks = () => { setSwt2BlanksAnswers({}); setSwt2BlanksResults({}); setSwt2BlanksScore(null); };
+  const resetSwt3Blanks = () => { setSwt3BlanksAnswers({}); setSwt3BlanksResults({}); setSwt3BlanksScore(null); };
+  const resetSwt4Blanks = () => { setSwt4BlanksAnswers({}); setSwt4BlanksResults({}); setSwt4BlanksScore(null); };
+  const resetSwt5Blanks = () => { setSwt5BlanksAnswers({}); setSwt5BlanksResults({}); setSwt5BlanksScore(null); };
+  const resetSignalWords = () => { setSignalAnswers({}); setSignalResults({}); setSignalScore(null); };
+  const resetWhQuestions = () => { setWhAnswers({}); setWhResults({}); setWhScore(null); };
+  const resetEssayBlanks = () => { setEssayBlanksAnswers({}); setEssayBlanksResults({}); setEssayBlanksScore(null); };
+  const resetSpaceBlanks = () => { 
+    setSpaceBlanksAnswers({}); 
+    setSpaceBlanksResults({}); 
+    setSpaceBlanksScore(null); 
+    setShowSpaceKey(false);
   };
 
   // State for SWT Practice 3
@@ -785,7 +836,10 @@ export default function ResourceViewer() {
                           <div className="text-lg font-bold">
                              {swtBlanksScore !== null && <span>Score: {swtBlanksScore} / 6</span>}
                           </div>
-                          <Button onClick={checkSwtBlanks} className="w-32">Check Answers</Button>
+                          <div className="flex gap-2">
+                             <Button variant="outline" onClick={resetSwtBlanks}>Reset</Button>
+                             <Button onClick={checkSwtBlanks} className="w-32">Check Answers</Button>
+                          </div>
                        </div>
                      </CardContent>
                    </Card>
@@ -863,7 +917,10 @@ export default function ResourceViewer() {
                           <div className="text-lg font-bold">
                              {swt3BlanksScore !== null && <span>Score: {swt3BlanksScore} / 6</span>}
                           </div>
-                          <Button onClick={checkSwt3Blanks} className="w-32">Check Answers</Button>
+                          <div className="flex gap-2">
+                             <Button variant="outline" onClick={resetSwt3Blanks}>Reset</Button>
+                             <Button onClick={checkSwt3Blanks} className="w-32">Check Answers</Button>
+                          </div>
                        </div>
                      </CardContent>
                    </Card>
@@ -932,7 +989,10 @@ export default function ResourceViewer() {
                           <div className="text-lg font-bold">
                              {swt4BlanksScore !== null && <span>Score: {swt4BlanksScore} / 5</span>}
                           </div>
-                          <Button onClick={checkSwt4Blanks} className="w-32">Check Answers</Button>
+                          <div className="flex gap-2">
+                             <Button variant="outline" onClick={resetSwt4Blanks}>Reset</Button>
+                             <Button onClick={checkSwt4Blanks} className="w-32">Check Answers</Button>
+                          </div>
                        </div>
                      </CardContent>
                    </Card>
@@ -992,7 +1052,10 @@ export default function ResourceViewer() {
                           <div className="text-lg font-bold">
                              {swt5BlanksScore !== null && <span>Score: {swt5BlanksScore} / 4</span>}
                           </div>
-                          <Button onClick={checkSwt5Blanks} className="w-32">Check Answers</Button>
+                          <div className="flex gap-2">
+                             <Button variant="outline" onClick={resetSwt5Blanks}>Reset</Button>
+                             <Button onClick={checkSwt5Blanks} className="w-32">Check Answers</Button>
+                          </div>
                        </div>
                      </CardContent>
                    </Card>
@@ -1426,7 +1489,10 @@ export default function ResourceViewer() {
                       <div className="text-lg font-bold">
                          {essayBlanksScore !== null && <span>Score: {essayBlanksScore} / 10</span>}
                       </div>
-                      <Button onClick={checkEssayBlanks} className="w-32">Check Answers</Button>
+                      <div className="flex gap-2">
+                         <Button variant="outline" onClick={resetEssayBlanks}>Reset</Button>
+                         <Button onClick={checkEssayBlanks} className="w-32">Check Answers</Button>
+                      </div>
                    </div>
 
                    <div className="bg-slate-50 p-4 rounded border text-sm text-muted-foreground mt-4">
@@ -1568,7 +1634,10 @@ export default function ResourceViewer() {
                       <div className="text-lg font-bold">
                          {essayBlanksScore !== null && <span>Score: {essayBlanksScore} / 10</span>}
                       </div>
-                      <Button onClick={checkEssayBlanks} className="w-32">Check Answers</Button>
+                      <div className="flex gap-2">
+                         <Button variant="outline" onClick={resetEssayBlanks}>Reset</Button>
+                         <Button onClick={checkEssayBlanks} className="w-32">Check Answers</Button>
+                      </div>
                    </div>
 
                    <div className="bg-slate-50 p-4 rounded border text-sm text-muted-foreground mt-4">
@@ -1605,67 +1674,140 @@ export default function ResourceViewer() {
                     <p>
                       Space exploration has always been a subject of human 
                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
-                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="1" />
+                        <Input 
+                          value={spaceBlanksAnswers["1"] || ""} 
+                          onChange={(e) => setSpaceBlanksAnswers({...spaceBlanksAnswers, "1": e.target.value})}
+                          className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${spaceBlanksResults["1"] === true ? "text-green-600" : spaceBlanksResults["1"] === false ? "text-red-600" : "text-blue-600"}`}
+                          placeholder="1" 
+                        />
                       </span>. 
                       Since the first moon landing, countries have spent billions of dollars on missions to explore the 
                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
-                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="2" />
+                        <Input 
+                          value={spaceBlanksAnswers["2"] || ""} 
+                          onChange={(e) => setSpaceBlanksAnswers({...spaceBlanksAnswers, "2": e.target.value})}
+                          className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${spaceBlanksResults["2"] === true ? "text-green-600" : spaceBlanksResults["2"] === false ? "text-red-600" : "text-blue-600"}`}
+                          placeholder="2" 
+                        />
                       </span>. 
                       However, this topic remains 
                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
-                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="3" />
+                        <Input 
+                          value={spaceBlanksAnswers["3"] || ""} 
+                          onChange={(e) => setSpaceBlanksAnswers({...spaceBlanksAnswers, "3": e.target.value})}
+                          className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${spaceBlanksResults["3"] === true ? "text-green-600" : spaceBlanksResults["3"] === false ? "text-red-600" : "text-blue-600"}`}
+                          placeholder="3" 
+                        />
                       </span>.
                     </p>
                     <p className="mt-4">
                       Supporters argue that space research leads to new 
                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
-                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="4" />
+                        <Input 
+                          value={spaceBlanksAnswers["4"] || ""} 
+                          onChange={(e) => setSpaceBlanksAnswers({...spaceBlanksAnswers, "4": e.target.value})}
+                          className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${spaceBlanksResults["4"] === true ? "text-green-600" : spaceBlanksResults["4"] === false ? "text-red-600" : "text-blue-600"}`}
+                          placeholder="4" 
+                        />
                       </span> 
                       that improve life on Earth, such as satellite communication and medical advances. Furthermore, as Earth's 
                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
-                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="5" />
+                        <Input 
+                          value={spaceBlanksAnswers["5"] || ""} 
+                          onChange={(e) => setSpaceBlanksAnswers({...spaceBlanksAnswers, "5": e.target.value})}
+                          className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${spaceBlanksResults["5"] === true ? "text-green-600" : spaceBlanksResults["5"] === false ? "text-red-600" : "text-blue-600"}`}
+                          placeholder="5" 
+                        />
                       </span> 
                       become scarce, finding other 
                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
-                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="6" />
+                        <Input 
+                          value={spaceBlanksAnswers["6"] || ""} 
+                          onChange={(e) => setSpaceBlanksAnswers({...spaceBlanksAnswers, "6": e.target.value})}
+                          className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${spaceBlanksResults["6"] === true ? "text-green-600" : spaceBlanksResults["6"] === false ? "text-red-600" : "text-blue-600"}`}
+                          placeholder="6" 
+                        />
                       </span> 
                       planets might be necessary for human survival.
                     </p>
                     <p className="mt-4">
                       On the other hand, critics believe that the huge 
                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
-                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="7" />
+                        <Input 
+                          value={spaceBlanksAnswers["7"] || ""} 
+                          onChange={(e) => setSpaceBlanksAnswers({...spaceBlanksAnswers, "7": e.target.value})}
+                          className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${spaceBlanksResults["7"] === true ? "text-green-600" : spaceBlanksResults["7"] === false ? "text-red-600" : "text-blue-600"}`}
+                          placeholder="7" 
+                        />
                       </span> 
                       required for space programs could be better spent on solving problems here, like poverty and climate change. They argue that governments should 
                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
-                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="8" />
+                        <Input 
+                          value={spaceBlanksAnswers["8"] || ""} 
+                          onChange={(e) => setSpaceBlanksAnswers({...spaceBlanksAnswers, "8": e.target.value})}
+                          className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${spaceBlanksResults["8"] === true ? "text-green-600" : spaceBlanksResults["8"] === false ? "text-red-600" : "text-blue-600"}`}
+                          placeholder="8" 
+                        />
                       </span> 
                       local issues before looking to the stars. Despite the cost, the 
                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
-                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="9" />
+                        <Input 
+                          value={spaceBlanksAnswers["9"] || ""} 
+                          onChange={(e) => setSpaceBlanksAnswers({...spaceBlanksAnswers, "9": e.target.value})}
+                          className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${spaceBlanksResults["9"] === true ? "text-green-600" : spaceBlanksResults["9"] === false ? "text-red-600" : "text-blue-600"}`}
+                          placeholder="9" 
+                        />
                       </span> 
                       of scientific discovery often justify the 
                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
-                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="10" />
+                        <Input 
+                          value={spaceBlanksAnswers["10"] || ""} 
+                          onChange={(e) => setSpaceBlanksAnswers({...spaceBlanksAnswers, "10": e.target.value})}
+                          className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${spaceBlanksResults["10"] === true ? "text-green-600" : spaceBlanksResults["10"] === false ? "text-red-600" : "text-blue-600"}`}
+                          placeholder="10" 
+                        />
                       </span>.
                     </p>
                   </div>
 
-                  <div className="bg-slate-50 p-4 rounded border text-sm text-muted-foreground">
-                    <p className="font-bold mb-2">Answer Key:</p>
-                    <ol className="list-decimal pl-5 grid grid-cols-2 gap-2">
-                        <li>curiosity</li>
-                        <li>universe</li>
-                        <li>controversial</li>
-                        <li>technologies</li>
-                        <li>resources</li>
-                        <li>habitable</li>
-                        <li>budget</li>
-                        <li>prioritize</li>
-                        <li>benefits</li>
-                        <li>investment</li>
-                    </ol>
+                  <div className="flex items-center justify-between pt-4">
+                     <div className="flex items-center gap-4">
+                       <div className="text-lg font-bold">
+                          {spaceBlanksScore !== null && <span>Score: {spaceBlanksScore} / 10</span>}
+                       </div>
+                       <Button 
+                         variant="outline"
+                         onClick={() => setShowSpaceKey(!showSpaceKey)}
+                         disabled={Object.values(spaceBlanksAnswers).filter(Boolean).length < 10}
+                         className="gap-2"
+                       >
+                         {showSpaceKey ? "Hide Answer Key" : "Show Answer Key"}
+                         {Object.values(spaceBlanksAnswers).filter(Boolean).length < 10 && <Lock className="h-3 w-3" />}
+                       </Button>
+                     </div>
+                     <div className="flex gap-2">
+                       <Button variant="outline" onClick={resetSpaceBlanks}>Reset</Button>
+                       <Button onClick={checkSpaceBlanks} className="w-32">Check Answers</Button>
+                     </div>
                   </div>
+
+                  {showSpaceKey && (
+                    <div className="bg-slate-50 p-4 rounded border text-sm text-muted-foreground animate-in fade-in slide-in-from-top-2">
+                      <p className="font-bold mb-2">Answer Key:</p>
+                      <ol className="list-decimal pl-5 grid grid-cols-2 gap-2">
+                          <li>curiosity</li>
+                          <li>universe</li>
+                          <li>controversial</li>
+                          <li>technologies</li>
+                          <li>resources</li>
+                          <li>habitable</li>
+                          <li>budget</li>
+                          <li>prioritize</li>
+                          <li>benefits</li>
+                          <li>investment</li>
+                      </ol>
+                    </div>
+                  )}
                </div>
              </CardContent>
           </Card>
@@ -1834,7 +1976,10 @@ export default function ResourceViewer() {
                         <div className="text-lg font-bold">
                            {signalScore !== null && <span>Score: {signalScore} / 11</span>}
                         </div>
-                        <Button onClick={checkSignalWords} className="w-32">Check Answers</Button>
+                        <div className="flex gap-2">
+                           <Button variant="outline" onClick={resetSignalWords}>Reset</Button>
+                           <Button onClick={checkSignalWords} className="w-32">Check Answers</Button>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -2312,7 +2457,10 @@ export default function ResourceViewer() {
                       <div className="text-lg font-bold">
                          {whScore !== null && <span>Score: {whScore} / 30</span>}
                       </div>
-                      <Button onClick={checkWhQuestions} className="w-32">Check Answers</Button>
+                      <div className="flex gap-2">
+                         <Button variant="outline" onClick={resetWhQuestions}>Reset</Button>
+                         <Button onClick={checkWhQuestions} className="w-32">Check Answers</Button>
+                      </div>
                    </div>
                  </div>
                </div>
