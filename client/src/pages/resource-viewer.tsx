@@ -158,13 +158,13 @@ const CHARTS: Record<string, ChartData[]> = {
       id: "sgd-1",
       title: "AI in Education Discussion",
       audio: audioPodcastAI,
-      answer: "The group discussed the integration of AI in education. One speaker highlighted the benefits of personalized learning, while another raised concerns about data privacy. They concluded that while AI is a powerful tool, it requires careful regulation to protect student information."
+      answer: "The group discussed using AI in education. One speaker thinks AI is good for learning. However, another speaker is worried about privacy. They agreed that we need rules to use AI safely."
     },
     {
       id: "sgd-2",
       title: "Future of Remote Work",
       audio: audioSGDDiscussion,
-      answer: "The discussion focused on the long-term viability of remote work. Participants agreed that a hybrid model offers the best balance of flexibility and collaboration. However, they also noted the challenge of maintaining company culture without physical presence."
+      answer: "The speakers discussed remote work. They agreed that a hybrid model is best because it is flexible. However, they also mentioned that it can be hard to build a team culture without meeting in person."
     }
   ],
   "Retell Lecture": [
