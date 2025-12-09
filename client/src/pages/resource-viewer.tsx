@@ -32,6 +32,9 @@ import audioReadAloud1 from "@assets/SAMPLE_READ_ALOUD_1_1765269050158.m4a";
 import audioReadAloud2 from "@assets/Recording_(4)_1765270243088.m4a";
 import audioPodcastAI from "@assets/Podcast_AI_1_1765272596241.mp3";
 import audioSGDDiscussion from "@assets/SGD_AI_Discussion_1765272776273.wav";
+import audioRTS1 from "@assets/RTS_1_1765272963032.mp3";
+import audioRTS2 from "@assets/RTS_2_1765272963030.mp3";
+import audioRTS3 from "@assets/RTS_3_1765272963031.mp3";
 
 type ChartData = {
   id: string;
@@ -130,6 +133,26 @@ const DESCRIBE_IMAGE_DATA: Record<string, ChartData[]> = {
 };
 
 const CHARTS: Record<string, ChartData[]> = {
+  "Respond to a Situation": [
+    {
+      id: "rts-1",
+      title: "Library Book Issue",
+      audio: audioRTS1,
+      answer: "You have borrowed a book from the library, but you have accidentally lost it. You go to the library to explain the situation to the librarian and ask about the replacement policy. What would you say?"
+    },
+    {
+      id: "rts-2",
+      title: "Missed Appointment",
+      audio: audioRTS2,
+      answer: "You have an appointment with your professor to discuss your assignment, but you are feeling very unwell and cannot go. You call your professor to apologize and ask to reschedule. What would you say?"
+    },
+    {
+      id: "rts-3",
+      title: "Defective Product",
+      audio: audioRTS3,
+      answer: "You bought a new camera yesterday, but when you tried to use it, the lens was stuck. You return to the store to speak with the manager. What would you say?"
+    }
+  ],
   "Summarize Group Discussion": [
     {
       id: "sgd-1",
@@ -3758,6 +3781,88 @@ export default function ResourceViewer() {
                           </ul>
                         </div>
 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {category === "Respond to a Situation" && (
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-8 mt-4">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div>
+                      <h3 className="text-xl font-bold text-amber-800 mb-4 flex items-center gap-2">
+                        <Check className="h-5 w-5" /> Strategy & Tips
+                      </h3>
+                      <div className="space-y-4 text-sm">
+                        <div className="bg-white p-4 rounded-lg border border-amber-100 shadow-sm">
+                          <p className="font-bold text-amber-800 mb-2">Timing Breakdown</p>
+                          <div className="flex gap-4 mb-2">
+                             <div className="flex-1 bg-amber-100 p-2 rounded text-center">
+                               <span className="block text-xl font-bold text-amber-900">20s</span>
+                               <span className="text-xs text-amber-700">Preparation</span>
+                             </div>
+                             <div className="flex-1 bg-green-100 p-2 rounded text-center">
+                               <span className="block text-xl font-bold text-green-900">40s</span>
+                               <span className="text-xs text-green-700">Recording</span>
+                             </div>
+                          </div>
+                          <p className="text-muted-foreground text-xs italic">Use the 20 seconds to quickly plan: 1. The Problem, 2. The Solution, 3. The Result/Closing.</p>
+                        </div>
+                        
+                        <div className="bg-white p-4 rounded-lg border border-amber-100 shadow-sm">
+                           <p className="font-bold text-amber-800 mb-2">What if the situation is difficult?</p>
+                           <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                             <li><strong>Don't panic:</strong> You are scored on <em>English ability</em>, not the creativity of your solution.</li>
+                             <li><strong>State the obvious:</strong> "I am sorry, I have a problem..."</li>
+                             <li><strong>Explain why:</strong> "...because I forgot/lost/missed..."</li>
+                             <li><strong>Offer a generic solution:</strong> "Can I come back later?" or "What do you suggest I do?"</li>
+                           </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-amber-800 mb-4 flex items-center gap-2">
+                        <PlayCircle className="h-5 w-5" /> Evaluation Criteria
+                      </h3>
+                      <div className="bg-white rounded-lg border border-amber-100 p-4 text-sm space-y-4 shadow-sm">
+                        <ul className="space-y-3">
+                            <li className="flex gap-3">
+                              <div className="bg-amber-100 p-1 rounded h-fit mt-0.5 text-amber-800">
+                                 <span className="font-bold text-sm">APP</span>
+                              </div>
+                              <div>
+                                <span className="font-bold block text-sm text-amber-900">Appropriateness</span>
+                                <span className="text-sm text-muted-foreground">Did you actually answer the prompt? Is the tone correct (polite vs casual)?</span>
+                              </div>
+                            </li>
+                            <li className="flex gap-3">
+                              <div className="bg-amber-100 p-1 rounded h-fit mt-0.5 text-amber-800">
+                                 <span className="font-bold text-sm">FL</span>
+                              </div>
+                              <div>
+                                <span className="font-bold block text-sm text-amber-900">Oral Fluency</span>
+                                <span className="text-sm text-muted-foreground">Speak without long pauses. Use fillers like "Well," "Actually," or "I see" if you need time to think.</span>
+                              </div>
+                            </li>
+                            <li className="flex gap-3">
+                              <div className="bg-amber-100 p-1 rounded h-fit mt-0.5 text-amber-800">
+                                 <span className="font-bold text-sm">GV</span>
+                              </div>
+                              <div>
+                                <span className="font-bold block text-sm text-amber-900">Grammar & Vocabulary</span>
+                                <span className="text-sm text-muted-foreground">Use correct tense (e.g., "I <strong>lost</strong> my ID" vs "I lose my ID"). Use varied vocabulary.</span>
+                              </div>
+                            </li>
+                        </ul>
+                        <div className="mt-4 pt-4 border-t border-amber-100">
+                          <p className="font-bold text-amber-800 mb-2 text-xs uppercase">Key Phrases for Unfamiliar Situations</p>
+                          <div className="grid grid-cols-1 gap-2 text-xs text-muted-foreground">
+                             <p className="bg-amber-50 p-2 rounded">"I'm not sure what to do, could you help me?"</p>
+                             <p className="bg-amber-50 p-2 rounded">"This is an unexpected situation, but I suggest we..."</p>
+                             <p className="bg-amber-50 p-2 rounded">"I apologize for the inconvenience, let me fix this by..."</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
