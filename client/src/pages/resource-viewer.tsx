@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Download, Lock, BookOpen, FileText, HelpCircle, List, Check, X } from "lucide-react";
+import { ArrowLeft, Download, Lock, BookOpen, FileText, HelpCircle, List, Check, X, PlayCircle } from "lucide-react";
 import { Link, useSearch } from "wouter";
 import { useState, useEffect } from "react";
 
@@ -25,10 +25,15 @@ import imgRecycling from "@assets/generated_images/diagram_of_plastic_recycling_
 import imgLibrary from "@assets/generated_images/map_comparing_library_floor_plan_2010_vs_2025.png";
 import imgIsland from "@assets/generated_images/map_of_island_development_project.png";
 
+// Import audio files
+import audioAustralia from "@assets/AUSTRALIA_1765268303802.mp3";
+import audioThermodynamics from "@assets/THERMODYNAMICS_1765268364962.mp3";
+
 type ChartData = {
   id: string;
   title: string;
-  image: string;
+  image?: string;
+  audio?: string;
   answer: string;
 };
 
@@ -113,6 +118,20 @@ const CHARTS: Record<string, ChartData[]> = {
       title: "Island Development Project",
       image: imgIsland,
       answer: "The maps depict the development of an island before and after construction. Originally, the island was uninhabited with only trees and beaches. The developed map shows a new resort complex, a pier, and connecting roads. This development has transformed the natural landscape into a tourist destination."
+    }
+  ],
+  "Retell Lecture": [
+    {
+      id: "rl-1",
+      title: "Australia Lecture",
+      audio: audioAustralia,
+      answer: "The lecture discusses the unique geographical and environmental characteristics of Australia. The speaker highlights its isolation, which has led to distinct flora and fauna. Additionally, the lecture touches upon the climate variations across the continent. In conclusion, Australia's geography plays a crucial role in its ecological diversity."
+    },
+    {
+      id: "rl-2",
+      title: "Thermodynamics Lecture",
+      audio: audioThermodynamics,
+      answer: "The speaker explains the fundamental principles of thermodynamics. Key concepts such as energy conservation and entropy are discussed. The lecture also provides examples of how these laws apply to everyday systems. Overall, understanding thermodynamics is essential for comprehending physical processes in the universe."
     }
   ]
 };
@@ -570,7 +589,7 @@ export default function ResourceViewer() {
 
   // Default to Describe Image if no ID or ID=2
   const isEssayGuide = resourceId === "1";
-  const resourceTitle = isEssayGuide ? "Ultimate Writing Guide 2026" : "A GUIDE TO SPEAKING FLUENTLY";
+  const resourceTitle = isEssayGuide ? "Ultimate Writing Guide 2026" : "A Guide to Speaking Fluently";
 
   if (isEssayGuide) {
     return (
@@ -3330,12 +3349,26 @@ export default function ResourceViewer() {
               <div className="grid md:grid-cols-2 gap-8">
                 {items.map((item) => (
                   <Card key={item.id} className="overflow-hidden border-2 hover:border-primary/20 transition-colors">
-                    <div className="aspect-video w-full bg-muted border-b relative group">
-                      <img 
-                        src={item.image} 
-                        alt={item.title} 
-                        className="w-full h-full object-contain bg-white p-4 transition-transform duration-500 group-hover:scale-105" 
-                      />
+                    <div className="aspect-video w-full bg-muted border-b relative group flex items-center justify-center bg-gray-50">
+                      {item.image ? (
+                        <img 
+                          src={item.image} 
+                          alt={item.title} 
+                          className="w-full h-full object-contain bg-white p-4 transition-transform duration-500 group-hover:scale-105" 
+                        />
+                      ) : item.audio ? (
+                        <div className="w-full h-full p-8 flex flex-col items-center justify-center gap-6 bg-secondary/5">
+                           <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center shadow-inner">
+                             <PlayCircle className="w-10 h-10 text-primary animate-pulse" />
+                           </div>
+                           <audio controls className="w-full max-w-md shadow-sm rounded-full" src={item.audio}>
+                             Your browser does not support the audio element.
+                           </audio>
+                           <p className="text-sm text-muted-foreground font-medium">Listen carefully to the lecture</p>
+                        </div>
+                      ) : (
+                         <div className="text-muted-foreground">No media available</div>
+                      )}
                     </div>
                     <CardContent className="p-6 space-y-4">
                       <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>

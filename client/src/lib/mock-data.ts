@@ -86,7 +86,7 @@ export const MOCK_RESOURCES: Resource[] = [
   },
   {
     id: "2",
-    title: "A GUIDE TO SPEAKING FLUENTLY",
+    title: "A Guide to Speaking Fluently",
     description: "A practical and easy-to-use tool designed to help students confidently pass their English speaking tests.",
     type: "Practice Test",
     level: "Advanced",
