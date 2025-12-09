@@ -183,7 +183,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <span className="font-serif font-bold text-lg text-foreground/80">PTE PrepUK</span>
+                <span className="font-serif font-bold text-lg text-foreground/80">PTE PrepPH</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Empowering our candidates to achieve their dreams through a comprehensive PTE Academic preparation, resources, and community support.
