@@ -3674,7 +3674,9 @@ export default function ResourceViewer() {
                         ) : (
                           <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground">
                             <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
-                              {category === "Read Aloud" ? "Passage to Read" : "Model Answer"}
+                              {category === "Read Aloud" ? "Passage to Read" : 
+                               category === "Respond to a Situation" ? "Situation" :
+                               "Model Answer"}
                             </span>
                             {item.answer}
                           </div>
