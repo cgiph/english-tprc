@@ -29,10 +29,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { href: "/", label: "Home", icon: Home },
-    { href: "/practice/speaking", label: "Speaking", icon: Mic },
-    { href: "/practice/reading", label: "Reading", icon: Book },
-    { href: "/practice/listening", label: "Listening", icon: Headphones },
-    { href: "/practice/writing", label: "Writing", icon: PenTool },
+    { href: "/guide/speaking", label: "Speaking", icon: Mic },
+    { href: "/guide/reading", label: "Reading", icon: Book },
+    { href: "/guide/listening", label: "Listening", icon: Headphones },
+    { href: "/guide/writing", label: "Writing", icon: PenTool },
     { href: "/resources", label: "Resources", icon: BookOpen },
   ];
 

@@ -18,6 +18,11 @@ import FullMockTest from "@/pages/full-mock-test";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth";
 
+import SpeakingGuide from "@/pages/speaking-guide";
+import ReadingGuide from "@/pages/reading-guide";
+import ListeningGuide from "@/pages/listening-guide";
+import WritingGuide from "@/pages/writing-guide";
+
 function Router() {
   return (
     <Layout>
@@ -29,6 +34,14 @@ function Router() {
         <Route path="/resources/viewer" component={ResourceViewer} />
         <Route path="/resources/audio-trainer" component={AudioTrainer} />
         <Route path="/resources/full-mock-test" component={FullMockTest} />
+        
+        {/* Guides */}
+        <Route path="/guide/speaking" component={SpeakingGuide} />
+        <Route path="/guide/reading" component={ReadingGuide} />
+        <Route path="/guide/listening" component={ListeningGuide} />
+        <Route path="/guide/writing" component={WritingGuide} />
+
+        {/* Practice */}
         <Route path="/practice/speaking" component={SpeakingPractice} />
         <Route path="/practice/reading" component={ReadingPractice} />
         <Route path="/practice/listening" component={ListeningPractice} />
