@@ -326,7 +326,28 @@ export default function ResourceViewer() {
       "ex3-what": "reads books",
       "ex3-where": "in the library",
       "ex3-why": "to learn new things",
-      "ex3-how": "every saturday"
+      "ex3-how": "every saturday",
+
+      // Exercise 4
+      "ex4-who": "smith family",
+      "ex4-where": "italy",
+      "ex4-when": "last summer",
+      "ex4-why": "colosseum",
+      "ex4-how": "plane",
+
+      // Exercise 5
+      "ex5-who": "sarah",
+      "ex5-what": "job interview",
+      "ex5-when": "next monday",
+      "ex5-why": "good impression",
+      "ex5-how": "research",
+
+      // Exercise 6
+      "ex6-who": "scientists",
+      "ex6-where": "geneva",
+      "ex6-when": "yesterday",
+      "ex6-why": "global warming",
+      "ex6-what": "sea levels"
     };
 
     let correctCount = 0;
@@ -335,9 +356,17 @@ export default function ResourceViewer() {
     Object.keys(KEY).forEach(id => {
       const userAns = (whAnswers[id] || "").toLowerCase().trim();
       const correctKey = KEY[id].toLowerCase();
-      // Loose matching for text inputs
-      const isCorrect = userAns.includes(correctKey);
       
+      // Loose matching logic
+      let isCorrect = userAns.includes(correctKey);
+
+      // Special cases for loose matching on new exercises
+      if (id === "ex4-where" && (userAns.includes("rome") || userAns.includes("hotel"))) isCorrect = true;
+      if (id === "ex4-how" && (userAns.includes("car") || userAns.includes("rented"))) isCorrect = true;
+      if (id === "ex5-how" && (userAns.includes("formal") || userAns.includes("suit"))) isCorrect = true;
+      if (id === "ex6-why" && (userAns.includes("carbon") || userAns.includes("emissions"))) isCorrect = true;
+      if (id === "ex6-what" && (userAns.includes("plan") || userAns.includes("data"))) isCorrect = true;
+
       newResults[id] = isCorrect;
       if (isCorrect) correctCount++;
     });
@@ -1640,10 +1669,226 @@ export default function ResourceViewer() {
                        </div>
                      </CardContent>
                    </Card>
+
+                   <Card>
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 4: Travel Plans (A2/B1 Level)</CardTitle></CardHeader>
+                     <CardContent className="space-y-4">
+                       <div className="bg-muted p-4 rounded-lg mb-4">
+                         <p className="font-medium">Text:</p>
+                         <p>Last summer, the Smith family visited Italy for two weeks. They stayed in a small hotel near Rome because they wanted to see the Colosseum. They traveled by plane and rented a car to drive around the countryside.</p>
+                       </div>
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Who:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex4-who"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex4-who": e.target.value})}
+                               className={whResults["ex4-who"] === true ? "border-green-500 bg-green-50" : whResults["ex4-who"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex4-who"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: The Smith family</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Where:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex4-where"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex4-where": e.target.value})}
+                               className={whResults["ex4-where"] === true ? "border-green-500 bg-green-50" : whResults["ex4-where"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex4-where"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Italy / Rome</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">When:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex4-when"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex4-when": e.target.value})}
+                               className={whResults["ex4-when"] === true ? "border-green-500 bg-green-50" : whResults["ex4-when"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex4-when"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Last summer</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Why:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex4-why"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex4-why": e.target.value})}
+                               className={whResults["ex4-why"] === true ? "border-green-500 bg-green-50" : whResults["ex4-why"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex4-why"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: To see the Colosseum</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">How:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex4-how"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex4-how": e.target.value})}
+                               className={whResults["ex4-how"] === true ? "border-green-500 bg-green-50" : whResults["ex4-how"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex4-how"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: By plane / rented car</span>}
+                           </div>
+                         </div>
+                       </div>
+                     </CardContent>
+                   </Card>
+
+                   <Card>
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 5: Job Interview (B1 Level)</CardTitle></CardHeader>
+                     <CardContent className="space-y-4">
+                       <div className="bg-muted p-4 rounded-lg mb-4">
+                         <p className="font-medium">Text:</p>
+                         <p>Sarah is preparing for a job interview at a marketing company next Monday. She needs to research the company's history to answer questions confidently. She plans to wear a formal suit to make a good impression.</p>
+                       </div>
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Who:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex5-who"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex5-who": e.target.value})}
+                               className={whResults["ex5-who"] === true ? "border-green-500 bg-green-50" : whResults["ex5-who"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex5-who"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Sarah</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">What:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex5-what"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex5-what": e.target.value})}
+                               className={whResults["ex5-what"] === true ? "border-green-500 bg-green-50" : whResults["ex5-what"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex5-what"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Job interview</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">When:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex5-when"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex5-when": e.target.value})}
+                               className={whResults["ex5-when"] === true ? "border-green-500 bg-green-50" : whResults["ex5-when"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex5-when"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Next Monday</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Why:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex5-why"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex5-why": e.target.value})}
+                               className={whResults["ex5-why"] === true ? "border-green-500 bg-green-50" : whResults["ex5-why"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex5-why"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: To make a good impression</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">How:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex5-how"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex5-how": e.target.value})}
+                               className={whResults["ex5-how"] === true ? "border-green-500 bg-green-50" : whResults["ex5-how"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex5-how"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: By researching / formal suit</span>}
+                           </div>
+                         </div>
+                       </div>
+                     </CardContent>
+                   </Card>
+
+                   <Card>
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 6: Climate Conference (B1/B2 Level)</CardTitle></CardHeader>
+                     <CardContent className="space-y-4">
+                       <div className="bg-muted p-4 rounded-lg mb-4">
+                         <p className="font-medium">Text:</p>
+                         <p>Scientists from around the world gathered in Geneva yesterday to discuss global warming. They presented new data showing rising sea levels. The goal of the meeting was to create a plan for reducing carbon emissions by 2030.</p>
+                       </div>
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Who:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex6-who"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex6-who": e.target.value})}
+                               className={whResults["ex6-who"] === true ? "border-green-500 bg-green-50" : whResults["ex6-who"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex6-who"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Scientists</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Where:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex6-where"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex6-where": e.target.value})}
+                               className={whResults["ex6-where"] === true ? "border-green-500 bg-green-50" : whResults["ex6-where"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex6-where"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Geneva</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">When:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex6-when"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex6-when": e.target.value})}
+                               className={whResults["ex6-when"] === true ? "border-green-500 bg-green-50" : whResults["ex6-when"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex6-when"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Yesterday</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">Why:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex6-why"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex6-why": e.target.value})}
+                               className={whResults["ex6-why"] === true ? "border-green-500 bg-green-50" : whResults["ex6-why"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Type answer..."
+                             />
+                             {whResults["ex6-why"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: To discuss global warming</span>}
+                           </div>
+                         </div>
+                         <div className="flex items-center gap-2">
+                           <span className="font-bold w-16">What:</span>
+                           <div className="flex-1">
+                             <Input 
+                               value={whAnswers["ex6-what"] || ""} 
+                               onChange={(e) => setWhAnswers({...whAnswers, "ex6-what": e.target.value})}
+                               className={whResults["ex6-what"] === true ? "border-green-500 bg-green-50" : whResults["ex6-what"] === false ? "border-red-500 bg-red-50" : ""}
+                               placeholder="Result/Goal..."
+                             />
+                             {whResults["ex6-what"] === false && <span className="text-xs text-red-500 mt-1 block">Answer: Rising sea levels / Reduction plan</span>}
+                           </div>
+                         </div>
+                       </div>
+                     </CardContent>
+                   </Card>
                    
                    <div className="flex items-center justify-between pt-4 border-t">
                       <div className="text-lg font-bold">
-                         {whScore !== null && <span>Score: {whScore} / 15</span>}
+                         {whScore !== null && <span>Score: {whScore} / 30</span>}
                       </div>
                       <Button onClick={checkWhQuestions} className="w-32">Check Answers</Button>
                    </div>
