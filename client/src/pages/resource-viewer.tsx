@@ -3379,7 +3379,7 @@ export default function ResourceViewer() {
                            <audio controls className="w-full max-w-md shadow-sm rounded-full" src={item.audio}>
                              Your browser does not support the audio element.
                            </audio>
-                           <p className="text-sm text-muted-foreground font-medium">Listen to sample answer -- score this audio and show criteria</p>
+                           <p className="text-sm text-muted-foreground font-medium">Listen to the sample answer</p>
                         </div>
                       ) : (
                          <div className="text-muted-foreground">No media available</div>
