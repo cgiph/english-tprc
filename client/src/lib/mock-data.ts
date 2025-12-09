@@ -87,7 +87,7 @@ export const MOCK_RESOURCES: Resource[] = [
   {
     id: "2",
     title: "A GUIDE TO SPEAKING FLUENTLY",
-    description: "High-resolution charts, graphs, and maps commonly seen in the real exam with model answers.",
+    description: "A practical and easy-to-use tool designed to help students confidently pass their English speaking tests.",
     type: "Practice Test",
     level: "Advanced",
     author: "Dr. A. Smith",
