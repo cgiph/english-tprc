@@ -129,6 +129,11 @@ export default function ResourceViewer() {
   const [swtBlanksResults, setSwtBlanksResults] = useState<Record<string, boolean>>({});
   const [swtBlanksScore, setSwtBlanksScore] = useState<number | null>(null);
 
+  // State for Essay Blanks (Essay 3 & 4)
+  const [essayBlanksAnswers, setEssayBlanksAnswers] = useState<Record<string, string>>({});
+  const [essayBlanksResults, setEssayBlanksResults] = useState<Record<string, boolean>>({});
+  const [essayBlanksScore, setEssayBlanksScore] = useState<number | null>(null);
+
   // State for Summarize Written Text - Fill in Blanks Practice 2
   const [swt2BlanksAnswers, setSwt2BlanksAnswers] = useState<Record<string, string>>({});
   const [swt2BlanksResults, setSwt2BlanksResults] = useState<Record<string, boolean>>({});
@@ -187,6 +192,51 @@ export default function ResourceViewer() {
 
     setSwt2BlanksResults(newResults);
     setSwt2BlanksScore(correctCount);
+  };
+
+  const checkEssayBlanks = () => {
+    const KEY: Record<string, string> = {
+      // Essay 3
+      "e3-1": "common practice",
+      "e3-2": "benefits",
+      "e3-3": "drawbacks",
+      "e3-4": "hybrid model",
+      "e3-5": "flexibility",
+      "e3-6": "work-life balance",
+      "e3-7": "isolating",
+      "e3-8": "productivity",
+      "e3-9": "compromise",
+      "e3-10": "social interaction",
+
+      // Essay 4
+      "e4-1": "urgent action",
+      "e4-2": "responsibility",
+      "e4-3": "laws",
+      "e4-4": "renewable energy",
+      "e4-5": "recycle",
+      "e4-6": "policies",
+      "e4-7": "pollution",
+      "e4-8": "cleaner methods",
+      "e4-9": "accountable",
+      "e4-10": "sustainably",
+    };
+
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+
+    Object.keys(KEY).forEach(id => {
+      const userAns = (essayBlanksAnswers[id] || "").toLowerCase().trim();
+      const correctKey = KEY[id].toLowerCase();
+      
+      // Allow some flexibility
+      let isCorrect = userAns.includes(correctKey) || correctKey.includes(userAns);
+      
+      newResults[id] = isCorrect;
+      if (isCorrect) correctCount++;
+    });
+
+    setEssayBlanksResults(newResults);
+    setEssayBlanksScore(correctCount);
   };
 
   // State for SWT Practice 3
@@ -1265,22 +1315,128 @@ export default function ResourceViewer() {
 
                  <div className="space-y-4">
                    <h3 className="font-bold text-lg flex items-center gap-2">
-                     <FileText className="h-5 w-5 text-primary" /> Sample Answer
+                     <FileText className="h-5 w-5 text-primary" /> Fill in the Blanks
                    </h3>
-                   <div className="prose max-w-none leading-relaxed text-muted-foreground">
+                   <div className="bg-white p-6 rounded-lg border leading-loose text-lg">
                      <p className="mb-4">
-                       Since the pandemic, remote working has become a common practice. Many employees enjoy working from home, but some companies want them back in the office. This essay will discuss both the benefits and drawbacks of remote work. In my opinion, a hybrid model is the best solution.
+                       Since the pandemic, remote working has become a 
+                       <span className="inline-block w-40 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e3-1"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e3-1": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e3-1"] === true ? "text-green-600" : essayBlanksResults["e3-1"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="1" 
+                         />
+                       </span>. 
+                       Many employees enjoy working from home, but some companies want them back in the office. This essay will discuss both the 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e3-2"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e3-2": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e3-2"] === true ? "text-green-600" : essayBlanksResults["e3-2"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="2" 
+                         />
+                       </span> 
+                       and 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e3-3"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e3-3": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e3-3"] === true ? "text-green-600" : essayBlanksResults["e3-3"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="3" 
+                         />
+                       </span> 
+                       of remote work. In my opinion, a 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e3-4"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e3-4": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e3-4"] === true ? "text-green-600" : essayBlanksResults["e3-4"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="4" 
+                         />
+                       </span> 
+                       is the best solution.
                      </p>
                      <p className="mb-4">
-                       First, the main advantage of remote working is flexibility. Employees can save time and money by not commuting. This leads to a better work-life balance. For example, parents can spend more time with their children instead of sitting in traffic. Additionally, companies can save money on office space and electricity bills.
+                       First, the main advantage of remote working is 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e3-5"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e3-5": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e3-5"] === true ? "text-green-600" : essayBlanksResults["e3-5"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="5" 
+                         />
+                       </span>. 
+                       Employees can save time and money by not commuting. This leads to a better 
+                       <span className="inline-block w-40 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e3-6"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e3-6": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e3-6"] === true ? "text-green-600" : essayBlanksResults["e3-6"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="6" 
+                         />
+                       </span>. 
+                       For example, parents can spend more time with their children instead of sitting in traffic.
                      </p>
                      <p className="mb-4">
-                       However, there are also disadvantages. Working alone can be lonely and isolating. It is harder to build strong relationships with colleagues when you only see them on a screen. Furthermore, distractions at home can reduce productivity for some people. Without a supervisor nearby, some employees might find it difficult to focus on their tasks.
+                       However, there are also disadvantages. Working alone can be lonely and 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e3-7"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e3-7": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e3-7"] === true ? "text-green-600" : essayBlanksResults["e3-7"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="7" 
+                         />
+                       </span>. 
+                       It is harder to build strong relationships with colleagues. Furthermore, distractions at home can reduce 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e3-8"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e3-8": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e3-8"] === true ? "text-green-600" : essayBlanksResults["e3-8"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="8" 
+                         />
+                       </span> 
+                       for some people.
                      </p>
                      <p>
-                       In conclusion, remote working offers freedom and savings, but it can also cause isolation and lower focus. Therefore, I believe a hybrid approach, where employees come to the office a few days a week, is the ideal compromise. It balances the benefits of social interaction with the flexibility of working from home.
+                       In conclusion, remote working offers freedom and savings, but it can also cause isolation. Therefore, I believe a hybrid approach is the ideal 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e3-9"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e3-9": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e3-9"] === true ? "text-green-600" : essayBlanksResults["e3-9"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="9" 
+                         />
+                       </span>. 
+                       It balances the benefits of 
+                       <span className="inline-block w-40 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e3-10"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e3-10": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e3-10"] === true ? "text-green-600" : essayBlanksResults["e3-10"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="10" 
+                         />
+                       </span> 
+                       with the flexibility of working from home.
                      </p>
                    </div>
+                   
+                   <div className="flex items-center justify-between pt-4">
+                      <div className="text-lg font-bold">
+                         {essayBlanksScore !== null && <span>Score: {essayBlanksScore} / 10</span>}
+                      </div>
+                      <Button onClick={checkEssayBlanks} className="w-32">Check Answers</Button>
+                   </div>
+
+                   <div className="bg-slate-50 p-4 rounded border text-sm text-muted-foreground mt-4">
+                    <p className="font-bold mb-2">Word Bank (Use these words):</p>
+                    <div className="flex flex-wrap gap-2">
+                       {["common practice", "benefits", "drawbacks", "hybrid model", "flexibility", "work-life balance", "isolating", "productivity", "compromise", "social interaction"].map((word, i) => (
+                         <Badge key={i} variant="secondary" className="text-sm py-1 px-3 bg-white hover:bg-white border border-input">{word}</Badge>
+                       ))}
+                    </div>
+                  </div>
                  </div>
                </div>
              </CardContent>
@@ -1303,22 +1459,126 @@ export default function ResourceViewer() {
 
                  <div className="space-y-4">
                    <h3 className="font-bold text-lg flex items-center gap-2">
-                     <FileText className="h-5 w-5 text-primary" /> Sample Answer
+                     <FileText className="h-5 w-5 text-primary" /> Fill in the Blanks
                    </h3>
-                   <div className="prose max-w-none leading-relaxed text-muted-foreground">
+                   <div className="bg-white p-6 rounded-lg border leading-loose text-lg">
                      <p className="mb-4">
-                       Climate change is threatening our planet, and urgent action is needed. While everyone has a role to play, I believe governments and large corporations must take the most responsibility because they have the power to make the biggest changes.
+                       Climate change is threatening our planet, and 
+                       <span className="inline-block w-40 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e4-1"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e4-1": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e4-1"] === true ? "text-green-600" : essayBlanksResults["e4-1"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="1" 
+                         />
+                       </span> 
+                       is needed. While everyone has a role to play, I believe governments and large corporations must take the most 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e4-2"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e4-2": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e4-2"] === true ? "text-green-600" : essayBlanksResults["e4-2"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="2" 
+                         />
+                       </span>.
                      </p>
                      <p className="mb-4">
-                       First, governments can create laws to protect the environment. They can ban harmful chemicals and invest in renewable energy like wind and solar power. Individuals can recycle, but they cannot build new power plants or change national policies. Only governments have the authority to enforce rules that affect entire countries.
+                       First, governments can create 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e4-3"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e4-3": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e4-3"] === true ? "text-green-600" : essayBlanksResults["e4-3"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="3" 
+                         />
+                       </span> 
+                       to protect the environment. They can invest in 
+                       <span className="inline-block w-40 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e4-4"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e4-4": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e4-4"] === true ? "text-green-600" : essayBlanksResults["e4-4"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="4" 
+                         />
+                       </span> 
+                       like wind and solar power. Individuals can 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e4-5"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e4-5": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e4-5"] === true ? "text-green-600" : essayBlanksResults["e4-5"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="5" 
+                         />
+                       </span>, 
+                       but only governments can change national 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e4-6"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e4-6": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e4-6"] === true ? "text-green-600" : essayBlanksResults["e4-6"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="6" 
+                         />
+                       </span>.
                      </p>
                      <p className="mb-4">
-                       Second, big companies produce the most pollution. Factories and industrial farming are major causes of carbon emissions. These companies should be forced to use cleaner methods and reduce waste. If they prioritize profit over the planet, the damage will continue. Therefore, they must be held accountable for their environmental impact.
+                       Second, big companies produce the most 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e4-7"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e4-7": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e4-7"] === true ? "text-green-600" : essayBlanksResults["e4-7"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="7" 
+                         />
+                       </span>. 
+                       These companies should be forced to use 
+                       <span className="inline-block w-40 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e4-8"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e4-8": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e4-8"] === true ? "text-green-600" : essayBlanksResults["e4-8"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="8" 
+                         />
+                       </span> 
+                       and reduce waste. They must be held 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e4-9"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e4-9": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e4-9"] === true ? "text-green-600" : essayBlanksResults["e4-9"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="9" 
+                         />
+                       </span> 
+                       for their environmental impact.
                      </p>
                      <p>
-                       In conclusion, while individuals should try to live sustainably, the main responsibility lies with governments and corporations. They have the resources and influence to stop climate change on a global scale. Without their leadership, individual efforts will not be enough.
+                       In conclusion, while individuals should try to live 
+                       <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                         <Input 
+                           value={essayBlanksAnswers["e4-10"] || ""} 
+                           onChange={(e) => setEssayBlanksAnswers({...essayBlanksAnswers, "e4-10": e.target.value})}
+                           className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${essayBlanksResults["e4-10"] === true ? "text-green-600" : essayBlanksResults["e4-10"] === false ? "text-red-600" : "text-blue-600"}`}
+                           placeholder="10" 
+                         />
+                       </span>, 
+                       the main responsibility lies with governments and corporations.
                      </p>
                    </div>
+
+                   <div className="flex items-center justify-between pt-4">
+                      <div className="text-lg font-bold">
+                         {essayBlanksScore !== null && <span>Score: {essayBlanksScore} / 10</span>}
+                      </div>
+                      <Button onClick={checkEssayBlanks} className="w-32">Check Answers</Button>
+                   </div>
+
+                   <div className="bg-slate-50 p-4 rounded border text-sm text-muted-foreground mt-4">
+                    <p className="font-bold mb-2">Word Bank (Use these words):</p>
+                    <div className="flex flex-wrap gap-2">
+                       {["urgent action", "responsibility", "laws", "renewable energy", "recycle", "policies", "pollution", "cleaner methods", "accountable", "sustainably"].map((word, i) => (
+                         <Badge key={i} variant="secondary" className="text-sm py-1 px-3 bg-white hover:bg-white border border-input">{word}</Badge>
+                       ))}
+                    </div>
+                  </div>
                  </div>
                </div>
              </CardContent>
