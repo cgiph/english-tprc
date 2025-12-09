@@ -17,6 +17,8 @@ import WritingPractice from "@/pages/writing-practice";
 import FullMockTest from "@/pages/full-mock-test";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth";
+import PrivacyPolicy from "@/pages/privacy-policy";
+import TermsOfService from "@/pages/terms-of-service";
 
 import SpeakingGuide from "@/pages/speaking-guide";
 import ReadingGuide from "@/pages/reading-guide";
@@ -35,6 +37,10 @@ function Router() {
         <Route path="/resources/audio-trainer" component={AudioTrainer} />
         <Route path="/resources/full-mock-test" component={FullMockTest} />
         
+        {/* Legal */}
+        <Route path="/privacy-policy" component={PrivacyPolicy} />
+        <Route path="/terms-of-service" component={TermsOfService} />
+
         {/* Guides */}
         <Route path="/guide/speaking" component={SpeakingGuide} />
         <Route path="/guide/reading" component={ReadingGuide} />
