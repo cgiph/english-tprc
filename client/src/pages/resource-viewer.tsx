@@ -36,6 +36,7 @@ type ChartData = {
   title: string;
   image?: string;
   audio?: string;
+  secondAudio?: string;
   answer: string;
 };
 
@@ -141,12 +142,7 @@ const CHARTS: Record<string, ChartData[]> = {
       id: "ra-1",
       title: "Artificial Intelligence Impact",
       audio: audioReadAloud1,
-      answer: "The development of artificial intelligence has transformed various sectors of the economy. From healthcare to finance, algorithms are analyzing data at unprecedented speeds. However, ethical concerns regarding privacy and decision-making remain a significant topic of debate among experts."
-    },
-    {
-      id: "ra-1-b",
-      title: "Artificial Intelligence Impact (Sample 2)",
-      audio: audioReadAloud2,
+      secondAudio: audioReadAloud2,
       answer: "The development of artificial intelligence has transformed various sectors of the economy. From healthcare to finance, algorithms are analyzing data at unprecedented speeds. However, ethical concerns regarding privacy and decision-making remain a significant topic of debate among experts."
     },
     {
@@ -3534,14 +3530,35 @@ export default function ResourceViewer() {
                           className="w-full h-full object-contain bg-white p-4 transition-transform duration-500 group-hover:scale-105" 
                         />
                       ) : item.audio ? (
-                        <div className="w-full h-full p-8 flex flex-col items-center justify-center gap-6 bg-secondary/5">
-                           <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center shadow-inner">
-                             <PlayCircle className="w-10 h-10 text-primary animate-pulse" />
-                           </div>
-                           <audio controls className="w-full max-w-md shadow-sm rounded-full" src={item.audio}>
-                             Your browser does not support the audio element.
-                           </audio>
-                           <p className="text-sm text-muted-foreground font-medium">Listen to the sample answer</p>
+                        <div className="w-full h-full p-8 flex flex-col items-center justify-center gap-4 bg-secondary/5 overflow-y-auto">
+                           {item.secondAudio ? (
+                              <div className="w-full space-y-4">
+                                <div className="bg-white p-4 rounded-lg shadow-sm border">
+                                  <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wide">Sample 1 (High Score)</p>
+                                  <audio controls className="w-full h-8" src={item.audio}>
+                                    Your browser does not support the audio element.
+                                  </audio>
+                                </div>
+                                <div className="bg-white p-4 rounded-lg shadow-sm border">
+                                  <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wide">Sample 2 (Average Score)</p>
+                                  <audio controls className="w-full h-8" src={item.secondAudio}>
+                                    Your browser does not support the audio element.
+                                  </audio>
+                                </div>
+                              </div>
+                           ) : (
+                             <>
+                               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center shadow-inner">
+                                 <PlayCircle className="w-10 h-10 text-primary animate-pulse" />
+                               </div>
+                               <audio controls className="w-full max-w-md shadow-sm rounded-full" src={item.audio}>
+                                 Your browser does not support the audio element.
+                               </audio>
+                             </>
+                           )}
+                           <p className="text-sm text-muted-foreground font-medium text-center">
+                             {item.secondAudio ? "Compare the two sample answers" : "Listen to the sample answer"}
+                           </p>
                         </div>
                       ) : (
                          <div className="text-muted-foreground">No media available</div>
@@ -3564,35 +3581,65 @@ export default function ResourceViewer() {
                         </div>
                       )}
                       
-                      {category === "Read Aloud" && (item.id === "ra-1" || item.id === "ra-1-b") && (
-                        <div className="mt-4 pt-4 border-t">
-                          <h4 className="font-bold text-md mb-3 flex items-center gap-2">
-                            <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded">Sample Analysis {item.id === "ra-1-b" ? "(Sample 2)" : ""}</span>
-                          </h4>
-                          <div className="grid grid-cols-2 gap-4 text-sm mb-3">
-                            <div className="flex justify-between items-center bg-green-50 p-2 rounded border border-green-100">
-                              <span className="text-muted-foreground">Oral Fluency</span>
-                              <span className="font-bold text-green-700">{item.id === "ra-1-b" ? "3/5" : "5/5"}</span>
+                      {category === "Read Aloud" && item.id === "ra-1" && (
+                        <div className="mt-4 pt-4 border-t space-y-6">
+                          
+                          {/* Sample 1 Analysis */}
+                          <div>
+                            <h4 className="font-bold text-md mb-3 flex items-center gap-2">
+                              <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded">Sample 1 Analysis</span>
+                            </h4>
+                            <div className="grid grid-cols-2 gap-4 text-sm mb-3">
+                              <div className="flex justify-between items-center bg-green-50 p-2 rounded border border-green-100">
+                                <span className="text-muted-foreground">Oral Fluency</span>
+                                <span className="font-bold text-green-700">5/5</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-blue-50 p-2 rounded border border-blue-100">
+                                <span className="text-muted-foreground">Pronunciation</span>
+                                <span className="font-bold text-blue-700">4/5</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-amber-50 p-2 rounded border border-amber-100">
+                                <span className="text-muted-foreground">Content</span>
+                                <span className="font-bold text-amber-700">5/5</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-primary/10 p-2 rounded border border-primary/20">
+                                <span className="font-bold">Total</span>
+                                <span className="font-bold text-primary">14/15</span>
+                              </div>
                             </div>
-                            <div className="flex justify-between items-center bg-blue-50 p-2 rounded border border-blue-100">
-                              <span className="text-muted-foreground">Pronunciation</span>
-                              <span className="font-bold text-blue-700">{item.id === "ra-1-b" ? "3/5" : "4/5"}</span>
-                            </div>
-                            <div className="flex justify-between items-center bg-amber-50 p-2 rounded border border-amber-100">
-                              <span className="text-muted-foreground">Content</span>
-                              <span className="font-bold text-amber-700">{item.id === "ra-1-b" ? "4/5" : "5/5"}</span>
-                            </div>
-                            <div className="flex justify-between items-center bg-primary/10 p-2 rounded border border-primary/20">
-                              <span className="font-bold">Total</span>
-                              <span className="font-bold text-primary">{item.id === "ra-1-b" ? "10/15" : "14/15"}</span>
-                            </div>
+                            <p className="text-xs text-muted-foreground italic">
+                              "Excellent pacing and natural rhythm. Minor stress error on 'unprecedented', but overall highly fluent."
+                            </p>
                           </div>
-                          <p className="text-xs text-muted-foreground italic">
-                            {item.id === "ra-1-b" 
-                              ? "\"Good effort, but notice the hesitation before 'unprecedented'. Try to maintain a steady speed. Some word endings were swallowed.\""
-                              : "\"Excellent pacing and natural rhythm. Minor stress error on 'unprecedented', but overall highly fluent.\""
-                            }
-                          </p>
+
+                          {/* Sample 2 Analysis */}
+                          <div className="pt-4 border-t border-dashed">
+                            <h4 className="font-bold text-md mb-3 flex items-center gap-2">
+                              <span className="bg-secondary text-secondary-foreground text-xs px-2 py-0.5 rounded">Sample 2 Analysis</span>
+                            </h4>
+                            <div className="grid grid-cols-2 gap-4 text-sm mb-3">
+                              <div className="flex justify-between items-center bg-green-50/50 p-2 rounded border border-green-100">
+                                <span className="text-muted-foreground">Oral Fluency</span>
+                                <span className="font-bold text-green-700">3/5</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-blue-50/50 p-2 rounded border border-blue-100">
+                                <span className="text-muted-foreground">Pronunciation</span>
+                                <span className="font-bold text-blue-700">3/5</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-amber-50/50 p-2 rounded border border-amber-100">
+                                <span className="text-muted-foreground">Content</span>
+                                <span className="font-bold text-amber-700">4/5</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-secondary/10 p-2 rounded border border-secondary/20">
+                                <span className="font-bold">Total</span>
+                                <span className="font-bold text-secondary-foreground">10/15</span>
+                              </div>
+                            </div>
+                            <p className="text-xs text-muted-foreground italic">
+                              "Good effort, but notice the hesitation before 'unprecedented'. Try to maintain a steady speed. Some word endings were swallowed."
+                            </p>
+                          </div>
+
                         </div>
                       )}
                     </CardContent>
