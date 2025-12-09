@@ -146,6 +146,7 @@ const CHARTS: Record<string, ChartData[]> = {
       id: "rts-2",
       title: "Power Outage Extension",
       audio: audioRTS2,
+      secondAudio: audioRTS2Sample,
       answer: "You have an important seminar paper due next Friday but you just received a notice that your electricity will be out for two days next week. You want to ask your professor for an extension. What would you say in an email or during office hours?"
     },
     {
@@ -388,6 +389,8 @@ const VoiceRecorder = () => {
     </div>
   );
 };
+
+import audioRTS2Sample from '@assets/RTS_Sample_Answer_1765274219936.mp3';
 
 export default function ResourceViewer() {
   const search = useSearch();
@@ -3748,6 +3751,35 @@ export default function ResourceViewer() {
                                 ? "\"Good effort, but notice the hesitation before 'energy-efficient'. Try to maintain a steady speed. Some word endings were swallowed.\""
                                 : "\"Excellent pacing and natural rhythm. Minor stress error on 'unprecedented', but overall highly fluent.\""
                               }
+                            </p>
+                          </div>
+                        )}
+
+                        {category === "Respond to a Situation" && item.id === "rts-2" && (
+                          <div className="mt-4 pt-4 border-t">
+                            <h4 className="font-bold text-md mb-3 flex items-center gap-2">
+                              <span className="bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded">Sample Analysis</span>
+                            </h4>
+                            <div className="grid grid-cols-2 gap-4 text-sm mb-3">
+                              <div className="flex justify-between items-center bg-amber-50 p-2 rounded border border-amber-100">
+                                <span className="text-muted-foreground">Appropriateness</span>
+                                <span className="font-bold text-amber-700">5/5</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-green-50 p-2 rounded border border-green-100">
+                                <span className="text-muted-foreground">Oral Fluency</span>
+                                <span className="font-bold text-green-700">5/5</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-blue-50 p-2 rounded border border-blue-100">
+                                <span className="text-muted-foreground">Grammar/Vocab</span>
+                                <span className="font-bold text-blue-700">4/5</span>
+                              </div>
+                              <div className="flex justify-between items-center bg-primary/10 p-2 rounded border border-primary/20">
+                                <span className="font-bold">Total</span>
+                                <span className="font-bold text-primary">14/15</span>
+                              </div>
+                            </div>
+                            <p className="text-xs text-muted-foreground italic">
+                              "Great tone—polite but urgent. The explanation of the power outage was clear. Suggested solution (asking for extension) was direct. Good use of 'unforeseen circumstances'."
                             </p>
                           </div>
                         )}
