@@ -1250,6 +1250,168 @@ export default function ResourceViewer() {
 
           <Card className="mb-8 border-l-4 border-l-primary">
              <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-2">Essay Practice 3</h2>
+               <p className="text-muted-foreground mb-6">Topic: Remote Working</p>
+               
+               <div className="space-y-6">
+                 <div className="bg-muted/30 p-6 rounded-lg border">
+                   <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                     <HelpCircle className="h-5 w-5 text-primary" /> Prompt
+                   </h3>
+                   <p className="text-lg font-medium">
+                     Some companies are asking employees to return to the office full-time, while others allow remote working. Discuss the advantages and disadvantages of remote working and give your opinion.
+                   </p>
+                 </div>
+
+                 <div className="space-y-4">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
+                     <FileText className="h-5 w-5 text-primary" /> Sample Answer
+                   </h3>
+                   <div className="prose max-w-none leading-relaxed text-muted-foreground">
+                     <p className="mb-4">
+                       Since the pandemic, remote working has become a common practice. Many employees enjoy working from home, but some companies want them back in the office. This essay will discuss both the benefits and drawbacks of remote work. In my opinion, a hybrid model is the best solution.
+                     </p>
+                     <p className="mb-4">
+                       First, the main advantage of remote working is flexibility. Employees can save time and money by not commuting. This leads to a better work-life balance. For example, parents can spend more time with their children instead of sitting in traffic. Additionally, companies can save money on office space and electricity bills.
+                     </p>
+                     <p className="mb-4">
+                       However, there are also disadvantages. Working alone can be lonely and isolating. It is harder to build strong relationships with colleagues when you only see them on a screen. Furthermore, distractions at home can reduce productivity for some people. Without a supervisor nearby, some employees might find it difficult to focus on their tasks.
+                     </p>
+                     <p>
+                       In conclusion, remote working offers freedom and savings, but it can also cause isolation and lower focus. Therefore, I believe a hybrid approach, where employees come to the office a few days a week, is the ideal compromise. It balances the benefits of social interaction with the flexibility of working from home.
+                     </p>
+                   </div>
+                 </div>
+               </div>
+             </CardContent>
+          </Card>
+
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-2">Essay Practice 4</h2>
+               <p className="text-muted-foreground mb-6">Topic: Climate Change Responsibility</p>
+               
+               <div className="space-y-6">
+                 <div className="bg-muted/30 p-6 rounded-lg border">
+                   <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                     <HelpCircle className="h-5 w-5 text-primary" /> Prompt
+                   </h3>
+                   <p className="text-lg font-medium">
+                     Climate change is a global problem. Who should take the most responsibility for solving it: governments, big companies, or individuals?
+                   </p>
+                 </div>
+
+                 <div className="space-y-4">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
+                     <FileText className="h-5 w-5 text-primary" /> Sample Answer
+                   </h3>
+                   <div className="prose max-w-none leading-relaxed text-muted-foreground">
+                     <p className="mb-4">
+                       Climate change is threatening our planet, and urgent action is needed. While everyone has a role to play, I believe governments and large corporations must take the most responsibility because they have the power to make the biggest changes.
+                     </p>
+                     <p className="mb-4">
+                       First, governments can create laws to protect the environment. They can ban harmful chemicals and invest in renewable energy like wind and solar power. Individuals can recycle, but they cannot build new power plants or change national policies. Only governments have the authority to enforce rules that affect entire countries.
+                     </p>
+                     <p className="mb-4">
+                       Second, big companies produce the most pollution. Factories and industrial farming are major causes of carbon emissions. These companies should be forced to use cleaner methods and reduce waste. If they prioritize profit over the planet, the damage will continue. Therefore, they must be held accountable for their environmental impact.
+                     </p>
+                     <p>
+                       In conclusion, while individuals should try to live sustainably, the main responsibility lies with governments and corporations. They have the resources and influence to stop climate change on a global scale. Without their leadership, individual efforts will not be enough.
+                     </p>
+                   </div>
+                 </div>
+               </div>
+             </CardContent>
+          </Card>
+
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-2">Extended Reading & Writing: Space Exploration</h2>
+               <p className="text-muted-foreground mb-6">Read the text and fill in the blanks with the correct words from the box.</p>
+               
+               <div className="space-y-6">
+                  <div className="bg-muted/30 p-6 rounded-lg border">
+                     <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                       <List className="h-5 w-5 text-primary" /> Word Bank
+                     </h3>
+                     <div className="flex flex-wrap gap-2">
+                       {["investment", "curiosity", "technologies", "habitable", "resources", "controversial", "budget", "universe", "benefits", "prioritize"].map((word, i) => (
+                         <Badge key={i} variant="secondary" className="text-sm py-1 px-3 bg-white hover:bg-white border border-input">{word}</Badge>
+                       ))}
+                     </div>
+                  </div>
+
+                  <div className="bg-white p-6 rounded-lg border leading-loose text-lg">
+                    <p>
+                      Space exploration has always been a subject of human 
+                      <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="1" />
+                      </span>. 
+                      Since the first moon landing, countries have spent billions of dollars on missions to explore the 
+                      <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="2" />
+                      </span>. 
+                      However, this topic remains 
+                      <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="3" />
+                      </span>.
+                    </p>
+                    <p className="mt-4">
+                      Supporters argue that space research leads to new 
+                      <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="4" />
+                      </span> 
+                      that improve life on Earth, such as satellite communication and medical advances. Furthermore, as Earth's 
+                      <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="5" />
+                      </span> 
+                      become scarce, finding other 
+                      <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="6" />
+                      </span> 
+                      planets might be necessary for human survival.
+                    </p>
+                    <p className="mt-4">
+                      On the other hand, critics believe that the huge 
+                      <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="7" />
+                      </span> 
+                      required for space programs could be better spent on solving problems here, like poverty and climate change. They argue that governments should 
+                      <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="8" />
+                      </span> 
+                      local issues before looking to the stars. Despite the cost, the 
+                      <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="9" />
+                      </span> 
+                      of scientific discovery often justify the 
+                      <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                        <Input className="h-8 border-none bg-transparent p-0 text-center font-bold text-blue-600 focus-visible:ring-0 placeholder:font-normal" placeholder="10" />
+                      </span>.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-50 p-4 rounded border text-sm text-muted-foreground">
+                    <p className="font-bold mb-2">Answer Key:</p>
+                    <ol className="list-decimal pl-5 grid grid-cols-2 gap-2">
+                        <li>curiosity</li>
+                        <li>universe</li>
+                        <li>controversial</li>
+                        <li>technologies</li>
+                        <li>resources</li>
+                        <li>habitable</li>
+                        <li>budget</li>
+                        <li>prioritize</li>
+                        <li>benefits</li>
+                        <li>investment</li>
+                    </ol>
+                  </div>
+               </div>
+             </CardContent>
+          </Card>
+
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
                <h2 className="text-2xl font-bold mb-2">Writing Tasks: Signal Words</h2>
                <p className="text-muted-foreground mb-6">Complete the sentences below by writing in the blanks the appropriate signal words.</p>
 
