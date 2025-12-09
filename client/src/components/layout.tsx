@@ -8,7 +8,7 @@ import {
   navigationMenuTriggerStyle 
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { BookOpen, MessageSquare, Home, Menu, X, Mic, Book, Headphones, User, LogOut } from "lucide-react";
+import { BookOpen, MessageSquare, Home, Menu, X, Mic, Book, Headphones, User, LogOut, PenTool } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useUser } from "@/hooks/use-user";
@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { href: "/practice/speaking", label: "Speaking", icon: Mic },
     { href: "/practice/reading", label: "Reading", icon: Book },
     { href: "/practice/listening", label: "Listening", icon: Headphones },
-    { href: "/reviews", label: "Reviews", icon: MessageSquare },
+    { href: "/practice/writing", label: "Writing", icon: PenTool },
     { href: "/resources", label: "Resources", icon: BookOpen },
   ];
 
