@@ -134,6 +134,11 @@ export default function ResourceViewer() {
   const [essayBlanksResults, setEssayBlanksResults] = useState<Record<string, boolean>>({});
   const [essayBlanksScore, setEssayBlanksScore] = useState<number | null>(null);
 
+  // State for Essay Practice 2 (Small Local Shops)
+  const [essay2Answers, setEssay2Answers] = useState<Record<string, string>>({});
+  const [essay2Results, setEssay2Results] = useState<Record<string, boolean>>({});
+  const [essay2Score, setEssay2Score] = useState<number | null>(null);
+
   // State for Space Exploration - Extended Reading & Writing
   const [spaceBlanksAnswers, setSpaceBlanksAnswers] = useState<Record<string, string>>({});
   const [spaceBlanksResults, setSpaceBlanksResults] = useState<Record<string, boolean>>({});
@@ -245,6 +250,41 @@ export default function ResourceViewer() {
     setEssayBlanksScore(correctCount);
   };
 
+  const checkEssay2 = () => {
+    const KEY: Record<string, string> = {
+      "p2-a1": "c",
+      "p2-a2": "b",
+      "p2-a3": "b",
+      "p2-a4": "c",
+      "p2-a5": "b",
+      "p2-b1": "true",
+      "p2-b2": "false",
+      "p2-b3": "true",
+      "p2-b4": "false",
+      "p2-b5": "true",
+      "p2-v1": "b",
+      "p2-v2": "d",
+      "p2-v3": "a",
+      "p2-v4": "c",
+      "p2-v5": "e"
+    };
+
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+
+    Object.keys(KEY).forEach(id => {
+      const userAns = (essay2Answers[id] || "").toLowerCase();
+      const correctKey = KEY[id].toLowerCase();
+      const isCorrect = userAns === correctKey;
+      newResults[id] = isCorrect;
+      if (isCorrect) correctCount++;
+    });
+
+    setEssay2Results(newResults);
+    setEssay2Score(correctCount);
+  };
+
+
   const checkSpaceBlanks = () => {
     const KEY: Record<string, string> = {
       "1": "curiosity",
@@ -283,6 +323,7 @@ export default function ResourceViewer() {
   const resetSignalWords = () => { setSignalAnswers({}); setSignalResults({}); setSignalScore(null); };
   const resetWhQuestions = () => { setWhAnswers({}); setWhResults({}); setWhScore(null); };
   const resetEssayBlanks = () => { setEssayBlanksAnswers({}); setEssayBlanksResults({}); setEssayBlanksScore(null); };
+  const resetEssay2 = () => { setEssay2Answers({}); setEssay2Results({}); setEssay2Score(null); };
   const resetSpaceBlanks = () => { 
     setSpaceBlanksAnswers({}); 
     setSpaceBlanksResults({}); 
@@ -1307,7 +1348,7 @@ export default function ResourceViewer() {
                    </div>
                  </div>
 
-                 <div className="space-y-4 border-t pt-6">
+                   <div className="space-y-4 border-t pt-6">
                    <h3 className="font-bold text-lg flex items-center gap-2">
                      <BookOpen className="h-5 w-5 text-primary" /> Reading Comprehension Questions
                    </h3>
@@ -1318,23 +1359,73 @@ export default function ResourceViewer() {
                        <CardContent className="text-sm space-y-4">
                          <div>
                            <p className="font-medium mb-1">1. What is the writer’s opinion about small shops and big malls?</p>
-                           <p className="text-muted-foreground pl-4 border-l-2">c) Both are important</p>
+                           <Select onValueChange={(v) => setEssay2Answers({...essay2Answers, "p2-a1": v})}>
+                             <SelectTrigger className={essay2Results["p2-a1"] === true ? "border-green-500 bg-green-50" : essay2Results["p2-a1"] === false ? "border-red-500 bg-red-50" : ""}>
+                               <SelectValue placeholder="Select answer" />
+                             </SelectTrigger>
+                             <SelectContent>
+                               <SelectItem value="a">a) Small shops are better</SelectItem>
+                               <SelectItem value="b">b) Big malls are better</SelectItem>
+                               <SelectItem value="c">c) Both are important</SelectItem>
+                             </SelectContent>
+                           </Select>
+                           {essay2Results["p2-a1"] === false && <span className="text-xs text-red-500 mt-1 block">Correct: c) Both are important</span>}
                          </div>
                          <div>
                            <p className="font-medium mb-1">2. Why do people like small shops?</p>
-                           <p className="text-muted-foreground pl-4 border-l-2">b) They are friendly and close to home</p>
+                           <Select onValueChange={(v) => setEssay2Answers({...essay2Answers, "p2-a2": v})}>
+                             <SelectTrigger className={essay2Results["p2-a2"] === true ? "border-green-500 bg-green-50" : essay2Results["p2-a2"] === false ? "border-red-500 bg-red-50" : ""}>
+                               <SelectValue placeholder="Select answer" />
+                             </SelectTrigger>
+                             <SelectContent>
+                               <SelectItem value="a">a) They have cheap prices</SelectItem>
+                               <SelectItem value="b">b) They are friendly and close to home</SelectItem>
+                               <SelectItem value="c">c) They are open 24/7</SelectItem>
+                             </SelectContent>
+                           </Select>
+                           {essay2Results["p2-a2"] === false && <span className="text-xs text-red-500 mt-1 block">Correct: b) They are friendly and close to home</span>}
                          </div>
                          <div>
                            <p className="font-medium mb-1">3. What can people do in big malls?</p>
-                           <p className="text-muted-foreground pl-4 border-l-2">b) Eat, shop, and relax</p>
+                           <Select onValueChange={(v) => setEssay2Answers({...essay2Answers, "p2-a3": v})}>
+                             <SelectTrigger className={essay2Results["p2-a3"] === true ? "border-green-500 bg-green-50" : essay2Results["p2-a3"] === false ? "border-red-500 bg-red-50" : ""}>
+                               <SelectValue placeholder="Select answer" />
+                             </SelectTrigger>
+                             <SelectContent>
+                               <SelectItem value="a">a) Only buy clothes</SelectItem>
+                               <SelectItem value="b">b) Eat, shop, and relax</SelectItem>
+                               <SelectItem value="c">c) Park for free</SelectItem>
+                             </SelectContent>
+                           </Select>
+                           {essay2Results["p2-a3"] === false && <span className="text-xs text-red-500 mt-1 block">Correct: b) Eat, shop, and relax</span>}
                          </div>
                          <div>
                            <p className="font-medium mb-1">4. What is one problem with big malls?</p>
-                           <p className="text-muted-foreground pl-4 border-l-2">c) They can be far and tiring</p>
+                           <Select onValueChange={(v) => setEssay2Answers({...essay2Answers, "p2-a4": v})}>
+                             <SelectTrigger className={essay2Results["p2-a4"] === true ? "border-green-500 bg-green-50" : essay2Results["p2-a4"] === false ? "border-red-500 bg-red-50" : ""}>
+                               <SelectValue placeholder="Select answer" />
+                             </SelectTrigger>
+                             <SelectContent>
+                               <SelectItem value="a">a) They are too small</SelectItem>
+                               <SelectItem value="b">b) They have no food</SelectItem>
+                               <SelectItem value="c">c) They can be far and tiring</SelectItem>
+                             </SelectContent>
+                           </Select>
+                           {essay2Results["p2-a4"] === false && <span className="text-xs text-red-500 mt-1 block">Correct: c) They can be far and tiring</span>}
                          </div>
                          <div>
                            <p className="font-medium mb-1">5. What does the writer suggest at the end?</p>
-                           <p className="text-muted-foreground pl-4 border-l-2">b) Keep both small shops and malls</p>
+                           <Select onValueChange={(v) => setEssay2Answers({...essay2Answers, "p2-a5": v})}>
+                             <SelectTrigger className={essay2Results["p2-a5"] === true ? "border-green-500 bg-green-50" : essay2Results["p2-a5"] === false ? "border-red-500 bg-red-50" : ""}>
+                               <SelectValue placeholder="Select answer" />
+                             </SelectTrigger>
+                             <SelectContent>
+                               <SelectItem value="a">a) Close all big malls</SelectItem>
+                               <SelectItem value="b">b) Keep both small shops and malls</SelectItem>
+                               <SelectItem value="c">c) Replace small shops</SelectItem>
+                             </SelectContent>
+                           </Select>
+                           {essay2Results["p2-a5"] === false && <span className="text-xs text-red-500 mt-1 block">Correct: b) Keep both small shops and malls</span>}
                          </div>
                        </CardContent>
                      </Card>
@@ -1343,25 +1434,191 @@ export default function ResourceViewer() {
                         <Card>
                           <CardHeader className="pb-2"><CardTitle className="text-base">Part B: True or False</CardTitle></CardHeader>
                           <CardContent className="text-sm space-y-2">
-                            <p>1. Small shops are close to home. <strong>True</strong></p>
-                            <p>2. Big malls have fewer choices than small shops. <strong>False</strong></p>
-                            <p>3. Prices in malls can be higher. <strong>True</strong></p>
-                            <p>4. The writer likes only small shops. <strong>False</strong></p>
-                            <p>5. People can relax in big malls. <strong>True</strong></p>
+                            <div className="flex items-center justify-between">
+                              <span>1. Small shops are close to home.</span>
+                              <div className="flex gap-2">
+                                <Button 
+                                  variant={essay2Answers["p2-b1"] === "true" ? "default" : "outline"} 
+                                  size="sm" 
+                                  className={`h-7 ${essay2Results["p2-b1"] !== undefined ? (essay2Results["p2-b1"] ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700") : ""}`}
+                                  onClick={() => setEssay2Answers({...essay2Answers, "p2-b1": "true"})}
+                                >True</Button>
+                                <Button 
+                                  variant={essay2Answers["p2-b1"] === "false" ? "default" : "outline"} 
+                                  size="sm"
+                                  className={`h-7`} 
+                                  onClick={() => setEssay2Answers({...essay2Answers, "p2-b1": "false"})}
+                                >False</Button>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span>2. Big malls have fewer choices than small shops.</span>
+                              <div className="flex gap-2">
+                                <Button 
+                                  variant={essay2Answers["p2-b2"] === "true" ? "default" : "outline"} 
+                                  size="sm" 
+                                  className={`h-7`}
+                                  onClick={() => setEssay2Answers({...essay2Answers, "p2-b2": "true"})}
+                                >True</Button>
+                                <Button 
+                                  variant={essay2Answers["p2-b2"] === "false" ? "default" : "outline"} 
+                                  size="sm"
+                                  className={`h-7 ${essay2Results["p2-b2"] !== undefined ? (essay2Results["p2-b2"] ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700") : ""}`}
+                                  onClick={() => setEssay2Answers({...essay2Answers, "p2-b2": "false"})}
+                                >False</Button>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span>3. Prices in malls can be higher.</span>
+                              <div className="flex gap-2">
+                                <Button 
+                                  variant={essay2Answers["p2-b3"] === "true" ? "default" : "outline"} 
+                                  size="sm" 
+                                  className={`h-7 ${essay2Results["p2-b3"] !== undefined ? (essay2Results["p2-b3"] ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700") : ""}`}
+                                  onClick={() => setEssay2Answers({...essay2Answers, "p2-b3": "true"})}
+                                >True</Button>
+                                <Button 
+                                  variant={essay2Answers["p2-b3"] === "false" ? "default" : "outline"} 
+                                  size="sm"
+                                  className={`h-7`} 
+                                  onClick={() => setEssay2Answers({...essay2Answers, "p2-b3": "false"})}
+                                >False</Button>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span>4. The writer likes only small shops.</span>
+                              <div className="flex gap-2">
+                                <Button 
+                                  variant={essay2Answers["p2-b4"] === "true" ? "default" : "outline"} 
+                                  size="sm" 
+                                  className={`h-7`}
+                                  onClick={() => setEssay2Answers({...essay2Answers, "p2-b4": "true"})}
+                                >True</Button>
+                                <Button 
+                                  variant={essay2Answers["p2-b4"] === "false" ? "default" : "outline"} 
+                                  size="sm"
+                                  className={`h-7 ${essay2Results["p2-b4"] !== undefined ? (essay2Results["p2-b4"] ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700") : ""}`}
+                                  onClick={() => setEssay2Answers({...essay2Answers, "p2-b4": "false"})}
+                                >False</Button>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span>5. People can relax in big malls.</span>
+                              <div className="flex gap-2">
+                                <Button 
+                                  variant={essay2Answers["p2-b5"] === "true" ? "default" : "outline"} 
+                                  size="sm" 
+                                  className={`h-7 ${essay2Results["p2-b5"] !== undefined ? (essay2Results["p2-b5"] ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700") : ""}`}
+                                  onClick={() => setEssay2Answers({...essay2Answers, "p2-b5": "true"})}
+                                >True</Button>
+                                <Button 
+                                  variant={essay2Answers["p2-b5"] === "false" ? "default" : "outline"} 
+                                  size="sm"
+                                  className={`h-7`} 
+                                  onClick={() => setEssay2Answers({...essay2Answers, "p2-b5": "false"})}
+                                >False</Button>
+                              </div>
+                            </div>
                           </CardContent>
                         </Card>
 
                         <Card>
                           <CardHeader className="pb-2"><CardTitle className="text-base">Vocabulary Check</CardTitle></CardHeader>
-                          <CardContent className="text-sm space-y-2">
-                            <p><strong>1. Replace:</strong> b) To take the place of something</p>
-                            <p><strong>2. Neighborhood:</strong> d) Area near your home</p>
-                            <p><strong>3. Crowded:</strong> a) Full of people</p>
-                            <p><strong>4. Options:</strong> c) Choices</p>
-                            <p><strong>5. Personal:</strong> e) Friendly and warm</p>
+                          <CardContent className="text-sm space-y-4">
+                            <div>
+                              <p className="font-medium mb-1">1. Replace</p>
+                              <Select onValueChange={(v) => setEssay2Answers({...essay2Answers, "p2-v1": v})}>
+                                <SelectTrigger className={essay2Results["p2-v1"] === true ? "border-green-500 bg-green-50" : essay2Results["p2-v1"] === false ? "border-red-500 bg-red-50" : ""}>
+                                  <SelectValue placeholder="Select meaning" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="a">Full of people</SelectItem>
+                                  <SelectItem value="b">To take the place of something</SelectItem>
+                                  <SelectItem value="c">Choices</SelectItem>
+                                  <SelectItem value="d">Area near your home</SelectItem>
+                                  <SelectItem value="e">Friendly and warm</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div>
+                              <p className="font-medium mb-1">2. Neighborhood</p>
+                              <Select onValueChange={(v) => setEssay2Answers({...essay2Answers, "p2-v2": v})}>
+                                <SelectTrigger className={essay2Results["p2-v2"] === true ? "border-green-500 bg-green-50" : essay2Results["p2-v2"] === false ? "border-red-500 bg-red-50" : ""}>
+                                  <SelectValue placeholder="Select meaning" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="a">Full of people</SelectItem>
+                                  <SelectItem value="b">To take the place of something</SelectItem>
+                                  <SelectItem value="c">Choices</SelectItem>
+                                  <SelectItem value="d">Area near your home</SelectItem>
+                                  <SelectItem value="e">Friendly and warm</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div>
+                              <p className="font-medium mb-1">3. Crowded</p>
+                              <Select onValueChange={(v) => setEssay2Answers({...essay2Answers, "p2-v3": v})}>
+                                <SelectTrigger className={essay2Results["p2-v3"] === true ? "border-green-500 bg-green-50" : essay2Results["p2-v3"] === false ? "border-red-500 bg-red-50" : ""}>
+                                  <SelectValue placeholder="Select meaning" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="a">Full of people</SelectItem>
+                                  <SelectItem value="b">To take the place of something</SelectItem>
+                                  <SelectItem value="c">Choices</SelectItem>
+                                  <SelectItem value="d">Area near your home</SelectItem>
+                                  <SelectItem value="e">Friendly and warm</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div>
+                              <p className="font-medium mb-1">4. Options</p>
+                              <Select onValueChange={(v) => setEssay2Answers({...essay2Answers, "p2-v4": v})}>
+                                <SelectTrigger className={essay2Results["p2-v4"] === true ? "border-green-500 bg-green-50" : essay2Results["p2-v4"] === false ? "border-red-500 bg-red-50" : ""}>
+                                  <SelectValue placeholder="Select meaning" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="a">Full of people</SelectItem>
+                                  <SelectItem value="b">To take the place of something</SelectItem>
+                                  <SelectItem value="c">Choices</SelectItem>
+                                  <SelectItem value="d">Area near your home</SelectItem>
+                                  <SelectItem value="e">Friendly and warm</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div>
+                              <p className="font-medium mb-1">5. Personal</p>
+                              <Select onValueChange={(v) => setEssay2Answers({...essay2Answers, "p2-v5": v})}>
+                                <SelectTrigger className={essay2Results["p2-v5"] === true ? "border-green-500 bg-green-50" : essay2Results["p2-v5"] === false ? "border-red-500 bg-red-50" : ""}>
+                                  <SelectValue placeholder="Select meaning" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="a">Full of people</SelectItem>
+                                  <SelectItem value="b">To take the place of something</SelectItem>
+                                  <SelectItem value="c">Choices</SelectItem>
+                                  <SelectItem value="d">Area near your home</SelectItem>
+                                  <SelectItem value="e">Friendly and warm</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
                           </CardContent>
                         </Card>
                      </div>
+                   </div>
+                   
+                   <div className="flex items-center justify-between pt-4 border-t">
+                      <div className="text-lg font-bold">
+                         {essay2Score !== null && <span>Score: {essay2Score} / 15</span>}
+                      </div>
+                      <div className="flex gap-2">
+                         <Button variant="outline" onClick={resetEssay2}>Reset</Button>
+                         <Button 
+                           onClick={checkEssay2} 
+                           className="w-32"
+                           disabled={Object.keys(essay2Answers).length < 15}
+                         >
+                           {Object.keys(essay2Answers).length < 15 ? `Complete All (${Object.keys(essay2Answers).length}/15)` : "Check Answers"}
+                         </Button>
+                      </div>
                    </div>
                  </div>
                </div>
@@ -1498,7 +1755,13 @@ export default function ResourceViewer() {
                       </div>
                       <div className="flex gap-2">
                          <Button variant="outline" onClick={resetEssayBlanks}>Reset</Button>
-                         <Button onClick={checkEssayBlanks} className="w-32">Check Answers</Button>
+                         <Button 
+                           onClick={checkEssayBlanks} 
+                           className="w-32"
+                           disabled={Object.keys(essayBlanksAnswers).filter(k => k.startsWith('e3-')).length < 10}
+                         >
+                           {Object.keys(essayBlanksAnswers).filter(k => k.startsWith('e3-')).length < 10 ? `Complete All` : "Check Answers"}
+                         </Button>
                       </div>
                    </div>
 
@@ -1643,7 +1906,13 @@ export default function ResourceViewer() {
                       </div>
                       <div className="flex gap-2">
                          <Button variant="outline" onClick={resetEssayBlanks}>Reset</Button>
-                         <Button onClick={checkEssayBlanks} className="w-32">Check Answers</Button>
+                         <Button 
+                           onClick={checkEssayBlanks} 
+                           className="w-32"
+                           disabled={Object.keys(essayBlanksAnswers).filter(k => k.startsWith('e4-')).length < 10}
+                         >
+                           {Object.keys(essayBlanksAnswers).filter(k => k.startsWith('e4-')).length < 10 ? `Complete All` : "Check Answers"}
+                         </Button>
                       </div>
                    </div>
 
