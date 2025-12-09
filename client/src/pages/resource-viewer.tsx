@@ -28,6 +28,7 @@ import imgIsland from "@assets/generated_images/map_of_island_development_projec
 // Import audio files
 import audioAustralia from "@assets/AUSTRALIA_1765268303802.mp3";
 import audioThermodynamics from "@assets/THERMODYNAMICS_1765268364962.mp3";
+import audioReadAloud1 from "@assets/SAMPLE_READ_ALOUD_1_1765269050158.m4a";
 
 type ChartData = {
   id: string;
@@ -138,6 +139,7 @@ const CHARTS: Record<string, ChartData[]> = {
     {
       id: "ra-1",
       title: "Artificial Intelligence Impact",
+      audio: audioReadAloud1,
       answer: "The development of artificial intelligence has transformed various sectors of the economy. From healthcare to finance, algorithms are analyzing data at unprecedented speeds. However, ethical concerns regarding privacy and decision-making remain a significant topic of debate among experts."
     },
     {
@@ -3358,6 +3360,62 @@ export default function ResourceViewer() {
 
           {Object.entries(CHARTS).map(([category, items]) => (
             <TabsContent key={category} value={category} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              
+              {category === "Read Aloud" && (
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 mb-8">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div>
+                      <h3 className="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                        <Check className="h-5 w-5" /> Scoring Criteria
+                      </h3>
+                      <ul className="space-y-3">
+                        <li className="flex gap-3">
+                          <div className="bg-white p-1 rounded border h-fit mt-0.5">
+                             <span className="font-bold text-sm">FL</span>
+                          </div>
+                          <div>
+                            <span className="font-bold block text-sm">Oral Fluency (5 Points)</span>
+                            <span className="text-sm text-muted-foreground">Smooth, effortless rhythm and phrasing. No hesitations or repetitions.</span>
+                          </div>
+                        </li>
+                        <li className="flex gap-3">
+                          <div className="bg-white p-1 rounded border h-fit mt-0.5">
+                             <span className="font-bold text-sm">PR</span>
+                          </div>
+                          <div>
+                            <span className="font-bold block text-sm">Pronunciation (5 Points)</span>
+                            <span className="text-sm text-muted-foreground">Clear vowels and consonants. Correct stress and intonation.</span>
+                          </div>
+                        </li>
+                        <li className="flex gap-3">
+                          <div className="bg-white p-1 rounded border h-fit mt-0.5">
+                             <span className="font-bold text-sm">CN</span>
+                          </div>
+                          <div>
+                            <span className="font-bold block text-sm">Content (5 Points)</span>
+                            <span className="text-sm text-muted-foreground">Reading every word correctly without omissions or insertions.</span>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                        <PlayCircle className="h-5 w-5" /> Guide to Improving Fluency
+                      </h3>
+                      <div className="bg-white rounded-lg border p-4 text-sm space-y-3 shadow-sm">
+                        <p className="font-medium text-foreground">Top Tips for a High Score:</p>
+                        <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
+                          <li><strong className="text-foreground">Don't stop:</strong> Even if you make a mistake, keep reading. Self-correction hurts fluency scores.</li>
+                          <li><strong className="text-foreground">Group words:</strong> Read in meaningful chunks (phrases), not word-by-word robotically.</li>
+                          <li><strong className="text-foreground">Stress keywords:</strong> Emphasize nouns, verbs, and adjectives to create natural rhythm.</li>
+                          <li><strong className="text-foreground">Pause at punctuation:</strong> Take a short breath at commas and full stops.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="grid md:grid-cols-2 gap-8">
                 {items.map((item) => (
                   <Card key={item.id} className="overflow-hidden border-2 hover:border-primary/20 transition-colors">
