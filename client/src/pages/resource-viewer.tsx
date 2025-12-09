@@ -3361,6 +3361,43 @@ export default function ResourceViewer() {
           {Object.entries(CHARTS).map(([category, items]) => (
             <TabsContent key={category} value={category} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               
+              <div className="grid md:grid-cols-2 gap-8">
+                {items.map((item) => (
+                  <Card key={item.id} className="overflow-hidden border-2 hover:border-primary/20 transition-colors">
+                    <div className="aspect-video w-full bg-muted border-b relative group flex items-center justify-center bg-gray-50">
+                      {item.image ? (
+                        <img 
+                          src={item.image} 
+                          alt={item.title} 
+                          className="w-full h-full object-contain bg-white p-4 transition-transform duration-500 group-hover:scale-105" 
+                        />
+                      ) : item.audio ? (
+                        <div className="w-full h-full p-8 flex flex-col items-center justify-center gap-6 bg-secondary/5">
+                           <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center shadow-inner">
+                             <PlayCircle className="w-10 h-10 text-primary animate-pulse" />
+                           </div>
+                           <audio controls className="w-full max-w-md shadow-sm rounded-full" src={item.audio}>
+                             Your browser does not support the audio element.
+                           </audio>
+                           <p className="text-sm text-muted-foreground font-medium">Listen to sample answer -- score this audio and show criteria</p>
+                        </div>
+                      ) : (
+                         <div className="text-muted-foreground">No media available</div>
+                      )}
+                    </div>
+                    <CardContent className="p-6 space-y-4">
+                      <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
+                      <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground">
+                        <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
+                          {category === "Read Aloud" ? "Passage to Read" : "Model Answer"}
+                        </span>
+                        {item.answer}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
               {category === "Read Aloud" && (
                 <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 mb-8">
                   <div className="grid md:grid-cols-2 gap-8">
@@ -3415,43 +3452,6 @@ export default function ResourceViewer() {
                   </div>
                 </div>
               )}
-
-              <div className="grid md:grid-cols-2 gap-8">
-                {items.map((item) => (
-                  <Card key={item.id} className="overflow-hidden border-2 hover:border-primary/20 transition-colors">
-                    <div className="aspect-video w-full bg-muted border-b relative group flex items-center justify-center bg-gray-50">
-                      {item.image ? (
-                        <img 
-                          src={item.image} 
-                          alt={item.title} 
-                          className="w-full h-full object-contain bg-white p-4 transition-transform duration-500 group-hover:scale-105" 
-                        />
-                      ) : item.audio ? (
-                        <div className="w-full h-full p-8 flex flex-col items-center justify-center gap-6 bg-secondary/5">
-                           <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center shadow-inner">
-                             <PlayCircle className="w-10 h-10 text-primary animate-pulse" />
-                           </div>
-                           <audio controls className="w-full max-w-md shadow-sm rounded-full" src={item.audio}>
-                             Your browser does not support the audio element.
-                           </audio>
-                           <p className="text-sm text-muted-foreground font-medium">Listen carefully to the lecture</p>
-                        </div>
-                      ) : (
-                         <div className="text-muted-foreground">No media available</div>
-                      )}
-                    </div>
-                    <CardContent className="p-6 space-y-4">
-                      <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
-                      <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground">
-                        <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
-                          {category === "Read Aloud" ? "Passage to Read" : "Model Answer"}
-                        </span>
-                        {item.answer}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
             </TabsContent>
           ))}
         </Tabs>
