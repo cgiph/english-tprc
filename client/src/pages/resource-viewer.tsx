@@ -189,6 +189,84 @@ export default function ResourceViewer() {
     setSwt2BlanksScore(correctCount);
   };
 
+  // State for SWT Practice 3
+  const [swt3BlanksAnswers, setSwt3BlanksAnswers] = useState<Record<string, string>>({});
+  const [swt3BlanksResults, setSwt3BlanksResults] = useState<Record<string, boolean>>({});
+  const [swt3BlanksScore, setSwt3BlanksScore] = useState<number | null>(null);
+
+  // State for SWT Practice 4
+  const [swt4BlanksAnswers, setSwt4BlanksAnswers] = useState<Record<string, string>>({});
+  const [swt4BlanksResults, setSwt4BlanksResults] = useState<Record<string, boolean>>({});
+  const [swt4BlanksScore, setSwt4BlanksScore] = useState<number | null>(null);
+
+  // State for SWT Practice 5
+  const [swt5BlanksAnswers, setSwt5BlanksAnswers] = useState<Record<string, string>>({});
+  const [swt5BlanksResults, setSwt5BlanksResults] = useState<Record<string, boolean>>({});
+  const [swt5BlanksScore, setSwt5BlanksScore] = useState<number | null>(null);
+
+  const checkSwt3Blanks = () => {
+    const KEY: Record<string, string> = {
+      "swt3_b1": "flexibility",
+      "swt3_b2": "convenience",
+      "swt3_b3": "home",
+      "swt3_b4": "self-discipline",
+      "swt3_b5": "freedom",
+      "swt3_b6": "responsibility"
+    };
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+    Object.keys(KEY).forEach(id => {
+      const userAns = (swt3BlanksAnswers[id] || "").toLowerCase().trim();
+      const correctKey = KEY[id].toLowerCase();
+      const isCorrect = userAns.includes(correctKey) || (id === "swt3_b1" && userAns.includes("flexible"));
+      newResults[id] = isCorrect;
+      if (isCorrect) correctCount++;
+    });
+    setSwt3BlanksResults(newResults);
+    setSwt3BlanksScore(correctCount);
+  };
+
+  const checkSwt4Blanks = () => {
+    const KEY: Record<string, string> = {
+      "swt4_b1": "essential",
+      "swt4_b2": "waste",
+      "swt4_b3": "climate change",
+      "swt4_b4": "everyone",
+      "swt4_b5": "planet"
+    };
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+    Object.keys(KEY).forEach(id => {
+      const userAns = (swt4BlanksAnswers[id] || "").toLowerCase().trim();
+      const correctKey = KEY[id].toLowerCase();
+      const isCorrect = userAns.includes(correctKey);
+      newResults[id] = isCorrect;
+      if (isCorrect) correctCount++;
+    });
+    setSwt4BlanksResults(newResults);
+    setSwt4BlanksScore(correctCount);
+  };
+
+  const checkSwt5Blanks = () => {
+    const KEY: Record<string, string> = {
+      "swt5_b1": "balanced diet",
+      "swt5_b2": "nutrients",
+      "swt5_b3": "sugar",
+      "swt5_b4": "exercise"
+    };
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+    Object.keys(KEY).forEach(id => {
+      const userAns = (swt5BlanksAnswers[id] || "").toLowerCase().trim();
+      const correctKey = KEY[id].toLowerCase();
+      const isCorrect = userAns.includes(correctKey);
+      newResults[id] = isCorrect;
+      if (isCorrect) correctCount++;
+    });
+    setSwt5BlanksResults(newResults);
+    setSwt5BlanksScore(correctCount);
+  };
+
   // State for Signal Words Exercise
   const [signalAnswers, setSignalAnswers] = useState<Record<string, string>>({});
   const [signalResults, setSignalResults] = useState<Record<string, boolean>>({});
@@ -634,77 +712,208 @@ export default function ResourceViewer() {
                    </Card>
 
                    <Card className="mt-8">
-                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 2: Fill-in-the-Blanks Summary (Practice 2)</CardTitle></CardHeader>
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 3: Online Learning</CardTitle></CardHeader>
                      <CardContent className="space-y-6">
                        <div className="bg-muted p-4 rounded-lg border">
                          <p className="mb-2 font-medium text-sm text-muted-foreground uppercase">Text</p>
                          <p className="leading-relaxed">
-                           Many people enjoy shopping in big malls because they offer many choices and fun activities. However, small local shops are important too. They are close to home, save time, and feel personal. Both malls and small shops are useful for different reasons.
+                           Online learning has become very popular because it is flexible and convenient. Students can study from home and choose their own schedule. However, it requires self-discipline and good time management. In short, online education offers great freedom but also needs responsibility.
                          </p>
                        </div>
-                       
                        <div className="space-y-4">
                          <p className="font-medium text-sm text-muted-foreground uppercase">Complete the summary</p>
                          <div className="bg-white p-6 rounded border leading-loose text-lg">
-                           Big malls are popular because they 
+                           Online learning is popular due to its 
                            <span className="inline-block mx-1">
                              <Input 
-                               value={swt2BlanksAnswers["swt2_b1"] || ""} 
-                               onChange={(e) => setSwt2BlanksAnswers({...swt2BlanksAnswers, "swt2_b1": e.target.value})}
-                               className={`w-40 inline-flex h-8 ${swt2BlanksResults["swt2_b1"] === true ? "border-green-500 bg-green-50" : swt2BlanksResults["swt2_b1"] === false ? "border-red-500 bg-red-50" : ""}`}
-                               placeholder=""
+                               value={swt3BlanksAnswers["swt3_b1"] || ""} 
+                               onChange={(e) => setSwt3BlanksAnswers({...swt3BlanksAnswers, "swt3_b1": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swt3BlanksResults["swt3_b1"] === true ? "border-green-500 bg-green-50" : swt3BlanksResults["swt3_b1"] === false ? "border-red-500 bg-red-50" : ""}`}
                              />
-                             {swt2BlanksResults["swt2_b1"] === false && <span className="text-xs text-red-500 block text-center">offer many choices</span>}
+                             {swt3BlanksResults["swt3_b1"] === false && <span className="text-xs text-red-500 block text-center">flexibility</span>}
                            </span>
                            and 
                            <span className="inline-block mx-1">
                              <Input 
-                               value={swt2BlanksAnswers["swt2_b2"] || ""} 
-                               onChange={(e) => setSwt2BlanksAnswers({...swt2BlanksAnswers, "swt2_b2": e.target.value})}
-                               className={`w-32 inline-flex h-8 ${swt2BlanksResults["swt2_b2"] === true ? "border-green-500 bg-green-50" : swt2BlanksResults["swt2_b2"] === false ? "border-red-500 bg-red-50" : ""}`}
-                               placeholder=""
+                               value={swt3BlanksAnswers["swt3_b2"] || ""} 
+                               onChange={(e) => setSwt3BlanksAnswers({...swt3BlanksAnswers, "swt3_b2": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swt3BlanksResults["swt3_b2"] === true ? "border-green-500 bg-green-50" : swt3BlanksResults["swt3_b2"] === false ? "border-red-500 bg-red-50" : ""}`}
                              />
-                             {swt2BlanksResults["swt2_b2"] === false && <span className="text-xs text-red-500 block text-center">fun activities</span>}
+                             {swt3BlanksResults["swt3_b2"] === false && <span className="text-xs text-red-500 block text-center">convenience</span>}
                            </span>
-                           , while small shops are important because they 
+                           . It allows students to study from 
                            <span className="inline-block mx-1">
                              <Input 
-                               value={swt2BlanksAnswers["swt2_b3"] || ""} 
-                               onChange={(e) => setSwt2BlanksAnswers({...swt2BlanksAnswers, "swt2_b3": e.target.value})}
-                               className={`w-40 inline-flex h-8 ${swt2BlanksResults["swt2_b3"] === true ? "border-green-500 bg-green-50" : swt2BlanksResults["swt2_b3"] === false ? "border-red-500 bg-red-50" : ""}`}
-                               placeholder=""
+                               value={swt3BlanksAnswers["swt3_b3"] || ""} 
+                               onChange={(e) => setSwt3BlanksAnswers({...swt3BlanksAnswers, "swt3_b3": e.target.value})}
+                               className={`w-24 inline-flex h-8 ${swt3BlanksResults["swt3_b3"] === true ? "border-green-500 bg-green-50" : swt3BlanksResults["swt3_b3"] === false ? "border-red-500 bg-red-50" : ""}`}
                              />
-                             {swt2BlanksResults["swt2_b3"] === false && <span className="text-xs text-red-500 block text-center">are close to home</span>}
+                             {swt3BlanksResults["swt3_b3"] === false && <span className="text-xs text-red-500 block text-center">home</span>}
                            </span>
-                           and 
+                           . However, it demands 
                            <span className="inline-block mx-1">
                              <Input 
-                               value={swt2BlanksAnswers["swt2_b4"] || ""} 
-                               onChange={(e) => setSwt2BlanksAnswers({...swt2BlanksAnswers, "swt2_b4": e.target.value})}
-                               className={`w-32 inline-flex h-8 ${swt2BlanksResults["swt2_b4"] === true ? "border-green-500 bg-green-50" : swt2BlanksResults["swt2_b4"] === false ? "border-red-500 bg-red-50" : ""}`}
-                               placeholder=""
+                               value={swt3BlanksAnswers["swt3_b4"] || ""} 
+                               onChange={(e) => setSwt3BlanksAnswers({...swt3BlanksAnswers, "swt3_b4": e.target.value})}
+                               className={`w-40 inline-flex h-8 ${swt3BlanksResults["swt3_b4"] === true ? "border-green-500 bg-green-50" : swt3BlanksResults["swt3_b4"] === false ? "border-red-500 bg-red-50" : ""}`}
                              />
-                             {swt2BlanksResults["swt2_b4"] === false && <span className="text-xs text-red-500 block text-center">feel personal</span>}
+                             {swt3BlanksResults["swt3_b4"] === false && <span className="text-xs text-red-500 block text-center">self-discipline</span>}
                            </span>
-                           . Both are 
+                           . Therefore, it offers 
                            <span className="inline-block mx-1">
                              <Input 
-                               value={swt2BlanksAnswers["swt2_b5"] || ""} 
-                               onChange={(e) => setSwt2BlanksAnswers({...swt2BlanksAnswers, "swt2_b5": e.target.value})}
-                               className={`w-24 inline-flex h-8 ${swt2BlanksResults["swt2_b5"] === true ? "border-green-500 bg-green-50" : swt2BlanksResults["swt2_b5"] === false ? "border-red-500 bg-red-50" : ""}`}
-                               placeholder=""
+                               value={swt3BlanksAnswers["swt3_b5"] || ""} 
+                               onChange={(e) => setSwt3BlanksAnswers({...swt3BlanksAnswers, "swt3_b5": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swt3BlanksResults["swt3_b5"] === true ? "border-green-500 bg-green-50" : swt3BlanksResults["swt3_b5"] === false ? "border-red-500 bg-red-50" : ""}`}
                              />
-                             {swt2BlanksResults["swt2_b5"] === false && <span className="text-xs text-red-500 block text-center">useful</span>}
+                             {swt3BlanksResults["swt3_b5"] === false && <span className="text-xs text-red-500 block text-center">freedom</span>}
                            </span>
-                           for different reasons.
+                           but requires 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt3BlanksAnswers["swt3_b6"] || ""} 
+                               onChange={(e) => setSwt3BlanksAnswers({...swt3BlanksAnswers, "swt3_b6": e.target.value})}
+                               className={`w-36 inline-flex h-8 ${swt3BlanksResults["swt3_b6"] === true ? "border-green-500 bg-green-50" : swt3BlanksResults["swt3_b6"] === false ? "border-red-500 bg-red-50" : ""}`}
+                             />
+                             {swt3BlanksResults["swt3_b6"] === false && <span className="text-xs text-red-500 block text-center">responsibility</span>}
+                           </span>
+                           .
                          </div>
                        </div>
-
                        <div className="flex items-center justify-between pt-4 border-t">
                           <div className="text-lg font-bold">
-                             {swt2BlanksScore !== null && <span>Score: {swt2BlanksScore} / 5</span>}
+                             {swt3BlanksScore !== null && <span>Score: {swt3BlanksScore} / 6</span>}
                           </div>
-                          <Button onClick={checkSwt2Blanks} className="w-32">Check Answers</Button>
+                          <Button onClick={checkSwt3Blanks} className="w-32">Check Answers</Button>
+                       </div>
+                     </CardContent>
+                   </Card>
+
+                   <Card className="mt-8">
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 4: Environmental Protection</CardTitle></CardHeader>
+                     <CardContent className="space-y-6">
+                       <div className="bg-muted p-4 rounded-lg border">
+                         <p className="mb-2 font-medium text-sm text-muted-foreground uppercase">Text</p>
+                         <p className="leading-relaxed">
+                           Protecting the environment is essential for our future. We need to reduce waste, recycle more, and use renewable energy. If we do not act now, climate change will cause serious damage. Everyone must work together to save our planet.
+                         </p>
+                       </div>
+                       <div className="space-y-4">
+                         <p className="font-medium text-sm text-muted-foreground uppercase">Complete the summary</p>
+                         <div className="bg-white p-6 rounded border leading-loose text-lg">
+                           Environmental protection is 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt4BlanksAnswers["swt4_b1"] || ""} 
+                               onChange={(e) => setSwt4BlanksAnswers({...swt4BlanksAnswers, "swt4_b1": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swt4BlanksResults["swt4_b1"] === true ? "border-green-500 bg-green-50" : swt4BlanksResults["swt4_b1"] === false ? "border-red-500 bg-red-50" : ""}`}
+                             />
+                             {swt4BlanksResults["swt4_b1"] === false && <span className="text-xs text-red-500 block text-center">essential</span>}
+                           </span>
+                           for the future. We must reduce 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt4BlanksAnswers["swt4_b2"] || ""} 
+                               onChange={(e) => setSwt4BlanksAnswers({...swt4BlanksAnswers, "swt4_b2": e.target.value})}
+                               className={`w-28 inline-flex h-8 ${swt4BlanksResults["swt4_b2"] === true ? "border-green-500 bg-green-50" : swt4BlanksResults["swt4_b2"] === false ? "border-red-500 bg-red-50" : ""}`}
+                             />
+                             {swt4BlanksResults["swt4_b2"] === false && <span className="text-xs text-red-500 block text-center">waste</span>}
+                           </span>
+                           and recycle more. Inaction on 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt4BlanksAnswers["swt4_b3"] || ""} 
+                               onChange={(e) => setSwt4BlanksAnswers({...swt4BlanksAnswers, "swt4_b3": e.target.value})}
+                               className={`w-40 inline-flex h-8 ${swt4BlanksResults["swt4_b3"] === true ? "border-green-500 bg-green-50" : swt4BlanksResults["swt4_b3"] === false ? "border-red-500 bg-red-50" : ""}`}
+                             />
+                             {swt4BlanksResults["swt4_b3"] === false && <span className="text-xs text-red-500 block text-center">climate change</span>}
+                           </span>
+                           will cause damage. 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt4BlanksAnswers["swt4_b4"] || ""} 
+                               onChange={(e) => setSwt4BlanksAnswers({...swt4BlanksAnswers, "swt4_b4": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swt4BlanksResults["swt4_b4"] === true ? "border-green-500 bg-green-50" : swt4BlanksResults["swt4_b4"] === false ? "border-red-500 bg-red-50" : ""}`}
+                             />
+                             {swt4BlanksResults["swt4_b4"] === false && <span className="text-xs text-red-500 block text-center">Everyone</span>}
+                           </span>
+                           needs to cooperate to save the 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt4BlanksAnswers["swt4_b5"] || ""} 
+                               onChange={(e) => setSwt4BlanksAnswers({...swt4BlanksAnswers, "swt4_b5": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swt4BlanksResults["swt4_b5"] === true ? "border-green-500 bg-green-50" : swt4BlanksResults["swt4_b5"] === false ? "border-red-500 bg-red-50" : ""}`}
+                             />
+                             {swt4BlanksResults["swt4_b5"] === false && <span className="text-xs text-red-500 block text-center">planet</span>}
+                           </span>
+                           .
+                         </div>
+                       </div>
+                       <div className="flex items-center justify-between pt-4 border-t">
+                          <div className="text-lg font-bold">
+                             {swt4BlanksScore !== null && <span>Score: {swt4BlanksScore} / 5</span>}
+                          </div>
+                          <Button onClick={checkSwt4Blanks} className="w-32">Check Answers</Button>
+                       </div>
+                     </CardContent>
+                   </Card>
+
+                   <Card className="mt-8">
+                     <CardHeader className="pb-2"><CardTitle className="text-base">Exercise 5: Health and Diet</CardTitle></CardHeader>
+                     <CardContent className="space-y-6">
+                       <div className="bg-muted p-4 rounded-lg border">
+                         <p className="mb-2 font-medium text-sm text-muted-foreground uppercase">Text</p>
+                         <p className="leading-relaxed">
+                           A balanced diet is key to a healthy life. Eating fruits, vegetables, and whole grains provides necessary nutrients. Avoiding too much sugar and processed food helps prevent diseases. Combining good food with regular exercise ensures a strong body and mind.
+                         </p>
+                       </div>
+                       <div className="space-y-4">
+                         <p className="font-medium text-sm text-muted-foreground uppercase">Complete the summary</p>
+                         <div className="bg-white p-6 rounded border leading-loose text-lg">
+                           A 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt5BlanksAnswers["swt5_b1"] || ""} 
+                               onChange={(e) => setSwt5BlanksAnswers({...swt5BlanksAnswers, "swt5_b1": e.target.value})}
+                               className={`w-40 inline-flex h-8 ${swt5BlanksResults["swt5_b1"] === true ? "border-green-500 bg-green-50" : swt5BlanksResults["swt5_b1"] === false ? "border-red-500 bg-red-50" : ""}`}
+                             />
+                             {swt5BlanksResults["swt5_b1"] === false && <span className="text-xs text-red-500 block text-center">balanced diet</span>}
+                           </span>
+                           is crucial for health. Fruits and vegetables provide 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt5BlanksAnswers["swt5_b2"] || ""} 
+                               onChange={(e) => setSwt5BlanksAnswers({...swt5BlanksAnswers, "swt5_b2": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swt5BlanksResults["swt5_b2"] === true ? "border-green-500 bg-green-50" : swt5BlanksResults["swt5_b2"] === false ? "border-red-500 bg-red-50" : ""}`}
+                             />
+                             {swt5BlanksResults["swt5_b2"] === false && <span className="text-xs text-red-500 block text-center">nutrients</span>}
+                           </span>
+                           . Avoiding 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt5BlanksAnswers["swt5_b3"] || ""} 
+                               onChange={(e) => setSwt5BlanksAnswers({...swt5BlanksAnswers, "swt5_b3": e.target.value})}
+                               className={`w-28 inline-flex h-8 ${swt5BlanksResults["swt5_b3"] === true ? "border-green-500 bg-green-50" : swt5BlanksResults["swt5_b3"] === false ? "border-red-500 bg-red-50" : ""}`}
+                             />
+                             {swt5BlanksResults["swt5_b3"] === false && <span className="text-xs text-red-500 block text-center">sugar</span>}
+                           </span>
+                           helps prevent diseases. Good food and 
+                           <span className="inline-block mx-1">
+                             <Input 
+                               value={swt5BlanksAnswers["swt5_b4"] || ""} 
+                               onChange={(e) => setSwt5BlanksAnswers({...swt5BlanksAnswers, "swt5_b4": e.target.value})}
+                               className={`w-32 inline-flex h-8 ${swt5BlanksResults["swt5_b4"] === true ? "border-green-500 bg-green-50" : swt5BlanksResults["swt5_b4"] === false ? "border-red-500 bg-red-50" : ""}`}
+                             />
+                             {swt5BlanksResults["swt5_b4"] === false && <span className="text-xs text-red-500 block text-center">exercise</span>}
+                           </span>
+                           ensure a strong body.
+                         </div>
+                       </div>
+                       <div className="flex items-center justify-between pt-4 border-t">
+                          <div className="text-lg font-bold">
+                             {swt5BlanksScore !== null && <span>Score: {swt5BlanksScore} / 4</span>}
+                          </div>
+                          <Button onClick={checkSwt5Blanks} className="w-32">Check Answers</Button>
                        </div>
                      </CardContent>
                    </Card>
