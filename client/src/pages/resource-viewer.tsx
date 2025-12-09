@@ -145,10 +145,53 @@ export default function ResourceViewer() {
   const [spaceBlanksScore, setSpaceBlanksScore] = useState<number | null>(null);
   const [showSpaceKey, setShowSpaceKey] = useState(false);
 
+  // State for Vocabulary Builder (A1 -> B1+)
+  const [vocabAnswers, setVocabAnswers] = useState<Record<string, string>>({});
+  const [vocabResults, setVocabResults] = useState<Record<string, boolean>>({});
+  const [vocabScore, setVocabScore] = useState<number | null>(null);
+
   // State for Summarize Written Text - Fill in Blanks Practice 2
   const [swt2BlanksAnswers, setSwt2BlanksAnswers] = useState<Record<string, string>>({});
   const [swt2BlanksResults, setSwt2BlanksResults] = useState<Record<string, boolean>>({});
   const [swt2BlanksScore, setSwt2BlanksScore] = useState<number | null>(null);
+
+  const checkVocabulary = () => {
+    const KEY: Record<string, string> = {
+      // Task 1: Matching
+      "v1-1": "beneficial",
+      "v1-2": "detrimental",
+      "v1-3": "substantial",
+      "v1-4": "crucial",
+      "v1-5": "demonstrate",
+      
+      // Task 2: Multiple Choice
+      "v2-1": "address",
+      "v2-2": "acquire",
+      "v2-3": "assist",
+      "v2-4": "provide",
+      "v2-5": "fundamental",
+      
+      // Task 3: Fill in Blanks
+      "v3-1": "enhance",
+      "v3-2": "prohibit",
+      "v3-3": "utilize",
+      "v3-4": "regarding"
+    };
+
+    let correctCount = 0;
+    const newResults: Record<string, boolean> = {};
+
+    Object.keys(KEY).forEach(id => {
+      const userAns = (vocabAnswers[id] || "").toLowerCase().trim();
+      const correctKey = KEY[id].toLowerCase();
+      const isCorrect = userAns === correctKey;
+      newResults[id] = isCorrect;
+      if (isCorrect) correctCount++;
+    });
+
+    setVocabResults(newResults);
+    setVocabScore(correctCount);
+  };
 
   const checkSwtBlanks = () => {
     const KEY: Record<string, string> = {
@@ -322,6 +365,7 @@ export default function ResourceViewer() {
   const resetSwt5Blanks = () => { setSwt5BlanksAnswers({}); setSwt5BlanksResults({}); setSwt5BlanksScore(null); };
   const resetSignalWords = () => { setSignalAnswers({}); setSignalResults({}); setSignalScore(null); };
   const resetWhQuestions = () => { setWhAnswers({}); setWhResults({}); setWhScore(null); };
+  const resetVocabBuilder = () => { setVocabAnswers({}); setVocabResults({}); setVocabScore(null); };
   const resetEssayBlanks = () => { setEssayBlanksAnswers({}); setEssayBlanksResults({}); setEssayBlanksScore(null); };
   const resetEssay2 = () => { setEssay2Answers({}); setEssay2Results({}); setEssay2Score(null); };
   const resetSpaceBlanks = () => { 
@@ -2817,6 +2861,258 @@ export default function ResourceViewer() {
                </div>
              </CardContent>
           </Card>
+
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-2">Vocabulary Builder: A1 to B1+</h2>
+               <p className="text-muted-foreground mb-6">Upgrade your vocabulary from basic (A1) to academic (B1+) level for better essay scores.</p>
+               
+               <div className="space-y-6">
+                  {/* Task 1: Word Upgrade */}
+                  <div className="bg-muted/30 p-6 rounded-lg border">
+                     <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                       <List className="h-5 w-5 text-primary" /> Task 1: Upgrade the Word
+                     </h3>
+                     <p className="mb-4 text-sm text-muted-foreground">Match the simple word with its academic synonym.</p>
+                     
+                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                       <div className="bg-white p-3 rounded border">
+                         <p className="font-bold mb-2">1. Good → ?</p>
+                         <Select onValueChange={(v) => setVocabAnswers({...vocabAnswers, "v1-1": v})}>
+                           <SelectTrigger className={vocabResults["v1-1"] === true ? "border-green-500 bg-green-50" : vocabResults["v1-1"] === false ? "border-red-500 bg-red-50" : ""}>
+                             <SelectValue placeholder="Select..." />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="beneficial">Beneficial</SelectItem>
+                             <SelectItem value="nice">Nice</SelectItem>
+                             <SelectItem value="okay">Okay</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
+                       
+                       <div className="bg-white p-3 rounded border">
+                         <p className="font-bold mb-2">2. Bad → ?</p>
+                         <Select onValueChange={(v) => setVocabAnswers({...vocabAnswers, "v1-2": v})}>
+                           <SelectTrigger className={vocabResults["v1-2"] === true ? "border-green-500 bg-green-50" : vocabResults["v1-2"] === false ? "border-red-500 bg-red-50" : ""}>
+                             <SelectValue placeholder="Select..." />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="naughty">Naughty</SelectItem>
+                             <SelectItem value="detrimental">Detrimental</SelectItem>
+                             <SelectItem value="unpleasant">Unpleasant</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
+
+                       <div className="bg-white p-3 rounded border">
+                         <p className="font-bold mb-2">3. Big → ?</p>
+                         <Select onValueChange={(v) => setVocabAnswers({...vocabAnswers, "v1-3": v})}>
+                           <SelectTrigger className={vocabResults["v1-3"] === true ? "border-green-500 bg-green-50" : vocabResults["v1-3"] === false ? "border-red-500 bg-red-50" : ""}>
+                             <SelectValue placeholder="Select..." />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="huge">Huge</SelectItem>
+                             <SelectItem value="fat">Fat</SelectItem>
+                             <SelectItem value="substantial">Substantial</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
+
+                       <div className="bg-white p-3 rounded border">
+                         <p className="font-bold mb-2">4. Important → ?</p>
+                         <Select onValueChange={(v) => setVocabAnswers({...vocabAnswers, "v1-4": v})}>
+                           <SelectTrigger className={vocabResults["v1-4"] === true ? "border-green-500 bg-green-50" : vocabResults["v1-4"] === false ? "border-red-500 bg-red-50" : ""}>
+                             <SelectValue placeholder="Select..." />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="crucial">Crucial</SelectItem>
+                             <SelectItem value="cool">Cool</SelectItem>
+                             <SelectItem value="main">Main</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
+
+                       <div className="bg-white p-3 rounded border">
+                         <p className="font-bold mb-2">5. Show → ?</p>
+                         <Select onValueChange={(v) => setVocabAnswers({...vocabAnswers, "v1-5": v})}>
+                           <SelectTrigger className={vocabResults["v1-5"] === true ? "border-green-500 bg-green-50" : vocabResults["v1-5"] === false ? "border-red-500 bg-red-50" : ""}>
+                             <SelectValue placeholder="Select..." />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="see">See</SelectItem>
+                             <SelectItem value="look">Look</SelectItem>
+                             <SelectItem value="demonstrate">Demonstrate</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
+                     </div>
+                  </div>
+
+                  {/* Task 2: Sentence Improvement */}
+                  <div className="space-y-4">
+                     <h3 className="font-bold text-lg flex items-center gap-2">
+                       <FileText className="h-5 w-5 text-primary" /> Task 2: Improve the Sentence
+                     </h3>
+                     <p className="text-sm text-muted-foreground">Replace the bracketed [word] with a more academic alternative.</p>
+                     
+                     <div className="space-y-4">
+                       <div className="bg-white p-4 rounded border">
+                         <p className="leading-loose mb-2">1. The government needs to [tackle/fix] this problem immediately.</p>
+                         <Select onValueChange={(v) => setVocabAnswers({...vocabAnswers, "v2-1": v})}>
+                           <SelectTrigger className={`w-full md:w-1/2 ${vocabResults["v2-1"] === true ? "border-green-500 bg-green-50" : vocabResults["v2-1"] === false ? "border-red-500 bg-red-50" : ""}`}>
+                             <SelectValue placeholder="Select better word..." />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="do">do</SelectItem>
+                             <SelectItem value="address">address</SelectItem>
+                             <SelectItem value="make">make</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
+
+                       <div className="bg-white p-4 rounded border">
+                         <p className="leading-loose mb-2">2. Students can [get] many skills from this course.</p>
+                         <Select onValueChange={(v) => setVocabAnswers({...vocabAnswers, "v2-2": v})}>
+                           <SelectTrigger className={`w-full md:w-1/2 ${vocabResults["v2-2"] === true ? "border-green-500 bg-green-50" : vocabResults["v2-2"] === false ? "border-red-500 bg-red-50" : ""}`}>
+                             <SelectValue placeholder="Select better word..." />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="acquire">acquire</SelectItem>
+                             <SelectItem value="catch">catch</SelectItem>
+                             <SelectItem value="take">take</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
+
+                       <div className="bg-white p-4 rounded border">
+                         <p className="leading-loose mb-2">3. Teachers should [help] students who are struggling.</p>
+                         <Select onValueChange={(v) => setVocabAnswers({...vocabAnswers, "v2-3": v})}>
+                           <SelectTrigger className={`w-full md:w-1/2 ${vocabResults["v2-3"] === true ? "border-green-500 bg-green-50" : vocabResults["v2-3"] === false ? "border-red-500 bg-red-50" : ""}`}>
+                             <SelectValue placeholder="Select better word..." />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="aid">aid</SelectItem>
+                             <SelectItem value="do for">do for</SelectItem>
+                             <SelectItem value="assist">assist</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
+
+                       <div className="bg-white p-4 rounded border">
+                         <p className="leading-loose mb-2">4. The university will [give] scholarships to top students.</p>
+                         <Select onValueChange={(v) => setVocabAnswers({...vocabAnswers, "v2-4": v})}>
+                           <SelectTrigger className={`w-full md:w-1/2 ${vocabResults["v2-4"] === true ? "border-green-500 bg-green-50" : vocabResults["v2-4"] === false ? "border-red-500 bg-red-50" : ""}`}>
+                             <SelectValue placeholder="Select better word..." />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="hand out">hand out</SelectItem>
+                             <SelectItem value="provide">provide</SelectItem>
+                             <SelectItem value="pass">pass</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
+
+                       <div className="bg-white p-4 rounded border">
+                         <p className="leading-loose mb-2">5. Reading is a [basic/main] part of education.</p>
+                         <Select onValueChange={(v) => setVocabAnswers({...vocabAnswers, "v2-5": v})}>
+                           <SelectTrigger className={`w-full md:w-1/2 ${vocabResults["v2-5"] === true ? "border-green-500 bg-green-50" : vocabResults["v2-5"] === false ? "border-red-500 bg-red-50" : ""}`}>
+                             <SelectValue placeholder="Select better word..." />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="fundamental">fundamental</SelectItem>
+                             <SelectItem value="starting">starting</SelectItem>
+                             <SelectItem value="bottom">bottom</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
+                     </div>
+                  </div>
+
+                  {/* Task 3: Contextual Blanks */}
+                  <div className="space-y-4">
+                     <h3 className="font-bold text-lg flex items-center gap-2">
+                       <HelpCircle className="h-5 w-5 text-primary" /> Task 3: Context Clues
+                     </h3>
+                     <div className="bg-slate-50 p-4 rounded border text-sm text-muted-foreground mb-4">
+                       <p className="font-bold mb-2">Word Bank:</p>
+                       <div className="flex flex-wrap gap-2">
+                          {["enhance", "prohibit", "utilize", "regarding"].map((word, i) => (
+                            <Badge key={i} variant="secondary" className="text-sm py-1 px-3 bg-white hover:bg-white border border-input">{word}</Badge>
+                          ))}
+                       </div>
+                     </div>
+                     
+                     <div className="bg-white p-6 rounded border leading-loose text-lg">
+                       <p className="mb-4">
+                         1. To 
+                         <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                           <Input 
+                             value={vocabAnswers["v3-1"] || ""} 
+                             onChange={(e) => setVocabAnswers({...vocabAnswers, "v3-1": e.target.value})}
+                             className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${vocabResults["v3-1"] === true ? "text-green-600" : vocabResults["v3-1"] === false ? "text-red-600" : "text-blue-600"}`}
+                             placeholder="" 
+                           />
+                         </span> 
+                         their performance, athletes must train daily. (make better)
+                       </p>
+                       <p className="mb-4">
+                         2. The school rules 
+                         <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                           <Input 
+                             value={vocabAnswers["v3-2"] || ""} 
+                             onChange={(e) => setVocabAnswers({...vocabAnswers, "v3-2": e.target.value})}
+                             className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${vocabResults["v3-2"] === true ? "text-green-600" : vocabResults["v3-2"] === false ? "text-red-600" : "text-blue-600"}`}
+                             placeholder="" 
+                           />
+                         </span> 
+                         mobile phones in class. (stop/ban)
+                       </p>
+                       <p className="mb-4">
+                         3. We should 
+                         <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                           <Input 
+                             value={vocabAnswers["v3-3"] || ""} 
+                             onChange={(e) => setVocabAnswers({...vocabAnswers, "v3-3": e.target.value})}
+                             className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${vocabResults["v3-3"] === true ? "text-green-600" : vocabResults["v3-3"] === false ? "text-red-600" : "text-blue-600"}`}
+                             placeholder="" 
+                           />
+                         </span> 
+                         solar power to save energy. (use)
+                       </p>
+                       <p>
+                         4. I have a question 
+                         <span className="inline-block w-32 mx-2 align-middle border-b-2 border-gray-300">
+                           <Input 
+                             value={vocabAnswers["v3-4"] || ""} 
+                             onChange={(e) => setVocabAnswers({...vocabAnswers, "v3-4": e.target.value})}
+                             className={`h-8 border-none bg-transparent p-0 text-center font-bold focus-visible:ring-0 placeholder:font-normal ${vocabResults["v3-4"] === true ? "text-green-600" : vocabResults["v3-4"] === false ? "text-red-600" : "text-blue-600"}`}
+                             placeholder="" 
+                           />
+                         </span> 
+                         the new policy. (about)
+                       </p>
+                     </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4 border-t">
+                     <div className="text-lg font-bold">
+                        {vocabScore !== null && <span>Score: {vocabScore} / 14</span>}
+                     </div>
+                     <div className="flex gap-2">
+                        <Button variant="outline" onClick={resetVocabBuilder}>Reset</Button>
+                        <Button 
+                          onClick={checkVocabulary} 
+                          className="w-32"
+                          disabled={Object.keys(vocabAnswers).length < 14}
+                        >
+                          {Object.keys(vocabAnswers).length < 14 ? `Complete All` : "Check Answers"}
+                        </Button>
+                     </div>
+                  </div>
+               </div>
+             </CardContent>
+          </Card>
+
           <Card className="mb-8 border-l-4 border-l-primary">
              <CardContent className="pt-6">
                <h2 className="text-2xl font-bold mb-2">Common PTE Collocation Words</h2>
