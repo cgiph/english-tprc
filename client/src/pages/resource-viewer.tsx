@@ -144,9 +144,9 @@ const CHARTS: Record<string, ChartData[]> = {
     },
     {
       id: "rts-2",
-      title: "Missed Appointment",
+      title: "Power Outage Extension",
       audio: audioRTS2,
-      answer: "You have an appointment with your professor to discuss your assignment, but you are feeling very unwell and cannot go. You call your professor to apologize and ask to reschedule. What would you say?"
+      answer: "You have an important seminar paper due next Friday but you just received a notice that your electricity will be out for two days next week. You want to ask your professor for an extension. What would you say in an email or during office hours?"
     },
     {
       id: "rts-3",
