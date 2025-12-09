@@ -158,13 +158,43 @@ const CHARTS: Record<string, ChartData[]> = {
       id: "sgd-1",
       title: "AI in Education Discussion",
       audio: audioPodcastAI,
-      answer: "The group discussed using AI in education. One speaker thinks AI is good for learning. However, another speaker is worried about privacy. They agreed that we need rules to use AI safely."
+      answer: `**Topic:** Impact of AI tools in educational settings
+
+**Speaker 1 (Advocate):**
+- Personalization: AI adapts to student pace
+- Efficiency: Automates administrative tasks for teachers
+- Accessibility: Democratizes information access
+
+**Speaker 2 (Skeptic):**
+- Data Privacy: Risk of leaking sensitive student records
+- Academic Integrity: Plagiarism and loss of critical thinking
+- Dependency: Students stopping to think for themselves
+
+**Consensus:**
+- AI is inevitable but needs guardrails
+- Implementation of strict data governance
+- Focus on using AI as a "copilot" not a replacement`
     },
     {
       id: "sgd-2",
       title: "Future of Remote Work",
       audio: audioSGDDiscussion,
-      answer: "The speakers discussed remote work. They agreed that a hybrid model is best because it is flexible. However, they also mentioned that it can be hard to build a team culture without meeting in person."
+      answer: `**Topic:** Remote vs. In-Office Work Models
+
+**Speaker 1 (Employee View):**
+- Autonomy: Control over own schedule
+- Productivity: Deep work is easier without office distractions
+- Wellbeing: Elimination of stressful commute
+
+**Speaker 2 (Management View):**
+- Culture: Erosion of team bonding and serendipity
+- Innovation: Spontaneous ideas happen in person
+- Mentorship: Junior staff struggle to learn by osmosis
+
+**Conclusion:**
+- "Hybrid" is the winner
+- Specifics: Core days for meetings, flexible days for focus work
+- Best strategy for retention and performance`
     }
   ],
   "Retell Lecture": [
@@ -3672,7 +3702,7 @@ export default function ResourceViewer() {
                              <VoiceRecorder />
                           </div>
                         ) : (
-                          <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground">
+                          <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground whitespace-pre-wrap">
                             <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
                               {category === "Read Aloud" ? "Passage to Read" : 
                                category === "Respond to a Situation" ? "Situation" :
