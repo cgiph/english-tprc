@@ -30,6 +30,8 @@ import audioAustralia from "@assets/AUSTRALIA_1765268303802.mp3";
 import audioThermodynamics from "@assets/THERMODYNAMICS_1765268364962.mp3";
 import audioReadAloud1 from "@assets/SAMPLE_READ_ALOUD_1_1765269050158.m4a";
 import audioReadAloud2 from "@assets/Recording_(4)_1765270243088.m4a";
+import audioPodcastAI from "@assets/Podcast_AI_1_1765272596241.mp3";
+import audioSGDDiscussion from "@assets/SGD_AI_Discussion_1765272776273.wav";
 
 type ChartData = {
   id: string;
@@ -128,6 +130,20 @@ const DESCRIBE_IMAGE_DATA: Record<string, ChartData[]> = {
 };
 
 const CHARTS: Record<string, ChartData[]> = {
+  "Summarize Group Discussion": [
+    {
+      id: "sgd-1",
+      title: "AI in Education Discussion",
+      audio: audioPodcastAI,
+      answer: "The group discussed the integration of AI in education. One speaker highlighted the benefits of personalized learning, while another raised concerns about data privacy. They concluded that while AI is a powerful tool, it requires careful regulation to protect student information."
+    },
+    {
+      id: "sgd-2",
+      title: "Future of Remote Work",
+      audio: audioSGDDiscussion,
+      answer: "The discussion focused on the long-term viability of remote work. Participants agreed that a hybrid model offers the best balance of flexibility and collaboration. However, they also noted the challenge of maintaining company culture without physical presence."
+    }
+  ],
   "Retell Lecture": [
     {
       id: "rl-1",
@@ -3677,6 +3693,74 @@ export default function ResourceViewer() {
                       <p>Content for {category} is coming soon.</p>
                     </div>
                   )}
+                </div>
+              )}
+
+              {category === "Summarize Group Discussion" && (
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 mb-8 mt-4">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div>
+                      <h3 className="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                        <Check className="h-5 w-5" /> Scoring Criteria & Format
+                      </h3>
+                      <div className="space-y-4 text-sm">
+                        <div className="bg-white p-3 rounded-lg border shadow-sm">
+                          <p className="font-bold text-primary mb-1">Test Format</p>
+                          <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
+                            <li><strong>Preparation:</strong> 10 seconds</li>
+                            <li><strong>Recording:</strong> Up to 2 minutes (Aim for 60-90 seconds)</li>
+                            <li><strong>Task:</strong> Listen to a discussion and summarize the key points.</li>
+                          </ul>
+                        </div>
+                        
+                        <div className="bg-white p-3 rounded-lg border shadow-sm">
+                          <p className="font-bold text-primary mb-1">Scoring Criteria</p>
+                          <ul className="space-y-2 text-muted-foreground">
+                            <li className="flex justify-between">
+                              <span>Content (Key points included)</span>
+                              <span className="font-bold text-foreground">2 pts</span>
+                            </li>
+                            <li className="flex justify-between">
+                              <span>Pronunciation (Clarity/Stress)</span>
+                              <span className="font-bold text-foreground">5 pts</span>
+                            </li>
+                            <li className="flex justify-between">
+                              <span>Oral Fluency (Flow/Pacing)</span>
+                              <span className="font-bold text-foreground">5 pts</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                        <PlayCircle className="h-5 w-5" /> Guide to Speaking Fluently
+                      </h3>
+                      <div className="bg-white rounded-lg border p-4 text-sm space-y-4 shadow-sm">
+                        
+                        <div>
+                          <p className="font-bold text-foreground mb-2 flex items-center gap-2"><List className="h-4 w-4 text-muted-foreground"/> Note-Taking Strategy</p>
+                          <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
+                            <li><strong>Don't write sentences:</strong> Use abbreviations (e.g., "edu" for education, "imp" for important).</li>
+                            <li><strong>Focus on Nouns & Verbs:</strong> These carry the meaning.</li>
+                            <li><strong>Structure your notes:</strong> Divide paper into columns for different speakers or "Pro/Con".</li>
+                            <li><strong>Use symbols:</strong> arrows (→) for results, (=) for same, (≠) for different.</li>
+                          </ul>
+                        </div>
+
+                        <div>
+                          <p className="font-bold text-foreground mb-2 flex items-center gap-2"><HelpCircle className="h-4 w-4 text-muted-foreground"/> What to Listen For</p>
+                          <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
+                            <li><strong>The Main Topic:</strong> Usually stated at the beginning.</li>
+                            <li><strong>Key Arguments:</strong> What is each person's stance?</li>
+                            <li><strong>Conflicts/Agreement:</strong> Do they agree or disagree?</li>
+                            <li><strong>Conclusion:</strong> What is the final decision or outcome?</li>
+                          </ul>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 
