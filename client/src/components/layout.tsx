@@ -186,7 +186,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <span className="font-serif font-bold text-lg text-foreground/80">PTE PrepUK</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Empowering students to achieve their UK study dreams through comprehensive PTE Academic UKVI preparation resources and community support.
+                Empowering our candidates to achieve their dreams through a comprehensive PTE Academic preparation, resources, and community support.
               </p>
             </div>
             
