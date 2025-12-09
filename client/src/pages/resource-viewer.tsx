@@ -29,6 +29,7 @@ import imgIsland from "@assets/generated_images/map_of_island_development_projec
 import audioAustralia from "@assets/AUSTRALIA_1765268303802.mp3";
 import audioThermodynamics from "@assets/THERMODYNAMICS_1765268364962.mp3";
 import audioReadAloud1 from "@assets/SAMPLE_READ_ALOUD_1_1765269050158.m4a";
+import audioReadAloud2 from "@assets/Recording_(4)_1765270243088.m4a";
 
 type ChartData = {
   id: string;
@@ -140,6 +141,12 @@ const CHARTS: Record<string, ChartData[]> = {
       id: "ra-1",
       title: "Artificial Intelligence Impact",
       audio: audioReadAloud1,
+      answer: "The development of artificial intelligence has transformed various sectors of the economy. From healthcare to finance, algorithms are analyzing data at unprecedented speeds. However, ethical concerns regarding privacy and decision-making remain a significant topic of debate among experts."
+    },
+    {
+      id: "ra-1-b",
+      title: "Artificial Intelligence Impact (Sample 2)",
+      audio: audioReadAloud2,
       answer: "The development of artificial intelligence has transformed various sectors of the economy. From healthcare to finance, algorithms are analyzing data at unprecedented speeds. However, ethical concerns regarding privacy and decision-making remain a significant topic of debate among experts."
     },
     {
@@ -3394,31 +3401,34 @@ export default function ResourceViewer() {
                         {item.answer}
                       </div>
                       
-                      {category === "Read Aloud" && item.id === "ra-1" && (
+                      {category === "Read Aloud" && (item.id === "ra-1" || item.id === "ra-1-b") && (
                         <div className="mt-4 pt-4 border-t">
                           <h4 className="font-bold text-md mb-3 flex items-center gap-2">
-                            <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded">Sample Analysis</span>
+                            <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded">Sample Analysis {item.id === "ra-1-b" ? "(Sample 2)" : ""}</span>
                           </h4>
                           <div className="grid grid-cols-2 gap-4 text-sm mb-3">
                             <div className="flex justify-between items-center bg-green-50 p-2 rounded border border-green-100">
                               <span className="text-muted-foreground">Oral Fluency</span>
-                              <span className="font-bold text-green-700">5/5</span>
+                              <span className="font-bold text-green-700">{item.id === "ra-1-b" ? "3/5" : "5/5"}</span>
                             </div>
                             <div className="flex justify-between items-center bg-blue-50 p-2 rounded border border-blue-100">
                               <span className="text-muted-foreground">Pronunciation</span>
-                              <span className="font-bold text-blue-700">4/5</span>
+                              <span className="font-bold text-blue-700">{item.id === "ra-1-b" ? "3/5" : "4/5"}</span>
                             </div>
                             <div className="flex justify-between items-center bg-amber-50 p-2 rounded border border-amber-100">
                               <span className="text-muted-foreground">Content</span>
-                              <span className="font-bold text-amber-700">5/5</span>
+                              <span className="font-bold text-amber-700">{item.id === "ra-1-b" ? "4/5" : "5/5"}</span>
                             </div>
                             <div className="flex justify-between items-center bg-primary/10 p-2 rounded border border-primary/20">
                               <span className="font-bold">Total</span>
-                              <span className="font-bold text-primary">14/15</span>
+                              <span className="font-bold text-primary">{item.id === "ra-1-b" ? "10/15" : "14/15"}</span>
                             </div>
                           </div>
                           <p className="text-xs text-muted-foreground italic">
-                            "Excellent pacing and natural rhythm. Minor stress error on 'unprecedented', but overall highly fluent."
+                            {item.id === "ra-1-b" 
+                              ? "\"Good effort, but notice the hesitation before 'unprecedented'. Try to maintain a steady speed. Some word endings were swallowed.\""
+                              : "\"Excellent pacing and natural rhythm. Minor stress error on 'unprecedented', but overall highly fluent.\""
+                            }
                           </p>
                         </div>
                       )}
