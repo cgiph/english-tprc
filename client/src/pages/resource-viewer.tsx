@@ -390,7 +390,14 @@ export default function ResourceViewer() {
       "t3-1": ["first", "to start with"],
       "t3-2": ["next", "then"],
       "t3-3": ["then", "next"],
-      "t3-4": ["finally"]
+      "t3-4": ["finally"],
+      // Task 4: Simple Contrast
+      "t4-1": ["however", "on the other hand"],
+      "t4-2": ["but", "although", "while"],
+      // Task 5: Complex Contrast
+      "t5-1": ["in contrast", "on the other hand"],
+      "t5-2": ["while", "although"],
+      "t5-3": ["nevertheless", "however"]
     };
 
     let correctCount = 0;
@@ -1823,7 +1830,7 @@ export default function ResourceViewer() {
                        <List className="h-5 w-5 text-primary" /> Word Bank
                      </h3>
                      <div className="flex flex-wrap gap-2">
-                       {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another"].map((word, i) => (
+                       {["first, second, third", "before", "as a result,", "to start with", "Then", "immediately before", "the next step", "immediately after", "now", "therefore, so,", "when", "finally,", "afterwards", "Next", "later", "another", "however", "although", "despite", "on the other hand", "in contrast", "whereas", "while", "nevertheless", "but", "yet"].map((word, i) => (
                          <Badge key={i} variant="secondary" className="text-sm py-1 px-3 bg-white hover:bg-white">{word}</Badge>
                        ))}
                      </div>
@@ -1972,13 +1979,88 @@ export default function ResourceViewer() {
                        </CardContent>
                      </Card>
                      
+                     <Card>
+                       <CardHeader className="pb-2"><CardTitle className="text-base">Task 4: Summer vs Winter (Simple Contrast)</CardTitle></CardHeader>
+                       <CardContent className="text-lg leading-loose">
+                         Summer is hot and sunny. 
+                         <div className="inline-block w-48 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t4-1": v})}>
+                             <SelectTrigger className={signalResults["t4-1"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t4-1"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["however", "on the other hand", "in contrast", "whereas", "while", "nevertheless", "but", "although", "despite"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         , winter is cold and snowy. I like summer because I can swim, 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t4-2": v})}>
+                             <SelectTrigger className={signalResults["t4-2"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t4-2"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["however", "on the other hand", "in contrast", "whereas", "while", "nevertheless", "but", "although", "despite"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         my brother prefers winter for skiing.
+                       </CardContent>
+                     </Card>
+
+                     <Card>
+                       <CardHeader className="pb-2"><CardTitle className="text-base">Task 5: Economic Models (Complex Contrast)</CardTitle></CardHeader>
+                       <CardContent className="text-lg leading-loose">
+                         Keynesian economics suggests government intervention can stabilize the economy. 
+                         <div className="inline-block w-48 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t5-1": v})}>
+                             <SelectTrigger className={signalResults["t5-1"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t5-1"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["In contrast", "On the other hand", "While", "Although", "Nevertheless", "However", "Despite"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         , classical economics argues that free markets are self-correcting. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t5-2": v})}>
+                             <SelectTrigger className={signalResults["t5-2"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t5-2"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["In contrast", "On the other hand", "While", "Although", "Nevertheless", "However", "Despite"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         both theories have merit, modern policies often blend them. 
+                         <div className="inline-block w-40 mx-2 align-middle">
+                           <Select onValueChange={(v) => setSignalAnswers({...signalAnswers, "t5-3": v})}>
+                             <SelectTrigger className={signalResults["t5-3"] === true ? "border-green-500 bg-green-50 h-8" : signalResults["t5-3"] === false ? "border-red-500 bg-red-50 h-8" : "h-8"}>
+                               <SelectValue placeholder="Select..." />
+                             </SelectTrigger>
+                             <SelectContent>
+                               {["In contrast", "On the other hand", "While", "Although", "Nevertheless", "However", "Despite"].map(w => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                             </SelectContent>
+                           </Select>
+                         </div>
+                         , debates continue about which approach is best.
+                       </CardContent>
+                     </Card>
+                     
                      <div className="flex items-center justify-between pt-4 border-t">
                         <div className="text-lg font-bold">
-                           {signalScore !== null && <span>Score: {signalScore} / 11</span>}
+                           {signalScore !== null && <span>Score: {signalScore} / 16</span>}
                         </div>
                         <div className="flex gap-2">
                            <Button variant="outline" onClick={resetSignalWords}>Reset</Button>
-                           <Button onClick={checkSignalWords} className="w-32">Check Answers</Button>
+                           <Button 
+                             onClick={checkSignalWords} 
+                             className="w-32"
+                             disabled={Object.keys(signalAnswers).length < 16}
+                           >
+                             {Object.keys(signalAnswers).length < 16 ? `Complete All (${Object.keys(signalAnswers).length}/16)` : "Check Answers"}
+                           </Button>
                         </div>
                      </div>
                   </div>
