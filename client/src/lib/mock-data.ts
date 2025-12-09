@@ -86,7 +86,7 @@ export const MOCK_RESOURCES: Resource[] = [
   },
   {
     id: "2",
-    title: "Describe Image - 50 Practice Charts",
+    title: "A GUIDE TO SPEAKING FLUENTLY",
     description: "High-resolution charts, graphs, and maps commonly seen in the real exam with model answers.",
     type: "Practice Test",
     level: "Advanced",
