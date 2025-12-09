@@ -136,9 +136,9 @@ const CHARTS: Record<string, ChartData[]> = {
   "Respond to a Situation": [
     {
       id: "rts-1",
-      title: "Library Book Issue",
+      title: "Requesting an Extension",
       audio: audioRTS1,
-      answer: "You have borrowed a book from the library, but you have accidentally lost it. You go to the library to explain the situation to the librarian and ask about the replacement policy. What would you say?"
+      answer: "The deadline for your assignment is approaching but your computer is broken, and you want to ask your teacher for an extension -- what would you say?"
     },
     {
       id: "rts-2",
