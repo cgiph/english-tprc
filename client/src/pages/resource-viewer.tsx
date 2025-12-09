@@ -332,6 +332,84 @@ export default function ResourceViewer() {
                    </div>
                  </div>
 
+                 <div className="space-y-6 border-t pt-6">
+                   <h3 className="font-bold text-lg flex items-center gap-2">
+                     <List className="h-5 w-5 text-primary" /> Step-by-Step Guide
+                   </h3>
+                   
+                   <div className="grid gap-4 md:grid-cols-1">
+                     <div className="bg-white p-5 rounded border space-y-4">
+                        <div className="space-y-2">
+                            <h4 className="font-bold text-base text-blue-700">Step 1: Understand the Task</h4>
+                            <p className="text-sm">You have 10 minutes to read a passage (up to 300 words) and write ONE sentence (5–75 words) summarizing the main idea.</p>
+                            <p className="text-sm font-medium">Goal: Capture the essence of the text, not every detail.</p>
+                        </div>
+                        
+                        <div className="space-y-2">
+                            <h4 className="font-bold text-base text-blue-700">Step 2: Read and Identify Key Points</h4>
+                            <p className="text-sm">Skim the passage quickly for:</p>
+                            <ul className="list-disc pl-5 text-sm text-muted-foreground">
+                                <li>Topic (What is it about?)</li>
+                                <li>Main argument or purpose</li>
+                                <li>Supporting points (usually 2–3)</li>
+                                <li>Conclusion (often in the last sentence)</li>
+                            </ul>
+                            <div className="bg-blue-50 p-2 rounded text-xs text-blue-800 font-medium">
+                                Tip: Look for keywords like <em>however, therefore, in conclusion, but</em>—they signal important ideas.
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <h4 className="font-bold text-base text-blue-700">Step 3: Combine Ideas into One Sentence</h4>
+                            <p className="text-sm">Use this formula: <strong>Main topic + key supporting points + conclusion</strong></p>
+                            <div className="bg-slate-50 p-3 rounded border text-sm italic">
+                                Example: Technology makes life easier and more connected, but it also causes distractions and health problems, so people need to use it responsibly.
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <h4 className="font-bold text-base text-blue-700">Step 4: Paraphrase</h4>
+                            <p className="text-sm">Avoid copying exact sentences. Use synonyms and change sentence structure.</p>
+                            <ul className="text-sm space-y-1 pl-4 border-l-2 border-blue-200">
+                                <li>“Technology offers convenience” → “Technology makes life easier.”</li>
+                                <li>“Requires balance” → “Needs responsible use.”</li>
+                            </ul>
+                        </div>
+
+                        <div className="space-y-2">
+                            <h4 className="font-bold text-base text-blue-700">Step 5: Check Grammar and Punctuation</h4>
+                            <ul className="list-disc pl-5 text-sm text-muted-foreground">
+                                <li>Use one full stop only (it must be ONE sentence).</li>
+                                <li>Use commas or conjunctions (and, but, so) to join ideas.</li>
+                                <li>Avoid fragments or run-on sentences.</li>
+                            </ul>
+                        </div>
+
+                        <div className="space-y-2">
+                            <h4 className="font-bold text-base text-blue-700">Step 6: Keep It Concise</h4>
+                            <p className="text-sm">Ideal length: 25–40 words. Remove unnecessary details (examples, statistics, minor points).</p>
+                        </div>
+
+                        <div className="space-y-2">
+                            <h4 className="font-bold text-base text-blue-700">Step 7: Review Before Submitting</h4>
+                            <p className="text-sm">Check: Is it ONE sentence? Does it include the main idea and conclusion? Is grammar correct?</p>
+                        </div>
+                     </div>
+
+                     <div className="bg-red-50 p-5 rounded border border-red-100">
+                        <h4 className="font-bold text-red-800 mb-2 flex items-center gap-2">
+                            <X className="h-4 w-4" /> Common Mistakes to Avoid
+                        </h4>
+                        <ul className="space-y-1 text-sm text-red-700">
+                            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-red-400 flex-shrink-0" /> Writing more than one sentence.</li>
+                            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-red-400 flex-shrink-0" /> Copying text directly.</li>
+                            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-red-400 flex-shrink-0" /> Missing the conclusion or main argument.</li>
+                            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-red-400 flex-shrink-0" /> Making the sentence too short (less than 5 words) or too long (over 75 words).</li>
+                        </ul>
+                     </div>
+                   </div>
+                 </div>
+
                  <div className="space-y-4 border-t pt-6">
                    <h3 className="font-bold text-lg flex items-center gap-2">
                      <List className="h-5 w-5 text-primary" /> Sentence Structures
