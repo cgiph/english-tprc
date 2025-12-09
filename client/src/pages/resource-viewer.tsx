@@ -133,6 +133,18 @@ const CHARTS: Record<string, ChartData[]> = {
       audio: audioThermodynamics,
       answer: "The speaker explains the fundamental principles of thermodynamics. Key concepts such as energy conservation and entropy are discussed. The lecture also provides examples of how these laws apply to everyday systems. Overall, understanding thermodynamics is essential for comprehending physical processes in the universe."
     }
+  ],
+  "Read Aloud": [
+    {
+      id: "ra-1",
+      title: "Artificial Intelligence Impact",
+      answer: "The development of artificial intelligence has transformed various sectors of the economy. From healthcare to finance, algorithms are analyzing data at unprecedented speeds. However, ethical concerns regarding privacy and decision-making remain a significant topic of debate among experts."
+    },
+    {
+      id: "ra-2",
+      title: "Sustainable Architecture",
+      answer: "Sustainable architecture is gaining popularity as cities strive to reduce their carbon footprint. By incorporating green roofs and energy-efficient materials, modern buildings can significantly lower energy consumption. This shift not only benefits the environment but also improves the quality of life for urban residents."
+    }
   ]
 };
 
@@ -3373,7 +3385,9 @@ export default function ResourceViewer() {
                     <CardContent className="p-6 space-y-4">
                       <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
                       <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground">
-                        <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">Model Answer</span>
+                        <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
+                          {category === "Read Aloud" ? "Passage to Read" : "Model Answer"}
+                        </span>
                         {item.answer}
                       </div>
                     </CardContent>
