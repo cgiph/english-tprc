@@ -35,6 +35,7 @@ import audioSGDDiscussion from "@assets/SGD_AI_Discussion_1765272776273.wav";
 import audioRTS1 from "@assets/RTS_1_1765272963032.mp3";
 import audioRTS2 from "@assets/RTS_2_1765272963030.mp3";
 import audioRTS3 from "@assets/RTS_3_1765272963031.mp3";
+import audioRTSSample1 from "@assets/RTS_Sample_Answer_2_1765273838678.mp3";
 
 type ChartData = {
   id: string;
@@ -138,6 +139,7 @@ const CHARTS: Record<string, ChartData[]> = {
       id: "rts-1",
       title: "Requesting an Extension",
       audio: audioRTS1,
+      secondAudio: audioRTSSample1,
       answer: "The deadline for your assignment is approaching but your computer is broken, and you want to ask your teacher for an extension -- what would you say?"
     },
     {
@@ -3659,13 +3661,17 @@ export default function ResourceViewer() {
                              {item.secondAudio ? (
                                 <div className="w-full space-y-4">
                                   <div className="bg-white p-4 rounded-lg shadow-sm border">
-                                    <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wide">Sample 1 (High Score)</p>
+                                    <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wide">
+                                      {category === "Respond to a Situation" ? "Situation" : "Sample 1 (High Score)"}
+                                    </p>
                                     <audio controls className="w-full h-8" src={item.audio}>
                                       Your browser does not support the audio element.
                                     </audio>
                                   </div>
                                   <div className="bg-white p-4 rounded-lg shadow-sm border">
-                                    <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wide">Sample 2 (Average Score)</p>
+                                    <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wide">
+                                      {category === "Respond to a Situation" ? "Model Answer" : "Sample 2 (Average Score)"}
+                                    </p>
                                     <audio controls className="w-full h-8" src={item.secondAudio}>
                                       Your browser does not support the audio element.
                                     </audio>
@@ -3682,7 +3688,9 @@ export default function ResourceViewer() {
                                </>
                              )}
                              <p className="text-sm text-muted-foreground font-medium text-center">
-                               {item.secondAudio ? "Compare the two sample answers" : 
+                               {item.secondAudio ? 
+                                 (category === "Respond to a Situation" ? "Listen to the situation and model answer" : "Compare the two sample answers") 
+                                 : 
                                 category === "Summarize Group Discussion" ? "Listen to the discussion" :
                                 category === "Retell Lecture" ? "Listen to the lecture" :
                                 category === "Respond to a Situation" ? "Listen to the situation" :
