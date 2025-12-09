@@ -2817,6 +2817,180 @@ export default function ResourceViewer() {
                </div>
              </CardContent>
           </Card>
+          <Card className="mb-8 border-l-4 border-l-primary">
+             <CardContent className="pt-6">
+               <h2 className="text-2xl font-bold mb-2">Common PTE Collocation Words</h2>
+               <p className="text-muted-foreground mb-6">List of PTE collocation words to learn by heart.</p>
+               
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+                 <div className="space-y-2">
+                   <p>Academic Achievement</p>
+                   <p>Academic Measurement</p>
+                   <p>Academic Record</p>
+                   <p>Academic Skills</p>
+                   <p>Academic Year</p>
+                   <p>Actively Involved</p>
+                   <p>Additional Problem</p>
+                   <p>Alternative Solution</p>
+                   <p>Appropriate Action</p>
+                   <p>Appropriate Language</p>
+                   <p>Basic Component</p>
+                   <p>Become (The) Focus</p>
+                   <p>Become Involved</p>
+                   <p>Become the Focus</p>
+                   <p>Brief Notes</p>
+                   <p>Broad Category</p>
+                   <p>Careful Attention</p>
+                   <p>Carry Out Research</p>
+                   <p>Central Role</p>
+                   <p>Characteristic Feature</p>
+                   <p>Classic Example</p>
+                   <p>Immediate Environment</p>
+                   <p>Imported Goods</p>
+                   <p>Increased Production</p>
+                   <p>Increasing Emphasis</p>
+                   <p>Indigenous Population</p>
+                   <p>Individual Component</p>
+                   <p>Industrialized Country</p>
+                   <p>Information Processing</p>
+                   <p>Intellectual Property</p>
+                   <p>Internal Conflict</p>
+                   <p>Intimate Relationship</p>
+                   <p>Introductory Text</p>
+                   <p>Key Points</p>
+                   <p>Key Source</p>
+                   <p>Large Percentage</p>
+                   <p>Learning Objective</p>
+                   <p>Legal Basis</p>
+                   <p>Likely Outcome</p>
+                   <p>Limited Range</p>
+                   <p>Local Authority</p>
+                   <p>Logical Approach</p>
+                   <p>Low/Er Frequency</p>
+                   <p>Lowe Frequency</p>
+                   <p>Main Characteristics</p>
+                   <p>Major Cause</p>
+                   <p>Major Decision</p>
+                   <p>Make (A) Judgement</p>
+                   <p>Make a Judgement</p>
+                   <p>Make Arrangements</p>
+                   <p>Make Policy</p>
+                   <p>Maximum Duration</p>
+                   <p>Metropolitan Area</p>
+                 </div>
+                 <div className="space-y-2">
+                   <p>Military Force</p>
+                   <p>Modified Version</p>
+                   <p>Municipal Government</p>
+                   <p>National Interest</p>
+                   <p>National Movement</p>
+                   <p>Natural Science</p>
+                   <p>Negative Attitude</p>
+                   <p>Newly Created</p>
+                   <p>Next Decade</p>
+                   <p>Objective Reality</p>
+                   <p>Obvious Point</p>
+                   <p>Opinion Leader</p>
+                   <p>Organizational Structure</p>
+                   <p>Overall Level</p>
+                   <p>Paid Employment</p>
+                   <p>Particularly Sensitive</p>
+                   <p>Particularly Useful</p>
+                   <p>Personal Experience</p>
+                   <p>Personal Responsibility</p>
+                   <p>Physical Symptom</p>
+                   <p>Place Emphasis</p>
+                   <p>Political Culture</p>
+                   <p>Political Identity</p>
+                   <p>Political Science</p>
+                   <p>Political Stability</p>
+                   <p>Poorly Understood</p>
+                   <p>Positive Impact</p>
+                   <p>Positive View</p>
+                   <p>Powerful Force</p>
+                   <p>Practical Difficulties</p>
+                   <p>Present Evidence</p>
+                   <p>Previous Decade</p>
+                   <p>Primarily Responsible</p>
+                   <p>Primary Education</p>
+                   <p>Prime Time</p>
+                   <p>Principal Source</p>
+                   <p>Prior Experience</p>
+                   <p>Private Sector</p>
+                   <p>Professional Activity</p>
+                   <p>Prominent Member</p>
+                   <p>Promote the Development</p>
+                   <p>Proposed Legislation</p>
+                   <p>Prove Successful</p>
+                   <p>Provide (A) Source</p>
+                   <p>Provide Insight</p>
+                   <p>Public Domain</p>
+                   <p>Public Perception</p>
+                   <p>Qualitative Approach</p>
+                   <p>Quantitative Analysis</p>
+                   <p>Raise Awareness</p>
+                   <p>Random Variable</p>
+                   <p>Receive Information</p>
+                   <p>Recent Survey</p>
+                 </div>
+                 <div className="space-y-2">
+                   <p>Reduce Emissions</p>
+                   <p>Reduce Stress</p>
+                   <p>Related Factor</p>
+                   <p>Related Topic</p>
+                   <p>Relevant Factors</p>
+                   <p>Reliable Information</p>
+                   <p>Report Findings</p>
+                   <p>Research Effort</p>
+                   <p>Ruling Class</p>
+                   <p>Rural Society</p>
+                   <p>Scientific Theory</p>
+                   <p>Seek Help</p>
+                   <p>Set (An) Objective</p>
+                   <p>Set an Objective</p>
+                   <p>Sexual Behavior</p>
+                   <p>Show Evidence</p>
+                   <p>Significant Amount</p>
+                   <p>Significant Interaction</p>
+                   <p>Significant Relationship</p>
+                   <p>Similar Situation</p>
+                   <p>Single Entity</p>
+                   <p>Single Variable</p>
+                   <p>Social Attitudes</p>
+                   <p>Social Construct</p>
+                   <p>Social Isolation</p>
+                   <p>Social Phenomenon</p>
+                   <p>Socioeconomic Status</p>
+                   <p>Sovereign State</p>
+                   <p>Specific Function</p>
+                   <p>Specific Needs</p>
+                   <p>Statistical Data</p>
+                   <p>Statistically Significant</p>
+                   <p>Strong Reaction</p>
+                   <p>Strongly Correlated</p>
+                   <p>Subsequent Work</p>
+                   <p>Substantially Different</p>
+                   <p>Take On (The) Role</p>
+                   <p>Take On the Role</p>
+                   <p>Take Precedence</p>
+                   <p>Technological Innovation</p>
+                   <p>Theoretical Analysis</p>
+                   <p>Top Management</p>
+                   <p>Traditional Form</p>
+                   <p>Undertake Work</p>
+                   <p>Use (A) Method</p>
+                   <p>Use A Method</p>
+                   <p>Use Effectively</p>
+                   <p>Vary Greatly</p>
+                   <p>Visual Media</p>
+                   <p>Vital Role</p>
+                   <p>Widely Different</p>
+                   <p>Widespread Acceptance</p>
+                   <p>Written Comment</p>
+                 </div>
+               </div>
+             </CardContent>
+          </Card>
         </main>
       </div>
     );
