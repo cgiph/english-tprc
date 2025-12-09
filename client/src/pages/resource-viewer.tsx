@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Download, Lock, BookOpen, FileText, HelpCircle, List, Check, X, PlayCircle } from "lucide-react";
 import { Link, useSearch } from "wouter";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 // Import existing images (generated previously)
 import imgRenewable from "@assets/generated_images/bar_chart_showing_global_renewable_energy_consumption_trends.png";
@@ -150,11 +150,166 @@ const CHARTS: Record<string, ChartData[]> = {
       answer: "The development of artificial intelligence has transformed various sectors of the economy. From healthcare to finance, algorithms are analyzing data at unprecedented speeds. However, ethical concerns regarding privacy and decision-making remain a significant topic of debate among experts."
     },
     {
-      id: "ra-2",
-      title: "Sustainable Architecture",
-      answer: "Sustainable architecture is gaining popularity as cities strive to reduce their carbon footprint. By incorporating green roofs and energy-efficient materials, modern buildings can significantly lower energy consumption. This shift not only benefits the environment but also improves the quality of life for urban residents."
+      id: "ra-3",
+      title: "The Importance of Biodiversity",
+      answer: "Biodiversity is essential for the health of our planet. It ensures the stability of ecosystems by providing resilience against environmental changes. Each species, no matter how small, plays a specific role in maintaining the balance of nature. Therefore, protecting endangered species is not just an ethical duty but a necessity for human survival."
+    },
+    {
+      id: "ra-4",
+      title: "Digital Literacy in Education",
+      answer: "Digital literacy has become a fundamental skill in modern education. Students must learn not only how to use technology but also how to critically evaluate online information. As the world becomes increasingly connected, the ability to navigate digital platforms responsibly is crucial for future career success."
     }
   ]
+};
+
+const Teleprompter = ({ text, onComplete }: { text: string, onComplete?: () => void }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [scrollPos, setScrollPos] = useState(0);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  
+  // 100 words per minute
+  // Average word length ~5 chars + space = 6 chars
+  // 100 words/min = 600 chars/min = 10 chars/sec
+  // Update every 50ms -> 0.5 chars per tick
+  
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isPlaying && scrollRef.current) {
+      interval = setInterval(() => {
+        setScrollPos(prev => {
+          const newPos = prev + 0.5; // Adjust speed here
+          if (scrollRef.current && newPos >= scrollRef.current.scrollHeight - scrollRef.current.clientHeight) {
+            setIsPlaying(false);
+            if (onComplete) onComplete();
+            return prev;
+          }
+          return newPos;
+        });
+      }, 50);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying, onComplete]);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollPos;
+    }
+  }, [scrollPos]);
+
+  const reset = () => {
+    setIsPlaying(false);
+    setScrollPos(0);
+  };
+
+  return (
+    <div className="space-y-4">
+      <div 
+        ref={scrollRef}
+        className="h-40 overflow-y-auto bg-black text-white p-6 rounded-lg text-2xl font-medium leading-relaxed shadow-inner border-4 border-gray-800 relative"
+      >
+        <div className="min-h-full pb-20">
+           {text}
+        </div>
+        {/* Overlay to fade out top/bottom for prompter effect */}
+        <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+      </div>
+      
+      <div className="flex justify-center gap-4">
+        <Button 
+          variant={isPlaying ? "destructive" : "default"}
+          onClick={() => setIsPlaying(!isPlaying)}
+          className="w-32"
+        >
+          {isPlaying ? <span className="flex items-center gap-2"><div className="h-3 w-3 bg-white rounded-sm" /> Pause</span> : <span className="flex items-center gap-2"><PlayCircle className="h-4 w-4" /> Start</span>}
+        </Button>
+        <Button variant="outline" onClick={reset}>
+           Reset
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const VoiceRecorder = () => {
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const mediaRecorderRef = React.useRef<MediaRecorder | null>(null);
+  const chunksRef = React.useRef<Blob[]>([]);
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      chunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunksRef.current.push(e.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
+        setAudioBlob(blob);
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+      setAudioBlob(null);
+    } catch (err) {
+      console.error("Error accessing microphone:", err);
+      alert("Could not access microphone. Please ensure you have granted permission.");
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
+  };
+
+  const downloadRecording = () => {
+    if (!audioBlob) return;
+    const url = URL.createObjectURL(audioBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `my-recording-${new Date().getTime()}.webm`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4 p-4 bg-muted/30 rounded-lg border">
+      <div className="flex gap-4">
+        {!isRecording ? (
+          <Button onClick={startRecording} variant="default" className="bg-red-600 hover:bg-red-700 text-white gap-2">
+            <div className="h-3 w-3 rounded-full bg-white animate-pulse" /> Record My Voice
+          </Button>
+        ) : (
+           <Button onClick={stopRecording} variant="destructive" className="animate-pulse gap-2">
+            <div className="h-3 w-3 rounded-sm bg-white" /> Stop Recording
+          </Button>
+        )}
+      </div>
+      
+      {audioBlob && !isRecording && (
+        <div className="flex items-center gap-4 animate-in fade-in slide-in-from-top-2">
+           <audio controls src={URL.createObjectURL(audioBlob)} className="h-10 w-64" />
+           <Button variant="outline" size="sm" onClick={downloadRecording}>
+             <Download className="h-4 w-4 mr-2" /> Download
+           </Button>
+        </div>
+      )}
+      <p className="text-xs text-muted-foreground">Record yourself reading the scrolling text above to check your fluency.</p>
+    </div>
+  );
 };
 
 export default function ResourceViewer() {
@@ -3394,12 +3549,20 @@ export default function ResourceViewer() {
                     </div>
                     <CardContent className="p-6 space-y-4">
                       <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
-                      <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground">
-                        <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
-                          {category === "Read Aloud" ? "Passage to Read" : "Model Answer"}
-                        </span>
-                        {item.answer}
-                      </div>
+                      
+                      {(category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) ? (
+                        <div className="space-y-6">
+                           <Teleprompter text={item.answer} />
+                           <VoiceRecorder />
+                        </div>
+                      ) : (
+                        <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground">
+                          <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
+                            {category === "Read Aloud" ? "Passage to Read" : "Model Answer"}
+                          </span>
+                          {item.answer}
+                        </div>
+                      )}
                       
                       {category === "Read Aloud" && (item.id === "ra-1" || item.id === "ra-1-b") && (
                         <div className="mt-4 pt-4 border-t">
