@@ -51,12 +51,7 @@ export default function TermsOfService() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-            <p>
-              The Service and its original content (excluding Content provided by users), features and functionality are and will remain the exclusive 
-              property of PTE PrepUK and its licensors. The Service is protected by copyright, trademark, and other laws of both the United Kingdom 
-              and foreign countries. Our trademarks and trade dress may not be used in connection with any product or service without the prior 
-              written consent of PTE PrepUK.
-            </p>
+            <p>The Service and its original content (excluding Content provided by users), features and functionality are and will remain the exclusive property of PTE PrepPH and its licensors. The Service is protected by copyright, trademark, and other laws of both the United Kingdom and foreign countries. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of PTE PrepPH.</p>
             <p>
               Study materials, model answers, and practice questions provided on the platform are for personal educational use only and may not be 
               redistributed or sold.
