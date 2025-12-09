@@ -9,7 +9,6 @@ export default function TermsOfService() {
         <h1 className="text-4xl font-serif font-bold text-primary mb-4">Terms of Service</h1>
         <p className="text-muted-foreground">Last updated: December 9, 2025</p>
       </div>
-
       <div className="space-y-8">
         <Card>
           <CardHeader>
@@ -19,10 +18,7 @@ export default function TermsOfService() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-            <p>
-              By accessing and using PTE PrepUK ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. 
-              In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services.
-            </p>
+            <p>By accessing and using PTE PrepPH ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services.</p>
             <p>
               If you do not agree to abide by the above, please do not use this service.
             </p>
