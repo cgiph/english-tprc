@@ -9,7 +9,6 @@ export default function PrivacyPolicy() {
         <h1 className="text-4xl font-serif font-bold text-primary mb-4">Privacy Policy</h1>
         <p className="text-muted-foreground">Last updated: December 9, 2025</p>
       </div>
-
       <div className="space-y-8">
         <Card>
           <CardHeader>
@@ -19,11 +18,7 @@ export default function PrivacyPolicy() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-            <p>
-              Welcome to PTE PrepUK. We respect your privacy and are committed to protecting your personal data. 
-              This privacy policy will inform you as to how we look after your personal data when you visit our website 
-              and tell you about your privacy rights and how the law protects you.
-            </p>
+            <p>Welcome to PTE PrepPH. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>
             <p>
               This privacy policy applies to all users of our educational platform, enabling candidates to prepare for 
               the PTE Academic UKVI exam.
