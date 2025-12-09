@@ -155,7 +155,7 @@ export default function ResourceViewer() {
   const searchParams = new URLSearchParams(search);
   const resourceId = searchParams.get("id");
   
-  const [activeTab, setActiveTab] = useState("Bar Charts");
+  const [activeTab, setActiveTab] = useState("Read Aloud");
 
   // State for Summarize Written Text - Fill in Blanks
   const [swtBlanksAnswers, setSwtBlanksAnswers] = useState<Record<string, string>>({});
