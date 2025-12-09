@@ -223,7 +223,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
           
           <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <p>© 2025 PTE PrepUK. All rights reserved.</p>
+            <p>© 2025 PTE PrepPH. All rights reserved.</p>
             <div className="flex gap-6">
               <Link href="/privacy-policy" className="hover:text-foreground">Privacy Policy</Link>
               <Link href="/terms-of-service" className="hover:text-foreground">Terms of Service</Link>
