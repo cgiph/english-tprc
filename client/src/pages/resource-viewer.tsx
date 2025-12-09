@@ -3652,7 +3652,11 @@ export default function ResourceViewer() {
                                </>
                              )}
                              <p className="text-sm text-muted-foreground font-medium text-center">
-                               {item.secondAudio ? "Compare the two sample answers" : "Listen to the sample answer"}
+                               {item.secondAudio ? "Compare the two sample answers" : 
+                                category === "Summarize Group Discussion" ? "Listen to the discussion" :
+                                category === "Retell Lecture" ? "Listen to the lecture" :
+                                category === "Respond to a Situation" ? "Listen to the situation" :
+                                "Listen to the sample answer"}
                              </p>
                           </div>
                         ) : (
