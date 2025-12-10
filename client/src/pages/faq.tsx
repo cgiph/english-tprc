@@ -14,7 +14,7 @@ export default function FAQ() {
       icon: HelpCircle,
       items: [
         {
-          question: "What is PTE Academic UKVI?",
+          question: "What is PTE Academic?",
           answer: "PTE Academic is accepted by over 3,900 universities and colleges globally for study, by Australia and New Zealand for work and migration visas, and for professional registration. The test of English is computer-based that assesses your academic-level speaking, writing, reading and listening skills. You take the test in a small, friendly test center environment in just two hours."
         },
         {
