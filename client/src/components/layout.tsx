@@ -204,7 +204,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
                 <li><a href="#" className="hover:text-primary transition-colors">Exam Policies</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Contact Us</a></li>
+                <li><Link href="/faq" className="hover:text-primary transition-colors">Contact Us</Link></li>
               </ul>
             </div>
 
