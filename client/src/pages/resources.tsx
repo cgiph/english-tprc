@@ -2,7 +2,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MOCK_RESOURCES, Resource } from "@/lib/mock-data";
-import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard, Lock } from "lucide-react";
+import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard, Lock, BookA } from "lucide-react";
 import { Link } from "wouter";
 import { useState } from "react";
 import {
@@ -83,24 +83,45 @@ export default function Resources() {
       </div>
 
       {/* Featured Tool: Typing Practice */}
-      <div className="w-full max-w-4xl mx-auto">
+      <div className="w-full max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
         <Link href="/practice/typing">
-          <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-2 border-primary/10 hover:border-primary/30 transition-all cursor-pointer group relative overflow-hidden">
+          <Card className="h-full bg-gradient-to-r from-primary/5 to-secondary/5 border-2 border-primary/10 hover:border-primary/30 transition-all cursor-pointer group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500" />
-            <CardContent className="p-8 flex items-center justify-between gap-6 relative z-10">
+            <CardContent className="p-8 flex flex-col justify-between h-full gap-6 relative z-10">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-primary font-bold">
                   <Keyboard className="h-5 w-5" />
                   <span className="uppercase tracking-wider text-xs">New Interactive Tool</span>
                 </div>
                 <h3 className="text-2xl font-serif font-bold text-foreground">Typing Speed Trainer</h3>
-                <p className="text-muted-foreground max-w-md">
+                <p className="text-muted-foreground">
                   Practice your typing speed and accuracy with our new simulation tool. 
                   Includes a 60-minute timer and real-time WPM scoring.
                 </p>
               </div>
-              <Button size="lg" className="shrink-0 bg-primary text-white shadow-lg group-hover:translate-x-1 transition-transform">
+              <Button size="lg" className="shrink-0 bg-primary text-white shadow-lg group-hover:translate-x-1 transition-transform w-full md:w-auto">
                 Start Practicing
+              </Button>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/practice/vocabulary">
+          <Card className="h-full bg-gradient-to-r from-pink-500/5 to-purple-500/5 border-2 border-pink-500/10 hover:border-pink-500/30 transition-all cursor-pointer group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-pink-500/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500" />
+            <CardContent className="p-8 flex flex-col justify-between h-full gap-6 relative z-10">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-pink-600 font-bold">
+                  <BookA className="h-5 w-5" />
+                  <span className="uppercase tracking-wider text-xs">Vocabulary Tool</span>
+                </div>
+                <h3 className="text-2xl font-serif font-bold text-foreground">Vocabulary Builder</h3>
+                <p className="text-muted-foreground">
+                  Master essential PTE Academic collocations and academic words with definitions and examples.
+                </p>
+              </div>
+              <Button size="lg" className="shrink-0 bg-pink-600 hover:bg-pink-700 text-white shadow-lg group-hover:translate-x-1 transition-transform w-full md:w-auto">
+                Explore Words
               </Button>
             </CardContent>
           </Card>

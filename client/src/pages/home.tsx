@@ -82,13 +82,6 @@ export default function Home() {
               icon: PenTool,
               color: "bg-purple-50 text-purple-700",
               href: "/practice/writing"
-            },
-            {
-              title: "Vocabulary Building Tool",
-              desc: "Essential PTE collocations and academic words with definitions and examples.",
-              icon: BookA,
-              color: "bg-pink-50 text-pink-700",
-              href: "/practice/vocabulary"
             }
           ].map((module, i) => (
             <Link key={i} href={module.href}>
