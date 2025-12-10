@@ -37,7 +37,7 @@ export default function FAQ() {
         },
         {
           question: "How is the test scored?",
-          answer: "The test is scored by AI technology, ensuring unbiased and accurate results. Scores range from 10 to 90 on the Global Scale of English."
+          answer: "The PTE Academic test is scored on a scale from 10 to 90, reflecting your overall ability to communicate in English. The scoring evaluates four main areas: Speaking, Writing, Reading, and Listening. Each section is scored individually, and the overall score is calculated using a complex algorithm that considers your performance across all question types. For example, tasks that involve reading and speaking will contribute to both scores, while tasks that focus on writing and listening will contribute to those respective scores. The scoring system aims to provide a comprehensive assessment of your English proficiency, helping you identify strengths and areas for improvement."
         },
         {
           question: "When will I get my results?",
