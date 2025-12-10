@@ -250,7 +250,16 @@ export default function VocabularyTool() {
     "Industrialized Country", "Positive View", "Sovereign State", "Information Processing", "Powerful Force", "Specific Function", 
     "Intellectual Property", "Practical Difficulties", "Specific Needs", "Internal Conflict", "Present Evidence", "Statistical Data", 
     "Intimate Relationship", "Previous Decade", "Statistically Significant", "Introductory Text", "Primarily Responsible", "Strong Reaction", 
-    "Key Points", "Primary Education", "Strongly Correlated", "Key Source", "Prime Time", "Subsequent Work"
+    "Key Points", "Primary Education", "Strongly Correlated", "Key Source", "Prime Time", "Subsequent Work",
+    "Large Percentage", "Principal Source", "Substantially Different", "Learning Objective", "Prior Experience", "Take On (The) Role", 
+    "Legal Basis", "Private Sector", "Take On the Role", "Likely Outcome", "Professional Activity", "Take Precedence", 
+    "Limited Range", "Prominent Member", "Technological Innovation", "Local Authority", "Promote the Development", "Theoretical Analysis", 
+    "Logical Approach", "Proposed Legislation", "Top Management", "Low/Er Frequency", "Prove Successful", "Traditional Form", 
+    "Lowe Frequency", "Provide (A) Source", "Undertake Work", "Main Characteristics", "Provide Insight", "Use (A) Method", 
+    "Major Cause", "Public Domain", "Use A Method", "Major Decision", "Public Perception", "Use Effectively", 
+    "Make (A) Judgement", "Qualitative Approach", "Vary Greatly", "Make a Judgement", "Quantitative Analysis", "Visual Media", 
+    "Make Arrangements", "Raise Awareness", "Vital Role", "Make Policy", "Random Variable", "Widely Different", 
+    "Maximum Duration", "Receive Information", "Widespread Acceptance", "Metropolitan Area", "Recent Survey", "Written Comment"
   ];
 
   return (
