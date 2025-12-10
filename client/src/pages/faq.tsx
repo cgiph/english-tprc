@@ -23,7 +23,7 @@ export default function FAQ() {
         },
         {
           question: "Where can I take the test?",
-          answer: "PTE Academic UKVI can be taken at approved Pearson test centers worldwide. You can find your nearest center on the official Pearson website."
+          answer: "You can take the PTE Academic test at various test centers worldwide. PTE has over 500 test centers globally, including locations in Australia (Sydney, Melbourne, Perth, Brisbane).  Philippines: There are authorized test centers in Manila, Cebu, and Davao.   You can book your test online through the official Pearson PTE website, where you can select your preferred test center and date.  For specific locations and availability, it's best to check the official Pearson PTE website or contact the test centers directly."
         }
       ]
     },
