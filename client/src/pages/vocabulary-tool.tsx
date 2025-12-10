@@ -42,6 +42,52 @@ export default function VocabularyTool() {
           text: "The archaeologist's new discoveries stand out in previously overlooked foundations."
         }
       ]
+    },
+    {
+      word: "recommendation",
+      type: "noun",
+      phonetics: {
+        uk: "/ˌrek.ə.menˈdeɪ.ʃən/",
+        us: "/ˌrek.ə.menˈdeɪ.ʃən/"
+      },
+      definition: "an official suggestion about the best thing to do",
+      examples: [
+        {
+          source: "Pte.tools WFD – 4",
+          text: "There is not enough evidence to support these recommendations."
+        }
+      ]
+    },
+    {
+      word: "undergraduates",
+      type: "noun",
+      phonetics: {
+        uk: "/ˌʌn.dəˈɡrædʒ.u.ət/",
+        us: "/ˌʌn.dɚˈɡrædʒ.u.ət/"
+      },
+      definition: "a university or college student who is studying for their first degree",
+      examples: [
+        {
+          source: "Pte.tools WFD – 371",
+          text: "Undergraduates may pursue specific interests within certificate programs."
+        },
+        {
+          source: "Pte.tools WFD – 120",
+          text: "Undergraduates have a wide range of cultural modules to choose from."
+        },
+        {
+          source: "Pte.tools WFD – 158",
+          text: "The undergraduates need some specific sources to analyse a specific program."
+        },
+        {
+          source: "Pte.tools WFD – 384",
+          text: "These words recognized the excellence of the undergraduates’ research projects."
+        },
+        {
+          source: "Pte.tools WFD – 428",
+          text: "Reading widely is important for undergraduate study."
+        }
+      ]
     }
   ];
 
