@@ -1,9 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
@@ -13,20 +9,6 @@ import {
 import { HelpCircle, BookOpen, Clock, Award, CreditCard, Laptop } from "lucide-react";
 
 export default function FAQ() {
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: ""
-  });
-
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const { name, email, subject, message } = contactForm;
-    const mailtoLink = `mailto:susan.centino@cirrusrecruitment.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
-    window.location.href = mailtoLink;
-  };
-
   const faqs = [
     {
       category: "General Information",
@@ -126,64 +108,17 @@ export default function FAQ() {
         ))}
       </div>
 
-      <div className="mt-12 max-w-2xl mx-auto">
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle>Contact Support</CardTitle>
-            <CardDescription>
-              Can't find the answer you're looking for? Fill out the form below to reach our support team.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleContactSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input
-                  id="name"
-                  placeholder="Your full name"
-                  value={contactForm.name}
-                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your.email@example.com"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
-                <Input
-                  id="subject"
-                  placeholder="What is your inquiry about?"
-                  value={contactForm.subject}
-                  onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="message">Message</Label>
-                <Textarea
-                  id="message"
-                  placeholder="How can we help you?"
-                  className="min-h-[120px]"
-                  value={contactForm.message}
-                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full">
-                Send Message
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+      <div className="mt-12 text-center bg-primary/5 rounded-xl p-8 border border-primary/10">
+        <h3 className="text-lg font-bold text-foreground mb-2">Still have questions?</h3>
+        <p className="text-muted-foreground mb-6">
+          Can't find the answer you're looking for? Our support team is here to help.
+        </p>
+        <Button 
+          onClick={() => window.location.href = "mailto:susan.centino@cirrusrecruitment.com"}
+          className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-2 rounded-md font-medium transition-colors"
+        >
+          Contact Support
+        </Button>
       </div>
     </div>
   );
