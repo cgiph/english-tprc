@@ -5,6 +5,7 @@ import { BookOpen, Volume2, Search, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function VocabularyTool() {
   const vocabList = [
@@ -231,6 +232,18 @@ export default function VocabularyTool() {
     { word: "vindicated", type: "verb", definition: "freed from blame" }
   ];
 
+  const collocationList = [
+    "Academic Achievement", "Military Force", "Reduce Emissions", "Academic Measurement", "Modified Version", "Reduce Stress",
+    "Academic Record", "Municipal Government", "Related Factor", "Academic Skills", "National Interest", "Related Topic",
+    "Academic Year", "National Movement", "Relevant Factors", "Actively Involved", "Natural Science", "Reliable Information",
+    "Additional Problem", "Negative Attitude", "Report Findings", "Alternative Solution", "Newly Created", "Research Effort",
+    "Appropriate Action", "Next Decade", "Ruling Class", "Appropriate Language", "Objective Reality", "Rural Society",
+    "Basic Component", "Obvious Point", "Scientific Theory", "Become (The) Focus", "Opinion Leader", "Seek Help",
+    "Become Involved", "Organizational Structure", "Set (An) Objective", "Become the Focus", "Overall Level", "Set an Objective",
+    "Brief Notes", "Paid Employment", "Sexual Behavior", "Broad Category", "Particularly Sensitive", "Show Evidence",
+    "Careful Attention", "Particularly Useful", "Significant Amount"
+  ];
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="mb-8">
@@ -254,68 +267,98 @@ export default function VocabularyTool() {
         </div>
       </div>
 
-      <div className="grid gap-6">
-        {vocabList.map((item, index) => (
-          <Card key={index} className="overflow-hidden border-none shadow-md hover:shadow-lg transition-shadow">
-            <CardHeader className="bg-muted/30 pb-4 border-b">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-baseline gap-3">
-                  <h2 className="text-2xl font-bold text-primary">{index + 1}. {item.word}</h2>
-                  <span className="text-sm font-medium italic text-muted-foreground">({item.type})</span>
-                  {item.altSpelling && (
-                    <span className="text-xs text-muted-foreground">({item.altSpelling})</span>
-                  )}
-                </div>
-                <div className="flex gap-4 text-sm font-mono text-muted-foreground bg-background px-3 py-1.5 rounded-md border">
-                  {item.phonetics ? (
-                    <>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-xs text-primary/70">UK</span>
-                        <span>{item.phonetics.uk}</span>
-                      </div>
-                      <div className="w-px h-4 bg-border" />
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-xs text-primary/70">US</span>
-                        <span>{item.phonetics.us}</span>
-                      </div>
-                    </>
-                  ) : (
-                    <span className="text-xs italic">Phonetics not available</span>
-                  )}
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">Definition</h3>
-                  <p className="text-lg leading-relaxed">{item.definition}</p>
-                </div>
-                
-                {item.examples && item.examples.length > 0 && (
-                  <div>
-                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Examples in Context</h3>
-                    <div className="space-y-3">
-                      {item.examples.map((example, i) => (
-                        <div key={i} className="bg-primary/5 p-4 rounded-lg border border-primary/10">
-                          <div className="flex items-start gap-3">
-                            <Badge variant="outline" className="mt-0.5 bg-background text-xs font-normal text-muted-foreground shrink-0">
-                              {example.source}
-                            </Badge>
-                            <p className="text-foreground/90 italic">
-                              "{example.text}"
-                            </p>
+      <Tabs defaultValue="vocabulary" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
+          <TabsTrigger value="vocabulary">Vocabulary Words</TabsTrigger>
+          <TabsTrigger value="collocations">Common Collocations</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="vocabulary" className="space-y-6">
+          <div className="grid gap-6">
+            {vocabList.map((item, index) => (
+              <Card key={index} className="overflow-hidden border-none shadow-md hover:shadow-lg transition-shadow">
+                <CardHeader className="bg-muted/30 pb-4 border-b">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-baseline gap-3">
+                      <h2 className="text-2xl font-bold text-primary">{index + 1}. {item.word}</h2>
+                      <span className="text-sm font-medium italic text-muted-foreground">({item.type})</span>
+                      {item.altSpelling && (
+                        <span className="text-xs text-muted-foreground">({item.altSpelling})</span>
+                      )}
+                    </div>
+                    <div className="flex gap-4 text-sm font-mono text-muted-foreground bg-background px-3 py-1.5 rounded-md border">
+                      {item.phonetics ? (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-xs text-primary/70">UK</span>
+                            <span>{item.phonetics.uk}</span>
                           </div>
-                        </div>
-                      ))}
+                          <div className="w-px h-4 bg-border" />
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-xs text-primary/70">US</span>
+                            <span>{item.phonetics.us}</span>
+                          </div>
+                        </>
+                      ) : (
+                        <span className="text-xs italic">Phonetics not available</span>
+                      )}
                     </div>
                   </div>
-                )}
+                </CardHeader>
+                <CardContent className="p-6">
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">Definition</h3>
+                      <p className="text-lg leading-relaxed">{item.definition}</p>
+                    </div>
+                    
+                    {item.examples && item.examples.length > 0 && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Examples in Context</h3>
+                        <div className="space-y-3">
+                          {item.examples.map((example, i) => (
+                            <div key={i} className="bg-primary/5 p-4 rounded-lg border border-primary/10">
+                              <div className="flex items-start gap-3">
+                                <Badge variant="outline" className="mt-0.5 bg-background text-xs font-normal text-muted-foreground shrink-0">
+                                  {example.source}
+                                </Badge>
+                                <p className="text-foreground/90 italic">
+                                  "{example.text}"
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="collocations">
+          <Card className="border-none shadow-md">
+            <CardHeader className="bg-muted/30 border-b">
+              <CardTitle>Common PTE Collocations</CardTitle>
+              <CardDescription>
+                Memorize these word pairs to improve your Reading and Writing scores.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {collocationList.map((collocation, index) => (
+                  <div key={index} className="p-3 bg-secondary/10 rounded-lg border border-secondary/20 hover:bg-secondary/20 transition-colors flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-secondary shrink-0" />
+                    <span className="font-medium text-foreground">{collocation}</span>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
