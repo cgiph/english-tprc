@@ -213,7 +213,7 @@ export default function Home() {
             <div className="max-w-xl space-y-4">
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-white">Ready to start practicing?</h2>
               <p className="text-primary-foreground/80 text-lg">
-                Access our library of {MOCK_RESOURCES.length}+ verified templates, mock tests, and study guides curated by top scorers.
+                Access our library of verified resources with mock tests and study guides curated by top scorers.
               </p>
             </div>
             <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 h-12 px-8 font-semibold shadow-lg">
