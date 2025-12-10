@@ -224,7 +224,11 @@ export default function VocabularyTool() {
     { word: "rancorous", type: "adjective", definition: "hateful; marked by deep-seated ill will" },
     { word: "spurious", type: "adjective", definition: "not genuine; false; counterfeit" },
     { word: "stoic", type: "adjective", definition: "indifferent to pleasure or pain; impassive" },
-    { word: "superfluous", type: "adjective", definition: "extra; unnecessary" }
+    { word: "superfluous", type: "adjective", definition: "extra; unnecessary" },
+    { word: "tenuous", type: "adjective", definition: "having little substance or strength; unsure; weak" },
+    { word: "timorous", type: "adjective", definition: "timid; fearful" },
+    { word: "transitory", type: "adjective", definition: "short-lived; temporary" },
+    { word: "vindicated", type: "verb", definition: "freed from blame" }
   ];
 
   return (
