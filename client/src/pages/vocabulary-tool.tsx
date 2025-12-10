@@ -241,7 +241,16 @@ export default function VocabularyTool() {
     "Basic Component", "Obvious Point", "Scientific Theory", "Become (The) Focus", "Opinion Leader", "Seek Help",
     "Become Involved", "Organizational Structure", "Set (An) Objective", "Become the Focus", "Overall Level", "Set an Objective",
     "Brief Notes", "Paid Employment", "Sexual Behavior", "Broad Category", "Particularly Sensitive", "Show Evidence",
-    "Careful Attention", "Particularly Useful", "Significant Amount"
+    "Careful Attention", "Particularly Useful", "Significant Amount",
+    "Carry Out Research", "Personal Experience", "Significant Interaction", "Central Role", "Personal Responsibility", "Significant Relationship", 
+    "Characteristic Feature", "Physical Symptom", "Similar Situation", "Classic Example", "Place Emphasis", "Single Entity", 
+    "Immediate Environment", "Political Culture", "Single Variable", "Imported Goods", "Political Identity", "Social Attitudes", 
+    "Increased Production", "Political Science", "Social Construct", "Increasing Emphasis", "Political Stability", "Social Isolation", 
+    "Indigenous Population", "Poorly Understood", "Social Phenomenon", "Individual Component", "Positive Impact", "Socioeconomic Status", 
+    "Industrialized Country", "Positive View", "Sovereign State", "Information Processing", "Powerful Force", "Specific Function", 
+    "Intellectual Property", "Practical Difficulties", "Specific Needs", "Internal Conflict", "Present Evidence", "Statistical Data", 
+    "Intimate Relationship", "Previous Decade", "Statistically Significant", "Introductory Text", "Primarily Responsible", "Strong Reaction", 
+    "Key Points", "Primary Education", "Strongly Correlated", "Key Source", "Prime Time", "Subsequent Work"
   ];
 
   return (
