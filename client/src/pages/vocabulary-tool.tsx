@@ -305,7 +305,8 @@ export default function VocabularyTool() {
     { pair: "principle / principal", note: "Principle is a fundamental truth, Principal is a head of a school or main." },
     { pair: "stationary / stationery", note: "Stationary means not moving, Stationery refers to writing materials." },
     { pair: "discreet / discrete", note: "Discreet means careful/secret, Discrete means separate/distinct." },
-    { pair: "elicit / illicit", note: "Elicit means to draw out, Illicit means illegal/forbidden." }
+    { pair: "elicit / illicit", note: "Elicit means to draw out, Illicit means illegal/forbidden." },
+    { pair: "their / there", note: "Their is possessive (belonging to them), There refers to a place or position." }
   ];
 
   const misspelledList = [
