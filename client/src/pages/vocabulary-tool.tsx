@@ -297,6 +297,31 @@ export default function VocabularyTool() {
     "Maximum Duration", "Receive Information", "Widespread Acceptance", "Metropolitan Area", "Recent Survey", "Written Comment"
   ];
 
+  const confusedList = [
+    { pair: "affect / effect", note: "Affect is usually a verb (to influence), Effect is usually a noun (a result)." },
+    { pair: "accept / except", note: "Accept means to receive, Except means to exclude." },
+    { pair: "advice / advise", note: "Advice is a noun (suggestion), Advise is a verb (to recommend)." },
+    { pair: "complement / compliment", note: "Complement completes something, Compliment is praise." },
+    { pair: "principle / principal", note: "Principle is a fundamental truth, Principal is a head of a school or main." },
+    { pair: "stationary / stationery", note: "Stationary means not moving, Stationery refers to writing materials." },
+    { pair: "discreet / discrete", note: "Discreet means careful/secret, Discrete means separate/distinct." },
+    { pair: "elicit / illicit", note: "Elicit means to draw out, Illicit means illegal/forbidden." }
+  ];
+
+  const misspelledList = [
+    "accommodate", "achieve", "across", "aggressive", "apparently", "appearance", "argument", "assassination", "basically", 
+    "beginning", "believe", "bizarre", "business", "calendar", "caribbean", "cemetery", "chauffeur", "colleague", "coming", 
+    "committee", "completely", "conscious", "curiosity", "definitely", "dilemma", "disappear", "disappoint", "ecstasy", 
+    "embarrass", "environment", "existence", "fascist", "fluorescent", "foreign", "foresee", "forty", "forward", "friend", 
+    "further", "gist", "glamorous", "government", "guard", "happened", "harass", "honor", "humorous", "idiosyncrasy", 
+    "immediately", "incidentally", "independent", "interrupt", "irresistible", "knowledge", "liaison", "lollipop", "millennium", 
+    "mischievous", "misspell", "necessary", "noticeable", "occasion", "occurred", "occurrence", "pavilion", "persistent", 
+    "pharaoh", "piece", "politician", "possession", "preferred", "propaganda", "publicly", "really", "receive", "recommend", 
+    "religious", "remember", "resistance", "sense", "separate", "siege", "successful", "supersede", "surprise", "tattoo", 
+    "tendency", "therefore", "threshold", "tomorrow", "tongue", "truly", "unforeseen", "unfortunately", "until", "weird", 
+    "wherever", "which"
+  ];
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="mb-8">
@@ -321,9 +346,11 @@ export default function VocabularyTool() {
       </div>
 
       <Tabs defaultValue="vocabulary" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
+        <TabsList className="grid w-full grid-cols-4 max-w-4xl">
           <TabsTrigger value="vocabulary">Vocabulary Words</TabsTrigger>
           <TabsTrigger value="collocations">Common Collocations</TabsTrigger>
+          <TabsTrigger value="confused">Confused Words</TabsTrigger>
+          <TabsTrigger value="misspelled">Misspelled Words</TabsTrigger>
         </TabsList>
 
         <TabsContent value="vocabulary" className="space-y-6">
@@ -405,6 +432,47 @@ export default function VocabularyTool() {
                   <div key={index} className="p-3 bg-secondary/10 rounded-lg border border-secondary/20 hover:bg-secondary/20 transition-colors flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-secondary shrink-0" />
                     <span className="font-medium text-foreground">{collocation}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="confused">
+          <Card className="border-none shadow-md">
+            <CardHeader className="bg-muted/30 border-b">
+              <CardTitle>Commonly Confused Words</CardTitle>
+              <CardDescription>
+                Words that look or sound similar but have different meanings.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="grid gap-4">
+                {confusedList.map((item, index) => (
+                  <div key={index} className="p-4 bg-muted/20 rounded-lg border hover:bg-muted/40 transition-colors">
+                    <h3 className="text-lg font-bold text-primary mb-1">{item.pair}</h3>
+                    <p className="text-muted-foreground text-sm">{item.note}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="misspelled">
+          <Card className="border-none shadow-md">
+            <CardHeader className="bg-muted/30 border-b">
+              <CardTitle>Commonly Misspelled Words</CardTitle>
+              <CardDescription>
+                Watch out for spelling mistakes with these tricky words.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {misspelledList.map((word, index) => (
+                  <div key={index} className="p-2 px-3 bg-red-50 text-red-900 rounded border border-red-100 font-mono text-sm text-center">
+                    {word}
                   </div>
                 ))}
               </div>
