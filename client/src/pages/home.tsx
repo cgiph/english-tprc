@@ -28,9 +28,7 @@ export default function Home() {
               Your Path to <br/>
               <span className="text-secondary">Academic Success</span>
             </h1>
-            <p className="text-xl text-white/90 max-w-lg leading-relaxed font-light">
-              Join thousands of students sharing real exam experiences, strategies, and verified study resources for the PTE Academic UKVI.
-            </p>
+            <p className="text-xl text-white/90 max-w-lg leading-relaxed font-light">Join thousands of students sharing real exam experiences, strategies, and verified study resources for the PTE Academic.</p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold text-lg h-14 px-8 shadow-xl shadow-secondary/20">
                 <Link href="/reviews">Read Reviews</Link>
@@ -52,7 +50,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Practice Modules Section */}
       <section className="container mx-auto px-4 -mt-24 relative z-20">
         <h2 className="text-3xl font-serif font-bold text-white mb-6 drop-shadow-md">Practice Modules</h2>
@@ -103,7 +100,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
       {/* Features Grid */}
       <section className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-6">
