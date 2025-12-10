@@ -178,7 +178,53 @@ export default function VocabularyTool() {
           text: "Student identification cards will be issued today and tomorrow."
         }
       ]
-    }
+    },
+    { word: "abstract", type: "adjective", definition: "not concrete" },
+    { word: "aesthetic", type: "adjective", definition: "having to do with the appreciation of beauty" },
+    { word: "alleviate", type: "verb", definition: "to ease a pain or a burden" },
+    { word: "ambivalent", type: "adjective", definition: "simultaneously feeling opposing feelings; uncertain" },
+    { word: "apathetic", type: "adjective", definition: "feeling or showing little emotion" },
+    { word: "auspicious", type: "adjective", definition: "favorable; promising" },
+    { word: "benevolent", type: "adjective", definition: "well-meaning; generous" },
+    { word: "candor", type: "noun", definition: "sincerity; openness" },
+    { word: "cogent", type: "adjective", definition: "convincing; reasonable" },
+    { word: "comprehensive", type: "adjective", definition: "broad or complete in scope or content" },
+    { word: "contemporary", type: "adjective", definition: "current, modern; from the same time" },
+    { word: "conviction", type: "noun", definition: "a fixed or strong belief" },
+    { word: "diligent", type: "adjective", definition: "marked by painstaking effort; hard-working" },
+    { word: "dubious", type: "adjective", definition: "doubtful; of unlikely authenticity" },
+    { word: "eclectic", type: "adjective", definition: "made up of a variety of sources or styles" },
+    { word: "egregious", type: "adjective", definition: "conspicuously bad or offensive" },
+    { word: "exculpate", type: "verb", definition: "to free from guilt or blame" },
+    { word: "florid", type: "adjective", definition: "flowery or elaborate in style" },
+    { word: "gratuitous", type: "adjective", definition: "given freely; unearned; unwarranted" },
+    { word: "hackneyed", type: "adjective", definition: "worn out through overuse; trite" },
+    { word: "idealize", type: "verb", definition: "to consider perfect" },
+    { word: "impartial", type: "adjective", definition: "not in favor of one side or the other; unbiased" },
+    { word: "imperious", type: "adjective", definition: "arrogantly domineering or overbearing" },
+    { word: "inherent", type: "adjective", definition: "inborn; built-in" },
+    { word: "innovative", type: "adjective", definition: "introducing something new" },
+    { word: "inveterate", type: "adjective", definition: "long established; deep-rooted; habitual" },
+    { word: "laudatory", type: "adjective", definition: "giving praise" },
+    { word: "maverick", type: "noun", definition: "one who resists adherence to a group" },
+    { word: "mollify", type: "verb", definition: "to calm or soothe" },
+    { word: "novel", type: "adjective", definition: "strikingly new or unusual" },
+    { word: "obdurate", type: "adjective", definition: "stubborn; inflexible" },
+    { word: "objectivity", type: "noun", definition: "judgment uninfluenced by emotion" },
+    { word: "obstinate", type: "adjective", definition: "stubbornly adhering to an opinion" },
+    { word: "ornate", type: "adjective", definition: "elaborately decorated" },
+    { word: "ostentatious", type: "adjective", definition: "describing a pretentious display" },
+    { word: "paramount", type: "adjective", definition: "of chief concern or importance" },
+    { word: "penitent", type: "adjective", definition: "expressing remorse for one’s misdeeds" },
+    { word: "pervasive", type: "adjective", definition: "dispersed throughout" },
+    { word: "plausible", type: "adjective", definition: "seemingly valid or acceptable; credible" },
+    { word: "profound", type: "adjective", definition: "having great depth or seriousness" },
+    { word: "prosaic", type: "adjective", definition: "unimaginative; dull; ordinary" },
+    { word: "quandary", type: "noun", definition: "a state of uncertainty or perplexity" },
+    { word: "rancorous", type: "adjective", definition: "hateful; marked by deep-seated ill will" },
+    { word: "spurious", type: "adjective", definition: "not genuine; false; counterfeit" },
+    { word: "stoic", type: "adjective", definition: "indifferent to pleasure or pain; impassive" },
+    { word: "superfluous", type: "adjective", definition: "extra; unnecessary" }
   ];
 
   return (
@@ -217,15 +263,21 @@ export default function VocabularyTool() {
                   )}
                 </div>
                 <div className="flex gap-4 text-sm font-mono text-muted-foreground bg-background px-3 py-1.5 rounded-md border">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs text-primary/70">UK</span>
-                    <span>{item.phonetics.uk}</span>
-                  </div>
-                  <div className="w-px h-4 bg-border" />
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs text-primary/70">US</span>
-                    <span>{item.phonetics.us}</span>
-                  </div>
+                  {item.phonetics ? (
+                    <>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-xs text-primary/70">UK</span>
+                        <span>{item.phonetics.uk}</span>
+                      </div>
+                      <div className="w-px h-4 bg-border" />
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-xs text-primary/70">US</span>
+                        <span>{item.phonetics.us}</span>
+                      </div>
+                    </>
+                  ) : (
+                    <span className="text-xs italic">Phonetics not available</span>
+                  )}
                 </div>
               </div>
             </CardHeader>
@@ -236,23 +288,25 @@ export default function VocabularyTool() {
                   <p className="text-lg leading-relaxed">{item.definition}</p>
                 </div>
                 
-                <div>
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Examples in Context</h3>
-                  <div className="space-y-3">
-                    {item.examples.map((example, i) => (
-                      <div key={i} className="bg-primary/5 p-4 rounded-lg border border-primary/10">
-                        <div className="flex items-start gap-3">
-                          <Badge variant="outline" className="mt-0.5 bg-background text-xs font-normal text-muted-foreground shrink-0">
-                            {example.source}
-                          </Badge>
-                          <p className="text-foreground/90 italic">
-                            "{example.text}"
-                          </p>
+                {item.examples && item.examples.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Examples in Context</h3>
+                    <div className="space-y-3">
+                      {item.examples.map((example, i) => (
+                        <div key={i} className="bg-primary/5 p-4 rounded-lg border border-primary/10">
+                          <div className="flex items-start gap-3">
+                            <Badge variant="outline" className="mt-0.5 bg-background text-xs font-normal text-muted-foreground shrink-0">
+                              {example.source}
+                            </Badge>
+                            <p className="text-foreground/90 italic">
+                              "{example.text}"
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </CardContent>
           </Card>
