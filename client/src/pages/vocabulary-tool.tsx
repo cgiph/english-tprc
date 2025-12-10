@@ -88,6 +88,96 @@ export default function VocabularyTool() {
           text: "Reading widely is important for undergraduate study."
         }
       ]
+    },
+    {
+      word: "communications",
+      type: "plural noun",
+      phonetics: {
+        uk: "/kəˌmjuːnɪˈkeɪʃənz/",
+        us: "/kəˌmju·nɪˈkeɪ·ʃənz/"
+      },
+      definition: "the activity or process of expressing ideas and feelings or of giving people information",
+      examples: [
+        {
+          source: "Pte.tools WFD – 325",
+          text: "Many graduates of journalism get jobs in the communications field."
+        }
+      ]
+    },
+    {
+      word: "reconciliation",
+      type: "noun",
+      phonetics: {
+        uk: "/ˌrek.ənˌsɪl.iˈeɪ.ʃən/",
+        us: "/ˌrek.ənˌsɪl.iˈeɪ.ʃən/"
+      },
+      definition: "an end to a disagreement or conflict with somebody and the start of a good relationship again",
+      examples: [
+        {
+          source: "Pte.tools WFD – 377",
+          text: "While reconciliation is desirable, basic underlying issues must first be addressed."
+        }
+      ]
+    },
+    {
+      word: "implementation",
+      type: "noun",
+      phonetics: {
+        uk: "/ˌɪm.plɪ.menˈteɪ.ʃən/",
+        us: "/ˌɪm.plə.menˈteɪ.ʃən/"
+      },
+      definition: "the process of putting a decision or plan into effect; execution",
+      examples: [
+        {
+          source: "Pte.tools WFD – 19",
+          text: "Implementation figures are expected to be improved in the next few years."
+        }
+      ]
+    },
+    {
+      word: "transformation",
+      type: "noun",
+      phonetics: {
+        uk: "/ˌtræns.fəˈmeɪ.ʃən/",
+        us: "/ˌtræns.fɚˈmeɪ.ʃən/"
+      },
+      definition: "a complete change in somebody/something",
+      examples: [
+        {
+          source: "Pte.tools WFD – 208",
+          text: "The transformation of media has changed the way information both used and studied."
+        }
+      ]
+    },
+    {
+      word: "transportation",
+      type: "noun",
+      phonetics: {
+        uk: "/ˌtræn.spɔːˈteɪ.ʃən/",
+        us: "/ˌtræn.spɚˈteɪ.ʃən/"
+      },
+      definition: "a system for carrying people or goods from one place to another using vehicles, roads, etc.",
+      examples: [
+        {
+          source: "Pte.tools WFD – 40",
+          text: "The toughest part of public transportation is funding."
+        }
+      ]
+    },
+    {
+      word: "identification",
+      type: "noun",
+      phonetics: {
+        uk: "/aɪˌden.tɪ.fɪˈkeɪ.ʃən/",
+        us: "/aɪˌden.t̬ə.fəˈkeɪ.ʃən/"
+      },
+      definition: "the process of showing, proving or recognizing who or what somebody/something is",
+      examples: [
+        {
+          source: "Pte.tools WFD – 340",
+          text: "Student identification cards will be issued today and tomorrow."
+        }
+      ]
     }
   ];
 
