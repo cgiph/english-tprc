@@ -65,7 +65,7 @@ export default function FAQ() {
       items: [
         {
           question: "Do I need special equipment to use this site?",
-          answer: "You need a computer or tablet with a reliable internet connection. For speaking practice, a working microphone is essential. We recommend using a headset for better audio quality."
+          answer: "You need a computer or tablet with a reliable internet connection. For speaking practice, a working microphone is essential. We recommend using a headset for better audio quality. For the listening and writing sections, you will need to improve your typing speed and accuracy, so you will need a working QWERTY keyboard."
         }
       ]
     }
