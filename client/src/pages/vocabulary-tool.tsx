@@ -244,7 +244,27 @@ export default function VocabularyTool() {
     { word: "tangible", type: "adjective", definition: "perceptible by touch" },
     { word: "unprecedented", type: "adjective", definition: "never done or known before" },
     { word: "valid", type: "adjective", definition: "(of an argument or point) having a sound basis in logic or fact; reasonable or cogent" },
-    { word: "widespread", type: "adjective", definition: "found or distributed over a large area or number of people" }
+    { word: "widespread", type: "adjective", definition: "found or distributed over a large area or number of people" },
+    { word: "allocation", type: "noun", definition: "the action or process of allocating or sharing out something" },
+    { word: "assignment", type: "noun", definition: "a task or piece of work allocated to someone as part of a job or course of study" },
+    { word: "bibliography", type: "noun", definition: "a list of the books referred to in a scholarly work" },
+    { word: "colloquial", type: "adjective", definition: "(of language) used in ordinary or familiar conversation; not formal or literary" },
+    { word: "constituents", type: "noun", definition: "a component part of something" },
+    { word: "curriculum", type: "noun", definition: "the subjects comprising a course of study in a school or college" },
+    { word: "dissertation", type: "noun", definition: "a long essay on a particular subject, especially one written for a university degree or diploma" },
+    { word: "epidemiology", type: "noun", definition: "the branch of medicine which deals with the incidence, distribution, and possible control of diseases" },
+    { word: "extrapolate", type: "verb", definition: "extend the application of (a method or conclusion) to an unknown situation by assuming that existing trends will continue" },
+    { word: "hypothesis", type: "noun", definition: "a supposition or proposed explanation made on the basis of limited evidence as a starting point for further investigation" },
+    { word: "interim", type: "adjective", definition: "in or for the intervening period; provisional or temporary" },
+    { word: "methodology", type: "noun", definition: "a system of methods used in a particular area of study or activity" },
+    { word: "plagiarism", type: "noun", definition: "the practice of taking someone else's work or ideas and passing them off as one's own" },
+    { word: "questionnaire", type: "noun", definition: "a set of printed or written questions with a choice of answers, devised for the purposes of a survey or statistical study" },
+    { word: "sophisticated", type: "adjective", definition: "(of a machine, system, or technique) developed to a high degree of complexity" },
+    { word: "sustainability", type: "noun", definition: "the ability to be maintained at a certain rate or level" },
+    { word: "synopsis", type: "noun", definition: "a brief summary or general survey of something" },
+    { word: "thesis", type: "noun", definition: "a statement or theory that is put forward as a premise to be maintained or proved" },
+    { word: "transcript", type: "noun", definition: "a written or printed version of material originally presented in another medium" },
+    { word: "tutorial", type: "noun", definition: "a period of instruction given by a university tutor to an individual or very small group" }
   ];
 
   const collocationList = [
