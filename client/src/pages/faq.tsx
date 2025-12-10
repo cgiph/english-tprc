@@ -131,7 +131,7 @@ export default function FAQ() {
           <CardHeader className="text-center">
             <CardTitle>Contact Support</CardTitle>
             <CardDescription>
-              Can't find the answer you're looking for? Fill out the form below to reach our support team.
+              Can't find the answer you're looking for? Fill out the form below to reach our support team, or email us directly at <a href="mailto:susan.centino@cirrusrecruitment.com" className="text-primary hover:underline">susan.centino@cirrusrecruitment.com</a>.
             </CardDescription>
           </CardHeader>
           <CardContent>
