@@ -15,7 +15,7 @@ export default function FAQ() {
       items: [
         {
           question: "What is PTE Academic UKVI?",
-          answer: "PTE Academic UKVI is a secure English language test accepted by the UK Home Office for all UK visas that require a 4-skills language test. It is fast, fair, and convenient."
+          answer: "PTE Academic is accepted by over 3,900 universities and colleges globally for study, by Australia and New Zealand for work and migration visas, and for professional registration. The test of English is computer-based that assesses your academic-level speaking, writing, reading and listening skills. You take the test in a small, friendly test center environment in just two hours."
         },
         {
           question: "How is it different from standard PTE Academic?",
