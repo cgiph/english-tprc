@@ -18,7 +18,7 @@ export default function FAQ() {
           answer: "PTE Academic is accepted by over 3,900 universities and colleges globally for study, by Australia and New Zealand for work and migration visas, and for professional registration. The test of English is computer-based that assesses your academic-level speaking, writing, reading and listening skills. You take the test in a small, friendly test center environment in just two hours."
         },
         {
-          question: "How is it different from standard PTE Academic?",
+          question: "How is it different from PTE UKVI?",
           answer: "The content and format of the test are identical. The only difference is the registration process and the report form, which includes a SELT Unique Reference Number (URN) required for your visa application."
         },
         {
