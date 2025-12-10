@@ -229,7 +229,22 @@ export default function VocabularyTool() {
     { word: "tenuous", type: "adjective", definition: "having little substance or strength; unsure; weak" },
     { word: "timorous", type: "adjective", definition: "timid; fearful" },
     { word: "transitory", type: "adjective", definition: "short-lived; temporary" },
-    { word: "vindicated", type: "verb", definition: "freed from blame" }
+    { word: "vindicated", type: "verb", definition: "freed from blame" },
+    { word: "ambiguous", type: "adjective", definition: "open to more than one interpretation; having a double meaning" },
+    { word: "coherent", type: "adjective", definition: "(of an argument, theory, or policy) logical and consistent" },
+    { word: "differentiate", type: "verb", definition: "recognize or ascertain what makes (someone or something) different" },
+    { word: "empirical", type: "adjective", definition: "based on, concerned with, or verifiable by observation or experience rather than theory or pure logic" },
+    { word: "fluctuate", type: "verb", definition: "rise and fall irregularly in number or amount" },
+    { word: "hierarchy", type: "noun", definition: "a system or organization in which people or groups are ranked one above the other according to status or authority" },
+    { word: "intrinsic", type: "adjective", definition: "belonging naturally; essential" },
+    { word: "legislation", type: "noun", definition: "laws, considered collectively" },
+    { word: "qualitative", type: "adjective", definition: "relating to, measuring, or measured by the quality of something rather than its quantity" },
+    { word: "rigorous", type: "adjective", definition: "extremely thorough, exhaustive, or accurate" },
+    { word: "subsequent", type: "adjective", definition: "coming after something in time; following" },
+    { word: "tangible", type: "adjective", definition: "perceptible by touch" },
+    { word: "unprecedented", type: "adjective", definition: "never done or known before" },
+    { word: "valid", type: "adjective", definition: "(of an argument or point) having a sound basis in logic or fact; reasonable or cogent" },
+    { word: "widespread", type: "adjective", definition: "found or distributed over a large area or number of people" }
   ];
 
   const collocationList = [
