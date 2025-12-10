@@ -41,7 +41,7 @@ export default function FAQ() {
         },
         {
           question: "When will I get my results?",
-          answer: "Most candidates receive their scores within 48 hours (2 business days). However, it can take up to 5 business days in some cases."
+          answer: "You can expect to receive your PTE Academic test results within 2 days after taking the test. However, in some cases, it may take up to 5 working days for the scores to be finalized and sent to you via email. To ensure you receive your results promptly, make sure to check your email regularly, including your spam or junk folders, and log into your 'my PTE' account to view your scores."
         }
       ]
     },
