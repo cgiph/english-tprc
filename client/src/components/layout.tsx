@@ -12,6 +12,7 @@ import { BookOpen, MessageSquare, Home, Menu, X, Mic, Book, Headphones, User, Lo
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useUser } from "@/hooks/use-user";
+import { useToast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,6 +27,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { user, logout } = useUser();
+  const [email, setEmail] = useState("");
+  const { toast } = useToast();
+
+  const handleSubscribe = () => {
+    if (!email) {
+      toast({
+        title: "Error",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Simulate API call
+    toast({
+      title: "Subscribed!",
+      description: "You have successfully subscribed to our newsletter.",
+    });
+    setEmail("");
+  };
 
   const navItems = [
     { href: "/", label: "Home", icon: Home },
@@ -215,8 +236,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   type="email" 
                   placeholder="Enter your email" 
                   className="flex-1 h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
-                <Button size="sm" className="bg-primary">Subscribe</Button>
+                <Button size="sm" className="bg-primary" onClick={handleSubscribe}>Subscribe</Button>
               </div>
             </div>
           </div>
