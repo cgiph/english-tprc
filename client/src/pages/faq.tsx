@@ -19,7 +19,7 @@ export default function FAQ() {
         },
         {
           question: "How is it different from PTE UKVI?",
-          answer: "The content and format of the test are identical. The only difference is the registration process and the report form, which includes a SELT Unique Reference Number (URN) required for your visa application."
+          answer: "PTE Academic is designed for general academic purposes, while PTE UKVI is specifically for UK visa and immigration requirements."
         },
         {
           question: "Where can I take the test?",
