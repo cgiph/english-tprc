@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import heroImage from "@assets/generated_images/bright_modern_university_library_study_area_with_natural_light.png";
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle2, Star, TrendingUp, Users, Mic, BookOpen, Headphones, PenTool } from "lucide-react";
+import { ArrowRight, CheckCircle2, Star, TrendingUp, Users, Mic, BookOpen, Headphones, PenTool, BookA } from "lucide-react";
 import { MOCK_REVIEWS, MOCK_RESOURCES } from "@/lib/mock-data";
 
 export default function Home() {
@@ -82,6 +82,13 @@ export default function Home() {
               icon: PenTool,
               color: "bg-purple-50 text-purple-700",
               href: "/practice/writing"
+            },
+            {
+              title: "Vocabulary Building Tool",
+              desc: "Essential PTE collocations and academic words with definitions and examples.",
+              icon: BookA,
+              color: "bg-pink-50 text-pink-700",
+              href: "/practice/vocabulary"
             }
           ].map((module, i) => (
             <Link key={i} href={module.href}>

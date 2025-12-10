@@ -14,6 +14,7 @@ import ResourceViewer from "@/pages/resource-viewer";
 import AudioTrainer from "@/pages/audio-trainer";
 import ListeningPractice from "@/pages/listening-practice";
 import WritingPractice from "@/pages/writing-practice";
+import VocabularyTool from "@/pages/vocabulary-tool";
 import FullMockTest from "@/pages/full-mock-test";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth";
@@ -54,6 +55,7 @@ function Router() {
         <Route path="/practice/reading" component={ReadingPractice} />
         <Route path="/practice/listening" component={ListeningPractice} />
         <Route path="/practice/writing" component={WritingPractice} />
+        <Route path="/practice/vocabulary" component={VocabularyTool} />
         <Route path="/practice/typing" component={TypingPractice} />
         <Route component={NotFound} />
       </Switch>
