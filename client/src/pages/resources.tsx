@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/hooks/use-user";
 
 const iconMap = {
   "Guide": FileText,
@@ -29,18 +30,24 @@ export default function Resources() {
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
   const [password, setPassword] = useState("");
   const { toast } = useToast();
+  const { user } = useUser();
 
   const handleDownloadClick = (resource: Resource) => {
-    if (resource.locked) {
+    if (resource.locked && !user) {
       setSelectedResource(resource);
       setPasswordDialogOpen(true);
       setPassword("");
     } else {
-      // Simulate download
-      window.open(resource.downloadUrl || "#", "_blank");
+      // Simulate download or open viewer
+      if (resource.viewerUrl) {
+        window.location.href = resource.viewerUrl;
+      } else {
+        window.open(resource.downloadUrl || "#", "_blank");
+      }
+      
       toast({
-        title: "Download Started",
-        description: `Downloading ${resource.title}...`,
+        title: resource.viewerUrl ? "Opening Resource" : "Download Started",
+        description: resource.viewerUrl ? `Opening ${resource.title}...` : `Downloading ${resource.title}...`,
       });
     }
   };
@@ -147,10 +154,11 @@ export default function Resources() {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {MOCK_RESOURCES.map((resource) => {
           const Icon = iconMap[resource.type] || FileText;
+          const isLocked = resource.locked && !user;
           
           return (
             <Card key={resource.id} className="flex flex-col hover:shadow-lg transition-all duration-300 group border-muted relative">
-              {resource.locked && (
+              {isLocked && (
                 <div className="absolute top-4 right-4 z-20">
                   <div className="bg-background/80 backdrop-blur p-1.5 rounded-full border shadow-sm" title="Restricted Access">
                     <Lock className="h-4 w-4 text-muted-foreground" />
@@ -187,11 +195,11 @@ export default function Resources() {
                 </div>
                 <Button 
                   size="sm" 
-                  variant={resource.locked ? "outline" : "ghost"}
-                  className={resource.locked ? "gap-2 border-primary/20 text-primary" : "text-primary font-medium hover:bg-primary/5"}
+                  variant={isLocked ? "outline" : "ghost"}
+                  className={isLocked ? "gap-2 border-primary/20 text-primary" : "text-primary font-medium hover:bg-primary/5"}
                   onClick={() => handleDownloadClick(resource)}
                 >
-                  {resource.locked ? (
+                  {isLocked ? (
                     <>
                       <Lock className="h-3 w-3" /> Unlock
                     </>
