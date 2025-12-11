@@ -120,5 +120,17 @@ export const MOCK_RESOURCES: Resource[] = [
     rating: 4.8,
     locked: true,
     viewerUrl: "/resources/full-mock-test"
+  },
+  {
+    id: "5",
+    title: "Grammar Refresher Card",
+    description: "Quick reference guide for essential grammar rules, tenses, and sentence structures for PTE Academic.",
+    type: "Guide",
+    level: "Beginner",
+    author: "English Expert",
+    downloads: 4500,
+    rating: 4.6,
+    locked: false,
+    downloadUrl: "#"
   }
 ];
