@@ -54,7 +54,7 @@ export default function Resources() {
 
   const handleUnlock = () => {
     // Mock password validation
-    if (password === "admin123" || password === "TPRC2025") {
+    if (password === "admin123" || password === "TPRC2026") {
       setPasswordDialogOpen(false);
       
       if (selectedResource?.viewerUrl) {
@@ -201,10 +201,10 @@ export default function Resources() {
                 >
                   {isLocked ? (
                     <>
-                      <Lock className="h-3 w-3" /> Unlock
+                      <Lock className="h-3 w-3" /> Access
                     </>
                   ) : (
-                    "Download"
+                    "Access"
                   )}
                 </Button>
               </CardFooter>
