@@ -131,6 +131,6 @@ export const MOCK_RESOURCES: Resource[] = [
     downloads: 4500,
     rating: 4.6,
     locked: false,
-    downloadUrl: "#"
+    viewerUrl: "/resources/grammar-tool"
   }
 ];
