@@ -51,6 +51,36 @@ export default function GrammarTool() {
             lowerText.includes("that are") ? "Use 'Those are' or 'That is'." : ""
           ].filter(Boolean)
         });
+      } else if (/[.,;?!]{2,}/.test(text) && !text.includes("...")) {
+        setFeedback({
+          type: 'error',
+          message: "Punctuation error. Avoid using multiple punctuation marks (except ellipses '...').",
+          corrections: ["Use a single punctuation mark."]
+        });
+      } else if (/[.,;?!][a-zA-Z]/.test(text)) {
+        setFeedback({
+          type: 'error',
+          message: "Spacing error. Always put a space after punctuation marks.",
+          corrections: ["Add a space after the punctuation."]
+        });
+      } else if (/\. [a-z]/.test(text)) {
+        setFeedback({
+          type: 'error',
+          message: "Capitalization error. Always capitalize the first letter of a new sentence.",
+          corrections: ["Capitalize the first letter after the period."]
+        });
+      } else if (/\s+,/.test(text)) {
+         setFeedback({
+          type: 'error',
+          message: "Punctuation error. Do not put a space before a comma.",
+          corrections: ["Remove the space before the comma."]
+        });
+      } else if (lowerText.includes(" ,")) {
+        setFeedback({
+          type: 'error',
+          message: "Punctuation error. Do not put a space before a comma.",
+          corrections: ["Remove the space before the comma."]
+        });
       } else if (/\b(student|person|one)\s+who\s+(learn|build|make|do|go)\b/.test(lowerText)) {
         setFeedback({
           type: 'error',
