@@ -42,6 +42,15 @@ export default function GrammarTool() {
             lowerText.includes("eated") ? "'eated' should be 'ate'" : ""
           ].filter(Boolean)
         });
+      } else if (lowerText.includes("this are") || lowerText.includes("that are")) {
+        setFeedback({
+          type: 'error',
+          message: "Subject-verb agreement error. 'This' and 'That' are singular, but 'are' is plural.",
+          corrections: [
+            lowerText.includes("this are") ? "Use 'These are' or 'This is'." : "",
+            lowerText.includes("that are") ? "Use 'Those are' or 'That is'." : ""
+          ].filter(Boolean)
+        });
       } else if (lowerText.includes(" ain't ")) {
          setFeedback({
           type: 'error',
