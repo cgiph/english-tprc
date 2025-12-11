@@ -12,13 +12,13 @@ import { Label } from "@/components/ui/label";
 export default function GrammarTool() {
   const [text, setText] = useState("");
   const [isChecking, setIsChecking] = useState(false);
-  const [feedback, setFeedback] = useState<null | { type: 'success' | 'error', message: string, corrections?: string[] }>(null);
+  const [feedbacks, setFeedbacks] = useState<Array<{ type: 'success' | 'error', message: string, corrections?: string[] }>>([]);
 
   const handleCheck = () => {
     if (!text.trim()) return;
     
     setIsChecking(true);
-    setFeedback(null);
+    setFeedbacks([]);
 
     // Simulate AI delay
     setTimeout(() => {
@@ -26,14 +26,17 @@ export default function GrammarTool() {
       
       // Simple mock logic for demonstration
       const lowerText = text.toLowerCase();
+      const newFeedbacks: Array<{ type: 'success' | 'error', message: string, corrections?: string[] }> = [];
       
       if (text.length < 10) {
-        setFeedback({
+        newFeedbacks.push({
           type: 'error',
           message: "Your sentence is too short. Try writing a complete sentence for better analysis.",
         });
-      } else if (lowerText.includes("runned") || lowerText.includes("goed") || lowerText.includes("eated")) {
-         setFeedback({
+      }
+
+      if (lowerText.includes("runned") || lowerText.includes("goed") || lowerText.includes("eated")) {
+         newFeedbacks.push({
           type: 'error',
           message: "Irregular verb error detected.",
           corrections: [
@@ -42,8 +45,10 @@ export default function GrammarTool() {
             lowerText.includes("eated") ? "'eated' should be 'ate'" : ""
           ].filter(Boolean)
         });
-      } else if (lowerText.includes("this are") || lowerText.includes("that are")) {
-        setFeedback({
+      }
+
+      if (lowerText.includes("this are") || lowerText.includes("that are")) {
+        newFeedbacks.push({
           type: 'error',
           message: "Subject-verb agreement error. 'This' and 'That' are singular, but 'are' is plural.",
           corrections: [
@@ -51,116 +56,152 @@ export default function GrammarTool() {
             lowerText.includes("that are") ? "Use 'Those are' or 'That is'." : ""
           ].filter(Boolean)
         });
-      } else if (/[.,;?!]{2,}/.test(text) && !text.includes("...")) {
-        setFeedback({
+      }
+
+      if (/[.,;?!]{2,}/.test(text) && !text.includes("...")) {
+        newFeedbacks.push({
           type: 'error',
           message: "Punctuation error. Avoid using multiple punctuation marks (except ellipses '...').",
           corrections: ["Use a single punctuation mark."]
         });
-      } else if (/[.,;?!][a-zA-Z]/.test(text)) {
-        setFeedback({
+      }
+
+      if (/[.,;?!][a-zA-Z]/.test(text)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Spacing error. Always put a space after punctuation marks.",
           corrections: ["Add a space after the punctuation."]
         });
-      } else if (/\. [a-z]/.test(text)) {
-        setFeedback({
+      }
+
+      if (/\. [a-z]/.test(text)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Capitalization error. Always capitalize the first letter of a new sentence.",
           corrections: ["Capitalize the first letter after the period."]
         });
-      } else if (/\s+,/.test(text)) {
-         setFeedback({
+      }
+
+      if (/\s+,/.test(text)) {
+         newFeedbacks.push({
           type: 'error',
           message: "Punctuation error. Do not put a space before a comma.",
           corrections: ["Remove the space before the comma."]
         });
       } else if (lowerText.includes(" ,")) {
-        setFeedback({
+        newFeedbacks.push({
           type: 'error',
           message: "Punctuation error. Do not put a space before a comma.",
           corrections: ["Remove the space before the comma."]
         });
-      } else if (/\b(student|person|one)\s+who\s+(learn|build|make|do|go)\b/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\b(student|person|one)\s+who\s+(learn|build|make|do|go)\b/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Subject-verb agreement error in relative clause. Singular subject 'who' requires a singular verb.",
           corrections: ["Use 'learns', 'builds', etc."]
         });
-      } else if (/\s+[.,;?!]/.test(text)) {
-        setFeedback({
+      }
+
+      if (/\s+[.,;?!]/.test(text)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Punctuation error. Do not put a space before punctuation marks.",
           corrections: ["Remove the space before the punctuation."]
         });
-      } else if (/\b(skills|benefits|students|people)\s+(helps|makes|is|has)\b/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\b(skills|benefits|students|people)\s+(helps|makes|is|has)\b/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Subject-verb agreement error. Plural subject requires a plural verb (usually without -s).",
           corrections: ["Use 'help', 'make', 'are', 'have'."]
         });
-      } else if (/\bthinking\s+creativity\b/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\bthinking\s+creativity\b/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Word form error. Use an adverb to modify a verb.",
           corrections: ["Use 'think creatively'."]
         });
-      } else if (/\bspear\s+parts\b/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\bspear\s+parts\b/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Spelling error / Wrong word choice.",
           corrections: ["Did you mean 'spare parts'?"]
         });
-      } else if (/\btheoretical\s+concept\b/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\btheoretical\s+concept\b/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Number agreement error. In this context, the plural form is usually required.",
           corrections: ["Use 'theoretical concepts'."]
         });
-      } else if (/\breads\s+about\s+in\b/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\breads\s+about\s+in\b/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Missing object error. The verb 'reads' needs an object here.",
           corrections: ["Use 'reads about it in'."]
         });
-      } else if (/\.\s+secondly/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\.\s+secondly/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Capitalization error. Sentences should start with a capital letter.",
           corrections: ["Use 'Secondly'."]
         });
-      } else if (lowerText.includes("the important of")) {
-        setFeedback({
+      }
+
+      if (lowerText.includes("the important of")) {
+        newFeedbacks.push({
           type: 'error',
           message: "Word choice error. 'Important' is an adjective, but a noun is needed here.",
           corrections: ["Use 'the importance of'."]
         });
-      } else if (/\b(student|he|she|it)\s+(prepare|learn|need|want|go)\b/.test(lowerText) && !/\b(will|can|should|must|might|could|would)\b/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\b(student|he|she|it)\s+(prepare|learn|need|want|go)\b/.test(lowerText) && !/\b(will|can|should|must|might|could|would)\b/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Subject-verb agreement error. Singular subjects (like 'student') require singular verbs (usually ending in -s).",
           corrections: ["Change the verb to its singular form (e.g., 'prepares', 'learns')."]
         });
-      } else if (lowerText.includes("be equip")) {
-        setFeedback({
+      }
+
+      if (lowerText.includes("be equip")) {
+        newFeedbacks.push({
           type: 'error',
           message: "Passive voice error. After 'be', use the past participle form.",
           corrections: ["Use 'be equipped'."]
         });
-      } else if (lowerText.includes("?.")) {
-        setFeedback({
+      }
+
+      if (lowerText.includes("?.")) {
+        newFeedbacks.push({
           type: 'error',
           message: "Punctuation error. Do not use a period immediately after a question mark.",
           corrections: ["Remove the period: '?'"]
         });
-      } else if (lowerText.includes("number one benefits")) {
-        setFeedback({
+      }
+
+      if (lowerText.includes("number one benefits")) {
+        newFeedbacks.push({
           type: 'error',
           message: "Awkward phrasing. 'Number one benefits' is not standard English.",
           corrections: ["Use 'numerous benefits' or 'a number of benefits'."]
         });
-      } else if (/\b(am|is|are|was|were)\s+went\b/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\b(am|is|are|was|were)\s+went\b/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Incorrect verb form. You cannot use 'to be' verbs (am, is, are, etc.) with the past tense 'went'.",
           corrections: [
@@ -168,30 +209,43 @@ export default function GrammarTool() {
             "Use present continuous: 'I am going...'"
           ]
         });
-      } else if (/\b(love|like|enjoy|hate|prefer)\s+(run|walk|swim|read|write|speak|talk)\s+and\s+\w+ing\b/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\b(love|like|enjoy|hate|prefer)\s+(run|walk|swim|read|write|speak|talk)\s+and\s+\w+ing\b/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Parallelism error. When using 'and', verbs should usually be in the same form (gerunds).",
           corrections: ["Use matching forms: 'running and jogging', 'reading and writing'."]
         });
-      } else if (/\b(am|is|are|was|were)\s+(knowing|believing|wanting|hating|preferring|needing)\b/.test(lowerText)) {
-        setFeedback({
+      }
+
+      if (/\b(am|is|are|was|were)\s+(knowing|believing|wanting|hating|preferring|needing)\b/.test(lowerText)) {
+        newFeedbacks.push({
           type: 'error',
           message: "Stative verb error. This verb describes a state and typically isn't used in continuous (-ing) forms.",
           corrections: ["Use simple tense: 'I know', 'I want', 'I need'."]
         });
-      } else if (lowerText.includes(" ain't ")) {
-         setFeedback({
+      }
+
+      if (lowerText.includes(" ain't ")) {
+         newFeedbacks.push({
           type: 'error',
           message: "Avoid using slang like 'ain't' in academic writing.",
           corrections: ["Use 'is not', 'are not', or 'have not' instead."]
         });
-      } else {
-         setFeedback({
+      }
+
+      if (newFeedbacks.length === 0) {
+         newFeedbacks.push({
           type: 'success',
           message: "Great job! Your sentence structure looks sound and grammatically correct.",
         });
       }
+
+      // De-duplicate feedbacks based on message
+      const uniqueFeedbacks = newFeedbacks.filter((v, i, a) => a.findIndex(t => (t.message === v.message)) === i);
+
+      setFeedbacks(uniqueFeedbacks);
     }, 1500);
   };
 
@@ -214,16 +268,16 @@ export default function GrammarTool() {
         </div>
       </div>
 
-      <Tabs defaultValue="sva" className="space-y-6">
+      <Tabs defaultValue="ai-checker" className="space-y-6">
         <TabsList className="flex flex-wrap h-auto w-full justify-start gap-2 bg-transparent p-0">
+          <TabsTrigger value="ai-checker" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white border bg-background flex items-center gap-1">
+            <Sparkles className="h-3 w-3" /> AI Checker
+          </TabsTrigger>
           <TabsTrigger value="sva" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border bg-background">Subject-Verb Agreement</TabsTrigger>
           <TabsTrigger value="pos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border bg-background">Parts of Speech</TabsTrigger>
           <TabsTrigger value="sentence" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border bg-background">Sentence Structures</TabsTrigger>
           <TabsTrigger value="punctuation" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border bg-background">Punctuation</TabsTrigger>
           <TabsTrigger value="reported" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border bg-background">Reported Speech</TabsTrigger>
-          <TabsTrigger value="ai-checker" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white border bg-background flex items-center gap-1">
-            <Sparkles className="h-3 w-3" /> AI Checker
-          </TabsTrigger>
         </TabsList>
 
         {/* AI Checker */}
@@ -250,25 +304,29 @@ export default function GrammarTool() {
                 />
               </div>
 
-              {feedback && (
-                <div className={`p-4 rounded-lg border ${feedback.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
-                  <div className="flex items-start gap-3">
-                    {feedback.type === 'success' ? (
-                      <Check className="h-5 w-5 mt-0.5 shrink-0 text-green-600" />
-                    ) : (
-                      <AlertTriangle className="h-5 w-5 mt-0.5 shrink-0 text-red-600" />
-                    )}
-                    <div className="space-y-2">
-                      <p className="font-medium">{feedback.message}</p>
-                      {feedback.corrections && feedback.corrections.length > 0 && (
-                        <ul className="list-disc pl-5 text-sm space-y-1">
-                          {feedback.corrections.map((c, i) => (
-                            <li key={i}>{c}</li>
-                          ))}
-                        </ul>
-                      )}
+              {feedbacks.length > 0 && (
+                <div className="space-y-3">
+                  {feedbacks.map((feedback, index) => (
+                    <div key={index} className={`p-4 rounded-lg border ${feedback.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
+                      <div className="flex items-start gap-3">
+                        {feedback.type === 'success' ? (
+                          <Check className="h-5 w-5 mt-0.5 shrink-0 text-green-600" />
+                        ) : (
+                          <AlertTriangle className="h-5 w-5 mt-0.5 shrink-0 text-red-600" />
+                        )}
+                        <div className="space-y-2">
+                          <p className="font-medium">{feedback.message}</p>
+                          {feedback.corrections && feedback.corrections.length > 0 && (
+                            <ul className="list-disc pl-5 text-sm space-y-1">
+                              {feedback.corrections.map((c, i) => (
+                                <li key={i}>{c}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
               )}
             </CardContent>
