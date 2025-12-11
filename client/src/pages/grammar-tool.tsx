@@ -51,6 +51,36 @@ export default function GrammarTool() {
             lowerText.includes("that are") ? "Use 'Those are' or 'That is'." : ""
           ].filter(Boolean)
         });
+      } else if (lowerText.includes("the important of")) {
+        setFeedback({
+          type: 'error',
+          message: "Word choice error. 'Important' is an adjective, but a noun is needed here.",
+          corrections: ["Use 'the importance of'."]
+        });
+      } else if (/\b(student|he|she|it)\s+(prepare|learn|need|want|go)\b/.test(lowerText) && !/\b(will|can|should|must|might|could|would)\b/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Subject-verb agreement error. Singular subjects (like 'student') require singular verbs (usually ending in -s).",
+          corrections: ["Change the verb to its singular form (e.g., 'prepares', 'learns')."]
+        });
+      } else if (lowerText.includes("be equip")) {
+        setFeedback({
+          type: 'error',
+          message: "Passive voice error. After 'be', use the past participle form.",
+          corrections: ["Use 'be equipped'."]
+        });
+      } else if (lowerText.includes("?.")) {
+        setFeedback({
+          type: 'error',
+          message: "Punctuation error. Do not use a period immediately after a question mark.",
+          corrections: ["Remove the period: '?'"]
+        });
+      } else if (lowerText.includes("number one benefits")) {
+        setFeedback({
+          type: 'error',
+          message: "Awkward phrasing. 'Number one benefits' is not standard English.",
+          corrections: ["Use 'numerous benefits' or 'a number of benefits'."]
+        });
       } else if (/\b(am|is|are|was|were)\s+went\b/.test(lowerText)) {
         setFeedback({
           type: 'error',
