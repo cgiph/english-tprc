@@ -11,12 +11,8 @@ export default function Reviews() {
       {/* Header */}
       <div className="space-y-4 max-w-2xl">
         <h1 className="text-4xl font-serif font-bold text-primary">Exam Reviews</h1>
-        <p className="text-lg text-muted-foreground">
-          Read authentic experiences from students who recently took the PTE Academic UKVI. 
-          Filter by score, center location, or specific modules.
-        </p>
+        <p className="text-lg text-muted-foreground">Read authentic experiences from students who recently took the PTE Academic. Filter by score, center location, or specific modules.</p>
       </div>
-
       {/* Filters & Search */}
       <div className="flex flex-col md:flex-row gap-4 items-center bg-card p-4 rounded-xl border shadow-sm">
         <div className="relative flex-1 w-full">
@@ -32,7 +28,6 @@ export default function Reviews() {
           </Button>
         </div>
       </div>
-
       {/* Reviews List */}
       <div className="grid gap-6">
         {MOCK_REVIEWS.map((review) => (
