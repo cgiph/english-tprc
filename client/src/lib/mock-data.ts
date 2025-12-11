@@ -123,9 +123,9 @@ export const MOCK_RESOURCES: Resource[] = [
   },
   {
     id: "5",
-    title: "Grammar Refresher Card",
+    title: "Grammar Refresher Tool",
     description: "Quick reference guide for essential grammar rules, tenses, and sentence structures for PTE Academic.",
-    type: "Guide",
+    type: "Tool",
     level: "Beginner",
     author: "English Expert",
     downloads: 4500,
