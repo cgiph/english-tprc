@@ -21,6 +21,7 @@ import AuthPage from "@/pages/auth";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsOfService from "@/pages/terms-of-service";
 import FAQ from "@/pages/faq";
+import Profile from "@/pages/profile";
 
 import SpeakingGuide from "@/pages/speaking-guide";
 import ReadingGuide from "@/pages/reading-guide";
@@ -43,6 +44,7 @@ function Router() {
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/terms-of-service" component={TermsOfService} />
         <Route path="/faq" component={FAQ} />
+        <Route path="/profile" component={Profile} />
 
         {/* Guides */}
         <Route path="/guide/speaking" component={SpeakingGuide} />

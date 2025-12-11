@@ -108,9 +108,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Profile</span>
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile" className="cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Profile</span>
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={logout} className="text-red-600 focus:text-red-600">
                       <LogOut className="mr-2 h-4 w-4" />
