@@ -1,13 +1,62 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowLeft, BookOpen, Check, AlertCircle } from "lucide-react";
+import { ArrowLeft, BookOpen, Check, AlertCircle, Sparkles, Loader2, AlertTriangle } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export default function GrammarTool() {
+  const [text, setText] = useState("");
+  const [isChecking, setIsChecking] = useState(false);
+  const [feedback, setFeedback] = useState<null | { type: 'success' | 'error', message: string, corrections?: string[] }>(null);
+
+  const handleCheck = () => {
+    if (!text.trim()) return;
+    
+    setIsChecking(true);
+    setFeedback(null);
+
+    // Simulate AI delay
+    setTimeout(() => {
+      setIsChecking(false);
+      
+      // Simple mock logic for demonstration
+      const lowerText = text.toLowerCase();
+      
+      if (text.length < 10) {
+        setFeedback({
+          type: 'error',
+          message: "Your sentence is too short. Try writing a complete sentence for better analysis.",
+        });
+      } else if (lowerText.includes("runned") || lowerText.includes("goed") || lowerText.includes("eated")) {
+         setFeedback({
+          type: 'error',
+          message: "Irregular verb error detected.",
+          corrections: [
+            lowerText.includes("runned") ? "'runned' should be 'ran'" : "",
+            lowerText.includes("goed") ? "'goed' should be 'went'" : "",
+            lowerText.includes("eated") ? "'eated' should be 'ate'" : ""
+          ].filter(Boolean)
+        });
+      } else if (lowerText.includes(" ain't ")) {
+         setFeedback({
+          type: 'error',
+          message: "Avoid using slang like 'ain't' in academic writing.",
+          corrections: ["Use 'is not', 'are not', or 'have not' instead."]
+        });
+      } else {
+         setFeedback({
+          type: 'success',
+          message: "Great job! Your sentence structure looks sound and grammatically correct.",
+        });
+      }
+    }, 1500);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="mb-8">
@@ -34,7 +83,81 @@ export default function GrammarTool() {
           <TabsTrigger value="sentence" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border bg-background">Sentence Structures</TabsTrigger>
           <TabsTrigger value="punctuation" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border bg-background">Punctuation</TabsTrigger>
           <TabsTrigger value="reported" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border bg-background">Reported Speech</TabsTrigger>
+          <TabsTrigger value="ai-checker" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white border bg-background flex items-center gap-1">
+            <Sparkles className="h-3 w-3" /> AI Checker
+          </TabsTrigger>
         </TabsList>
+
+        {/* AI Checker */}
+        <TabsContent value="ai-checker">
+          <Card className="border-purple-200 shadow-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-purple-700">
+                <Sparkles className="h-5 w-5" />
+                AI Grammar Checker
+              </CardTitle>
+              <CardDescription>
+                Paste your text below to check for grammar, spelling, and punctuation errors.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="grammar-input">Your Text</Label>
+                <Textarea 
+                  id="grammar-input" 
+                  placeholder="Type or paste your sentence here..." 
+                  className="min-h-[150px] resize-y text-base font-sans"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
+              </div>
+
+              {feedback && (
+                <div className={`p-4 rounded-lg border ${feedback.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
+                  <div className="flex items-start gap-3">
+                    {feedback.type === 'success' ? (
+                      <Check className="h-5 w-5 mt-0.5 shrink-0 text-green-600" />
+                    ) : (
+                      <AlertTriangle className="h-5 w-5 mt-0.5 shrink-0 text-red-600" />
+                    )}
+                    <div className="space-y-2">
+                      <p className="font-medium">{feedback.message}</p>
+                      {feedback.corrections && feedback.corrections.length > 0 && (
+                        <ul className="list-disc pl-5 text-sm space-y-1">
+                          {feedback.corrections.map((c, i) => (
+                            <li key={i}>{c}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+            <CardFooter className="flex justify-between border-t p-6 bg-muted/5">
+              <p className="text-xs text-muted-foreground">
+                * This is a simulated AI tool for practice purposes.
+              </p>
+              <Button 
+                onClick={handleCheck} 
+                disabled={isChecking || !text.trim()}
+                className="bg-purple-600 hover:bg-purple-700 text-white min-w-[140px]"
+              >
+                {isChecking ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Checking...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    Check Grammar
+                  </>
+                )}
+              </Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
 
         {/* Subject-Verb Agreement */}
         <TabsContent value="sva">
