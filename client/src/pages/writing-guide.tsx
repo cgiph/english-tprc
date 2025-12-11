@@ -1,9 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Link } from "wouter";
+import { useLocation } from "wouter";
 import { PenTool, BarChart3, Clock, CheckCircle2 } from "lucide-react";
+import { useUser } from "@/hooks/use-user";
+import { useToast } from "@/hooks/use-toast";
 
 export default function WritingGuide() {
+  const [, setLocation] = useLocation();
+  const { user } = useUser();
+  const { toast } = useToast();
+
+  const handleStartPractice = () => {
+    if (user) {
+      setLocation("/practice/writing");
+    } else {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in or sign up to access writing practice.",
+        variant: "destructive",
+      });
+      // Redirect to auth page after a short delay or immediately
+      setLocation("/auth?mode=login");
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="mb-8 space-y-4">
@@ -79,12 +99,10 @@ export default function WritingGuide() {
         <p className="text-muted-foreground max-w-2xl mx-auto">
           Refine your writing skills with timed exercises and automated word count checks.
         </p>
-        <Link href="/practice/writing">
-          <Button size="lg" className="gap-2 font-bold text-lg px-8">
-            <PenTool className="h-5 w-5" />
-            Start Writing Practice
-          </Button>
-        </Link>
+        <Button size="lg" className="gap-2 font-bold text-lg px-8" onClick={handleStartPractice}>
+          <PenTool className="h-5 w-5" />
+          Start Writing Practice
+        </Button>
       </div>
     </div>
   );
