@@ -15,7 +15,7 @@ const WORDS = [
   "challenge", "opportunity", "community", "society", "culture", "language", "communication"
 ];
 
-const DURATION = 3600; // 1 hour in seconds
+const DURATION = 60; // 1 minute in seconds
 
 export default function TypingPractice() {
   const [text, setText] = useState<string[]>([]);
@@ -126,9 +126,10 @@ export default function TypingPractice() {
   };
 
   const formatTime = (seconds: number) => {
+    if (seconds === 60) return "00:60";
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (
