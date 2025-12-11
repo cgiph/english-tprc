@@ -51,6 +51,15 @@ export default function GrammarTool() {
             lowerText.includes("that are") ? "Use 'Those are' or 'That is'." : ""
           ].filter(Boolean)
         });
+      } else if (/\b(am|is|are|was|were)\s+went\b/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Incorrect verb form. You cannot use 'to be' verbs (am, is, are, etc.) with the past tense 'went'.",
+          corrections: [
+            "Use simple past: 'I went...'",
+            "Use present continuous: 'I am going...'"
+          ]
+        });
       } else if (lowerText.includes(" ain't ")) {
          setFeedback({
           type: 'error',
