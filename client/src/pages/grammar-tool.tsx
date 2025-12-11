@@ -60,6 +60,18 @@ export default function GrammarTool() {
             "Use present continuous: 'I am going...'"
           ]
         });
+      } else if (/\b(love|like|enjoy|hate|prefer)\s+(run|walk|swim|read|write|speak|talk)\s+and\s+\w+ing\b/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Parallelism error. When using 'and', verbs should usually be in the same form (gerunds).",
+          corrections: ["Use matching forms: 'running and jogging', 'reading and writing'."]
+        });
+      } else if (/\b(am|is|are|was|were)\s+(knowing|believing|wanting|hating|preferring|needing)\b/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Stative verb error. This verb describes a state and typically isn't used in continuous (-ing) forms.",
+          corrections: ["Use simple tense: 'I know', 'I want', 'I need'."]
+        });
       } else if (lowerText.includes(" ain't ")) {
          setFeedback({
           type: 'error',
