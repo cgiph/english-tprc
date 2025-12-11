@@ -51,6 +51,54 @@ export default function GrammarTool() {
             lowerText.includes("that are") ? "Use 'Those are' or 'That is'." : ""
           ].filter(Boolean)
         });
+      } else if (/\b(student|person|one)\s+who\s+(learn|build|make|do|go)\b/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Subject-verb agreement error in relative clause. Singular subject 'who' requires a singular verb.",
+          corrections: ["Use 'learns', 'builds', etc."]
+        });
+      } else if (/\s+[.,;?!]/.test(text)) {
+        setFeedback({
+          type: 'error',
+          message: "Punctuation error. Do not put a space before punctuation marks.",
+          corrections: ["Remove the space before the punctuation."]
+        });
+      } else if (/\b(skills|benefits|students|people)\s+(helps|makes|is|has)\b/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Subject-verb agreement error. Plural subject requires a plural verb (usually without -s).",
+          corrections: ["Use 'help', 'make', 'are', 'have'."]
+        });
+      } else if (/\bthinking\s+creativity\b/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Word form error. Use an adverb to modify a verb.",
+          corrections: ["Use 'think creatively'."]
+        });
+      } else if (/\bspear\s+parts\b/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Spelling error / Wrong word choice.",
+          corrections: ["Did you mean 'spare parts'?"]
+        });
+      } else if (/\btheoretical\s+concept\b/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Number agreement error. In this context, the plural form is usually required.",
+          corrections: ["Use 'theoretical concepts'."]
+        });
+      } else if (/\breads\s+about\s+in\b/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Missing object error. The verb 'reads' needs an object here.",
+          corrections: ["Use 'reads about it in'."]
+        });
+      } else if (/\.\s+secondly/.test(lowerText)) {
+        setFeedback({
+          type: 'error',
+          message: "Capitalization error. Sentences should start with a capital letter.",
+          corrections: ["Use 'Secondly'."]
+        });
       } else if (lowerText.includes("the important of")) {
         setFeedback({
           type: 'error',
