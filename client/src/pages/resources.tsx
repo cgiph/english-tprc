@@ -76,12 +76,8 @@ export default function Resources() {
     <div className="container mx-auto px-4 py-8 space-y-12">
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary">Study Resources</h1>
-        <p className="text-lg text-muted-foreground">
-          Curated materials to help you master every section of the PTE Academic UKVI. 
-          From templates to full mock tests.
-        </p>
+        <p className="text-lg text-muted-foreground">Curated materials to help you master every section of the PTE Academic. From guides to full mock tests.</p>
       </div>
-
       {/* Featured Tool: Typing Practice */}
       <div className="w-full max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
         <Link href="/practice/typing">
@@ -127,7 +123,6 @@ export default function Resources() {
           </Card>
         </Link>
       </div>
-
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {MOCK_RESOURCES.map((resource) => {
           const Icon = iconMap[resource.type] || FileText;
@@ -188,7 +183,6 @@ export default function Resources() {
           );
         })}
       </div>
-
       <Dialog open={passwordDialogOpen} onOpenChange={setPasswordDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
