@@ -227,6 +227,129 @@ export default function GrammarTool() {
         });
       }
 
+      // Prepositions
+      if (lowerText.includes("depend of")) {
+        newFeedbacks.push({
+          type: 'error',
+          message: "Preposition error. 'Depend' is usually followed by 'on'.",
+          corrections: ["Use 'depend on'."]
+        });
+      }
+      if (lowerText.includes("interested on")) {
+        newFeedbacks.push({
+          type: 'error',
+          message: "Preposition error. 'Interested' is usually followed by 'in'.",
+          corrections: ["Use 'interested in'."]
+        });
+      }
+      if (lowerText.includes("married with")) {
+        newFeedbacks.push({
+          type: 'error',
+          message: "Preposition error. 'Married' is usually followed by 'to'.",
+          corrections: ["Use 'married to'."]
+        });
+      }
+      if (lowerText.includes("good in")) {
+         newFeedbacks.push({
+          type: 'error',
+          message: "Preposition error. To express ability, 'good' is followed by 'at'.",
+          corrections: ["Use 'good at'."]
+        });
+      }
+      if (lowerText.includes("responsible of")) {
+        newFeedbacks.push({
+         type: 'error',
+         message: "Preposition error. 'Responsible' is usually followed by 'for'.",
+         corrections: ["Use 'responsible for'."]
+       });
+     }
+
+      // Spelling
+      const misspellings: Record<string, string> = {
+        "teh": "the",
+        "recieve": "receive",
+        "definately": "definitely",
+        "seperate": "separate",
+        "occured": "occurred",
+        "accommodate": "accommodate",
+        "truely": "truly",
+        "publically": "publicly",
+        "goverment": "government",
+        "environment": "environment"
+      };
+
+      Object.keys(misspellings).forEach(wrong => {
+        if (new RegExp(`\\b${wrong}\\b`).test(lowerText)) {
+          newFeedbacks.push({
+            type: 'error',
+            message: `Spelling error detected: '${wrong}'`,
+            corrections: [`Did you mean '${misspellings[wrong]}'?`]
+          });
+        }
+      });
+
+      // Tense/Time (Simple checks)
+      if (/\byesterday\s+(is|are|go|eat|walk)\b/.test(lowerText)) {
+         newFeedbacks.push({
+          type: 'error',
+          message: "Tense error. 'Yesterday' requires past tense verbs.",
+          corrections: ["Use 'was', 'were', 'went', 'ate', 'walked'."]
+        });
+      }
+      if (/\btomorrow\s+(was|were|went|ate|walked)\b/.test(lowerText)) {
+        newFeedbacks.push({
+         type: 'error',
+         message: "Tense error. 'Tomorrow' requires future tense verbs.",
+         corrections: ["Use 'will be', 'will go', 'will eat', 'will walk'."]
+       });
+     }
+
+      // Fragments (Simple check for starting with subordinating conjunctions and ending abruptly)
+      if (/^(because|although|since|if|when)\s+[a-z\s]+\.$/i.test(text) && !text.includes(",")) {
+         newFeedbacks.push({
+          type: 'error',
+          message: "Sentence fragment. Subordinate clauses must be attached to a main clause.",
+          corrections: ["Add a comma and a main clause (e.g., 'Because it rained, we stayed inside.')."]
+        });
+      }
+      
+      // Run-on sentences (Comma splices)
+      if (/\b(however|therefore|moreover|furthermore)\b/.test(lowerText)) {
+        // Check if it's preceded by a comma instead of a semicolon or period
+        if (/,\s+(however|therefore|moreover|furthermore)/.test(lowerText)) {
+             newFeedbacks.push({
+              type: 'error',
+              message: "Run-on sentence / Comma splice. Use a semicolon or period before conjunctive adverbs.",
+              corrections: ["Use '; however,' or '. However,'."]
+            });
+        }
+      }
+
+      // Articles
+      if (/\ba\s+(apple|orange|egg|elephant|umbrella|hour)\b/.test(lowerText)) {
+         newFeedbacks.push({
+          type: 'error',
+          message: "Article error. Use 'an' before words starting with a vowel sound.",
+          corrections: ["Use 'an'."]
+        });
+      }
+      if (/\ban\s+(car|house|university|book|cat)\b/.test(lowerText)) {
+        newFeedbacks.push({
+         type: 'error',
+         message: "Article error. Use 'a' before words starting with a consonant sound.",
+         corrections: ["Use 'a'."]
+       });
+     }
+
+      // Capitalization (I)
+      if (/\bi\s+/.test(text) || /\s+i\s+/.test(text)) {
+         newFeedbacks.push({
+          type: 'error',
+          message: "Capitalization error. The pronoun 'I' must always be capitalized.",
+          corrections: ["Use 'I'."]
+        });
+      }
+
       if (lowerText.includes(" ain't ")) {
          newFeedbacks.push({
           type: 'error',
