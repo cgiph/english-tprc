@@ -357,14 +357,54 @@ export default function GrammarTool() {
                 </div>
                 
                 {isReviewMode ? (
-                  <div className="min-h-[150px] p-3 rounded-md border border-input bg-background text-base font-sans whitespace-pre-wrap leading-relaxed">
-                    {renderHighlightedText()}
+                  <div className="grid md:grid-cols-3 gap-6">
+                    <div className="md:col-span-2 min-h-[300px] p-4 rounded-md border border-input bg-background text-base font-sans whitespace-pre-wrap leading-relaxed">
+                      {renderHighlightedText()}
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2 font-semibold text-muted-foreground mb-2">
+                        <Sparkles className="h-4 w-4" />
+                        <span>Suggested Improvements</span>
+                      </div>
+                      <div className="space-y-3 h-[400px] overflow-y-auto pr-2">
+                        {feedbacks.map((feedback, index) => (
+                          <Card key={index} className={`border-l-4 shadow-sm ${
+                            feedback.type === 'error' ? 'border-l-red-500' : 
+                            feedback.type === 'warning' ? 'border-l-amber-500' : 'border-l-green-500'
+                          }`}>
+                            <CardContent className="p-3 space-y-2">
+                              <div className="flex items-start justify-between gap-2">
+                                <span className={`text-xs font-bold uppercase ${
+                                  feedback.type === 'error' ? 'text-red-600' : 
+                                  feedback.type === 'warning' ? 'text-amber-600' : 'text-green-600'
+                                }`}>
+                                  {feedback.type === 'error' ? 'Error' : feedback.type === 'warning' ? 'Suggestion' : 'Good'}
+                                </span>
+                              </div>
+                              <p className="text-sm font-medium leading-snug">{feedback.message}</p>
+                              {feedback.corrections && feedback.corrections.length > 0 && (
+                                <div className="bg-muted/50 rounded p-2 text-sm mt-1">
+                                  <span className="text-xs text-muted-foreground block mb-0.5">Correction:</span>
+                                  <span className="font-medium text-green-700">{feedback.corrections[0]}</span>
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        ))}
+                        {feedbacks.length === 0 && (
+                          <div className="text-center p-8 text-muted-foreground bg-muted/20 rounded-lg border border-dashed">
+                            <Check className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                            <p>No issues found!</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <Textarea 
                     id="grammar-input" 
                     placeholder="Type or paste your sentence here..." 
-                    className="min-h-[150px] resize-y text-base font-sans"
+                    className="min-h-[200px] resize-y text-base font-sans"
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                   />
