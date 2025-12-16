@@ -47,14 +47,11 @@ export default function GrammarTool() {
         });
       }
 
-      if (lowerText.includes("this are") || lowerText.includes("that are")) {
+      if (/(?:^|[.!?]\s+)(this|that)\s+are\b/i.test(text)) {
         newFeedbacks.push({
           type: 'error',
           message: "Subject-verb agreement error. 'This' and 'That' are singular, but 'are' is plural.",
-          corrections: [
-            lowerText.includes("this are") ? "Use 'These are' or 'This is'." : "",
-            lowerText.includes("that are") ? "Use 'Those are' or 'That is'." : ""
-          ].filter(Boolean)
+          corrections: ["Use 'These are', 'Those are', 'This is', or 'That is'."]
         });
       }
 
