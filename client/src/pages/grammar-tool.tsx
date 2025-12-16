@@ -3,16 +3,23 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowLeft, BookOpen, Check, AlertCircle, Sparkles, Loader2, AlertTriangle, Info } from "lucide-react";
+import { ArrowLeft, BookOpen, Check, AlertCircle, Sparkles, Loader2, AlertTriangle, Info, Pencil, X } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 export default function GrammarTool() {
   const [text, setText] = useState("");
   const [isChecking, setIsChecking] = useState(false);
-  const [feedbacks, setFeedbacks] = useState<Array<{ type: 'success' | 'error' | 'warning', message: string, corrections?: string[] }>>([]);
+  const [isReviewMode, setIsReviewMode] = useState(false);
+  const [feedbacks, setFeedbacks] = useState<Array<{ 
+    type: 'success' | 'error' | 'warning', 
+    message: string, 
+    corrections?: string[],
+    range?: [number, number] 
+  }>>([]);
 
   const handleCheck = () => {
     if (!text.trim()) return;
@@ -23,11 +30,32 @@ export default function GrammarTool() {
     // Simulate AI delay
     setTimeout(() => {
       setIsChecking(false);
+      setIsReviewMode(true);
       
-      // Simple mock logic for demonstration
       const lowerText = text.toLowerCase();
-      const newFeedbacks: Array<{ type: 'success' | 'error' | 'warning', message: string, corrections?: string[] }> = [];
+      const newFeedbacks: Array<{ 
+        type: 'success' | 'error' | 'warning', 
+        message: string, 
+        corrections?: string[],
+        range?: [number, number]
+      }> = [];
       
+      const addFeedback = (pattern: RegExp | string, message: string, type: 'error' | 'warning', corrections?: string[]) => {
+        let match;
+        const regex = typeof pattern === 'string' 
+          ? new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi') 
+          : new RegExp(pattern, pattern.flags.includes('g') ? pattern.flags : pattern.flags + 'g');
+        
+        while ((match = regex.exec(text)) !== null) {
+          newFeedbacks.push({
+            type,
+            message,
+            corrections,
+            range: [match.index, match.index + match[0].length]
+          });
+        }
+      };
+
       if (text.length < 10) {
         newFeedbacks.push({
           type: 'error',
@@ -36,349 +64,143 @@ export default function GrammarTool() {
       }
 
       // Specific stylistic checks based on user request
-      if (lowerText.includes("butterfly larvae or caterpillars") && !lowerText.includes("butterfly larvae, or caterpillars,")) {
-        newFeedbacks.push({
-          type: 'warning',
-          message: "Punctuation suggestion. When 'or' introduces a synonym or definition (appositive), use commas.",
-          corrections: ["Butterfly larvae, or caterpillars,"]
-        });
-      }
+      addFeedback(
+        /butterfly larvae or caterpillars/i,
+        "Punctuation suggestion. When 'or' introduces a synonym or definition (appositive), use commas.",
+        'warning',
+        ["Butterfly larvae, or caterpillars,"]
+      );
 
-      if (/using\s+[\w\s]+\s+as\s+well\s+as\s+using/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'warning',
-          message: "Stylistic refinement. Reduce repetition for better flow.",
-          corrections: ["Remove the second 'using'."]
-        });
-      }
+      addFeedback(
+        /using\s+[\w\s]+\s+as\s+well\s+as\s+using/i,
+        "Stylistic refinement. Reduce repetition for better flow.",
+        'warning',
+        ["Remove the second 'using'."]
+      );
 
-      if (/\band\s+(?:they\s+|we\s+|it\s+)?in\s+turn\s+/.test(lowerText) && !/,\s+in\s+turn\s+,/.test(lowerText)) {
+      // Interrupters like "in turn" not surrounded by commas
+      // Matches "in turn" when NOT preceded by comma OR NOT followed by comma
+      const inTurnRegex = /(?<!,)(\s+in\s+turn\s+)|(\s+in\s+turn\s+)(?!,)/gi;
+      let inTurnMatch;
+      while ((inTurnMatch = inTurnRegex.exec(text)) !== null) {
+        // Double check context to avoid false positives if logic is tricky, but here:
+        // If it's just "in turn" without commas
         newFeedbacks.push({
           type: 'warning',
           message: "Punctuation suggestion. 'In turn' as an interrupter is usually set off by commas.",
-          corrections: ["... and, in turn, ..."]
+          corrections: ["... and, in turn, ..."],
+          range: [inTurnMatch.index, inTurnMatch.index + inTurnMatch[0].length]
         });
       }
 
-      if (lowerText.includes("runned") || lowerText.includes("goed") || lowerText.includes("eated")) {
-         newFeedbacks.push({
-          type: 'error',
-          message: "Irregular verb error detected.",
-          corrections: [
-            lowerText.includes("runned") ? "'runned' should be 'ran'" : "",
-            lowerText.includes("goed") ? "'goed' should be 'went'" : "",
-            lowerText.includes("eated") ? "'eated' should be 'ate'" : ""
-          ].filter(Boolean)
-        });
-      }
+      // Irregular verbs
+      addFeedback(/\b(runned|goed|eated)\b/i, "Irregular verb error detected.", 'error', ["ran", "went", "ate"]);
 
-      if (/(?:^|[.!?]\s+)(this|that)\s+are\b/i.test(text)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Subject-verb agreement error. 'This' and 'That' are singular, but 'are' is plural.",
-          corrections: ["Use 'These are', 'Those are', 'This is', or 'That is'."]
-        });
-      }
+      // Subject-verb agreement (this/that are)
+      addFeedback(/(?:^|[.!?]\s+)(this|that)\s+are\b/i, "Subject-verb agreement error. 'This' and 'That' are singular, but 'are' is plural.", 'error', ["Use 'These are', 'Those are', 'This is', or 'That is'."]);
 
-      if (/[.,;?!]{2,}/.test(text) && !text.includes("...")) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Punctuation error. Avoid using multiple punctuation marks (except ellipses '...').",
-          corrections: ["Use a single punctuation mark."]
-        });
-      }
+      // Punctuation (multiple marks)
+      addFeedback(/[.,;?!]{2,}(?!\.)/g, "Punctuation error. Avoid using multiple punctuation marks.", 'error', ["Use a single punctuation mark."]);
 
-      if (/[.,;?!][a-zA-Z]/.test(text)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Spacing error. Always put a space after punctuation marks.",
-          corrections: ["Add a space after the punctuation."]
-        });
-      }
+      // Spacing after punctuation
+      addFeedback(/[.,;?!][a-zA-Z]/g, "Spacing error. Always put a space after punctuation marks.", 'error', ["Add a space after the punctuation."]);
 
-      if (/\. [a-z]/.test(text)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Capitalization error. Always capitalize the first letter of a new sentence.",
-          corrections: ["Capitalize the first letter after the period."]
-        });
-      }
+      // Capitalization (start of sentence)
+      addFeedback(/\. [a-z]/g, "Capitalization error. Always capitalize the first letter of a new sentence.", 'error', ["Capitalize the first letter."]);
 
-      if (/\s+,/.test(text)) {
-         newFeedbacks.push({
-          type: 'error',
-          message: "Punctuation error. Do not put a space before a comma.",
-          corrections: ["Remove the space before the comma."]
-        });
-      } else if (lowerText.includes(" ,")) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Punctuation error. Do not put a space before a comma.",
-          corrections: ["Remove the space before the comma."]
-        });
-      }
+      // Space before comma
+      addFeedback(/\s+,/g, "Punctuation error. Do not put a space before a comma.", 'error', ["Remove the space before the comma."]);
 
-      if (/\b(student|person|one)\s+who\s+(learn|build|make|do|go)\b/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Subject-verb agreement error in relative clause. Singular subject 'who' requires a singular verb.",
-          corrections: ["Use 'learns', 'builds', etc."]
-        });
-      }
+      // Subject-verb agreement (who)
+      addFeedback(/\b(student|person|one)\s+who\s+(learn|build|make|do|go)\b/i, "Subject-verb agreement error in relative clause. Singular subject 'who' requires a singular verb.", 'error', ["Use 'learns', 'builds', etc."]);
 
-      if (/\s+[.,;?!]/.test(text)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Punctuation error. Do not put a space before punctuation marks.",
-          corrections: ["Remove the space before the punctuation."]
-        });
-      }
+      // Space before punctuation
+      addFeedback(/\s+[.,;?!]/g, "Punctuation error. Do not put a space before punctuation marks.", 'error', ["Remove the space."]);
 
-      if (/\b(skills|benefits|students|people)\s+(helps|makes|is|has)\b/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Subject-verb agreement error. Plural subject requires a plural verb (usually without -s).",
-          corrections: ["Use 'help', 'make', 'are', 'have'."]
-        });
-      }
+      // Plural subject singular verb
+      addFeedback(/\b(skills|benefits|students|people)\s+(helps|makes|is|has)\b/i, "Subject-verb agreement error. Plural subject requires a plural verb.", 'error', ["Use 'help', 'make', 'are', 'have'."]);
 
-      if (/\bthinking\s+creativity\b/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Word form error. Use an adverb to modify a verb.",
-          corrections: ["Use 'think creatively'."]
-        });
-      }
+      // Word form
+      addFeedback(/\bthinking\s+creativity\b/i, "Word form error. Use an adverb to modify a verb.", 'error', ["Use 'think creatively'."]);
 
-      if (/\bspear\s+parts\b/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Spelling error / Wrong word choice.",
-          corrections: ["Did you mean 'spare parts'?"]
-        });
-      }
+      // Spelling/Word choice
+      addFeedback(/\bspear\s+parts\b/i, "Spelling error / Wrong word choice.", 'error', ["Did you mean 'spare parts'?"]);
 
-      if (/\btheoretical\s+concept\b/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Number agreement error. In this context, the plural form is usually required.",
-          corrections: ["Use 'theoretical concepts'."]
-        });
-      }
+      // Number agreement
+      addFeedback(/\btheoretical\s+concept\b/i, "Number agreement error. In this context, the plural form is usually required.", 'error', ["Use 'theoretical concepts'."]);
 
-      if (/\breads\s+about\s+in\b/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Missing object error. The verb 'reads' needs an object here.",
-          corrections: ["Use 'reads about it in'."]
-        });
-      }
+      // Missing object
+      addFeedback(/\breads\s+about\s+in\b/i, "Missing object error. The verb 'reads' needs an object here.", 'error', ["Use 'reads about it in'."]);
 
-      if (/\.\s+secondly/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Capitalization error. Sentences should start with a capital letter.",
-          corrections: ["Use 'Secondly'."]
-        });
-      }
+      // Capitalization (secondly)
+      addFeedback(/\.\s+secondly/i, "Capitalization error. Sentences should start with a capital letter.", 'error', ["Use 'Secondly'."]);
 
-      if (lowerText.includes("the important of")) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Word choice error. 'Important' is an adjective, but a noun is needed here.",
-          corrections: ["Use 'the importance of'."]
-        });
-      }
+      // Word choice
+      addFeedback(/the\s+important\s+of/i, "Word choice error. 'Important' is an adjective, but a noun is needed here.", 'error', ["Use 'the importance of'."]);
 
-      if (/\b(student|he|she|it)\s+(prepare|learn|need|want|go)\b/.test(lowerText) && !/\b(will|can|should|must|might|could|would)\b/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Subject-verb agreement error. Singular subjects (like 'student') require singular verbs (usually ending in -s).",
-          corrections: ["Change the verb to its singular form (e.g., 'prepares', 'learns')."]
-        });
-      }
+      // Subject-verb agreement (singular subject)
+      addFeedback(/\b(student|he|she|it)\s+(prepare|learn|need|want|go)\b(?!\s+(will|can|should|must|might|could|would))/i, "Subject-verb agreement error. Singular subjects require singular verbs.", 'error', ["Change to singular form (e.g., 'prepares')."]);
 
-      if (lowerText.includes("be equip")) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Passive voice error. After 'be', use the past participle form.",
-          corrections: ["Use 'be equipped'."]
-        });
-      }
+      // Passive voice
+      addFeedback(/be\s+equip\b/i, "Passive voice error. After 'be', use the past participle form.", 'error', ["Use 'be equipped'."]);
 
-      if (lowerText.includes("?.")) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Punctuation error. Do not use a period immediately after a question mark.",
-          corrections: ["Remove the period: '?'"]
-        });
-      }
+      // Punctuation (?.)
+      addFeedback(/\?\./g, "Punctuation error. Do not use a period immediately after a question mark.", 'error', ["Remove the period."]);
 
-      if (lowerText.includes("number one benefits")) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Awkward phrasing. 'Number one benefits' is not standard English.",
-          corrections: ["Use 'numerous benefits' or 'a number of benefits'."]
-        });
-      }
+      // Awkward phrasing
+      addFeedback(/number\s+one\s+benefits/i, "Awkward phrasing. 'Number one benefits' is not standard English.", 'error', ["Use 'numerous benefits'."]);
 
-      if (/\b(am|is|are|was|were)\s+went\b/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Incorrect verb form. You cannot use 'to be' verbs (am, is, are, etc.) with the past tense 'went'.",
-          corrections: [
-            "Use simple past: 'I went...'",
-            "Use present continuous: 'I am going...'"
-          ]
-        });
-      }
+      // Verb form (is went)
+      addFeedback(/\b(am|is|are|was|were)\s+went\b/i, "Incorrect verb form. 'To be' verbs cannot be used with 'went'.", 'error', ["Use 'I went' or 'I am going'."]);
 
-      if (/\b(love|like|enjoy|hate|prefer)\s+(run|walk|swim|read|write|speak|talk)\s+and\s+\w+ing\b/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Parallelism error. When using 'and', verbs should usually be in the same form (gerunds).",
-          corrections: ["Use matching forms: 'running and jogging', 'reading and writing'."]
-        });
-      }
+      // Parallelism
+      addFeedback(/\b(love|like|enjoy|hate|prefer)\s+(run|walk|swim|read|write|speak|talk)\s+and\s+\w+ing\b/i, "Parallelism error. Verbs should match in form.", 'error', ["Use matching forms (e.g., 'running and jogging')."]);
 
-      if (/\b(am|is|are|was|were)\s+(knowing|believing|wanting|hating|preferring|needing)\b/.test(lowerText)) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Stative verb error. This verb describes a state and typically isn't used in continuous (-ing) forms.",
-          corrections: ["Use simple tense: 'I know', 'I want', 'I need'."]
-        });
-      }
+      // Stative verbs
+      addFeedback(/\b(am|is|are|was|were)\s+(knowing|believing|wanting|hating|preferring|needing)\b/i, "Stative verb error. This verb isn't usually used in continuous forms.", 'error', ["Use simple tense (e.g., 'I know')."]);
 
       // Prepositions
-      if (lowerText.includes("depend of")) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Preposition error. 'Depend' is usually followed by 'on'.",
-          corrections: ["Use 'depend on'."]
-        });
-      }
-      if (lowerText.includes("interested on")) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Preposition error. 'Interested' is usually followed by 'in'.",
-          corrections: ["Use 'interested in'."]
-        });
-      }
-      if (lowerText.includes("married with")) {
-        newFeedbacks.push({
-          type: 'error',
-          message: "Preposition error. 'Married' is usually followed by 'to'.",
-          corrections: ["Use 'married to'."]
-        });
-      }
-      if (lowerText.includes("good in")) {
-         newFeedbacks.push({
-          type: 'error',
-          message: "Preposition error. To express ability, 'good' is followed by 'at'.",
-          corrections: ["Use 'good at'."]
-        });
-      }
-      if (lowerText.includes("responsible of")) {
-        newFeedbacks.push({
-         type: 'error',
-         message: "Preposition error. 'Responsible' is usually followed by 'for'.",
-         corrections: ["Use 'responsible for'."]
-       });
-     }
+      addFeedback(/depend\s+of/i, "Preposition error. 'Depend' is followed by 'on'.", 'error', ["Use 'depend on'."]);
+      addFeedback(/interested\s+on/i, "Preposition error. 'Interested' is followed by 'in'.", 'error', ["Use 'interested in'."]);
+      addFeedback(/married\s+with/i, "Preposition error. 'Married' is followed by 'to'.", 'error', ["Use 'married to'."]);
+      addFeedback(/good\s+in\b/i, "Preposition error. 'Good' (ability) is followed by 'at'.", 'error', ["Use 'good at'."]);
+      addFeedback(/responsible\s+of/i, "Preposition error. 'Responsible' is followed by 'for'.", 'error', ["Use 'responsible for'."]);
 
-      // Spelling
+      // Common spellings
       const misspellings: Record<string, string> = {
-        "teh": "the",
-        "recieve": "receive",
-        "definately": "definitely",
-        "seperate": "separate",
-        "occured": "occurred",
-        "accommodate": "accommodate",
-        "truely": "truly",
-        "publically": "publicly",
-        "goverment": "government",
-        "environment": "environment"
+        "teh": "the", "recieve": "receive", "definately": "definitely", "seperate": "separate",
+        "occured": "occurred", "accommodate": "accommodate", "truely": "truly", 
+        "publically": "publicly", "goverment": "government", "environment": "environment"
       };
-
       Object.keys(misspellings).forEach(wrong => {
-        if (new RegExp(`\\b${wrong}\\b`).test(lowerText)) {
-          newFeedbacks.push({
-            type: 'error',
-            message: `Spelling error detected: '${wrong}'`,
-            corrections: [`Did you mean '${misspellings[wrong]}'?`]
-          });
-        }
+        addFeedback(new RegExp(`\\b${wrong}\\b`, 'i'), `Spelling error detected: '${wrong}'`, 'error', [`Did you mean '${misspellings[wrong]}'?`]);
       });
 
-      // Tense/Time (Simple checks)
-      if (/\byesterday\s+(is|are|go|eat|walk)\b/.test(lowerText)) {
-         newFeedbacks.push({
-          type: 'error',
-          message: "Tense error. 'Yesterday' requires past tense verbs.",
-          corrections: ["Use 'was', 'were', 'went', 'ate', 'walked'."]
-        });
-      }
-      if (/\btomorrow\s+(was|were|went|ate|walked)\b/.test(lowerText)) {
-        newFeedbacks.push({
-         type: 'error',
-         message: "Tense error. 'Tomorrow' requires future tense verbs.",
-         corrections: ["Use 'will be', 'will go', 'will eat', 'will walk'."]
-       });
-     }
+      // Tense/Time
+      addFeedback(/\byesterday\s+(is|are|go|eat|walk)\b/i, "Tense error. 'Yesterday' requires past tense.", 'error', ["Use 'was', 'went', etc."]);
+      addFeedback(/\btomorrow\s+(was|were|went|ate|walked)\b/i, "Tense error. 'Tomorrow' requires future tense.", 'error', ["Use 'will be', 'will go', etc."]);
 
-      // Fragments (Simple check for starting with subordinating conjunctions and ending abruptly)
+      // Fragments
       if (/^(because|although|since|if|when)\s+[a-z\s]+\.$/i.test(text) && !text.includes(",")) {
          newFeedbacks.push({
           type: 'error',
           message: "Sentence fragment. Subordinate clauses must be attached to a main clause.",
-          corrections: ["Add a comma and a main clause (e.g., 'Because it rained, we stayed inside.')."]
+          corrections: ["Add a comma and a main clause."]
         });
       }
-      
-      // Run-on sentences (Comma splices)
-      if (/\b(however|therefore|moreover|furthermore)\b/.test(lowerText)) {
-        // Check if it's preceded by a comma instead of a semicolon or period
-        if (/,\s+(however|therefore|moreover|furthermore)/.test(lowerText)) {
-             newFeedbacks.push({
-              type: 'error',
-              message: "Run-on sentence / Comma splice. Use a semicolon or period before conjunctive adverbs.",
-              corrections: ["Use '; however,' or '. However,'."]
-            });
-        }
-      }
+
+      // Run-ons
+      addFeedback(/,\s+(however|therefore|moreover|furthermore)/i, "Run-on sentence / Comma splice.", 'error', ["Use '; however,' or '. However,'."]);
 
       // Articles
-      if (/\ba\s+(apple|orange|egg|elephant|umbrella|hour)\b/.test(lowerText)) {
-         newFeedbacks.push({
-          type: 'error',
-          message: "Article error. Use 'an' before words starting with a vowel sound.",
-          corrections: ["Use 'an'."]
-        });
-      }
-      if (/\ban\s+(car|house|university|book|cat)\b/.test(lowerText)) {
-        newFeedbacks.push({
-         type: 'error',
-         message: "Article error. Use 'a' before words starting with a consonant sound.",
-         corrections: ["Use 'a'."]
-       });
-     }
+      addFeedback(/\ba\s+(apple|orange|egg|elephant|umbrella|hour)\b/i, "Article error. Use 'an' before vowel sounds.", 'error', ["Use 'an'."]);
+      addFeedback(/\ban\s+(car|house|university|book|cat)\b/i, "Article error. Use 'a' before consonant sounds.", 'error', ["Use 'a'."]);
 
       // Capitalization (I)
-      if (/\bi\s+/.test(text) || /\s+i\s+/.test(text)) {
-         newFeedbacks.push({
-          type: 'error',
-          message: "Capitalization error. The pronoun 'I' must always be capitalized.",
-          corrections: ["Use 'I'."]
-        });
-      }
+      addFeedback(/\bi\b/g, "Capitalization error. The pronoun 'I' must always be capitalized.", 'error', ["Use 'I'."]);
 
-      if (lowerText.includes(" ain't ")) {
-         newFeedbacks.push({
-          type: 'error',
-          message: "Avoid using slang like 'ain't' in academic writing.",
-          corrections: ["Use 'is not', 'are not', or 'have not' instead."]
-        });
-      }
+      // Slang
+      addFeedback(/\bain't\b/i, "Avoid using slang like 'ain't' in academic writing.", 'error', ["Use 'is not' or 'are not'."]);
 
       if (newFeedbacks.length === 0) {
          newFeedbacks.push({
@@ -387,11 +209,91 @@ export default function GrammarTool() {
         });
       }
 
-      // De-duplicate feedbacks based on message
-      const uniqueFeedbacks = newFeedbacks.filter((v, i, a) => a.findIndex(t => (t.message === v.message)) === i);
+      // De-duplicate feedbacks based on message and range
+      const uniqueFeedbacks = newFeedbacks.filter((v, i, a) => a.findIndex(t => (t.message === v.message && t.range?.[0] === v.range?.[0])) === i);
 
       setFeedbacks(uniqueFeedbacks);
     }, 1500);
+  };
+
+  const renderHighlightedText = () => {
+    if (!text) return null;
+
+    // Sort feedbacks by start position
+    const sortedFeedbacks = [...feedbacks]
+      .filter(f => f.range)
+      .sort((a, b) => (a.range![0]) - (b.range![0]));
+    
+    // Filter out overlapping ranges (simple greedy approach)
+    const nonOverlapping: typeof feedbacks = [];
+    let lastEnd = 0;
+    sortedFeedbacks.forEach(f => {
+      if (f.range && f.range[0] >= lastEnd) {
+        nonOverlapping.push(f);
+        lastEnd = f.range[1];
+      }
+    });
+
+    const elements = [];
+    let lastIndex = 0;
+
+    nonOverlapping.forEach((feedback, i) => {
+      if (!feedback.range) return;
+      const [start, end] = feedback.range;
+
+      // Text before highlight
+      if (start > lastIndex) {
+        elements.push(<span key={`text-${i}`}>{text.slice(lastIndex, start)}</span>);
+      }
+
+      // Highlighted text
+      const highlightColor = feedback.type === 'error' ? 'bg-red-100 border-b-2 border-red-500' : 
+                             feedback.type === 'warning' ? 'bg-amber-100 border-b-2 border-amber-500' : 'bg-green-100 border-b-2 border-green-500';
+
+      elements.push(
+        <HoverCard key={`highlight-${i}`} openDelay={0} closeDelay={0}>
+          <HoverCardTrigger asChild>
+            <span className={`${highlightColor} cursor-pointer rounded-sm px-0.5`}>
+              {text.slice(start, end)}
+            </span>
+          </HoverCardTrigger>
+          <HoverCardContent className="w-80 p-4" align="start">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                 {feedback.type === 'error' ? <AlertTriangle className="h-4 w-4 text-red-600" /> : 
+                  feedback.type === 'warning' ? <Info className="h-4 w-4 text-amber-600" /> : <Check className="h-4 w-4 text-green-600" />}
+                 <h4 className={`font-semibold text-sm ${
+                   feedback.type === 'error' ? 'text-red-700' : 
+                   feedback.type === 'warning' ? 'text-amber-700' : 'text-green-700'
+                 }`}>
+                   {feedback.type === 'error' ? 'Error' : feedback.type === 'warning' ? 'Suggestion' : 'Success'}
+                 </h4>
+              </div>
+              <p className="text-sm text-foreground">{feedback.message}</p>
+              {feedback.corrections && feedback.corrections.length > 0 && (
+                <div className="text-sm bg-muted/50 p-2 rounded border mt-2">
+                  <div className="font-medium text-xs text-muted-foreground uppercase mb-1">Correction</div>
+                  <div className="text-green-700 font-medium">
+                    {feedback.corrections.map((c, i) => (
+                      <div key={i}>{c}</div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </HoverCardContent>
+        </HoverCard>
+      );
+
+      lastIndex = end;
+    });
+
+    // Remaining text
+    if (lastIndex < text.length) {
+      elements.push(<span key="text-end">{text.slice(lastIndex)}</span>);
+    }
+
+    return elements;
   };
 
   return (
@@ -439,17 +341,37 @@ export default function GrammarTool() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="grammar-input">Your Text</Label>
-                <Textarea 
-                  id="grammar-input" 
-                  placeholder="Type or paste your sentence here..." 
-                  className="min-h-[150px] resize-y text-base font-sans"
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                />
+                <div className="flex justify-between items-center">
+                   <Label htmlFor="grammar-input">Your Text</Label>
+                   {isReviewMode && (
+                     <Button 
+                       variant="ghost" 
+                       size="sm" 
+                       onClick={() => setIsReviewMode(false)}
+                       className="h-6 px-2 text-xs"
+                     >
+                       <Pencil className="h-3 w-3 mr-1" />
+                       Edit Text
+                     </Button>
+                   )}
+                </div>
+                
+                {isReviewMode ? (
+                  <div className="min-h-[150px] p-3 rounded-md border border-input bg-background text-base font-sans whitespace-pre-wrap leading-relaxed">
+                    {renderHighlightedText()}
+                  </div>
+                ) : (
+                  <Textarea 
+                    id="grammar-input" 
+                    placeholder="Type or paste your sentence here..." 
+                    className="min-h-[150px] resize-y text-base font-sans"
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                  />
+                )}
               </div>
 
-              {feedbacks.length > 0 && (
+              {feedbacks.length > 0 && !isReviewMode && (
                 <div className="space-y-3">
                   {feedbacks.map((feedback, index) => (
                     <div key={index} className={`p-4 rounded-lg border ${
@@ -485,23 +407,25 @@ export default function GrammarTool() {
               <p className="text-xs text-muted-foreground">
                 * This is a simulated AI tool for practice purposes.
               </p>
-              <Button 
-                onClick={handleCheck} 
-                disabled={isChecking || !text.trim()}
-                className="bg-purple-600 hover:bg-purple-700 text-white min-w-[140px]"
-              >
-                {isChecking ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Checking...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Check Grammar
-                  </>
-                )}
-              </Button>
+              {!isReviewMode && (
+                <Button 
+                  onClick={handleCheck} 
+                  disabled={isChecking || !text.trim()}
+                  className="bg-purple-600 hover:bg-purple-700 text-white min-w-[140px]"
+                >
+                  {isChecking ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Checking...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      Check Grammar
+                    </>
+                  )}
+                </Button>
+              )}
             </CardFooter>
           </Card>
         </TabsContent>
