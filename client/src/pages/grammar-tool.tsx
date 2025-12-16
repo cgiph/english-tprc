@@ -216,6 +216,13 @@ export default function GrammarTool() {
     }, 1500);
   };
 
+  const handleReset = () => {
+    setText("");
+    setFeedbacks([]);
+    setIsReviewMode(false);
+    setIsChecking(false);
+  };
+
   const renderHighlightedText = () => {
     if (!text) return null;
 
@@ -444,28 +451,41 @@ export default function GrammarTool() {
               )}
             </CardContent>
             <CardFooter className="flex justify-between border-t p-6 bg-muted/5">
-              <p className="text-xs text-muted-foreground">
-                * This is a simulated AI tool for practice purposes.
-              </p>
-              {!isReviewMode && (
+              <div className="flex items-center gap-4">
+                 <p className="text-xs text-muted-foreground">
+                  * This is a simulated AI tool for practice purposes.
+                </p>
+              </div>
+              
+              <div className="flex gap-2">
                 <Button 
-                  onClick={handleCheck} 
-                  disabled={isChecking || !text.trim()}
-                  className="bg-purple-600 hover:bg-purple-700 text-white min-w-[140px]"
+                  variant="outline" 
+                  onClick={handleReset}
+                  disabled={!text && feedbacks.length === 0}
                 >
-                  {isChecking ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Checking...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="mr-2 h-4 w-4" />
-                      Check Grammar
-                    </>
-                  )}
+                  Reset
                 </Button>
-              )}
+                
+                {!isReviewMode && (
+                  <Button 
+                    onClick={handleCheck} 
+                    disabled={isChecking || !text.trim()}
+                    className="bg-purple-600 hover:bg-purple-700 text-white min-w-[140px]"
+                  >
+                    {isChecking ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Checking...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="mr-2 h-4 w-4" />
+                        Check Grammar
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
             </CardFooter>
           </Card>
         </TabsContent>
