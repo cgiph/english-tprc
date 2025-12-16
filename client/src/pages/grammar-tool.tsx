@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowLeft, BookOpen, Check, AlertCircle, Sparkles, Loader2, AlertTriangle } from "lucide-react";
+import { ArrowLeft, BookOpen, Check, AlertCircle, Sparkles, Loader2, AlertTriangle, Info } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 export default function GrammarTool() {
   const [text, setText] = useState("");
   const [isChecking, setIsChecking] = useState(false);
-  const [feedbacks, setFeedbacks] = useState<Array<{ type: 'success' | 'error', message: string, corrections?: string[] }>>([]);
+  const [feedbacks, setFeedbacks] = useState<Array<{ type: 'success' | 'error' | 'warning', message: string, corrections?: string[] }>>([]);
 
   const handleCheck = () => {
     if (!text.trim()) return;
@@ -26,12 +26,37 @@ export default function GrammarTool() {
       
       // Simple mock logic for demonstration
       const lowerText = text.toLowerCase();
-      const newFeedbacks: Array<{ type: 'success' | 'error', message: string, corrections?: string[] }> = [];
+      const newFeedbacks: Array<{ type: 'success' | 'error' | 'warning', message: string, corrections?: string[] }> = [];
       
       if (text.length < 10) {
         newFeedbacks.push({
           type: 'error',
           message: "Your sentence is too short. Try writing a complete sentence for better analysis.",
+        });
+      }
+
+      // Specific stylistic checks based on user request
+      if (lowerText.includes("butterfly larvae or caterpillars") && !lowerText.includes("butterfly larvae, or caterpillars,")) {
+        newFeedbacks.push({
+          type: 'warning',
+          message: "Punctuation suggestion. When 'or' introduces a synonym or definition (appositive), use commas.",
+          corrections: ["Butterfly larvae, or caterpillars,"]
+        });
+      }
+
+      if (/using\s+[\w\s]+\s+as\s+well\s+as\s+using/.test(lowerText)) {
+        newFeedbacks.push({
+          type: 'warning',
+          message: "Stylistic refinement. Reduce repetition for better flow.",
+          corrections: ["Remove the second 'using'."]
+        });
+      }
+
+      if (/\band\s+(?:they\s+|we\s+|it\s+)?in\s+turn\s+/.test(lowerText) && !/,\s+in\s+turn\s+,/.test(lowerText)) {
+        newFeedbacks.push({
+          type: 'warning',
+          message: "Punctuation suggestion. 'In turn' as an interrupter is usually set off by commas.",
+          corrections: ["... and, in turn, ..."]
         });
       }
 
@@ -427,10 +452,16 @@ export default function GrammarTool() {
               {feedbacks.length > 0 && (
                 <div className="space-y-3">
                   {feedbacks.map((feedback, index) => (
-                    <div key={index} className={`p-4 rounded-lg border ${feedback.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
+                    <div key={index} className={`p-4 rounded-lg border ${
+                      feedback.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 
+                      feedback.type === 'warning' ? 'bg-amber-50 border-amber-200 text-amber-800' :
+                      'bg-red-50 border-red-200 text-red-800'
+                    }`}>
                       <div className="flex items-start gap-3">
                         {feedback.type === 'success' ? (
                           <Check className="h-5 w-5 mt-0.5 shrink-0 text-green-600" />
+                        ) : feedback.type === 'warning' ? (
+                          <Info className="h-5 w-5 mt-0.5 shrink-0 text-amber-600" />
                         ) : (
                           <AlertTriangle className="h-5 w-5 mt-0.5 shrink-0 text-red-600" />
                         )}
