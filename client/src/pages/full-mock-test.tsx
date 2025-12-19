@@ -810,6 +810,7 @@ export default function FullMockTest() {
                   )}
                   {micPlayback && (
                     <div className="flex gap-2">
+                      <Button size="sm" variant="outline" onClick={startMicCheckRecording}>Record</Button>
                       <Button size="sm" variant="outline" onClick={playMicRecording}> <Play className="h-3 w-3 mr-1"/> Playback</Button>
                       <Button size="sm" onClick={() => { setMicChecked(true); setMicPlayback(false); }}>Confirm</Button>
                     </div>
