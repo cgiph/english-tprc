@@ -301,6 +301,32 @@ export default function FullMockTest() {
   };
 
   const finishTechCheck = () => {
+    if (!micChecked) {
+        toast({
+            variant: "destructive",
+            title: "Check Required",
+            description: "Please complete the microphone check and click 'Confirm'."
+        });
+        // Scroll to mic section
+        document.getElementById("mic-check-section")?.scrollIntoView({ behavior: "smooth" });
+        return;
+    }
+    if (!audioChecked) {
+        toast({
+            variant: "destructive",
+            title: "Check Required",
+            description: "Please play the sample audio to verify playback."
+        });
+        return;
+    }
+    if (!keyboardChecked) {
+        toast({
+            variant: "destructive",
+            title: "Check Required",
+            description: "Please verify your keyboard and click 'Confirm Keys Working'."
+        });
+        return;
+    }
     setTestState("intro-recording");
   };
 
@@ -757,7 +783,7 @@ export default function FullMockTest() {
           </CardHeader>
           <CardContent className="space-y-8">
             {/* Mic Check */}
-            <div className="flex flex-col gap-4 p-4 border rounded-lg">
+            <div id="mic-check-section" className="flex flex-col gap-4 p-4 border rounded-lg">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <Mic className="h-6 w-6 text-muted-foreground" />
@@ -827,7 +853,6 @@ export default function FullMockTest() {
           </CardContent>
           <CardFooter className="justify-end">
              <Button 
-               disabled={!micChecked || !audioChecked || !keyboardChecked} 
                onClick={finishTechCheck}
              >
                Next Step
