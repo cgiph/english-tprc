@@ -2,6 +2,12 @@ import imgRenewable from "@assets/generated_images/bar_chart_showing_global_rene
 import imgPopulation from "@assets/generated_images/line_graph_depicting_population_growth_in_urban_vs_rural_areas.png";
 import imgSmartphone from "@assets/generated_images/pie_chart_illustrating_smartphone_market_share_by_brand.png";
 import imgWaterCycle from "@assets/generated_images/process_diagram_showing_the_water_cycle.png";
+import imgTemp from "@assets/generated_images/line_graph_showing_global_temperature_rise_over_a_century.png";
+import imgEnrollment from "@assets/generated_images/pie_chart_of_student_major_distribution.png";
+import imgButterfly from "@assets/generated_images/diagram_of_butterfly_life_cycle_stages.png";
+import imgInternet from "@assets/generated_images/bar_chart_of_internet_usage_by_age_group.png";
+import imgLibraryMap from "@assets/generated_images/map_comparing_library_floor_plan_2010_vs_2025.png";
+import imgRecycle from "@assets/generated_images/diagram_of_plastic_recycling_lifecycle.png";
 
 export type SpeakingTaskType = 
   | "Read Aloud" 
@@ -90,12 +96,12 @@ export const SPEAKING_QUESTIONS: Record<SpeakingTaskType, SpeakingQuestion[]> = 
     { id: "di-2", type: "Describe Image", title: "Urban vs Rural Population", content: "Describe the line graph comparing population growth.", imageUrl: imgPopulation },
     { id: "di-3", type: "Describe Image", title: "Smartphone Market Share", content: "Describe the pie chart illustrating market share.", imageUrl: imgSmartphone },
     { id: "di-4", type: "Describe Image", title: "The Water Cycle", content: "Describe the process diagram of the water cycle.", imageUrl: imgWaterCycle },
-    { id: "di-5", type: "Describe Image", title: "Global Temperature Rise", content: "Describe the graph showing average temperature increase over the last century.", imageUrl: "https://placehold.co/600x400?text=Global+Temperature+Graph" },
-    { id: "di-6", type: "Describe Image", title: "University Enrollment", content: "Describe the chart showing enrollment numbers by department.", imageUrl: "https://placehold.co/600x400?text=University+Enrollment+Chart" },
-    { id: "di-7", type: "Describe Image", title: "Life Cycle of a Butterfly", content: "Describe the diagram showing the life stages of a butterfly.", imageUrl: "https://placehold.co/600x400?text=Butterfly+Life+Cycle" },
-    { id: "di-8", type: "Describe Image", title: "Internet Usage by Age", content: "Describe the bar chart showing internet usage across age groups.", imageUrl: "https://placehold.co/600x400?text=Internet+Usage+Stats" },
-    { id: "di-9", type: "Describe Image", title: "Library Floor Plan", content: "Describe the layout of the university library.", imageUrl: "https://placehold.co/600x400?text=Library+Map" },
-    { id: "di-10", type: "Describe Image", title: "Steps to Recycle", content: "Describe the flow chart showing the recycling process.", imageUrl: "https://placehold.co/600x400?text=Recycling+Process" }
+    { id: "di-5", type: "Describe Image", title: "Global Temperature Rise", content: "Describe the graph showing average temperature increase over the last century.", imageUrl: imgTemp },
+    { id: "di-6", type: "Describe Image", title: "University Enrollment", content: "Describe the chart showing enrollment numbers by department.", imageUrl: imgEnrollment },
+    { id: "di-7", type: "Describe Image", title: "Life Cycle of a Butterfly", content: "Describe the diagram showing the life stages of a butterfly.", imageUrl: imgButterfly },
+    { id: "di-8", type: "Describe Image", title: "Internet Usage by Age", content: "Describe the bar chart showing internet usage across age groups.", imageUrl: imgInternet },
+    { id: "di-9", type: "Describe Image", title: "Library Floor Plan", content: "Describe the layout of the university library.", imageUrl: imgLibraryMap },
+    { id: "di-10", type: "Describe Image", title: "Steps to Recycle", content: "Describe the flow chart showing the recycling process.", imageUrl: imgRecycle }
   ],
   "Retell Lecture": [
     { 
