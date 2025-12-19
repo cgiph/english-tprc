@@ -14,6 +14,7 @@ export type SpeakingTaskType =
   | "Repeat Sentence" 
   | "Describe Image" 
   | "Retell Lecture" 
+  | "Answer Short Question"
   | "Summarize Group Discussion" 
   | "Respond to a Situation";
 
@@ -174,6 +175,18 @@ export const SPEAKING_QUESTIONS: Record<SpeakingTaskType, SpeakingQuestion[]> = 
       content: "Listen to the lecture and retell the key points.",
       audioScript: "Speaker: Sleep is vital for memory consolidation. During REM sleep, the brain processes information gathered during the day. Chronic sleep deprivation is linked to cognitive decline and a weakened immune system, highlighting the importance of getting 7-9 hours of rest."
     }
+  ],
+  "Answer Short Question": [
+    { id: "asq-1", type: "Answer Short Question", content: "What do you call a person who writes books?", audioScript: "Author" },
+    { id: "asq-2", type: "Answer Short Question", content: "Which month comes after June?", audioScript: "July" },
+    { id: "asq-3", type: "Answer Short Question", content: "What is the opposite of hot?", audioScript: "Cold" },
+    { id: "asq-4", type: "Answer Short Question", content: "What is the frozen form of water?", audioScript: "Ice" },
+    { id: "asq-5", type: "Answer Short Question", content: "How many days are in a leap year?", audioScript: "366" },
+    { id: "asq-6", type: "Answer Short Question", content: "What instrument is used to measure temperature?", audioScript: "Thermometer" },
+    { id: "asq-7", type: "Answer Short Question", content: "What is the joint between the upper and lower arm?", audioScript: "Elbow" },
+    { id: "asq-8", type: "Answer Short Question", content: "What do bees collect from flowers?", audioScript: "Nectar / Pollen" },
+    { id: "asq-9", type: "Answer Short Question", content: "Which organ pumps blood throughout the body?", audioScript: "Heart" },
+    { id: "asq-10", type: "Answer Short Question", content: "What is the study of stars and planets called?", audioScript: "Astronomy" }
   ],
   "Summarize Group Discussion": [
     {

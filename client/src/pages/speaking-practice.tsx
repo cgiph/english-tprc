@@ -28,6 +28,7 @@ export default function SpeakingPractice() {
     "Repeat Sentence": 0,
     "Describe Image": 0,
     "Retell Lecture": 0,
+    "Answer Short Question": 0,
     "Summarize Group Discussion": 0,
     "Respond to a Situation": 0
   });
@@ -198,7 +199,7 @@ export default function SpeakingPractice() {
   };
 
   const startPreparation = () => {
-    if (activeTab === "Repeat Sentence") {
+    if (activeTab === "Repeat Sentence" || activeTab === "Answer Short Question") {
       setStatus("playing");
       toast({
         title: "Audio Playing",
@@ -206,10 +207,10 @@ export default function SpeakingPractice() {
       });
       speakText(currentQuestion.content, () => {
         setStatus("waiting");
-        setTimeLeft(5); // 5 second delay before beep/recording
+        setTimeLeft(activeTab === "Answer Short Question" ? 2 : 5); // Faster for ASQ
         toast({
            title: "Get Ready",
-           description: "Recording starts in 5 seconds...",
+           description: "Recording starts soon...",
         });
       });
       return;
@@ -462,6 +463,27 @@ export default function SpeakingPractice() {
                     <p className="text-lg font-medium animate-in fade-in slide-in-from-bottom-2">
                       {currentQuestion.content}
                     </p>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "Answer Short Question" && (
+                <div className="space-y-6">
+                  <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
+                    You will hear a question. Give a simple and short answer -- just one or a few words is enough. Once you hear the beep, speak into the microphone and answer the question. Click next right after.
+                  </div>
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto animate-pulse cursor-pointer hover:bg-primary/20 transition-colors" onClick={() => speakText(currentQuestion.content)}>
+                    <Volume2 className="h-8 w-8 text-primary" />
+                  </div>
+                  <p className="text-sm text-muted-foreground">Click Start or the icon above to listen, then answer.</p>
+                  <Button variant="secondary" onClick={() => setShowTranscript(!showTranscript)}>
+                    {showTranscript ? "Hide Question" : "Show Question"}
+                  </Button>
+                  {showTranscript && (
+                    <div className="space-y-2 animate-in fade-in slide-in-from-bottom-2">
+                      <p className="text-lg font-medium">Q: {currentQuestion.content}</p>
+                      <p className="text-sm text-muted-foreground">A: {currentQuestion.audioScript}</p>
+                    </div>
                   )}
                 </div>
               )}
