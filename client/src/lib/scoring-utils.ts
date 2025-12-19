@@ -13,12 +13,23 @@ export const calculateSpeakingScore = (
   durationSeconds: number, 
   isSimulated: boolean = false
 ): SpeakingScore => {
+  // If duration is effectively zero or very short (no recording), return 0 score
+  if (durationSeconds < 1) {
+    return {
+      overall: 0,
+      content: 10,
+      fluency: 10,
+      pronunciation: 10,
+      feedback: "No recording detected or recording was too short. Please try again."
+    };
+  }
+
   // Base randomness for prototype
   const randomScore = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
   // Logic based on duration (if too short, score penalty)
   let durationFactor = 1;
-  if (durationSeconds < 3) durationFactor = 0.1;
+  if (durationSeconds < 5) durationFactor = 0.3; // Significantly penalize very short answers
   else if (durationSeconds < 10) durationFactor = 0.5;
   else if (durationSeconds < 20) durationFactor = 0.8;
 
@@ -42,11 +53,16 @@ export const calculateSpeakingScore = (
   else if (overall > 50) feedback = "Average response. Focus on clear articulation and continuous speech.";
   else feedback = "Response was too short or unclear. Please try again and speak for longer.";
 
+  // Safety floor for scores if penalty was harsh
+  if (durationSeconds < 5) {
+      feedback = "Response too short. Elaborate more to improve your score.";
+  }
+
   return {
-    overall,
-    content,
-    fluency,
-    pronunciation,
+    overall: Math.max(10, overall), // PTE minimum is usually 10
+    content: Math.max(10, content),
+    fluency: Math.max(10, fluency),
+    pronunciation: Math.max(10, pronunciation),
     feedback
   };
 };

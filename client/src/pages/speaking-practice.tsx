@@ -39,6 +39,7 @@ export default function SpeakingPractice() {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
   const [recordedAudioUrl, setRecordedAudioUrl] = useState<string | null>(null);
+  const [recordingDuration, setRecordingDuration] = useState(0);
   const [score, setScore] = useState<SpeakingScore | null>(null);
   const [isScoring, setIsScoring] = useState(false);
   
@@ -227,6 +228,7 @@ export default function SpeakingPractice() {
     startRecordingAudio(); // Start actual recording
     setStatus("recording");
     setTimeLeft(40); // 40s recording
+    setRecordingDuration(0); // Reset duration
     toast({
       title: "Recording Started",
       description: "Speak now! Recording for 40 seconds.",
@@ -236,6 +238,9 @@ export default function SpeakingPractice() {
   };
 
   const stopRecording = () => {
+    const duration = 40 - timeLeft; // Calculate duration before resetting time
+    setRecordingDuration(duration);
+    
     stopRecordingAudio(); // Stop actual recording
     setStatus("completed");
     setTimeLeft(0);
@@ -262,9 +267,9 @@ export default function SpeakingPractice() {
     setIsScoring(true);
     // Simulate processing delay
     setTimeout(() => {
-      // Calculate mock score based on task and random factors
+      // Calculate mock score based on task and duration
       // In real app, we'd send the audio blob to backend
-      const newScore = calculateSpeakingScore(activeTab, 40 - timeLeft); // Using max time as proxy for now
+      const newScore = calculateSpeakingScore(activeTab, recordingDuration);
       setScore(newScore);
       setIsScoring(false);
       toast({
