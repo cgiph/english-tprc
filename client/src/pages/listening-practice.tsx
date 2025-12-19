@@ -186,7 +186,7 @@ export default function ListeningPractice() {
   // Renderers for different question types
 
   const renderQuestionHeader = (q: ListeningQuestion) => (
-    <div className="bg-blue-600 text-white p-3 flex justify-between items-center rounded-t-md mb-4 shadow-sm">
+    <div className="bg-[#0095D6] text-white p-3 flex justify-between items-center rounded-t-md mb-4 shadow-sm">
       <div className="flex items-center gap-2">
         <span className="font-semibold text-sm">
             {q.id} (#{q.id})
@@ -198,7 +198,7 @@ export default function ListeningPractice() {
             Feedback
         </Badge>
       </div>
-      <div className="flex items-center gap-2 bg-[#006080] px-3 py-1 rounded text-sm font-medium">
+      <div className="flex items-center gap-2 bg-[#0077B6] px-3 py-1 rounded text-sm font-medium">
         <Timer className="w-4 h-4" />
         <span>Timer: {q.type === "SST" ? formatTime(questionTimers[q.id] || 600) : formatTime(groupTimer)}</span>
       </div>
