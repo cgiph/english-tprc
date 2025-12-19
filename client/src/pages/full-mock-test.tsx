@@ -1002,10 +1002,37 @@ export default function FullMockTest() {
                 </div>
               </div>
 
-              <ul className="list-disc pl-5 space-y-2 text-muted-foreground text-sm">
-                <li><strong>Listening:</strong> Summarize Spoken Text, MCQ, Dictation.</li>
-              </ul>
-              
+              <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                <h3 className="text-lg font-bold flex items-center gap-2 mb-2 text-primary">
+                  <span>🎧</span> LISTENING
+                </h3>
+                <div className="text-sm text-muted-foreground mb-4">
+                  <p>Group time: 30–43 minutes</p>
+                  <p>Total questions: 12–20</p>
+                </div>
+                
+                <div className="border rounded-md overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-100">
+                      <tr>
+                        <th className="px-4 py-2 text-left font-medium text-slate-700">Task Type</th>
+                        <th className="px-4 py-2 text-left font-medium text-slate-700">Typical No.</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y">
+                      <tr><td className="px-4 py-2">Summarize Spoken Text</td><td className="px-4 py-2">1–2</td></tr>
+                      <tr><td className="px-4 py-2">MCQ – Multiple Answers</td><td className="px-4 py-2">1–2</td></tr>
+                      <tr><td className="px-4 py-2">MCQ – Single Answer</td><td className="px-4 py-2">1–2</td></tr>
+                      <tr><td className="px-4 py-2">Highlight Correct Summary</td><td className="px-4 py-2">1–2</td></tr>
+                      <tr><td className="px-4 py-2">Select Missing Word</td><td className="px-4 py-2">1–2</td></tr>
+                      <tr><td className="px-4 py-2">Fill in the Blanks</td><td className="px-4 py-2">2–3</td></tr>
+                      <tr><td className="px-4 py-2">Highlight Incorrect Words</td><td className="px-4 py-2">2–3</td></tr>
+                      <tr><td className="px-4 py-2">Write from Dictation</td><td className="px-4 py-2">3–4</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
               <div className="mt-4 bg-muted p-4 rounded text-sm">
                 <strong>Note:</strong> You cannot save and exit. All questions must be attempted.
               </div>
