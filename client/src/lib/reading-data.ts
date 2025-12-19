@@ -134,56 +134,109 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
     }
   ],
   "Multiple Choice (Multiple)": [
-    // EASY
+    // EASY (A2/B1 - 100-150 words)
     {
       id: "mcm-1",
       type: "Multiple Choice (Multiple)",
       difficulty: "Easy",
-      title: "Grocery List",
-      text: "For the cake, we need eggs, flour, sugar, and butter. Do not buy milk or salt.",
-      prompt: "Which ingredients are needed for the cake?",
-      options: ["Eggs", "Milk", "Sugar", "Salt", "Butter"],
-      correctAnswer: ["Eggs", "Sugar", "Butter"]
+      title: "Community Gardens",
+      text: "Community gardens are shared plots of land where people gather to grow fresh fruits, vegetables, and flowers. These green spaces have become increasingly popular in urban areas, transforming vacant lots into vibrant hubs of activity. Beyond providing fresh produce, community gardens offer numerous social benefits. They create opportunities for neighbors to meet, interact, and build lasting friendships, strengthening the sense of community. \n\nAdditionally, these gardens serve as educational spaces where children and adults alike can learn about agriculture, sustainability, and healthy eating habits. Participating in gardening activities has also been linked to improved mental health, reducing stress and anxiety levels. While maintaining a garden requires dedication and effort, the rewards of harvesting one's own food and contributing to a greener neighborhood make it a worthwhile endeavor for many city dwellers.",
+      prompt: "What are the benefits of community gardens mentioned in the text?",
+      options: [
+        "They provide fresh produce.",
+        "They are only for growing flowers.",
+        "They help build community and friendships.",
+        "They require no effort to maintain.",
+        "They offer educational opportunities about sustainability.",
+        "They completely eliminate the need for grocery stores."
+      ],
+      correctAnswer: [
+        "They provide fresh produce.",
+        "They help build community and friendships.",
+        "They offer educational opportunities about sustainability."
+      ]
     },
     {
       id: "mcm-2",
       type: "Multiple Choice (Multiple)",
       difficulty: "Easy",
-      title: "Travel Plans",
-      text: "We are visiting Paris and London. We will not go to Rome or Berlin this time.",
-      prompt: "Which cities will be visited?",
-      options: ["Paris", "Rome", "London", "Berlin"],
-      correctAnswer: ["Paris", "London"]
+      title: "The Importance of Sleep",
+      text: "Sleep is a vital physiological process that is essential for physical and mental well-being. During sleep, the body repairs tissues, synthesizes hormones, and strengthens the immune system. For the brain, sleep is crucial for memory consolidation, allowing us to process and store information learned throughout the day. Lack of adequate sleep can lead to a range of health issues, including difficulty concentrating, mood swings, and a weakened immune response.\n\nExperts recommend that adults aim for 7 to 9 hours of quality sleep each night. Establishing a consistent sleep schedule, creating a relaxing bedtime routine, and avoiding caffeine and electronic screens before bed can significantly improve sleep quality. While some people may believe they can function well on very little sleep, chronic sleep deprivation can have long-term negative effects on overall health and cognitive performance.",
+      prompt: "According to the text, why is sleep important?",
+      options: [
+        "It repairs body tissues.",
+        "It consolidates memory.",
+        "It allows people to work 24 hours a day.",
+        "It strengthens the immune system.",
+        "It prevents all types of diseases.",
+        "It is the only way to lose weight."
+      ],
+      correctAnswer: [
+        "It repairs body tissues.",
+        "It consolidates memory.",
+        "It strengthens the immune system."
+      ]
     },
     {
       id: "mcm-3",
       type: "Multiple Choice (Multiple)",
       difficulty: "Easy",
-      title: "Sports Day",
-      text: "Students can choose to play football or basketball. Tennis and swimming are not available.",
-      prompt: "Which sports are available for students?",
-      options: ["Football", "Tennis", "Basketball", "Swimming"],
-      correctAnswer: ["Football", "Basketball"]
+      title: "Remote Work",
+      text: "The concept of remote work, or telecommuting, has gained significant traction in recent years, driven by advancements in technology and changing workplace attitudes. Working from home offers flexibility that many employees value, allowing them to better balance their professional and personal lives. It eliminates the daily commute, saving time and money while reducing the environmental impact of transportation.\n\nHowever, remote work also presents challenges. Without the structure of a traditional office, some employees may struggle with self-discipline and time management. The lack of face-to-face interaction can sometimes lead to feelings of isolation and make collaboration more difficult. To succeed in a remote environment, clear communication and the use of digital collaboration tools are essential. Many companies are now adopting hybrid models, combining remote work with in-office days to capture the benefits of both worlds.",
+      prompt: "What are the advantages of remote work mentioned in the text?",
+      options: [
+        "It offers better work-life balance.",
+        "It eliminates the need for technology.",
+        "It saves time and money on commuting.",
+        "It guarantees a promotion.",
+        "It reduces the environmental impact of transportation.",
+        "It makes collaboration easier than in person."
+      ],
+      correctAnswer: [
+        "It offers better work-life balance.",
+        "It saves time and money on commuting.",
+        "It reduces the environmental impact of transportation."
+      ]
     },
     {
       id: "mcm-4",
       type: "Multiple Choice (Multiple)",
       difficulty: "Easy",
-      title: "Office Supplies",
-      text: "Please order pens and notebooks. We have enough paper and staples.",
-      prompt: "What needs to be ordered?",
-      options: ["Pens", "Paper", "Notebooks", "Staples"],
-      correctAnswer: ["Pens", "Notebooks"]
+      title: "Plastic Pollution",
+      text: "Plastic pollution has become one of the most pressing environmental issues of our time. Single-use plastics, such as straws, bags, and bottles, often end up in oceans and waterways, harming marine life and disrupting ecosystems. Unlike organic materials, plastic does not biodegrade; instead, it breaks down into smaller particles known as microplastics, which can persist in the environment for hundreds of years.\n\nGovernments and organizations worldwide are implementing strategies to combat this problem, including banning certain single-use items and promoting recycling programs. Individuals can also play a role by reducing their plastic consumption, opting for reusable alternatives, and properly disposing of waste. Addressing plastic pollution requires a collective effort to protect our planet for future generations.",
+      prompt: "What are the problems associated with plastic pollution mentioned in the text?",
+      options: [
+        "It harms marine life.",
+        "It biodegrades quickly.",
+        "It disrupts ecosystems.",
+        "It creates microplastics that persist for years.",
+        "It is easy to clean up."
+      ],
+      correctAnswer: [
+        "It harms marine life.",
+        "It disrupts ecosystems.",
+        "It creates microplastics that persist for years."
+      ]
     },
     {
       id: "mcm-5",
       type: "Multiple Choice (Multiple)",
       difficulty: "Easy",
-      title: "Breakfast Menu",
-      text: "The hotel serves coffee, tea, and juice. There is no hot chocolate.",
-      prompt: "Which drinks are served at the hotel?",
-      options: ["Coffee", "Hot Chocolate", "Tea", "Juice"],
-      correctAnswer: ["Coffee", "Tea", "Juice"]
+      title: "Digital Literacy",
+      text: "In today's interconnected world, digital literacy is as fundamental as reading and writing. It involves not just the ability to use computers and smartphones, but also the critical thinking skills required to navigate the vast amount of information available online. Being digitally literate means understanding how to evaluate sources for credibility, protect personal privacy, and communicate effectively in digital environments.\n\nAs technology continues to evolve, the definition of digital literacy expands to include new tools and platforms. Educational institutions are increasingly integrating digital skills into their curriculums to prepare students for the modern workforce. However, the 'digital divide' remains a concern, as unequal access to technology can limit opportunities for some individuals and communities.",
+      prompt: "What does digital literacy involve according to the text?",
+      options: [
+        "Only knowing how to use a smartphone.",
+        "Evaluating online sources for credibility.",
+        "Protecting personal privacy.",
+        "Communicating effectively online.",
+        "Avoiding all technology."
+      ],
+      correctAnswer: [
+        "Evaluating online sources for credibility.",
+        "Protecting personal privacy.",
+        "Communicating effectively online."
+      ]
     },
     // DIFFICULT (IELTS/PTE Academic Style)
     {
