@@ -3700,6 +3700,18 @@ export default function ResourceViewer() {
                                 "Listen to the sample answer"}
                              </p>
                           </div>
+                        ) : (category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) ? (
+                           <div className="w-full h-full p-8 flex flex-col items-center justify-center gap-6 bg-secondary/5 overflow-y-auto">
+                             <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center shadow-inner">
+                               <PlayCircle className="w-10 h-10 text-primary animate-pulse" />
+                             </div>
+                             <audio controls className="w-full max-w-md shadow-sm rounded-full" src={audioReadAloud1}>
+                               Your browser does not support the audio element.
+                             </audio>
+                             <p className="text-sm text-muted-foreground font-medium text-center">
+                               Listen to the sample reading
+                             </p>
+                          </div>
                         ) : (
                            <div className="text-muted-foreground">No media available</div>
                         )}
