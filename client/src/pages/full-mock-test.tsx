@@ -687,9 +687,7 @@ export default function FullMockTest() {
               <Clock className="h-8 w-8 text-primary" />
             </div>
             <CardTitle className="text-3xl font-serif font-bold">Full Mock Test - PTE Academic</CardTitle>
-            <CardDescription className="text-lg max-w-lg mx-auto">
-              A complete simulation of the PTE Academic UKVI exam.
-            </CardDescription>
+            <CardDescription className="text-lg max-w-lg mx-auto">A complete simulation of the PTE Academic exam.</CardDescription>
           </CardHeader>
           <CardFooter className="pb-10 justify-center">
             <Button size="lg" className="w-full max-w-xs text-lg font-bold h-12" onClick={startCandidateInfo}>
