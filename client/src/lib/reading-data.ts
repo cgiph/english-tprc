@@ -332,60 +332,64 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
     }
   ],
   "R&W Fill in the Blanks": [
-    // EASY
+    // EASY (Paragraph length, 4-5 blanks)
     {
       id: "rw-1",
       type: "R&W Fill in the Blanks",
       difficulty: "Easy",
-      title: "My Pet",
-      text: "I have a dog named Max. He likes to {{0}} in the park. He is very {{1}} and loves people.",
+      title: "The Benefits of Walking",
+      text: "Walking is one of the simplest and most effective forms of exercise. It requires no special equipment and can be done almost anywhere. Regular walking helps to improve cardiovascular health, strengthen bones, and boost muscle power. Additionally, walking outdoors allows you to connect with nature, which can significantly {{0}} stress levels. Many experts recommend walking for at least 30 minutes a day to {{1}} a healthy lifestyle. Whether you choose to walk alone or with a friend, the physical and mental {{2}} are undeniable. It is a great way to clear your mind and {{3}} your energy for the rest of the day.",
       blanks: [
-        { index: 0, correct: "play", options: ["read", "play", "fly", "cook"] },
-        { index: 1, correct: "friendly", options: ["angry", "friendly", "slow", "green"] }
+        { index: 0, correct: "reduce", options: ["increase", "reduce", "ignore", "create"] },
+        { index: 1, correct: "maintain", options: ["destroy", "maintain", "forget", "avoid"] },
+        { index: 2, correct: "benefits", options: ["problems", "benefits", "costs", "losses"] },
+        { index: 3, correct: "recharge", options: ["drain", "recharge", "lose", "waste"] }
       ]
     },
     {
       id: "rw-2",
       type: "R&W Fill in the Blanks",
       difficulty: "Easy",
-      title: "School Trip",
-      text: "Yesterday we went to the zoo. We saw many {{0}}. My favorite was the {{1}} because it has a long neck.",
+      title: "Learning a Musical Instrument",
+      text: "Learning to play a musical instrument is a rewarding experience that offers many cognitive benefits. It challenges the brain to process sounds, coordinate movements, and interpret visual cues simultaneously. Studies have shown that musicians often have better memory and attention skills compared to non-musicians. Starting at a young age can be particularly {{0}}, as children's brains are highly adaptable. However, it is never too late to start. The process requires patience and consistent {{1}}, but the ability to create beautiful music is a unique joy. Furthermore, playing in a group or orchestra teaches valuable {{2}} skills, such as teamwork and listening to others.",
       blanks: [
-        { index: 0, correct: "animals", options: ["cars", "animals", "books", "houses"] },
-        { index: 1, correct: "giraffe", options: ["lion", "giraffe", "snake", "fish"] }
+        { index: 0, correct: "beneficial", options: ["harmful", "beneficial", "difficult", "boring"] },
+        { index: 1, correct: "practice", options: ["luck", "practice", "sleep", "food"] },
+        { index: 2, correct: "social", options: ["social", "math", "silent", "lonely"] }
       ]
     },
     {
       id: "rw-3",
       type: "R&W Fill in the Blanks",
       difficulty: "Easy",
-      title: "Cooking Dinner",
-      text: "To make pasta, you need to {{0}} water in a pot. Then, add the pasta and {{1}} for ten minutes.",
+      title: "The Importance of Water",
+      text: "Water is essential for life on Earth. Every living organism needs water to survive. In the human body, water helps to regulate temperature, transport nutrients, and remove waste products. Dehydration can lead to fatigue, headaches, and difficulty concentrating. Therefore, it is important to drink enough water throughout the day, especially during hot weather or when exercising. While other beverages can contribute to hydration, pure water is the best {{0}}. We must also be mindful of our water usage and try to {{1}} this precious resource. Simple actions like fixing leaky faucets and taking shorter showers can make a big {{2}}.",
       blanks: [
-        { index: 0, correct: "boil", options: ["freeze", "boil", "cut", "fry"] },
-        { index: 1, correct: "cook", options: ["sleep", "cook", "drive", "sing"] }
+        { index: 0, correct: "choice", options: ["choice", "mistake", "problem", "fear"] },
+        { index: 1, correct: "conserve", options: ["waste", "conserve", "pollute", "buy"] },
+        { index: 2, correct: "difference", options: ["noise", "difference", "mess", "disaster"] }
       ]
     },
     {
       id: "rw-4",
       type: "R&W Fill in the Blanks",
       difficulty: "Easy",
-      title: "Learning English",
-      text: "I study English every day. I want to {{0}} my speaking skills. It is important to {{1}} regularly.",
+      title: "Traditional Libraries",
+      text: "Libraries have traditionally been quiet places for reading and study. They house vast collections of books, magazines, and historical documents. For centuries, libraries have served as centers of knowledge and learning in communities. Librarians play a crucial role in helping people find information and discover new resources. In recent years, libraries have evolved to offer digital resources, computers, and community programs. Despite these changes, the core mission remains the same: to provide free access to information for everyone. Many people still visit libraries to find a peaceful environment to {{0}} and escape the distractions of modern life. They remain a vital {{1}} of our educational infrastructure.",
       blanks: [
-        { index: 0, correct: "improve", options: ["lose", "improve", "break", "hide"] },
-        { index: 1, correct: "practice", options: ["practice", "forget", "sleep", "stop"] }
+        { index: 0, correct: "focus", options: ["shout", "focus", "sleep", "run"] },
+        { index: 1, correct: "part", options: ["enemy", "part", "end", "joke"] }
       ]
     },
     {
       id: "rw-5",
       type: "R&W Fill in the Blanks",
       difficulty: "Easy",
-      title: "Weekend Plans",
-      text: "On Saturday, I will {{0}} my grandparents. We usually {{1}} lunch together.",
+      title: "Cooking at Home",
+      text: "Cooking meals at home is generally healthier and more affordable than eating out. When you cook for yourself, you have complete control over the ingredients, allowing you to reduce salt, sugar, and unhealthy fats. It also provides an opportunity to experiment with different flavors and recipes. Cooking can be a creative and relaxing activity after a busy day. Sharing a homemade meal with family or friends is a wonderful way to connect and spend quality time together. To get started, you don't need to be a professional chef; simple recipes using fresh ingredients can be delicious and nutritious. The key is to {{0}} the process and not be afraid to make mistakes along the way. Over time, your skills will {{1}}.",
       blanks: [
-        { index: 0, correct: "visit", options: ["visit", "watch", "run", "sell"] },
-        { index: 1, correct: "eat", options: ["play", "eat", "draw", "fly"] }
+        { index: 0, correct: "enjoy", options: ["hate", "enjoy", "rush", "stop"] },
+        { index: 1, correct: "improve", options: ["fade", "improve", "break", "worsen"] }
       ]
     },
     // DIFFICULT
