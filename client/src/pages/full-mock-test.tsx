@@ -179,6 +179,7 @@ export default function FullMockTest() {
   // Intro Recording State
   const [isRecordingIntro, setIsRecordingIntro] = useState(false);
   const [introTimer, setIntroTimer] = useState(25);
+  const introIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Speaking Section States
   const [speakingState, setSpeakingState] = useState<"prep" | "recording" | "idle">("idle");
@@ -341,10 +342,12 @@ export default function FullMockTest() {
 
   const startIntroRecording = () => {
     setIsRecordingIntro(true);
-    const interval = setInterval(() => {
+    if (introIntervalRef.current) clearInterval(introIntervalRef.current);
+    
+    introIntervalRef.current = setInterval(() => {
       setIntroTimer(prev => {
         if (prev <= 1) {
-          clearInterval(interval);
+          if (introIntervalRef.current) clearInterval(introIntervalRef.current);
           setIsRecordingIntro(false);
           setTestState("test-intro"); // Auto move to next
           return 0;
@@ -355,6 +358,7 @@ export default function FullMockTest() {
   };
 
   const stopIntroRecording = () => {
+    if (introIntervalRef.current) clearInterval(introIntervalRef.current);
     setIsRecordingIntro(false);
     setTestState("test-intro");
   };
