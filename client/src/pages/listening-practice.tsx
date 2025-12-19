@@ -34,6 +34,10 @@ export default function ListeningPractice() {
   
   const [timerStarted, setTimerStarted] = useState<Record<string, boolean>>({});
 
+  const [groupTimer, setGroupTimer] = useState(0);
+  const [groupTimerStarted, setGroupTimerStarted] = useState(false);
+  const GROUP_TYPES = ["MC-MA", "FIB-L", "MC-SA", "SMW", "HIW", "WFD"];
+
   const { toast } = useToast();
 
   const filterQuestions = (type: string) => LISTENING_DATA.filter(q => q.type === type);
@@ -41,6 +45,11 @@ export default function ListeningPractice() {
   // Timer Logic
   useEffect(() => {
     const interval = setInterval(() => {
+        // Group Timer Logic
+        if (groupTimerStarted) {
+            setGroupTimer(prev => prev + 1);
+        }
+
       setQuestionTimers(prev => {
         const next = { ...prev };
         
@@ -66,28 +75,20 @@ export default function ListeningPractice() {
                     next[q.id] = 600; // Ensure it stays at 600 if not started
                 }
              } else {
-                // Count up for other types
+                // For group questions, we don't need individual logic here
+                // as the group timer is handled separately
+                
+                // Keep individual timer for potential analytics or display if needed, 
+                // but main logic is group based for these types
+                
                 // Initialize timer if undefined
                 const currentTime = next[q.id] || 0;
                 
-                // Only increment if timer has started for this question
+                // Only increment if timer has started for this question (individual tracking)
                 if (timerStarted[q.id]) {
                     next[q.id] = currentTime + 1;
-
-                    // Alerts for specific types
-                    // FIB-L, HIW, WFD
-                    if (["FIB-L", "HIW", "WFD"].includes(q.type)) {
-                        if (currentTime === 60) { // Alert at 60s for these types
-                            toast({
-                                variant: "destructive",
-                                title: "Time Alert",
-                                description: "You're taking a while! Try to answer faster.",
-                                duration: 3000
-                            });
-                        }
-                    }
                 } else {
-                    next[q.id] = currentTime; // Stay at current time if not started
+                    next[q.id] = currentTime; 
                 }
              }
           }
@@ -96,13 +97,14 @@ export default function ListeningPractice() {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [activeTab, playingId, showResults, toast, timerStarted]);
+  }, [activeTab, playingId, showResults, toast, timerStarted, groupTimerStarted]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
+
 
   const playBeep = () => {
     const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
@@ -124,8 +126,14 @@ export default function ListeningPractice() {
   };
 
   const togglePlay = (id: string, text: string, type?: string, speed: number = 1.0) => {
+    // Individual timer start logic
     if (!timerStarted[id]) {
         setTimerStarted(prev => ({ ...prev, [id]: true }));
+    }
+
+    // Group timer logic
+    if (type && GROUP_TYPES.includes(type) && !groupTimerStarted) {
+        setGroupTimerStarted(true);
     }
 
     if (playingId === id) {
@@ -233,7 +241,7 @@ export default function ListeningPractice() {
                 ) : (
                     <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
-                            10
+                            {formatTime(questionTimers[q.id] || 600)}
                         </div>
                         <span className="text-slate-500 font-medium text-lg">Ready</span>
                     </div>
@@ -312,7 +320,7 @@ export default function ListeningPractice() {
                 ) : (
                     <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
-                            6
+                            {formatTime(groupTimer)}
                         </div>
                         <span className="text-slate-500 font-medium text-lg">Ready</span>
                     </div>
@@ -433,7 +441,7 @@ export default function ListeningPractice() {
                 ) : (
                     <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
-                            2
+                            {formatTime(groupTimer)}
                         </div>
                         <span className="text-slate-500 font-medium text-lg">Ready</span>
                     </div>
