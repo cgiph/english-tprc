@@ -505,9 +505,14 @@ export default function SpeakingPractice() {
               )}
                
                {activeTab === "Describe Image" && (
-                 <p className="text-muted-foreground italic">
-                   {currentQuestion.content}
-                 </p>
+                 <div className="space-y-6">
+                   <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
+                     Look at the picture below. In 25 seconds, speak into the microphone and describe in detail what the picture is showing. You will have 40 seconds to complete your response.
+                   </div>
+                   <p className="text-muted-foreground italic">
+                     {currentQuestion.content}
+                   </p>
+                 </div>
                )}
               {/* Score Display */}
               {score && (
