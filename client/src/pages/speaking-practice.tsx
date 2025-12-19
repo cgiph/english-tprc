@@ -18,6 +18,7 @@ import {
   ChevronLeft,
   Timer,
   StopCircle,
+  Users,
   BarChart3
 } from "lucide-react";
 
@@ -35,6 +36,9 @@ export default function SpeakingPractice() {
   
   const [status, setStatus] = useState<"idle" | "preparing" | "recording" | "completed" | "playing" | "waiting">("idle");
   const [timeLeft, setTimeLeft] = useState(0);
+  const [audioProgress, setAudioProgress] = useState(0);
+  const [audioTime, setAudioTime] = useState(0);
+  const [audioTotalTime, setAudioTotalTime] = useState(0);
   const [showTranscript, setShowTranscript] = useState(false);
   const [silenceTimer, setSilenceTimer] = useState(0);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
@@ -244,6 +248,25 @@ export default function SpeakingPractice() {
     return () => clearInterval(interval);
   }, [status]);
 
+  // Audio playback timer
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    if (status === "playing") {
+      interval = setInterval(() => {
+        setAudioTime((prev) => {
+          const nextTime = prev + 1;
+          if (audioTotalTime > 0) {
+             setAudioProgress(Math.min((nextTime / audioTotalTime) * 100, 100));
+          }
+          return nextTime;
+        });
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [status, audioTotalTime]);
+
   // Silence detection simulation (Mock) - REMOVED AGGRESSIVE ALERT
   // Instead, we just use a visualizer to show "fake" audio presence
   useEffect(() => {
@@ -288,12 +311,24 @@ export default function SpeakingPractice() {
     // Audio plays immediately, then 10s prep, then recording
     if (activeTab === "Retell Lecture" || activeTab === "Summarize Group Discussion") {
       setStatus("playing");
+      setAudioTime(0);
+      setAudioProgress(0);
+      
+      const textToPlay = currentQuestion.audioScript || currentQuestion.content;
+      
+      // Calculate duration
+      let duration = currentQuestion.durationSeconds || 0;
+      if (!duration) {
+         // Fallback estimation: ~150 words per minute -> 2.5 words per second
+         const wordCount = textToPlay.split(/\s+/).length;
+         duration = Math.ceil(wordCount / 2.5);
+      }
+      setAudioTotalTime(duration);
+
       toast({
         title: "Audio Playing",
         description: "Listen carefully...",
       });
-      
-      const textToPlay = currentQuestion.audioScript || currentQuestion.content;
       
       // Use speakConversation for SGD to get multiple voices
       if (activeTab === "Summarize Group Discussion") {
@@ -402,6 +437,9 @@ export default function SpeakingPractice() {
     setScore(null);
     setIsScoring(false);
     setRecordingDuration(0);
+    setAudioProgress(0);
+    setAudioTime(0);
+    setAudioTotalTime(0);
   };
 
   const handleScore = () => {
@@ -618,23 +656,79 @@ export default function SpeakingPractice() {
                       You will hear a lecture. After listening to the lecture, you will be given 10 seconds to prepare. After 10 seconds, speak into the microphone and retell what you heard from the lecture using your own words. You will have 40 seconds to complete your response.
                     </div>
                    )}
-                   {activeTab === "Summarize Group Discussion" && (
-                    <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
-                      You will listen to a conversation between 3 speakers. The audio begins playing automatically. You will have 10 seconds to prepare. Then, summarize the discussion in your own words in 2 minutes.
-                    </div>
-                   )}
-                   <div className="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto cursor-pointer hover:bg-secondary/20 transition-colors" onClick={() => speakConversation(currentQuestion.audioScript || "")}>
-                     <Volume2 className="h-10 w-10 text-secondary-foreground" />
-                   </div>
-                   <div className="space-y-2">
-                     <h3 className="font-medium text-lg">Audio Simulation</h3>
-                     <Button variant="outline" size="sm" onClick={() => speakConversation(currentQuestion.audioScript || "")} className="gap-2 mb-2">
-                        <PlayCircle className="h-4 w-4" /> Play Audio
-                     </Button>
-                     <div className="w-full max-w-md mx-auto h-2 bg-muted rounded-full overflow-hidden">
-                       <div className="h-full bg-secondary w-1/2 animate-[pulse_2s_ease-in-out_infinite]" />
+                   
+                   {activeTab === "Summarize Group Discussion" ? (
+                     <div className="space-y-6 w-full max-w-xl mx-auto">
+                        <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
+                           You will hear three people having a discussion. When you hear the beep, summarize the whole discussion. You will have 10 seconds to prepare and 2 minutes to give your response.
+                        </div>
+
+                        <div className="flex flex-col items-center gap-6 py-4">
+                           {/* 3 People Icon */}
+                           <div className="relative">
+                              <Users className="h-24 w-24 text-primary" />
+                              <div className="absolute -top-2 -right-2 flex gap-1">
+                                <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style={{ animationDelay: '0s' }}></div>
+                                <div className="w-2 h-2 rounded-full bg-green-500 animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                                <div className="w-2 h-2 rounded-full bg-red-500 animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                              </div>
+                           </div>
+                           
+                           {/* Player Interface */}
+                           <div className="w-full space-y-2">
+                              <div className="flex items-center justify-between text-sm font-mono font-medium text-muted-foreground">
+                                 <div className="flex items-center gap-2">
+                                    {status === "playing" ? (
+                                       <PlayCircle className="h-5 w-5 text-green-600 animate-pulse" />
+                                    ) : (
+                                       <Volume2 className="h-5 w-5" />
+                                    )}
+                                    <span>
+                                       {String(Math.floor(audioTime / 60)).padStart(2, '0')}:{String(audioTime % 60).padStart(2, '0')}
+                                    </span>
+                                 </div>
+                                 <span>
+                                    {String(Math.floor(audioTotalTime / 60)).padStart(2, '0')}:{String(audioTotalTime % 60).padStart(2, '0')}
+                                 </span>
+                              </div>
+                              <Progress value={audioProgress} className="h-2" />
+                              <div className="flex justify-between items-center text-xs text-muted-foreground">
+                                 <div className="flex items-center gap-1">
+                                    <Volume2 className="h-4 w-4" />
+                                    <div className="w-16 h-1 bg-muted-foreground/30 rounded-full">
+                                       <div className="w-3/4 h-full bg-primary rounded-full"></div>
+                                    </div>
+                                 </div>
+                                 <div className="flex items-center gap-1">
+                                    {status === "recording" ? (
+                                       <Mic className="h-4 w-4 text-red-500 animate-pulse" />
+                                    ) : (
+                                       <div className="h-3 w-3 rounded-full border-2 border-muted-foreground" />
+                                    )}
+                                    <span>{status === "recording" ? "Recording" : "Ready"}</span>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                      </div>
-                   </div>
+                   ) : (
+                     /* Standard Audio Player for Retell Lecture */
+                     <>
+                       <div className="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto cursor-pointer hover:bg-secondary/20 transition-colors" onClick={() => speakConversation(currentQuestion.audioScript || "")}>
+                         <Volume2 className="h-10 w-10 text-secondary-foreground" />
+                       </div>
+                       <div className="space-y-2">
+                         <h3 className="font-medium text-lg">Audio Simulation</h3>
+                         <Button variant="outline" size="sm" onClick={() => speakConversation(currentQuestion.audioScript || "")} className="gap-2 mb-2">
+                            <PlayCircle className="h-4 w-4" /> Play Audio
+                         </Button>
+                         <div className="w-full max-w-md mx-auto h-2 bg-muted rounded-full overflow-hidden">
+                           <div className="h-full bg-secondary w-1/2 animate-[pulse_2s_ease-in-out_infinite]" />
+                         </div>
+                       </div>
+                     </>
+                   )}
+                   
                    <Button variant="ghost" size="sm" onClick={() => setShowTranscript(!showTranscript)} className="gap-2" disabled={(activeTab === "Summarize Group Discussion" || activeTab === "Retell Lecture") && status !== "completed"}>
                      <FileText className="h-4 w-4" /> 
                      {showTranscript ? "Hide Transcript" : "View Transcript"}
