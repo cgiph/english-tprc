@@ -67,20 +67,27 @@ export default function ListeningPractice() {
                 }
              } else {
                 // Count up for other types
+                // Initialize timer if undefined
                 const currentTime = next[q.id] || 0;
-                next[q.id] = currentTime + 1;
+                
+                // Only increment if timer has started for this question
+                if (timerStarted[q.id]) {
+                    next[q.id] = currentTime + 1;
 
-                // Alerts for specific types
-                // FIB-L, HIW, WFD
-                if (["FIB-L", "HIW", "WFD"].includes(q.type)) {
-                    if (currentTime === 60) { // Alert at 60s for these types
-                        toast({
-                            variant: "destructive",
-                            title: "Time Alert",
-                            description: "You're taking a while! Try to answer faster.",
-                            duration: 3000
-                        });
+                    // Alerts for specific types
+                    // FIB-L, HIW, WFD
+                    if (["FIB-L", "HIW", "WFD"].includes(q.type)) {
+                        if (currentTime === 60) { // Alert at 60s for these types
+                            toast({
+                                variant: "destructive",
+                                title: "Time Alert",
+                                description: "You're taking a while! Try to answer faster.",
+                                duration: 3000
+                            });
+                        }
                     }
+                } else {
+                    next[q.id] = currentTime; // Stay at current time if not started
                 }
              }
           }
@@ -117,7 +124,7 @@ export default function ListeningPractice() {
   };
 
   const togglePlay = (id: string, text: string, type?: string, speed: number = 1.0) => {
-    if (type === "SST" && !timerStarted[id]) {
+    if (!timerStarted[id]) {
         setTimerStarted(prev => ({ ...prev, [id]: true }));
     }
 
@@ -165,9 +172,7 @@ export default function ListeningPractice() {
 
      setShowResults(prev => ({ ...prev, [id]: false }));
      setQuestionTimers(prev => ({ ...prev, [id]: 0 }));
-     if (type === "SST") {
-        setTimerStarted(prev => ({ ...prev, [id]: false }));
-     }
+     setTimerStarted(prev => ({ ...prev, [id]: false }));
   };
 
   // Renderers for different question types
