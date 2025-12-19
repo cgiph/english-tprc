@@ -169,43 +169,49 @@ export default function ReadingPractice() {
       case "R&W Fill in the Blanks":
         const parts = currentQuestion.text.split(/(\{\{\d+\}\})/);
         return (
-          <div className="text-lg leading-loose">
-            {parts.map((part, i) => {
-              const match = part.match(/\{\{(\d+)\}\}/);
-              if (match) {
-                const index = parseInt(match[1]);
-                const blank = currentQuestion.blanks?.find(b => b.index === index);
-                const selected = (answers[questionId] || {})[index];
-                const isCorrect = showResult && selected === blank?.correct;
-                
-                return (
-                  <span key={i} className="inline-block mx-1">
-                    <Select 
-                      value={selected || ""} 
-                      onValueChange={(val) => setAnswers(prev => ({ 
-                        ...prev, 
-                        [questionId]: { ...(prev[questionId] || {}), [index]: val } 
-                      }))}
-                      disabled={showResult}
-                    >
-                      <SelectTrigger className={cn(
-                        "w-[140px] h-8 inline-flex",
-                        showResult && isCorrect && "border-green-500 bg-green-50 text-green-700",
-                        showResult && !isCorrect && "border-red-500 bg-red-50 text-red-700"
-                      )}>
-                        <SelectValue placeholder="Select..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {blank?.options?.map(opt => (
-                          <SelectItem key={opt} value={opt}>{opt}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </span>
-                );
-              }
-              return <span key={i}>{part}</span>;
-            })}
+          <div className="space-y-6">
+            <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
+              Below is a text with blanks. Click on each blank, a list of choice will appear. Select the appropriate answer choice for each blank.
+            </div>
+            <div className="text-lg leading-loose font-normal">
+              {parts.map((part, i) => {
+                const match = part.match(/\{\{(\d+)\}\}/);
+                if (match) {
+                  const index = parseInt(match[1]);
+                  const blank = currentQuestion.blanks?.find(b => b.index === index);
+                  const selected = (answers[questionId] || {})[index];
+                  const isCorrect = showResult && selected === blank?.correct;
+                  
+                  return (
+                    <span key={i} className="inline-block mx-1 align-middle">
+                      <Select 
+                        value={selected || ""} 
+                        onValueChange={(val) => setAnswers(prev => ({ 
+                          ...prev, 
+                          [questionId]: { ...(prev[questionId] || {}), [index]: val } 
+                        }))}
+                        disabled={showResult}
+                      >
+                        <SelectTrigger className={cn(
+                          "w-[160px] h-9 inline-flex items-center justify-between px-3 bg-white border-input shadow-sm transition-all",
+                          showResult && isCorrect && "border-green-500 bg-green-50 text-green-700 ring-1 ring-green-500",
+                          showResult && !isCorrect && "border-red-500 bg-red-50 text-red-700 ring-1 ring-red-500",
+                          selected && !showResult && "border-primary/50 bg-primary/5 text-primary"
+                        )}>
+                          <SelectValue placeholder="Select..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {blank?.options?.map(opt => (
+                            <SelectItem key={opt} value={opt}>{opt}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </span>
+                  );
+                }
+                return <span key={i}>{part}</span>;
+              })}
+            </div>
           </div>
         );
 

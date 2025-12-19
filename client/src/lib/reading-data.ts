@@ -349,6 +349,20 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
         { index: 0, correct: "chemical", options: ["solar", "chemical", "kinetic", "thermal"] },
         { index: 1, correct: "byproduct", options: ["toxin", "byproduct", "source", "fuel"] }
       ]
+    },
+    {
+      id: "rw-11",
+      type: "R&W Fill in the Blanks",
+      difficulty: "Difficult",
+      title: "Customer Service",
+      text: "Promoting good customer service must start at the top. If management doesn't realise how important this {{0}} of their business is, they will be at an instant {{1}} in their industry. Good customer response {{2}} to loyal customers, which are the cornerstone of any successful business. No matter how much money you invest in your {{3}}, if you don't have the fundamental elements of your business right, its {{4}} money.",
+      blanks: [
+        { index: 0, correct: "aspect", options: ["aspect", "division", "creation", "service"] },
+        { index: 1, correct: "disadvantage", options: ["trouble", "disadvantage", "danger", "risk"] },
+        { index: 2, correct: "equates", options: ["equates", "leads", "responds", "calls"] },
+        { index: 3, correct: "marketing", options: ["marketing", "finance", "infrastructure", "products"] },
+        { index: 4, correct: "wasted", options: ["wasted", "lost", "gone", "saved"] }
+      ]
     }
   ],
   "Reading Fill in the Blanks": [
