@@ -584,6 +584,12 @@ export default function SpeakingPractice() {
                    </div>
                 </div>
               )}
+
+              {/* Global Reminder */}
+              <div className="w-full max-w-3xl mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-sm font-bold text-center animate-pulse flex items-center justify-center gap-2">
+                <AlertCircle className="h-5 w-5" />
+                REMINDER: CLICK NEXT ONCE ANSWER IS RECORDED. DO NOT WAIT FOR THE TIMER TO END.
+              </div>
             </div>
 
           </CardContent>
