@@ -468,6 +468,11 @@ export default function SpeakingPractice() {
 
               {(activeTab === "Retell Lecture" || activeTab === "Summarize Group Discussion") && (
                  <div className="space-y-6">
+                   {activeTab === "Retell Lecture" && (
+                    <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
+                      You will hear a lecture. After listening to the lecture, you will be given 10 seconds to prepare. After 10 seconds, speak into the microphone and retell what you heard from the lecture using your own words. You will have 40 seconds to complete your response.
+                    </div>
+                   )}
                    <div className="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto cursor-pointer hover:bg-secondary/20 transition-colors" onClick={() => speakText(currentQuestion.audioScript || "")}>
                      <Volume2 className="h-10 w-10 text-secondary-foreground" />
                    </div>
