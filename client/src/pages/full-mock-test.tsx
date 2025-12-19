@@ -1004,11 +1004,12 @@ export default function FullMockTest() {
 
               <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
                 <h3 className="text-lg font-bold flex items-center gap-2 mb-2 text-primary">
-                  <span>🎧</span> LISTENING
+                  <span>🎧</span> LISTENING (EXCLUDING Summarize Spoken Text)
                 </h3>
                 <div className="text-sm text-muted-foreground mb-4">
-                  <p>Group time: 30–43 minutes</p>
-                  <p>Total questions: 12–20</p>
+                  <p>Questions: ~10–18</p>
+                  <p>Effective group time: ~20–33 minutes</p>
+                  <p className="text-xs italic mt-1">(Each SST uses 10 minutes writing time)</p>
                 </div>
                 
                 <div className="border rounded-md overflow-hidden">
