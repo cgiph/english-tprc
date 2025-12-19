@@ -185,6 +185,26 @@ export default function ListeningPractice() {
 
   // Renderers for different question types
 
+  const renderQuestionHeader = (q: ListeningQuestion) => (
+    <div className="bg-[#007da5] text-white p-3 flex justify-between items-center rounded-t-md mb-4 shadow-sm">
+      <div className="flex items-center gap-2">
+        <span className="font-semibold text-sm">
+            {q.id} (#{q.id})
+        </span>
+        <Badge variant="outline" className="text-white border-white/30 text-xs bg-white/10 hover:bg-white/20">
+            Report RQ
+        </Badge>
+        <Badge variant="outline" className="text-white border-white/30 text-xs bg-white/10 hover:bg-white/20">
+            Feedback
+        </Badge>
+      </div>
+      <div className="flex items-center gap-2 bg-[#006080] px-3 py-1 rounded text-sm font-medium">
+        <Timer className="w-4 h-4" />
+        <span>Timer: {q.type === "SST" ? formatTime(questionTimers[q.id] || 600) : formatTime(groupTimer)}</span>
+      </div>
+    </div>
+  );
+
   const handleCut = (id: string) => {
     const text = sstAnswers[id] || "";
     if (!text) return;
@@ -216,6 +236,7 @@ export default function ListeningPractice() {
 
   const renderSST = (q: ListeningQuestion) => (
     <div className="space-y-6">
+       {renderQuestionHeader(q)}
        <div className="bg-slate-50 p-6 rounded-md text-sm leading-relaxed text-slate-800 border border-slate-200">
          <p className="font-semibold mb-2">Instructions:</p>
          You will hear a short lecture. Write a summary for a fellow student who was not present at the lecture. You should write 50-70 words. You have 10 minutes to finish this task. Your response will be judged on the Quality of Your writing and on how well your response presents the key points presented in the lecture.
@@ -236,15 +257,18 @@ export default function ListeningPractice() {
                         >
                            <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
                         </Button>
-                        <div className="text-xs font-medium text-slate-600 mt-1">
-                            {q.type === "SST" ? formatTime(questionTimers[q.id] || 600) : formatTime(groupTimer)}
-                        </div>
+                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
                     </>
                 ) : (
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
-                            {q.type === "SST" ? formatTime(questionTimers[q.id] || 600) : formatTime(groupTimer)}
-                        </div>
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
+                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                        >
+                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
+                        </Button>
                         <span className="text-slate-500 font-medium text-lg">Ready</span>
                     </div>
                 )}
@@ -297,6 +321,7 @@ export default function ListeningPractice() {
 
   const renderMCMA = (q: ListeningQuestion) => (
     <div className="space-y-6">
+       {renderQuestionHeader(q)}
        <div className="bg-slate-50 p-6 rounded-md text-sm leading-relaxed text-slate-800 border border-slate-200">
          <p className="font-semibold mb-2">Instructions:</p>
          Listen to the recording and answer the question by selecting all the correct responses. You will need to select more than one response.
@@ -317,15 +342,18 @@ export default function ListeningPractice() {
                         >
                            <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
                         </Button>
-                        <div className="text-xs font-medium text-slate-600 mt-1">
-                            {formatTime(groupTimer)}
-                        </div>
+                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
                     </>
                 ) : (
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
-                            {formatTime(groupTimer)}
-                        </div>
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
+                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                        >
+                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
+                        </Button>
                         <span className="text-slate-500 font-medium text-lg">Ready</span>
                     </div>
                 )}
@@ -420,6 +448,7 @@ export default function ListeningPractice() {
 
     return (
       <div className="space-y-6">
+       {renderQuestionHeader(q)}
        <div className="bg-slate-50 p-6 rounded-md text-sm leading-relaxed text-slate-800 border border-slate-200">
          <p className="font-semibold mb-2">Instructions:</p>
          You will hear a recording. Type the missing words in each blank.
@@ -440,15 +469,18 @@ export default function ListeningPractice() {
                         >
                            <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
                         </Button>
-                        <div className="text-xs font-medium text-slate-600 mt-1">
-                            {formatTime(groupTimer)}
-                        </div>
+                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
                     </>
                 ) : (
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
-                            {formatTime(groupTimer)}
-                        </div>
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
+                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                        >
+                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
+                        </Button>
                         <span className="text-slate-500 font-medium text-lg">Ready</span>
                     </div>
                 )}
@@ -509,22 +541,79 @@ export default function ListeningPractice() {
   };
 
   const renderMCSA = (q: ListeningQuestion) => (
-    <div className="space-y-4">
-      <p className="font-medium text-sm">{q.prompt}</p>
-      <RadioGroup 
-        value={mcsaAnswers[q.id] || ""} 
-        onValueChange={(val) => setMcsaAnswers(prev => ({ ...prev, [q.id]: val }))}
-      >
-        {q.options?.map((option) => (
-          <div key={option} className="flex items-center space-x-2">
-            <RadioGroupItem value={option} id={`${q.id}-${option}`} />
-            <Label htmlFor={`${q.id}-${option}`} className="text-sm cursor-pointer">{option}</Label>
-            {showResults[q.id] && q.correctAnswer === option && (
-              <CheckCircle2 className="h-4 w-4 text-green-600 ml-2" />
-            )}
+    <div className="space-y-6">
+      {renderQuestionHeader(q)}
+      <div className="bg-slate-50 p-6 rounded-md text-sm leading-relaxed text-slate-800 border border-slate-200">
+         <p className="font-semibold mb-2">Instructions:</p>
+         {q.type === "SMW" ? "You will hear a recording. At the end, there is a missing word or phrase. Select the correct option to complete the recording." : "Listen to the recording and answer the question by selecting the correct response."}
+      </div>
+
+       {/* Audio Player Section */}
+       <div className="bg-slate-100 p-6 rounded-xl border border-slate-200 shadow-sm">
+          <div className="flex items-center gap-4 w-full justify-center">
+             
+             <div className="flex flex-col items-center justify-center min-w-[60px]">
+                {playingId === q.id ? (
+                    <>
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
+                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                        >
+                           <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
+                        </Button>
+                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
+                    </>
+                ) : (
+                    <div className="flex items-center gap-3">
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
+                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                        >
+                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
+                        </Button>
+                        <span className="text-slate-500 font-medium text-lg">Ready</span>
+                    </div>
+                )}
+             </div>
+
+             {/* Progress bar simulation */}
+             <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
+                <div 
+                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_69s_linear]" : "w-0")} 
+                />
+             </div>
+             
+             <span className="text-slate-500 font-medium text-sm">01:09</span>
+             
+             <div className="flex items-center gap-2 text-slate-500 ml-4">
+               <Volume2 className="h-5 w-5" />
+               <div className="w-20 h-1 bg-blue-500 rounded-full"></div>
+               <Music className="h-4 w-4 ml-1" />
+             </div>
           </div>
-        ))}
-      </RadioGroup>
+       </div>
+
+      <div className="space-y-4">
+          <p className="font-medium text-sm">{q.prompt}</p>
+          <RadioGroup 
+            value={mcsaAnswers[q.id] || ""} 
+            onValueChange={(val) => setMcsaAnswers(prev => ({ ...prev, [q.id]: val }))}
+          >
+            {q.options?.map((option) => (
+              <div key={option} className="flex items-center space-x-2">
+                <RadioGroupItem value={option} id={`${q.id}-${option}`} />
+                <Label htmlFor={`${q.id}-${option}`} className="text-sm cursor-pointer">{option}</Label>
+                {showResults[q.id] && q.correctAnswer === option && (
+                  <CheckCircle2 className="h-4 w-4 text-green-600 ml-2" />
+                )}
+              </div>
+            ))}
+          </RadioGroup>
+      </div>
     </div>
   );
 
@@ -536,59 +625,173 @@ export default function ListeningPractice() {
     const words = q.displayTranscript.split(" ");
     
     return (
-      <div className="space-y-4">
-        <p className="text-sm text-muted-foreground mb-2">Click on the words that are different from the audio:</p>
-        <div className="text-lg leading-8">
-          {words.map((word, idx) => {
-            const isSelected = (hiwAnswers[q.id] || []).includes(idx);
-            const isWrong = (q.wrongWords || []).includes(idx);
-            
-            let className = "cursor-pointer hover:bg-yellow-100 rounded px-1 transition-colors ";
-            if (isSelected) className += "bg-yellow-200 border-b-2 border-yellow-400 ";
-            
-            if (showResults[q.id]) {
-               if (isWrong && isSelected) className += "bg-green-200 border-green-500 text-green-800 "; 
-               else if (isWrong && !isSelected) className += "bg-red-100 border-red-500 text-red-800 "; 
-               else if (!isWrong && isSelected) className += "bg-red-100 text-red-500 line-through "; 
-            }
+      <div className="space-y-6">
+        {renderQuestionHeader(q)}
+        <div className="bg-slate-50 p-6 rounded-md text-sm leading-relaxed text-slate-800 border border-slate-200">
+            <p className="font-semibold mb-2">Instructions:</p>
+            You will hear a recording. Below is a transcription of the recording. Some words in the transcription differ from what the speaker(s) said. Please click on the words that are different.
+        </div>
 
-            return (
-              <span 
-                key={idx} 
-                className={className}
-                onClick={() => {
-                  if (showResults[q.id]) return;
-                  const current = hiwAnswers[q.id] || [];
-                  if (current.includes(idx)) {
-                    setHiwAnswers(prev => ({ ...prev, [q.id]: current.filter(i => i !== idx) }));
-                  } else {
-                    setHiwAnswers(prev => ({ ...prev, [q.id]: [...current, idx] }));
-                  }
-                }}
-              >
-                {word}{" "}
-              </span>
-            );
-          })}
+       {/* Audio Player Section */}
+       <div className="bg-slate-100 p-6 rounded-xl border border-slate-200 shadow-sm">
+          <div className="flex items-center gap-4 w-full justify-center">
+             
+             <div className="flex flex-col items-center justify-center min-w-[60px]">
+                {playingId === q.id ? (
+                    <>
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
+                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                        >
+                           <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
+                        </Button>
+                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
+                    </>
+                ) : (
+                    <div className="flex items-center gap-3">
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
+                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                        >
+                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
+                        </Button>
+                        <span className="text-slate-500 font-medium text-lg">Ready</span>
+                    </div>
+                )}
+             </div>
+
+             {/* Progress bar simulation */}
+             <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
+                <div 
+                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_69s_linear]" : "w-0")} 
+                />
+             </div>
+             
+             <span className="text-slate-500 font-medium text-sm">01:09</span>
+             
+             <div className="flex items-center gap-2 text-slate-500 ml-4">
+               <Volume2 className="h-5 w-5" />
+               <div className="w-20 h-1 bg-blue-500 rounded-full"></div>
+               <Music className="h-4 w-4 ml-1" />
+             </div>
+          </div>
+       </div>
+
+        <div className="space-y-4">
+            <p className="text-sm text-muted-foreground mb-2">Click on the words that are different from the audio:</p>
+            <div className="text-lg leading-8">
+            {words.map((word, idx) => {
+                const isSelected = (hiwAnswers[q.id] || []).includes(idx);
+                const isWrong = (q.wrongWords || []).includes(idx);
+                
+                let className = "cursor-pointer hover:bg-yellow-100 rounded px-1 transition-colors ";
+                if (isSelected) className += "bg-yellow-200 border-b-2 border-yellow-400 ";
+                
+                if (showResults[q.id]) {
+                if (isWrong && isSelected) className += "bg-green-200 border-green-500 text-green-800 "; 
+                else if (isWrong && !isSelected) className += "bg-red-100 border-red-500 text-red-800 "; 
+                else if (!isWrong && isSelected) className += "bg-red-100 text-red-500 line-through "; 
+                }
+
+                return (
+                <span 
+                    key={idx} 
+                    className={className}
+                    onClick={() => {
+                    if (showResults[q.id]) return;
+                    const current = hiwAnswers[q.id] || [];
+                    if (current.includes(idx)) {
+                        setHiwAnswers(prev => ({ ...prev, [q.id]: current.filter(i => i !== idx) }));
+                    } else {
+                        setHiwAnswers(prev => ({ ...prev, [q.id]: [...current, idx] }));
+                    }
+                    }}
+                >
+                    {word}{" "}
+                </span>
+                );
+            })}
+            </div>
         </div>
       </div>
     );
   };
 
   const renderWFD = (q: ListeningQuestion) => (
-    <div className="space-y-4">
-      <Input 
-        placeholder="Type the sentence exactly as you hear it..."
-        value={wfdAnswers[q.id] || ""}
-        onChange={(e) => setWfdAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
-        className="text-lg font-medium"
-      />
-      {showResults[q.id] && (
-        <div className="mt-2 p-3 bg-muted rounded text-sm font-medium">
-          <span className="text-muted-foreground mr-2">Correct:</span>
-          {q.correctAnswer}
-        </div>
-      )}
+    <div className="space-y-6">
+      {renderQuestionHeader(q)}
+      <div className="bg-slate-50 p-6 rounded-md text-sm leading-relaxed text-slate-800 border border-slate-200">
+         <p className="font-semibold mb-2">Instructions:</p>
+         You will hear a sentence. Type the sentence exactly as you hear it. Write as much of the sentence as you can. You will hear the sentence only once.
+      </div>
+
+       {/* Audio Player Section */}
+       <div className="bg-slate-100 p-6 rounded-xl border border-slate-200 shadow-sm">
+          <div className="flex items-center gap-4 w-full justify-center">
+             
+             <div className="flex flex-col items-center justify-center min-w-[60px]">
+                {playingId === q.id ? (
+                    <>
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
+                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                        >
+                           <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
+                        </Button>
+                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
+                    </>
+                ) : (
+                    <div className="flex items-center gap-3">
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
+                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                        >
+                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
+                        </Button>
+                        <span className="text-slate-500 font-medium text-lg">Ready</span>
+                    </div>
+                )}
+             </div>
+
+             {/* Progress bar simulation */}
+             <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
+                <div 
+                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_69s_linear]" : "w-0")} 
+                />
+             </div>
+             
+             <span className="text-slate-500 font-medium text-sm">01:09</span>
+             
+             <div className="flex items-center gap-2 text-slate-500 ml-4">
+               <Volume2 className="h-5 w-5" />
+               <div className="w-20 h-1 bg-blue-500 rounded-full"></div>
+               <Music className="h-4 w-4 ml-1" />
+             </div>
+          </div>
+       </div>
+
+      <div className="space-y-4">
+        <Input 
+          placeholder="Type the sentence exactly as you hear it..."
+          value={wfdAnswers[q.id] || ""}
+          onChange={(e) => setWfdAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
+          className="text-lg font-medium"
+        />
+        {showResults[q.id] && (
+          <div className="mt-2 p-3 bg-muted rounded text-sm font-medium">
+            <span className="text-muted-foreground mr-2">Correct:</span>
+            {q.correctAnswer}
+          </div>
+        )}
+      </div>
     </div>
   );
 
@@ -641,32 +844,9 @@ export default function ListeningPractice() {
                     </div>
                     
                     <div className="flex items-center gap-4">
-                      {/* Timer Display */}
-                      {playingId !== q.id && !showResults[q.id] && (questionTimers[q.id] || 0) > 0 && (
-                        <div className={cn(
-                          "flex items-center gap-1 font-mono text-sm",
-                          (questionTimers[q.id] || 0) > 60 ? "text-red-500 animate-pulse" : "text-muted-foreground"
-                        )}>
-                           <Timer className="h-3 w-3" />
-                           {formatTime(questionTimers[q.id] || 0)}
-                        </div>
-                      )}
-
-                      <Button
-                        size="icon"
-                        variant={playingId === q.id ? "destructive" : "default"}
-                        className="rounded-full shadow-md"
-                        onClick={() => togglePlay(q.id, q.audioScript, q.type)}
-                      >
-                        {playingId === q.id ? <PauseCircle className="h-6 w-6" /> : <PlayCircle className="h-6 w-6" />}
-                      </Button>
+                      {/* Timer moved to renderQuestionHeader */}
                     </div>
                   </div>
-                  {playingId === q.id && (
-                    <div className="h-1 w-full bg-muted mt-4 overflow-hidden rounded-full">
-                      <div className="h-full bg-primary animate-[progress_10s_linear] w-full origin-left" />
-                    </div>
-                  )}
                 </CardHeader>
                 <CardContent className="pt-6">
                   {type === "SST" && renderSST(q)}
