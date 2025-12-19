@@ -436,9 +436,14 @@ export default function SpeakingPractice() {
             {/* Content Display */}
             <div className="max-w-3xl space-y-6 w-full">
               {activeTab === "Read Aloud" && (
-                <p className="text-2xl leading-relaxed font-serif text-foreground/90">
-                  {currentQuestion.content}
-                </p>
+                <div className="space-y-6">
+                  <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
+                    Look at the text below. In 40 seconds, you must read this text aloud as naturally and clearly as possible. You have 40 seconds to read aloud.
+                  </div>
+                  <p className="text-2xl leading-relaxed font-serif text-foreground/90">
+                    {currentQuestion.content}
+                  </p>
+                </div>
               )}
 
               {activeTab === "Repeat Sentence" && (
