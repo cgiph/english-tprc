@@ -261,6 +261,7 @@ export default function SpeakingPractice() {
     setMediaRecorder(null);
     setScore(null);
     setIsScoring(false);
+    setRecordingDuration(0);
   };
 
   const handleScore = () => {
