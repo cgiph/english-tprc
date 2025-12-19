@@ -408,60 +408,45 @@ export default function ListeningPractice() {
        </div>
 
        {/* Audio Player Section */}
-       <div className="bg-slate-100 p-6 rounded-xl flex flex-col items-center gap-6 border border-slate-200 shadow-sm">
+       <div className="bg-slate-100 p-6 rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-4 w-full justify-center">
-             <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
-                2
-             </div>
-             <span className="text-slate-500 font-medium text-lg">Ready</span>
              
+             <div className="flex flex-col items-center justify-center min-w-[60px]">
+                {playingId === q.id ? (
+                    <>
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
+                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                        >
+                           <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
+                        </Button>
+                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
+                    </>
+                ) : (
+                    <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
+                            2
+                        </div>
+                        <span className="text-slate-500 font-medium text-lg">Ready</span>
+                    </div>
+                )}
+             </div>
+
              {/* Progress bar simulation */}
              <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
                 <div 
-                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_30s_linear]" : "w-0")} 
+                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_69s_linear]" : "w-0")} 
                 />
              </div>
              
-             <div className="flex items-center gap-2 text-slate-500">
+             <span className="text-slate-500 font-medium text-sm">01:09</span>
+             
+             <div className="flex items-center gap-2 text-slate-500 ml-4">
                <Volume2 className="h-5 w-5" />
                <div className="w-20 h-1 bg-blue-500 rounded-full"></div>
                <Music className="h-4 w-4 ml-1" />
-             </div>
-          </div>
-          
-          <div className="flex flex-col items-center gap-4">
-             <div className="bg-white rounded-full px-4 py-2 shadow-sm flex items-center gap-4 border">
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="h-10 w-10 hover:bg-slate-100 rounded-full" 
-                  onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                >
-                  {playingId === q.id ? <PauseCircle className="h-8 w-8 fill-slate-800 text-slate-800" /> : <PlayCircle className="h-8 w-8 fill-slate-800 text-slate-800" />}
-                </Button>
-                <div className="text-sm font-mono text-slate-500 min-w-[80px] text-center">
-                  {playingId === q.id ? "Playing..." : "0:00 / 1:09"}
-                </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400">
-                   <MoreVertical className="h-4 w-4" />
-                </Button>
-             </div>
-             
-             <div className="flex items-center gap-0 bg-teal-500 rounded-md overflow-hidden p-0.5">
-                {[0.8, 1.0, 1.2, 1.5, 2.0].map(speed => (
-                  <button
-                    key={speed}
-                    className={cn(
-                      "text-xs font-medium px-3 py-1.5 transition-colors", 
-                      audioSpeed === speed 
-                        ? "bg-teal-700 text-white shadow-sm rounded-sm" 
-                        : "text-white hover:bg-teal-600/50"
-                    )}
-                    onClick={() => setAudioSpeed(speed)}
-                  >
-                    {speed}x speed
-                  </button>
-                ))}
              </div>
           </div>
        </div>
