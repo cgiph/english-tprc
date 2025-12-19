@@ -448,6 +448,9 @@ export default function SpeakingPractice() {
 
               {activeTab === "Repeat Sentence" && (
                 <div className="space-y-6">
+                  <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
+                    You will hear a sentence. Repeat the sentence exactly as you hear it. You will hear the sentence only once.
+                  </div>
                   <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto animate-pulse cursor-pointer hover:bg-primary/20 transition-colors" onClick={() => speakText(currentQuestion.content)}>
                     <Volume2 className="h-8 w-8 text-primary" />
                   </div>
