@@ -128,7 +128,7 @@ export default function FullMockTest() {
         setRecordedAudioURL(url);
       };
 
-      recorder.start(500); // Timeslice
+      recorder.start(); // No timeslice, standard recording
       setMediaRecorder(recorder);
       setMicRecording(true);
       setMicPlayback(false);
@@ -151,8 +151,8 @@ export default function FullMockTest() {
       mediaRecorder.stop();
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
     } else {
-      // Simulation fallback
-      setRecordedAudioURL("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+      // Simulation fallback: URL null so we fallback to speech in playMicRecording
+      setRecordedAudioURL(null);
     }
     setMicRecording(false);
     setMicPlayback(true);
@@ -161,9 +161,18 @@ export default function FullMockTest() {
   const playMicRecording = () => {
     if (recordedAudioURL) {
       const audio = new Audio(recordedAudioURL);
-      audio.play();
+      audio.onended = () => console.log("Playback ended");
+      audio.onerror = (e) => {
+         console.error("Playback error", e);
+         toast({ description: "Playback failed, using simulation.", variant: "destructive" });
+         speakText("This is a simulated playback of your recording.");
+      };
+      audio.play().catch(e => {
+         console.error("Play failed", e);
+         speakText("This is a simulated playback of your recording.");
+      });
     } else {
-      speakText("Microphone access was denied or unavailable. This is a simulated playback.");
+      speakText("This is a simulated playback of your recording.");
     }
   };
 
