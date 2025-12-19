@@ -236,12 +236,14 @@ export default function ListeningPractice() {
                         >
                            <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
                         </Button>
-                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
+                        <div className="text-xs font-medium text-slate-600 mt-1">
+                            {q.type === "SST" ? formatTime(questionTimers[q.id] || 600) : formatTime(groupTimer)}
+                        </div>
                     </>
                 ) : (
                     <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
-                            {formatTime(questionTimers[q.id] || 600)}
+                            {q.type === "SST" ? formatTime(questionTimers[q.id] || 600) : formatTime(groupTimer)}
                         </div>
                         <span className="text-slate-500 font-medium text-lg">Ready</span>
                     </div>
@@ -315,7 +317,9 @@ export default function ListeningPractice() {
                         >
                            <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
                         </Button>
-                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
+                        <div className="text-xs font-medium text-slate-600 mt-1">
+                            {formatTime(groupTimer)}
+                        </div>
                     </>
                 ) : (
                     <div className="flex items-center gap-3">
@@ -436,7 +440,9 @@ export default function ListeningPractice() {
                         >
                            <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
                         </Button>
-                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
+                        <div className="text-xs font-medium text-slate-600 mt-1">
+                            {formatTime(groupTimer)}
+                        </div>
                     </>
                 ) : (
                     <div className="flex items-center gap-3">
