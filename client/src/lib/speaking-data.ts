@@ -194,70 +194,70 @@ export const SPEAKING_QUESTIONS: Record<SpeakingTaskType, SpeakingQuestion[]> = 
       type: "Summarize Group Discussion",
       title: "Project Deadline",
       content: "Summarize the discussion between three students about their group project.",
-      audioScript: "Person A: I think we should focus on the research part first. Person B: But the deadline is in two days, we need to start writing the report now! Person C: Let's split the work. A, you do the research. B and I will start drafting the introduction and conclusion. That way we cover both bases."
+      audioScript: "Student A: I think we should focus on the research part first. Student B: But the deadline is in two days, we need to start writing the report now! Student C: Let's split the work. A, you do the research. B and I will start drafting the introduction and conclusion. That way we cover both bases."
     },
     {
       id: "sgd-2",
       type: "Summarize Group Discussion",
       title: "Choosing a Major",
       content: "Summarize the discussion about choosing a university major.",
-      audioScript: "Student 1: I'm torn between Computer Science and Art History. Student 2: Computer Science has better job prospects, but Art History is your passion. Student 3: Why not do a double major? It's more work, but you won't have to sacrifice either interest."
+      audioScript: "Student A: I'm torn between Computer Science and Art History. Student B: Computer Science has better job prospects, but Art History is your passion. Student C: Why not do a double major? It's more work, but you won't have to sacrifice either interest."
     },
     {
       id: "sgd-3",
       type: "Summarize Group Discussion",
       title: "Campus Parking",
       content: "Summarize the discussion about the new parking policy.",
-      audioScript: "Admin: We are increasing parking fees to encourage public transport. Student Rep: But many students commute from far away where buses don't run. Admin: We are introducing a shuttle service from the main train station to bridge that gap."
+      audioScript: "Admin: We are increasing parking fees to encourage public transport. Student Rep: But many students commute from far away where buses don't run. Commuter: Exactly, and the trains are unreliable. We need a shuttle service if you want us to stop driving."
     },
     {
       id: "sgd-4",
       type: "Summarize Group Discussion",
       title: "Online Learning",
       content: "Summarize the discussion on the pros and cons of online classes.",
-      audioScript: "Teacher: Do you prefer Zoom classes? Student 1: I like the flexibility, I can watch lectures anytime. Student 2: I miss the social interaction. It's hard to make friends through a screen. Teacher: We need to find a hybrid balance."
+      audioScript: "Teacher: Do you prefer Zoom classes? Student A: I like the flexibility, I can watch lectures anytime. Student B: I miss the social interaction. It's hard to make friends through a screen. Teacher: We need to find a hybrid balance that works for everyone."
     },
     {
       id: "sgd-5",
       type: "Summarize Group Discussion",
       title: "Healthy Eating",
       content: "Summarize the discussion about the cafeteria menu.",
-      audioScript: "Manager: We want to remove soda from the menu. Student: That's a bit extreme. Maybe just offer healthier alternatives? Manager: We could replace sugary drinks with flavored water and fresh juices at a lower price."
+      audioScript: "Manager: We want to remove soda from the menu. Student A: That's a bit extreme. Maybe just offer healthier alternatives? Student B: I agree with the manager. If we remove the temptation, people will choose water or juice. Manager: Let's try a trial period with no soda."
     },
     {
       id: "sgd-6",
       type: "Summarize Group Discussion",
       title: "Budgeting",
       content: "Summarize the discussion about the club's budget.",
-      audioScript: "Treasurer: We are running low on funds for the annual party. President: Can we increase the membership fee? Member: That might scare away new members. Let's do a fundraising bake sale instead."
+      audioScript: "Treasurer: We are running low on funds for the annual party. President: Can we increase the membership fee? Member: That might scare away new members. Let's do a fundraising bake sale instead. Treasurer: That's a good idea, it involves the community too."
     },
     {
       id: "sgd-7",
       type: "Summarize Group Discussion",
       title: "Library Noise",
       content: "Summarize the discussion about noise levels in the library.",
-      audioScript: "Librarian: We've had complaints about noise on the second floor. Student: It's the group study area, people need to talk. Librarian: Perhaps we should install soundproof glass partitions to separate the study pods from the reading area."
+      audioScript: "Librarian: We've had complaints about noise on the second floor. Student A: It's the group study area, people need to talk. Student B: But some groups are yelling. Maybe we need soundproof pods? Librarian: I'll look into the budget for installing glass partitions."
     },
     {
       id: "sgd-8",
       type: "Summarize Group Discussion",
       title: "Internships",
       content: "Summarize the discussion about finding internships.",
-      audioScript: "Advisor: You should start applying now for summer internships. Student: I don't have enough experience yet. Advisor: Internships are for gaining experience. Focus on your soft skills and willingness to learn in your cover letter."
+      audioScript: "Advisor: You should start applying now for summer internships. Student A: I don't have enough experience yet. Student B: I felt the same, but I applied anyway and got an interview. Advisor: Exactly. Internships are for learning. Focus on your soft skills."
     },
     {
       id: "sgd-9",
       type: "Summarize Group Discussion",
       title: "Climate Action",
       content: "Summarize the discussion about the university's carbon footprint.",
-      audioScript: "Activist: The university uses too much plastic. Admin: We are switching to biodegradable packaging next month. Activist: That's a start, but we also need to look at energy consumption in the dorms."
+      audioScript: "Activist: The university uses too much plastic. Admin: We are switching to biodegradable packaging next month. Professor: We should also look at energy consumption in the labs. Activist: Agreed, lights are left on all night."
     },
     {
       id: "sgd-10",
       type: "Summarize Group Discussion",
       title: "Exam Stress",
       content: "Summarize the discussion about managing exam stress.",
-      audioScript: "Counselor: It's important to take breaks. Student: But I feel guilty when I'm not studying. Counselor: Think of rest as part of the study process. Your brain needs time to absorb the information."
+      audioScript: "Counselor: It's important to take breaks. Student A: But I feel guilty when I'm not studying. Student B: I use a timer. Study 50 minutes, break 10 minutes. It helps. Counselor: That's the Pomodoro technique. It's very effective for avoiding burnout."
     }
   ],
   "Respond to a Situation": [

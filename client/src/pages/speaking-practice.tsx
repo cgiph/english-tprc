@@ -64,7 +64,71 @@ export default function SpeakingPractice() {
     oscillator.stop(audioContext.currentTime + 0.5); // Beep for 0.5 seconds
   };
 
+  const speakConversation = (text: string, onEnd?: () => void) => {
+    window.speechSynthesis.cancel();
+    
+    // Simple split by likely speaker delimiters (Person X:, Student Y:, etc.)
+    // We'll look for pattern: (Word Word): or (Word): at start or preceded by space
+    const segments = text.split(/(?=(?:[A-Z][a-z]+ [A-Z0-9]+|[A-Z][a-z]+):)/g).filter(s => s.trim());
+
+    if (segments.length === 0) {
+       // Fallback for single speaker text
+       const utterance = new SpeechSynthesisUtterance(text);
+       utterance.lang = 'en-GB';
+       if (onEnd) utterance.onend = onEnd;
+       window.speechSynthesis.speak(utterance);
+       return;
+    }
+
+    const voices = window.speechSynthesis.getVoices();
+    // Try to pick distinct voices
+    const availableVoices = voices.filter(v => v.lang.startsWith('en'));
+    const speakerVoices: Record<string, SpeechSynthesisVoice> = {};
+    let voiceIndex = 0;
+
+    const speakSegment = (index: number) => {
+        if (index >= segments.length) {
+            if (onEnd) onEnd();
+            return;
+        }
+
+        const segment = segments[index];
+        const match = segment.match(/^([A-Z][a-z]+(?: [A-Z0-9]+)?):/);
+        const speaker = match ? match[1] : "Unknown";
+        
+        // Assign voice if not already assigned
+        if (!speakerVoices[speaker]) {
+             // Rotate through available english voices
+             if (availableVoices.length > 0) {
+                 speakerVoices[speaker] = availableVoices[voiceIndex % availableVoices.length];
+                 voiceIndex++;
+             }
+        }
+        
+        const utterance = new SpeechSynthesisUtterance(segment);
+        utterance.lang = 'en-GB';
+        if (speakerVoices[speaker]) {
+            utterance.voice = speakerVoices[speaker];
+        }
+        
+        utterance.rate = 0.9;
+        
+        utterance.onend = () => speakSegment(index + 1);
+        utterance.onerror = () => speakSegment(index + 1); // Continue on error
+        
+        window.speechSynthesis.speak(utterance);
+    };
+
+    speakSegment(0);
+  };
+
   const speakText = (text: string, onEnd?: () => void) => {
+    // If it looks like a conversation, use speakConversation
+    if (text.match(/(?:Person [A-C]|Student [A-C]|Speaker [1-3]|Admin|Teacher|Manager|Treasurer|President|Member|Librarian|Advisor|Activist|Counselor|Commuter|Professor):/)) {
+        speakConversation(text, onEnd);
+        return;
+    }
+
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-GB';
@@ -495,25 +559,36 @@ export default function SpeakingPractice() {
                       You will hear a lecture. After listening to the lecture, you will be given 10 seconds to prepare. After 10 seconds, speak into the microphone and retell what you heard from the lecture using your own words. You will have 40 seconds to complete your response.
                     </div>
                    )}
-                   <div className="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto cursor-pointer hover:bg-secondary/20 transition-colors" onClick={() => speakText(currentQuestion.audioScript || "")}>
+                   {activeTab === "Summarize Group Discussion" && (
+                    <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
+                      You will listen to a conversation between 3 speakers. The audio begins playing automatically. You will have 10 seconds to prepare. Then, summarize the discussion in your own words in 2 minutes.
+                    </div>
+                   )}
+                   <div className="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto cursor-pointer hover:bg-secondary/20 transition-colors" onClick={() => speakConversation(currentQuestion.audioScript || "")}>
                      <Volume2 className="h-10 w-10 text-secondary-foreground" />
                    </div>
                    <div className="space-y-2">
                      <h3 className="font-medium text-lg">Audio Simulation</h3>
-                     <Button variant="outline" size="sm" onClick={() => speakText(currentQuestion.audioScript || "")} className="gap-2 mb-2">
+                     <Button variant="outline" size="sm" onClick={() => speakConversation(currentQuestion.audioScript || "")} className="gap-2 mb-2">
                         <PlayCircle className="h-4 w-4" /> Play Audio
                      </Button>
                      <div className="w-full max-w-md mx-auto h-2 bg-muted rounded-full overflow-hidden">
                        <div className="h-full bg-secondary w-1/2 animate-[pulse_2s_ease-in-out_infinite]" />
                      </div>
                    </div>
-                   <Button variant="ghost" size="sm" onClick={() => setShowTranscript(!showTranscript)} className="gap-2">
+                   <Button variant="ghost" size="sm" onClick={() => setShowTranscript(!showTranscript)} className="gap-2" disabled={activeTab === "Summarize Group Discussion" && status !== "completed"}>
                      <FileText className="h-4 w-4" /> 
                      {showTranscript ? "Hide Transcript" : "View Transcript"}
                    </Button>
                    {showTranscript && (
                      <div className="text-left bg-muted/30 p-6 rounded-lg text-sm leading-relaxed border max-h-[200px] overflow-y-auto">
-                       {currentQuestion.audioScript}
+                       {currentQuestion.audioScript?.split(/(?=[A-Z][a-z]+ [A-Z0-9]+:)/).map((part, i) => (
+                         <p key={i} className="mb-2">
+                           {part.split(":").map((subPart, j) => (
+                             j === 0 ? <span key={j} className="font-bold text-primary mr-1">{subPart}:</span> : <span key={j}>{subPart}</span>
+                           ))}
+                         </p>
+                       )) || currentQuestion.audioScript}
                      </div>
                    )}
                  </div>
