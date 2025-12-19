@@ -111,8 +111,8 @@ export const MOCK_RESOURCES: Resource[] = [
   },
   {
     id: "4",
-    title: "Full Mock Test - UKVI Edition",
-    description: "A complete 2-hour simulation of the PTE Academic UKVI exam with instant AI scoring.",
+    title: "Full Mock Test - PTE Academic",
+    description: "Complete 2-hour simulation of the actual exam including Speaking, Writing, Reading, and Listening.",
     type: "Practice Test",
     level: "Intermediate",
     author: "PrepUK Team",
