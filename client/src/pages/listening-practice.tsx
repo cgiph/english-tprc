@@ -248,29 +248,21 @@ export default function ListeningPractice() {
              
              <div className="flex flex-col items-center justify-center min-w-[60px]">
                 {playingId === q.id ? (
-                    <>
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                           <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
-                        </Button>
-                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
-                    </>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-full font-bold border border-green-200" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                       STOP
+                    </Button>
                 ) : (
-                    <div className="flex items-center gap-3">
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
-                        </Button>
-                        <span className="text-slate-500 font-medium text-lg">Ready</span>
-                    </div>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-slate-600 hover:text-green-600 hover:bg-slate-50 rounded-full font-bold border border-slate-300" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                        PLAY
+                    </Button>
                 )}
              </div>
 
@@ -333,29 +325,21 @@ export default function ListeningPractice() {
              
              <div className="flex flex-col items-center justify-center min-w-[60px]">
                 {playingId === q.id ? (
-                    <>
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                           <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
-                        </Button>
-                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
-                    </>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-full font-bold border border-green-200" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                       STOP
+                    </Button>
                 ) : (
-                    <div className="flex items-center gap-3">
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
-                        </Button>
-                        <span className="text-slate-500 font-medium text-lg">Ready</span>
-                    </div>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-slate-600 hover:text-green-600 hover:bg-slate-50 rounded-full font-bold border border-slate-300" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                        PLAY
+                    </Button>
                 )}
              </div>
 
@@ -460,29 +444,21 @@ export default function ListeningPractice() {
              
              <div className="flex flex-col items-center justify-center min-w-[60px]">
                 {playingId === q.id ? (
-                    <>
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                           <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
-                        </Button>
-                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
-                    </>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-full font-bold border border-green-200" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                       STOP
+                    </Button>
                 ) : (
-                    <div className="flex items-center gap-3">
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
-                        </Button>
-                        <span className="text-slate-500 font-medium text-lg">Ready</span>
-                    </div>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-slate-600 hover:text-green-600 hover:bg-slate-50 rounded-full font-bold border border-slate-300" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                        PLAY
+                    </Button>
                 )}
              </div>
 
@@ -554,29 +530,21 @@ export default function ListeningPractice() {
              
              <div className="flex flex-col items-center justify-center min-w-[60px]">
                 {playingId === q.id ? (
-                    <>
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                           <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
-                        </Button>
-                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
-                    </>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-full font-bold border border-green-200" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                       STOP
+                    </Button>
                 ) : (
-                    <div className="flex items-center gap-3">
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
-                        </Button>
-                        <span className="text-slate-500 font-medium text-lg">Ready</span>
-                    </div>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-slate-600 hover:text-green-600 hover:bg-slate-50 rounded-full font-bold border border-slate-300" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                        PLAY
+                    </Button>
                 )}
              </div>
 
@@ -638,29 +606,21 @@ export default function ListeningPractice() {
              
              <div className="flex flex-col items-center justify-center min-w-[60px]">
                 {playingId === q.id ? (
-                    <>
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                           <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
-                        </Button>
-                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
-                    </>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-full font-bold border border-green-200" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                       STOP
+                    </Button>
                 ) : (
-                    <div className="flex items-center gap-3">
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
-                        </Button>
-                        <span className="text-slate-500 font-medium text-lg">Ready</span>
-                    </div>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-slate-600 hover:text-green-600 hover:bg-slate-50 rounded-full font-bold border border-slate-300" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                        PLAY
+                    </Button>
                 )}
              </div>
 
@@ -735,29 +695,21 @@ export default function ListeningPractice() {
              
              <div className="flex flex-col items-center justify-center min-w-[60px]">
                 {playingId === q.id ? (
-                    <>
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                           <PlayCircle className="h-12 w-12 text-green-600 fill-green-50" />
-                        </Button>
-                        <span className="text-xs font-medium text-slate-600 mt-1">Playing</span>
-                    </>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-full font-bold border border-green-200" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                       STOP
+                    </Button>
                 ) : (
-                    <div className="flex items-center gap-3">
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-12 w-12 hover:bg-transparent p-0 rounded-full" 
-                            onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
-                        >
-                            <PlayCircle className="h-12 w-12 text-slate-400 fill-slate-100 hover:text-green-600 hover:fill-green-50 transition-colors" />
-                        </Button>
-                        <span className="text-slate-500 font-medium text-lg">Ready</span>
-                    </div>
+                    <Button 
+                        variant="ghost" 
+                        className="h-10 w-auto px-4 text-slate-600 hover:text-green-600 hover:bg-slate-50 rounded-full font-bold border border-slate-300" 
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                    >
+                        PLAY
+                    </Button>
                 )}
              </div>
 
