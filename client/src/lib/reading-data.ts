@@ -30,57 +30,6 @@ export type ReadingQuestion = {
 
 export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
   "Multiple Choice (Single)": [
-    // EASY (A1/Foundation)
-    {
-      id: "mcs-1",
-      type: "Multiple Choice (Single)",
-      difficulty: "Easy",
-      title: "Library Rules",
-      text: "Students must remain quiet in the library to respect others who are studying. Talking on mobile phones is strictly prohibited.",
-      prompt: "What is the main rule mentioned in the text?",
-      options: ["Students can talk loudly", "Mobile phones are allowed", "Silence is required", "Eating is encouraged"],
-      correctAnswer: "Silence is required"
-    },
-    {
-      id: "mcs-2",
-      type: "Multiple Choice (Single)",
-      difficulty: "Easy",
-      title: "Daily Routine",
-      text: "Sarah wakes up at 7 AM every day. She eats breakfast and then catches the bus to the university.",
-      prompt: "How does Sarah get to the university?",
-      options: ["She drives to university", "She wakes up at 8 AM", "She takes the bus", "She skips breakfast"],
-      correctAnswer: "She takes the bus"
-    },
-    {
-      id: "mcs-3",
-      type: "Multiple Choice (Single)",
-      difficulty: "Easy",
-      title: "Weather Forecast",
-      text: "Tomorrow will be sunny and warm. It is a perfect day for a picnic in the park.",
-      prompt: "What is suggested for tomorrow?",
-      options: ["It will rain", "It will be cold", "It is good for a picnic", "Stay indoors"],
-      correctAnswer: "It is good for a picnic"
-    },
-    {
-      id: "mcs-4",
-      type: "Multiple Choice (Single)",
-      difficulty: "Easy",
-      title: "Class Schedule",
-      text: "The history class starts at 10:00 AM on Mondays. Please do not be late.",
-      prompt: "When does the history class start?",
-      options: ["Class is on Tuesday", "Class starts at 10:00 AM", "Being late is okay", "It is a math class"],
-      correctAnswer: "Class starts at 10:00 AM"
-    },
-    {
-      id: "mcs-5",
-      type: "Multiple Choice (Single)",
-      difficulty: "Easy",
-      title: "Healthy Eating",
-      text: "Eating fruits and vegetables keeps you healthy. You should also drink plenty of water.",
-      prompt: "According to the text, what helps keep you healthy?",
-      options: ["Eat only meat", "Drink soda", "Water is important", "Vegetables are bad"],
-      correctAnswer: "Water is important"
-    },
     // DIFFICULT (A2/Intermediate)
     {
       id: "mcs-6",
@@ -134,117 +83,13 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
     }
   ],
   "Multiple Choice (Multiple)": [
-    // EASY (A2/B1 - 100-150 words)
-    {
-      id: "mcm-1",
-      type: "Multiple Choice (Multiple)",
-      difficulty: "Easy",
-      title: "Community Gardens",
-      text: "Community gardens are shared plots of land where people gather to grow fresh fruits, vegetables, and flowers. These green spaces have become increasingly popular in urban areas, transforming vacant lots into vibrant hubs of activity. Beyond providing fresh produce, community gardens offer numerous social benefits. They create opportunities for neighbors to meet, interact, and build lasting friendships, strengthening the sense of community. \n\nAdditionally, these gardens serve as educational spaces where children and adults alike can learn about agriculture, sustainability, and healthy eating habits. Participating in gardening activities has also been linked to improved mental health, reducing stress and anxiety levels. While maintaining a garden requires dedication and effort, the rewards of harvesting one's own food and contributing to a greener neighborhood make it a worthwhile endeavor for many city dwellers.",
-      prompt: "What are the benefits of community gardens mentioned in the text?",
-      options: [
-        "They provide fresh produce.",
-        "They are only for growing flowers.",
-        "They help build community and friendships.",
-        "They require no effort to maintain.",
-        "They offer educational opportunities about sustainability.",
-        "They completely eliminate the need for grocery stores."
-      ],
-      correctAnswer: [
-        "They provide fresh produce.",
-        "They help build community and friendships.",
-        "They offer educational opportunities about sustainability."
-      ]
-    },
-    {
-      id: "mcm-2",
-      type: "Multiple Choice (Multiple)",
-      difficulty: "Easy",
-      title: "The Importance of Sleep",
-      text: "Sleep is a vital physiological process that is essential for physical and mental well-being. During sleep, the body repairs tissues, synthesizes hormones, and strengthens the immune system. For the brain, sleep is crucial for memory consolidation, allowing us to process and store information learned throughout the day. Lack of adequate sleep can lead to a range of health issues, including difficulty concentrating, mood swings, and a weakened immune response.\n\nExperts recommend that adults aim for 7 to 9 hours of quality sleep each night. Establishing a consistent sleep schedule, creating a relaxing bedtime routine, and avoiding caffeine and electronic screens before bed can significantly improve sleep quality. While some people may believe they can function well on very little sleep, chronic sleep deprivation can have long-term negative effects on overall health and cognitive performance.",
-      prompt: "According to the text, why is sleep important?",
-      options: [
-        "It repairs body tissues.",
-        "It consolidates memory.",
-        "It allows people to work 24 hours a day.",
-        "It strengthens the immune system.",
-        "It prevents all types of diseases.",
-        "It is the only way to lose weight."
-      ],
-      correctAnswer: [
-        "It repairs body tissues.",
-        "It consolidates memory.",
-        "It strengthens the immune system."
-      ]
-    },
-    {
-      id: "mcm-3",
-      type: "Multiple Choice (Multiple)",
-      difficulty: "Easy",
-      title: "Remote Work",
-      text: "The concept of remote work, or telecommuting, has gained significant traction in recent years, driven by advancements in technology and changing workplace attitudes. Working from home offers flexibility that many employees value, allowing them to better balance their professional and personal lives. It eliminates the daily commute, saving time and money while reducing the environmental impact of transportation.\n\nHowever, remote work also presents challenges. Without the structure of a traditional office, some employees may struggle with self-discipline and time management. The lack of face-to-face interaction can sometimes lead to feelings of isolation and make collaboration more difficult. To succeed in a remote environment, clear communication and the use of digital collaboration tools are essential. Many companies are now adopting hybrid models, combining remote work with in-office days to capture the benefits of both worlds.",
-      prompt: "What are the advantages of remote work mentioned in the text?",
-      options: [
-        "It offers better work-life balance.",
-        "It eliminates the need for technology.",
-        "It saves time and money on commuting.",
-        "It guarantees a promotion.",
-        "It reduces the environmental impact of transportation.",
-        "It makes collaboration easier than in person."
-      ],
-      correctAnswer: [
-        "It offers better work-life balance.",
-        "It saves time and money on commuting.",
-        "It reduces the environmental impact of transportation."
-      ]
-    },
-    {
-      id: "mcm-4",
-      type: "Multiple Choice (Multiple)",
-      difficulty: "Easy",
-      title: "Plastic Pollution",
-      text: "Plastic pollution has become one of the most pressing environmental issues of our time. Single-use plastics, such as straws, bags, and bottles, often end up in oceans and waterways, harming marine life and disrupting ecosystems. Unlike organic materials, plastic does not biodegrade; instead, it breaks down into smaller particles known as microplastics, which can persist in the environment for hundreds of years.\n\nGovernments and organizations worldwide are implementing strategies to combat this problem, including banning certain single-use items and promoting recycling programs. Individuals can also play a role by reducing their plastic consumption, opting for reusable alternatives, and properly disposing of waste. Addressing plastic pollution requires a collective effort to protect our planet for future generations.",
-      prompt: "What are the problems associated with plastic pollution mentioned in the text?",
-      options: [
-        "It harms marine life.",
-        "It biodegrades quickly.",
-        "It disrupts ecosystems.",
-        "It creates microplastics that persist for years.",
-        "It is easy to clean up."
-      ],
-      correctAnswer: [
-        "It harms marine life.",
-        "It disrupts ecosystems.",
-        "It creates microplastics that persist for years."
-      ]
-    },
-    {
-      id: "mcm-5",
-      type: "Multiple Choice (Multiple)",
-      difficulty: "Easy",
-      title: "Digital Literacy",
-      text: "In today's interconnected world, digital literacy is as fundamental as reading and writing. It involves not just the ability to use computers and smartphones, but also the critical thinking skills required to navigate the vast amount of information available online. Being digitally literate means understanding how to evaluate sources for credibility, protect personal privacy, and communicate effectively in digital environments.\n\nAs technology continues to evolve, the definition of digital literacy expands to include new tools and platforms. Educational institutions are increasingly integrating digital skills into their curriculums to prepare students for the modern workforce. However, the 'digital divide' remains a concern, as unequal access to technology can limit opportunities for some individuals and communities.",
-      prompt: "What does digital literacy involve according to the text?",
-      options: [
-        "Only knowing how to use a smartphone.",
-        "Evaluating online sources for credibility.",
-        "Protecting personal privacy.",
-        "Communicating effectively online.",
-        "Avoiding all technology."
-      ],
-      correctAnswer: [
-        "Evaluating online sources for credibility.",
-        "Protecting personal privacy.",
-        "Communicating effectively online."
-      ]
-    },
     // DIFFICULT (IELTS/PTE Academic Style)
     {
       id: "mcm-6",
       type: "Multiple Choice (Multiple)",
       difficulty: "Difficult",
       title: "Urbanization and Biodiversity",
-      text: "Urbanization represents one of the most significant land-use changes globally, profoundly affecting biodiversity and ecosystem functioning. As cities expand, natural habitats are fragmented, degraded, or completely destroyed, leading to local extinctions and a homogenization of species. However, the relationship between urbanization and biodiversity is complex and not entirely negative. While many native species decline in urban areas, some 'urban adapters' thrive, exploiting the novel resources and reduced predation pressures found in cities.\n\nRecent studies have highlighted the importance of 'green infrastructure'—parks, gardens, and green roofs—in maintaining urban biodiversity. These patches of vegetation can serve as refuges for native species and stepping stones facilitating movement across the urban matrix. Yet, the quality of these green spaces matters immensely. Manicured lawns with exotic plant species offer little value to native pollinators or birds compared to areas with complex vegetation structure and native flora.\n\nFurthermore, the 'heat island' effect, where cities are significantly warmer than surrounding rural areas, alters the phenology of urban plants and animals. Trees in cities often leaf out earlier in spring, and some insect species have adapted to have longer breeding seasons. This decoupling of phenological events can disrupt food webs; for instance, if caterpillars emerge earlier due to warmth but migratory birds arrive at their usual time, the birds may miss their peak food source, leading to reduced reproductive success.\n\nConservationists argue that incorporating biodiversity-friendly practices into urban planning is crucial. This includes preserving remnant natural patches, reducing chemical use, and increasing structural complexity in green spaces. By understanding the specific traits that allow certain species to persist in urban environments, planners can design cities that support a wider array of life, turning urban areas from ecological sinks into potential reservoirs of biodiversity.",
+      text: "Urbanization represents one of the most significant land-use changes globally, profoundly affecting biodiversity and ecosystem functioning. As cities expand, natural habitats are fragmented, degraded, or completely destroyed, leading to local extinctions and a homogenization of species. However, the relationship between urbanization and biodiversity is complex and not entirely negative. While many native species decline in urban areas, some 'urban adapters' thrive, exploiting the novel resources and reduced predation pressures found in cities.\n\nRecent studies have highlighted the importance of 'green infrastructure'—parks, gardens, and green roofs—in maintaining urban biodiversity. These patches of vegetation can serve as refuges for native species and stepping stones facilitating movement across the urban matrix. Yet, the quality of these green spaces matters immensely. Manicured lawns with exotic plant species offer little value to native pollinators or birds compared to areas with complex vegetation structure and native flora.\n\nFurthermore, the 'heat island' effect, where cities are significantly warmer than surrounding rural areas, alters the phenology of urban plants and animals. Trees in cities often leaf out earlier in spring, and some insect species have adapted to have longer breeding seasons. This decoupling of phenological events can disrupt food webs; for instance, if caterpillars emerge earlier due to warmth but migratory birds arrive at their usual time, the birds may miss their peak food source, leading to reduced reproductive success.\n\nConservationists argue that incorporating biodiversity-friendly practices into urban planning is crucial. This includes preserving remnant natural patches, reducing chemical use, and increasing structural complexity in green spaces. By understanding the specific traits that allow certain species to persist in urban environments, planners can design cities that support a wider array of life, turning urban areas into partial sanctuaries rather than biological deserts.",
       prompt: "Which of the following statements are supported by the text regarding urbanization and biodiversity?",
       options: [
         "Urbanization universally leads to the extinction of all native species.",
@@ -332,66 +177,6 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
     }
   ],
   "R&W Fill in the Blanks": [
-    // EASY (Paragraph length, 4-5 blanks)
-    {
-      id: "rw-1",
-      type: "R&W Fill in the Blanks",
-      difficulty: "Easy",
-      title: "The Benefits of Walking",
-      text: "Walking is one of the simplest and most effective forms of exercise. It requires no special equipment and can be done almost anywhere. Regular walking helps to improve cardiovascular health, strengthen bones, and boost muscle power. Additionally, walking outdoors allows you to connect with nature, which can significantly {{0}} stress levels. Many experts recommend walking for at least 30 minutes a day to {{1}} a healthy lifestyle. Whether you choose to walk alone or with a friend, the physical and mental {{2}} are undeniable. It is a great way to clear your mind and {{3}} your energy for the rest of the day.",
-      blanks: [
-        { index: 0, correct: "reduce", options: ["increase", "reduce", "ignore", "create"] },
-        { index: 1, correct: "maintain", options: ["destroy", "maintain", "forget", "avoid"] },
-        { index: 2, correct: "benefits", options: ["problems", "benefits", "costs", "losses"] },
-        { index: 3, correct: "recharge", options: ["drain", "recharge", "lose", "waste"] }
-      ]
-    },
-    {
-      id: "rw-2",
-      type: "R&W Fill in the Blanks",
-      difficulty: "Easy",
-      title: "Learning a Musical Instrument",
-      text: "Learning to play a musical instrument is a rewarding experience that offers many cognitive benefits. It challenges the brain to process sounds, coordinate movements, and interpret visual cues simultaneously. Studies have shown that musicians often have better memory and attention skills compared to non-musicians. Starting at a young age can be particularly {{0}}, as children's brains are highly adaptable. However, it is never too late to start. The process requires patience and consistent {{1}}, but the ability to create beautiful music is a unique joy. Furthermore, playing in a group or orchestra teaches valuable {{2}} skills, such as teamwork and listening to others.",
-      blanks: [
-        { index: 0, correct: "beneficial", options: ["harmful", "beneficial", "difficult", "boring"] },
-        { index: 1, correct: "practice", options: ["luck", "practice", "sleep", "food"] },
-        { index: 2, correct: "social", options: ["social", "math", "silent", "lonely"] }
-      ]
-    },
-    {
-      id: "rw-3",
-      type: "R&W Fill in the Blanks",
-      difficulty: "Easy",
-      title: "The Importance of Water",
-      text: "Water is essential for life on Earth. Every living organism needs water to survive. In the human body, water helps to regulate temperature, transport nutrients, and remove waste products. Dehydration can lead to fatigue, headaches, and difficulty concentrating. Therefore, it is important to drink enough water throughout the day, especially during hot weather or when exercising. While other beverages can contribute to hydration, pure water is the best {{0}}. We must also be mindful of our water usage and try to {{1}} this precious resource. Simple actions like fixing leaky faucets and taking shorter showers can make a big {{2}}.",
-      blanks: [
-        { index: 0, correct: "choice", options: ["choice", "mistake", "problem", "fear"] },
-        { index: 1, correct: "conserve", options: ["waste", "conserve", "pollute", "buy"] },
-        { index: 2, correct: "difference", options: ["noise", "difference", "mess", "disaster"] }
-      ]
-    },
-    {
-      id: "rw-4",
-      type: "R&W Fill in the Blanks",
-      difficulty: "Easy",
-      title: "Traditional Libraries",
-      text: "Libraries have traditionally been quiet places for reading and study. They house vast collections of books, magazines, and historical documents. For centuries, libraries have served as centers of knowledge and learning in communities. Librarians play a crucial role in helping people find information and discover new resources. In recent years, libraries have evolved to offer digital resources, computers, and community programs. Despite these changes, the core mission remains the same: to provide free access to information for everyone. Many people still visit libraries to find a peaceful environment to {{0}} and escape the distractions of modern life. They remain a vital {{1}} of our educational infrastructure.",
-      blanks: [
-        { index: 0, correct: "focus", options: ["shout", "focus", "sleep", "run"] },
-        { index: 1, correct: "part", options: ["enemy", "part", "end", "joke"] }
-      ]
-    },
-    {
-      id: "rw-5",
-      type: "R&W Fill in the Blanks",
-      difficulty: "Easy",
-      title: "Cooking at Home",
-      text: "Cooking meals at home is generally healthier and more affordable than eating out. When you cook for yourself, you have complete control over the ingredients, allowing you to reduce salt, sugar, and unhealthy fats. It also provides an opportunity to experiment with different flavors and recipes. Cooking can be a creative and relaxing activity after a busy day. Sharing a homemade meal with family or friends is a wonderful way to connect and spend quality time together. To get started, you don't need to be a professional chef; simple recipes using fresh ingredients can be delicious and nutritious. The key is to {{0}} the process and not be afraid to make mistakes along the way. Over time, your skills will {{1}}.",
-      blanks: [
-        { index: 0, correct: "enjoy", options: ["hate", "enjoy", "rush", "stop"] },
-        { index: 1, correct: "improve", options: ["fade", "improve", "break", "worsen"] }
-      ]
-    },
     // DIFFICULT
     {
       id: "rw-6",
@@ -464,67 +249,6 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
     }
   ],
   "Reading Fill in the Blanks": [
-    // EASY
-    {
-      id: "rf-1",
-      type: "Reading Fill in the Blanks",
-      difficulty: "Easy",
-      title: "Summer Vacation",
-      text: "In summer, the weather is hot. We like to go to the {{0}} and swim in the {{1}}.",
-      blanks: [
-        { index: 0, correct: "beach" },
-        { index: 1, correct: "sea" }
-      ],
-      options: ["beach", "sea", "mountain", "snow", "car"]
-    },
-    {
-      id: "rf-2",
-      type: "Reading Fill in the Blanks",
-      difficulty: "Easy",
-      title: "Morning Routine",
-      text: "I brush my {{0}} every morning. Then I wash my {{1}} with warm water.",
-      blanks: [
-        { index: 0, correct: "teeth" },
-        { index: 1, correct: "face" }
-      ],
-      options: ["teeth", "face", "hair", "shoes", "cat"]
-    },
-    {
-      id: "rf-3",
-      type: "Reading Fill in the Blanks",
-      difficulty: "Easy",
-      title: "The Garden",
-      text: "My mother loves flowers. She plants {{0}} in the garden. They smell very {{1}}.",
-      blanks: [
-        { index: 0, correct: "roses" },
-        { index: 1, correct: "good" }
-      ],
-      options: ["roses", "good", "trees", "bad", "stones"]
-    },
-    {
-      id: "rf-4",
-      type: "Reading Fill in the Blanks",
-      difficulty: "Easy",
-      title: "Homework",
-      text: "After school, I do my {{0}}. It is sometimes difficult, but my teacher {{1}} me.",
-      blanks: [
-        { index: 0, correct: "homework" },
-        { index: 1, correct: "helps" }
-      ],
-      options: ["homework", "helps", "game", "hurts", "sleeps"]
-    },
-    {
-      id: "rf-5",
-      type: "Reading Fill in the Blanks",
-      difficulty: "Easy",
-      title: "New Car",
-      text: "My dad bought a new {{0}}. It is red and very {{1}}. We went for a drive.",
-      blanks: [
-        { index: 0, correct: "car" },
-        { index: 1, correct: "fast" }
-      ],
-      options: ["car", "fast", "house", "slow", "dog"]
-    },
     // DIFFICULT
     {
       id: "rf-6",
@@ -588,72 +312,6 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
     }
   ],
   "Reorder Paragraphs": [
-    // EASY
-    {
-      id: "ro-1",
-      type: "Reorder Paragraphs",
-      difficulty: "Easy",
-      title: "Making Tea",
-      text: "Arrange the steps to make tea.",
-      paragraphs: [
-        { id: "p1", text: "First, boil some water in a kettle.", correctOrder: 1 },
-        { id: "p2", text: "Then, put a teabag in a cup.", correctOrder: 2 },
-        { id: "p3", text: "Pour the hot water into the cup.", correctOrder: 3 },
-        { id: "p4", text: "Finally, add milk and sugar if you like.", correctOrder: 4 }
-      ]
-    },
-    {
-      id: "ro-2",
-      type: "Reorder Paragraphs",
-      difficulty: "Easy",
-      title: "Morning Routine",
-      text: "Arrange the morning activities.",
-      paragraphs: [
-        { id: "p1", text: "John woke up when his alarm rang.", correctOrder: 1 },
-        { id: "p2", text: "He got out of bed and brushed his teeth.", correctOrder: 2 },
-        { id: "p3", text: "After getting dressed, he went to the kitchen.", correctOrder: 3 },
-        { id: "p4", text: "He ate toast and drank coffee for breakfast.", correctOrder: 4 }
-      ]
-    },
-    {
-      id: "ro-3",
-      type: "Reorder Paragraphs",
-      difficulty: "Easy",
-      title: "Planting a Seed",
-      text: "How to grow a plant.",
-      paragraphs: [
-        { id: "p1", text: "Dig a small hole in the soil.", correctOrder: 1 },
-        { id: "p2", text: "Place the seed inside the hole.", correctOrder: 2 },
-        { id: "p3", text: "Cover the seed with soil.", correctOrder: 3 },
-        { id: "p4", text: "Water it every day until it grows.", correctOrder: 4 }
-      ]
-    },
-    {
-      id: "ro-4",
-      type: "Reorder Paragraphs",
-      difficulty: "Easy",
-      title: "Sending a Letter",
-      text: "Steps to send a letter.",
-      paragraphs: [
-        { id: "p1", text: "Write your message on a piece of paper.", correctOrder: 1 },
-        { id: "p2", text: "Put the paper inside an envelope.", correctOrder: 2 },
-        { id: "p3", text: "Write the address on the front.", correctOrder: 3 },
-        { id: "p4", text: "Stick a stamp and drop it in the mailbox.", correctOrder: 4 }
-      ]
-    },
-    {
-      id: "ro-5",
-      type: "Reorder Paragraphs",
-      difficulty: "Easy",
-      title: "Buying Groceries",
-      text: "Shopping at the supermarket.",
-      paragraphs: [
-        { id: "p1", text: "Make a list of things you need.", correctOrder: 1 },
-        { id: "p2", text: "Go to the supermarket with a cart.", correctOrder: 2 },
-        { id: "p3", text: "Pick the items from the shelves.", correctOrder: 3 },
-        { id: "p4", text: "Pay for your groceries at the checkout.", correctOrder: 4 }
-      ]
-    },
     // DIFFICULT
     {
       id: "ro-6",
