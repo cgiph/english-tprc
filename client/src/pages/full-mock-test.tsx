@@ -560,7 +560,6 @@ export default function FullMockTest() {
             </div>
           )}
         </div>
-
         {/* Interaction Area */}
         <div className="pt-4 border-t">
           {q.section === "Speaking" ? (
@@ -687,7 +686,7 @@ export default function FullMockTest() {
             <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-2">
               <Clock className="h-8 w-8 text-primary" />
             </div>
-            <CardTitle className="text-3xl font-serif font-bold">Full Mock Test - UKVI Edition</CardTitle>
+            <CardTitle className="text-3xl font-serif font-bold">Full Mock Test - PTE Academic</CardTitle>
             <CardDescription className="text-lg max-w-lg mx-auto">
               A complete simulation of the PTE Academic UKVI exam.
             </CardDescription>
