@@ -36,6 +36,12 @@ export default function ListeningPractice() {
 
   const [groupTimer, setGroupTimer] = useState(0);
   const [groupTimerStarted, setGroupTimerStarted] = useState(false);
+  
+  // Audio playback state
+  const [audioProgress, setAudioProgress] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(0);
+  const [audioTimerInterval, setAudioTimerInterval] = useState<NodeJS.Timeout | null>(null);
+
   const GROUP_TYPES = ["MC-MA", "FIB-L", "MC-SA", "SMW", "HIW", "WFD"];
 
   const { toast } = useToast();
@@ -139,8 +145,23 @@ export default function ListeningPractice() {
     if (playingId === id) {
       window.speechSynthesis.cancel();
       setPlayingId(null);
+      
+      // Stop audio timer
+      if (audioTimerInterval) {
+        clearInterval(audioTimerInterval);
+        setAudioTimerInterval(null);
+      }
+      setAudioProgress(0); // Optional: reset or keep? Standard players usually pause or reset. Let's reset for now as it's a stop button.
     } else {
       window.speechSynthesis.cancel();
+      
+      // Stop previous timer if any
+      if (audioTimerInterval) {
+        clearInterval(audioTimerInterval);
+        setAudioTimerInterval(null);
+      }
+      setAudioProgress(0);
+
       setPlayingId(id);
       
       const utterance = new SpeechSynthesisUtterance(text);
@@ -151,16 +172,46 @@ export default function ListeningPractice() {
       const voices = window.speechSynthesis.getVoices();
       const britishVoice = voices.find(v => v.lang.includes("GB") || v.name.includes("UK"));
       if (britishVoice) utterance.voice = britishVoice;
+      
+      // Estimate duration: ~150 words per minute => 2.5 words/sec. 
+      // This is a rough estimate since we don't get duration from SpeechSynthesis API easily.
+      const wordCount = text.split(/\s+/).length;
+      const estimatedDuration = Math.max(Math.ceil(wordCount / (2.5 * speed)), 5); // Min 5 secs
+      setAudioDuration(estimatedDuration);
 
       utterance.onend = () => {
         if (type === "SMW") {
           playBeep();
         }
         setPlayingId(null);
+        if (audioTimerInterval) {
+             clearInterval(audioTimerInterval);
+             setAudioTimerInterval(null);
+        }
+        setAudioProgress(estimatedDuration); // Ensure it shows full time at end
       };
       
-      utterance.onerror = () => setPlayingId(null);
+      utterance.onerror = () => {
+        setPlayingId(null);
+        if (audioTimerInterval) {
+             clearInterval(audioTimerInterval);
+             setAudioTimerInterval(null);
+        }
+      };
+      
       window.speechSynthesis.speak(utterance);
+      
+      // Start audio timer
+      const interval = setInterval(() => {
+        setAudioProgress(prev => {
+            if (prev >= estimatedDuration) {
+                clearInterval(interval);
+                return estimatedDuration;
+            }
+            return prev + 1;
+        });
+      }, 1000);
+      setAudioTimerInterval(interval);
     }
   };
 
@@ -269,11 +320,14 @@ export default function ListeningPractice() {
              {/* Progress bar simulation */}
              <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
                 <div 
-                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_69s_linear]" : "w-0")} 
+                  className="h-full bg-blue-500 origin-left transition-all ease-linear"
+                  style={{ width: playingId === q.id && audioDuration > 0 ? `${(audioProgress / audioDuration) * 100}%` : '0%' }}
                 />
              </div>
              
-             <span className="text-slate-500 font-medium text-sm">01:09</span>
+             <span className="text-slate-500 font-medium text-sm">
+                {playingId === q.id ? formatTime(audioProgress) : "00:00"}
+             </span>
              
              <div className="flex items-center gap-2 text-slate-500 ml-4">
                <Volume2 className="h-5 w-5" />
@@ -346,11 +400,14 @@ export default function ListeningPractice() {
              {/* Progress bar simulation */}
              <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
                 <div 
-                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_69s_linear]" : "w-0")} 
+                  className="h-full bg-blue-500 origin-left transition-all ease-linear"
+                  style={{ width: playingId === q.id && audioDuration > 0 ? `${(audioProgress / audioDuration) * 100}%` : '0%' }}
                 />
              </div>
              
-             <span className="text-slate-500 font-medium text-sm">01:09</span>
+             <span className="text-slate-500 font-medium text-sm">
+                {playingId === q.id ? formatTime(audioProgress) : "00:00"}
+             </span>
              
              <div className="flex items-center gap-2 text-slate-500 ml-4">
                <Volume2 className="h-5 w-5" />
@@ -465,11 +522,14 @@ export default function ListeningPractice() {
              {/* Progress bar simulation */}
              <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
                 <div 
-                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_69s_linear]" : "w-0")} 
+                  className="h-full bg-blue-500 origin-left transition-all ease-linear"
+                  style={{ width: playingId === q.id && audioDuration > 0 ? `${(audioProgress / audioDuration) * 100}%` : '0%' }}
                 />
              </div>
              
-             <span className="text-slate-500 font-medium text-sm">01:09</span>
+             <span className="text-slate-500 font-medium text-sm">
+                {playingId === q.id ? formatTime(audioProgress) : "00:00"}
+             </span>
              
              <div className="flex items-center gap-2 text-slate-500 ml-4">
                <Volume2 className="h-5 w-5" />
@@ -551,11 +611,14 @@ export default function ListeningPractice() {
              {/* Progress bar simulation */}
              <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
                 <div 
-                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_69s_linear]" : "w-0")} 
+                  className="h-full bg-blue-500 origin-left transition-all ease-linear"
+                  style={{ width: playingId === q.id && audioDuration > 0 ? `${(audioProgress / audioDuration) * 100}%` : '0%' }}
                 />
              </div>
              
-             <span className="text-slate-500 font-medium text-sm">01:09</span>
+             <span className="text-slate-500 font-medium text-sm">
+                {playingId === q.id ? formatTime(audioProgress) : "00:00"}
+             </span>
              
              <div className="flex items-center gap-2 text-slate-500 ml-4">
                <Volume2 className="h-5 w-5" />
@@ -627,11 +690,14 @@ export default function ListeningPractice() {
              {/* Progress bar simulation */}
              <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
                 <div 
-                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_69s_linear]" : "w-0")} 
+                  className="h-full bg-blue-500 origin-left transition-all ease-linear"
+                  style={{ width: playingId === q.id && audioDuration > 0 ? `${(audioProgress / audioDuration) * 100}%` : '0%' }}
                 />
              </div>
              
-             <span className="text-slate-500 font-medium text-sm">01:09</span>
+             <span className="text-slate-500 font-medium text-sm">
+                {playingId === q.id ? formatTime(audioProgress) : "00:00"}
+             </span>
              
              <div className="flex items-center gap-2 text-slate-500 ml-4">
                <Volume2 className="h-5 w-5" />
@@ -716,11 +782,14 @@ export default function ListeningPractice() {
              {/* Progress bar simulation */}
              <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
                 <div 
-                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_69s_linear]" : "w-0")} 
+                  className="h-full bg-blue-500 origin-left transition-all ease-linear"
+                  style={{ width: playingId === q.id && audioDuration > 0 ? `${(audioProgress / audioDuration) * 100}%` : '0%' }}
                 />
              </div>
              
-             <span className="text-slate-500 font-medium text-sm">01:09</span>
+             <span className="text-slate-500 font-medium text-sm">
+                {playingId === q.id ? formatTime(audioProgress) : "00:00"}
+             </span>
              
              <div className="flex items-center gap-2 text-slate-500 ml-4">
                <Volume2 className="h-5 w-5" />
