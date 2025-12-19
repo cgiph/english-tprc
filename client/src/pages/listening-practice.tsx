@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Headphones, PlayCircle, PauseCircle, CheckCircle2, AlertCircle, ArrowRight, Timer, RotateCcw } from "lucide-react";
+import { Headphones, PlayCircle, PauseCircle, CheckCircle2, AlertCircle, ArrowRight, Timer, RotateCcw, Volume2, Settings, MoreVertical, Music } from "lucide-react";
 import { LISTENING_DATA, ListeningQuestion } from "@/lib/listening-data";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,8 @@ import { cn } from "@/lib/utils";
 export default function ListeningPractice() {
   const [activeTab, setActiveTab] = useState("SST");
   const [playingId, setPlayingId] = useState<string | null>(null);
+  const [audioSpeed, setAudioSpeed] = useState(1.0);
+  const [volume, setVolume] = useState(1.0);
   
   // State for user answers
   const [sstAnswers, setSstAnswers] = useState<Record<string, string>>({});
@@ -90,7 +92,7 @@ export default function ListeningPractice() {
     osc.stop(ctx.currentTime + 0.3); // 300ms beep
   };
 
-  const togglePlay = (id: string, text: string, type?: string) => {
+  const togglePlay = (id: string, text: string, type?: string, speed: number = 1.0) => {
     if (playingId === id) {
       window.speechSynthesis.cancel();
       setPlayingId(null);
@@ -99,7 +101,8 @@ export default function ListeningPractice() {
       setPlayingId(id);
       
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.0;
+      utterance.rate = speed;
+      utterance.volume = volume;
       
       // Try to find a British voice
       const voices = window.speechSynthesis.getVoices();
@@ -137,49 +140,6 @@ export default function ListeningPractice() {
   };
 
   // Renderers for different question types
-import { Volume2, Settings, MoreVertical, Music } from "lucide-react";
-
-export default function ListeningPractice() {
-  const [activeTab, setActiveTab] = useState("SST");
-  const [playingId, setPlayingId] = useState<string | null>(null);
-  
-  // State for user answers
-  const [sstAnswers, setSstAnswers] = useState<Record<string, string>>({});
-  // ... other states
-  
-  const [audioSpeed, setAudioSpeed] = useState(1.0);
-  const [volume, setVolume] = useState(1.0);
-  
-  // ... existing code ...
-
-  const togglePlay = (id: string, text: string, type?: string, speed: number = 1.0) => {
-    if (playingId === id) {
-      window.speechSynthesis.cancel();
-      setPlayingId(null);
-    } else {
-      window.speechSynthesis.cancel();
-      setPlayingId(id);
-      
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = speed;
-      utterance.volume = volume;
-      
-      // Try to find a British voice
-      const voices = window.speechSynthesis.getVoices();
-      const britishVoice = voices.find(v => v.lang.includes("GB") || v.name.includes("UK"));
-      if (britishVoice) utterance.voice = britishVoice;
-
-      utterance.onend = () => {
-        if (type === "SMW") {
-          playBeep();
-        }
-        setPlayingId(null);
-      };
-      
-      utterance.onerror = () => setPlayingId(null);
-      window.speechSynthesis.speak(utterance);
-    }
-  };
 
   const handleCut = (id: string) => {
     const text = sstAnswers[id] || "";
