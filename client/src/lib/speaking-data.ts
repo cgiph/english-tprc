@@ -192,72 +192,30 @@ export const SPEAKING_QUESTIONS: Record<SpeakingTaskType, SpeakingQuestion[]> = 
     {
       id: "sgd-1",
       type: "Summarize Group Discussion",
-      title: "Project Deadline",
-      content: "Summarize the discussion between three students about their group project.",
-      audioScript: "Student A: I think we should focus on the research part first. Student B: But the deadline is in two days, we need to start writing the report now! Student C: Let's split the work. A, you do the research. B and I will start drafting the introduction and conclusion. That way we cover both bases."
+      title: "Impact of Artificial Intelligence on Education",
+      content: "Summarize the discussion between three speakers about the role of AI in education.",
+      audioScript: "Moderator: Welcome everyone. Today we're discussing the integration of Artificial Intelligence in higher education. Professor Chen, let's start with you. Some argue AI tools are undermining critical thinking skills in students. What is your perspective on this growing concern?\n\nProfessor Chen: That's a valid concern, but I believe it's a bit shortsighted. While there is a risk of students over-relying on AI for essay writing, the technology also offers unprecedented opportunities for personalized learning. AI tutors can provide 24/7 support, adapting to each student's pace and learning style in a way that a single human instructor simply cannot manage for a class of hundreds. The key is not banning these tools, but redesigning our assessment methods to focus on analysis and synthesis rather than rote information retrieval.\n\nStudent Rep: As a student, I have to agree with Professor Chen. The reality is that we will be using these tools in the workforce. Ignoring them now puts us at a disadvantage later. However, I do worry about the equity issue. Premium AI tools are expensive. If universities don't provide access to everyone, we risk creating a two-tiered system where wealthy students have a significant technological edge over their peers who can't afford subscriptions.\n\nModerator: That's an excellent point about the digital divide. Professor, how do universities address this cost barrier?\n\nProfessor Chen: It's a challenge. Ideally, institutions should license these tools for all students, treating them like library resources. But budgets are tight. We might need to look at open-source alternatives or government grants to ensure a level playing field.\n\nStudent Rep: Exactly. Also, we need more guidance on ethics. Many students are unsure about where the line is between 'assistance' and 'plagiarism' when using AI. Clearer policies would actually help us use these tools more responsibly."
     },
     {
       id: "sgd-2",
       type: "Summarize Group Discussion",
-      title: "Choosing a Major",
-      content: "Summarize the discussion about choosing a university major.",
-      audioScript: "Student A: I'm torn between Computer Science and Art History. Student B: Computer Science has better job prospects, but Art History is your passion. Student C: Why not do a double major? It's more work, but you won't have to sacrifice either interest."
+      title: "Sustainable Urban Planning",
+      content: "Summarize the discussion regarding the new city development plan.",
+      audioScript: "City Planner: Thank you for joining this town hall meeting. We are here to finalize the proposal for the Green District redevelopment. The current plan prioritizes pedestrian zones and public transit, aiming to reduce private car usage in the city center by 60% over the next five years. We believe this is crucial for meeting our carbon neutrality goals.\n\nBusiness Owner: I understand the environmental goals, and I support them in principle. However, as a local business owner, I'm very concerned about the economic impact. If you remove all the street parking and restrict vehicle access, my customers from the suburbs won't be able to reach my store easily. We're already struggling with inflation; this could be the nail in the coffin for small businesses in the area.\n\nResident: I hear your concerns, but we also have to think about the livability of the neighborhood. Right now, the noise and pollution levels are unbearable. My children can't play outside safely. A walkable city center would actually attract more foot traffic, which studies show often benefits local retail more than car traffic does. People linger longer and spend more when they aren't rushing back to a parking meter.\n\nCity Planner: That is what the data suggests. To address the business concerns, the plan includes a new park-and-ride facility on the outskirts with a free electric shuttle loop every 5 minutes. This should actually make it easier for suburban visitors to get here without the stress of finding parking downtown.\n\nBusiness Owner: Well, a shuttle sounds good in theory, but it adds travel time. Unless it's incredibly efficient, people will just go to the shopping malls with big parking lots instead. I'd like to see a guarantee or a tax break for businesses during the transition period.\n\nResident: A tax break seems fair. We all want a thriving community, not empty storefronts. But we can't compromise on air quality anymore."
     },
     {
       id: "sgd-3",
       type: "Summarize Group Discussion",
-      title: "Campus Parking",
-      content: "Summarize the discussion about the new parking policy.",
-      audioScript: "Admin: We are increasing parking fees to encourage public transport. Student Rep: But many students commute from far away where buses don't run. Commuter: Exactly, and the trains are unreliable. We need a shuttle service if you want us to stop driving."
+      title: "Remote Work Policies",
+      content: "Summarize the discussion about the company's future work policy.",
+      audioScript: "HR Director: As you know, we're reviewing our remote work policy for the upcoming year. The executive team is pushing for a 'Return to Office' mandate, requiring four days a week on-site. They feel that collaboration and company culture have suffered during the fully remote period.\n\nTeam Lead: I have to push back on that. My team's productivity has actually increased by 20% since we went remote. We have developers across three different time zones. Forcing them into an office isn't just logistical nonsense; it's going to cause a mass exodus. I've already had two senior engineers tell me they'll resign if we mandate a full return.\n\nOperations Manager: I see both sides. From an operations standpoint, maintaining our physical office space is a huge overhead cost if it's only 10% occupied. But we also have departments, like hardware testing, that simply cannot function remotely. There's a feeling of unfairness building up between the on-site essential staff and the remote workers. We need a policy that feels equitable.\n\nHR Director: That friction is exactly what leadership is worried about. But risking a talent drain is also dangerous. What if we proposed a 'Team-Anchor' model? Instead of a company-wide mandate, each team decides on 1 or 2 specific days per month for in-person collaboration, while keeping the rest flexible.\n\nTeam Lead: That's much more reasonable. It allows for that 'culture building' face-time without destroying the work-life balance people have built their lives around. It treats employees like adults.\n\nOperations Manager: It might work, provided we can sublease some of the unused office floors to reduce costs. And we'd need to ensure the on-site days are actually used for meaningful collaboration, not just sitting on Zoom calls from a cubicle."
     },
     {
       id: "sgd-4",
       type: "Summarize Group Discussion",
-      title: "Online Learning",
-      content: "Summarize the discussion on the pros and cons of online classes.",
-      audioScript: "Teacher: Do you prefer Zoom classes? Student A: I like the flexibility, I can watch lectures anytime. Student B: I miss the social interaction. It's hard to make friends through a screen. Teacher: We need to find a hybrid balance that works for everyone."
-    },
-    {
-      id: "sgd-5",
-      type: "Summarize Group Discussion",
-      title: "Healthy Eating",
-      content: "Summarize the discussion about the cafeteria menu.",
-      audioScript: "Manager: We want to remove soda from the menu. Student A: That's a bit extreme. Maybe just offer healthier alternatives? Student B: I agree with the manager. If we remove the temptation, people will choose water or juice. Manager: Let's try a trial period with no soda."
-    },
-    {
-      id: "sgd-6",
-      type: "Summarize Group Discussion",
-      title: "Budgeting",
-      content: "Summarize the discussion about the club's budget.",
-      audioScript: "Treasurer: We are running low on funds for the annual party. President: Can we increase the membership fee? Member: That might scare away new members. Let's do a fundraising bake sale instead. Treasurer: That's a good idea, it involves the community too."
-    },
-    {
-      id: "sgd-7",
-      type: "Summarize Group Discussion",
-      title: "Library Noise",
-      content: "Summarize the discussion about noise levels in the library.",
-      audioScript: "Librarian: We've had complaints about noise on the second floor. Student A: It's the group study area, people need to talk. Student B: But some groups are yelling. Maybe we need soundproof pods? Librarian: I'll look into the budget for installing glass partitions."
-    },
-    {
-      id: "sgd-8",
-      type: "Summarize Group Discussion",
-      title: "Internships",
-      content: "Summarize the discussion about finding internships.",
-      audioScript: "Advisor: You should start applying now for summer internships. Student A: I don't have enough experience yet. Student B: I felt the same, but I applied anyway and got an interview. Advisor: Exactly. Internships are for learning. Focus on your soft skills."
-    },
-    {
-      id: "sgd-9",
-      type: "Summarize Group Discussion",
-      title: "Climate Action",
-      content: "Summarize the discussion about the university's carbon footprint.",
-      audioScript: "Activist: The university uses too much plastic. Admin: We are switching to biodegradable packaging next month. Professor: We should also look at energy consumption in the labs. Activist: Agreed, lights are left on all night."
-    },
-    {
-      id: "sgd-10",
-      type: "Summarize Group Discussion",
-      title: "Exam Stress",
-      content: "Summarize the discussion about managing exam stress.",
-      audioScript: "Counselor: It's important to take breaks. Student A: But I feel guilty when I'm not studying. Student B: I use a timer. Study 50 minutes, break 10 minutes. It helps. Counselor: That's the Pomodoro technique. It's very effective for avoiding burnout."
+      title: "University Funding Allocation",
+      content: "Summarize the discussion on how to allocate the new government grant.",
+      audioScript: "Dean: We have received a significant government grant of $2 million, specifically earmarked for 'Campus Modernization'. The board is split on how to best utilize these funds. One faction wants to build a new state-of-the-art sports complex to attract more undergraduates. The other side argues we should renovate the science laboratories, which are decades old.\n\nHead of Sciences: It shouldn't even be a debate. Our chemistry labs are a safety hazard at this point. Ventilation is poor, and equipment is outdated. We are losing top research grants because our facilities aren't up to standard. A sports complex is a luxury; safe and functional labs are a necessity for a research university.\n\nAthletics Director: I disagree with the characterization of sports as a 'luxury'. Athletics brings in alumni donations and school spirit, which indirectly funds academics. Enrollment is down 5% this year. A new stadium would boost our visibility and appeal to prospective students who are looking for a holistic college experience, not just a degree factory.\n\nDean: Both valid points. But we must consider the grant's stipulations. It mentions 'modernization'. Could we potentially split the funds? Or perhaps renovate the labs now and launch a separate fundraising campaign for the sports complex?\n\nHead of Sciences: Splitting the money would result in two half-finished projects that satisfy no one. $1 million isn't enough to properly overhaul the labs. We need to prioritize academic integrity. If we can't do research, we aren't a university.\n\nAthletics Director: Maybe there's a compromise. What if we use the funds for the labs, but commit a percentage of future patent royalties from that research towards the athletics fund? That aligns our interests."
     }
   ],
   "Respond to a Situation": [

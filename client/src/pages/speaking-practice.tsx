@@ -96,6 +96,10 @@ export default function SpeakingPractice() {
         const match = segment.match(/^([A-Z][a-z]+(?: [A-Z0-9]+)?):/);
         const speaker = match ? match[1] : "Unknown";
         
+        // Remove speaker name from spoken text for more natural dialogue
+        // e.g. "Student A: Hello" -> "Hello"
+        const textToSpeak = speaker !== "Unknown" ? segment.replace(/^([A-Z][a-z]+(?: [A-Z0-9]+)?):/, "").trim() : segment;
+
         // Assign voice if not already assigned
         if (!speakerVoices[speaker]) {
              // Rotate through available english voices
@@ -105,7 +109,7 @@ export default function SpeakingPractice() {
              }
         }
         
-        const utterance = new SpeechSynthesisUtterance(segment);
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
         utterance.lang = 'en-GB';
         if (speakerVoices[speaker]) {
             utterance.voice = speakerVoices[speaker];
@@ -348,18 +352,33 @@ export default function SpeakingPractice() {
     playBeep(); // Beep on start
     startRecordingAudio(); // Start actual recording
     setStatus("recording");
-    setTimeLeft(40); // 40s recording
+    
+    // Set recording time based on task type
+    if (activeTab === "Summarize Group Discussion") {
+      setTimeLeft(120); // 2 minutes (120 seconds) for SGD
+      toast({
+        title: "Recording Started",
+        description: "Speak now! Recording for 2 minutes.",
+        variant: "default", 
+        className: "bg-red-500 text-white border-none"
+      });
+    } else {
+      setTimeLeft(40); // 40s recording for others
+      toast({
+        title: "Recording Started",
+        description: "Speak now! Recording for 40 seconds.",
+        variant: "default", 
+        className: "bg-red-500 text-white border-none"
+      });
+    }
+    
     setRecordingDuration(0); // Reset duration
-    toast({
-      title: "Recording Started",
-      description: "Speak now! Recording for 40 seconds.",
-      variant: "default", 
-      className: "bg-red-500 text-white border-none"
-    });
   };
 
   const stopRecording = () => {
-    const duration = 40 - timeLeft; // Calculate duration before resetting time
+    // Determine max time for calculation
+    const maxTime = activeTab === "Summarize Group Discussion" ? 120 : 40;
+    const duration = maxTime - timeLeft; 
     setRecordingDuration(duration);
     
     stopRecordingAudio(); // Stop actual recording
