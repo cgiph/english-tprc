@@ -102,12 +102,80 @@ const QUESTION_BANK: MockQuestion[] = [
   }
 ];
 
+// Mock data for missing speaking types
+const MOCK_ASQ: MockQuestion[] = [
+  {
+    id: "asq-1", section: "Speaking", type: "Answer Short Question", title: "Answer Short Question",
+    prompt: "Answer the question in one or a few words.", stimulus: "What is the term for a period of ten years?",
+    content: "What is the term for a period of ten years?", correct: "Decade", max_score: 1, time_limit_seconds: 10
+  },
+  {
+    id: "asq-2", section: "Speaking", type: "Answer Short Question", title: "Answer Short Question",
+    prompt: "Answer the question in one or a few words.", stimulus: "Which organ pumps blood through the body?",
+    content: "Which organ pumps blood through the body?", correct: "Heart", max_score: 1, time_limit_seconds: 10
+  },
+  {
+    id: "asq-3", section: "Speaking", type: "Answer Short Question", title: "Answer Short Question",
+    prompt: "Answer the question in one or a few words.", stimulus: "What comes after Monday?",
+    content: "What comes after Monday?", correct: "Tuesday", max_score: 1, time_limit_seconds: 10
+  },
+  {
+    id: "asq-4", section: "Speaking", type: "Answer Short Question", title: "Answer Short Question",
+    prompt: "Answer the question in one or a few words.", stimulus: "How many hours are there in a day?",
+    content: "How many hours are there in a day?", correct: "24", max_score: 1, time_limit_seconds: 10
+  },
+  {
+    id: "asq-5", section: "Speaking", type: "Answer Short Question", title: "Answer Short Question",
+    prompt: "Answer the question in one or a few words.", stimulus: "What is the frozen form of water?",
+    content: "What is the frozen form of water?", correct: "Ice", max_score: 1, time_limit_seconds: 10
+  },
+  {
+    id: "asq-6", section: "Speaking", type: "Answer Short Question", title: "Answer Short Question",
+    prompt: "Answer the question in one or a few words.", stimulus: "What do you use to unlock a door?",
+    content: "What do you use to unlock a door?", correct: "Key", max_score: 1, time_limit_seconds: 10
+  }
+];
+
+const MOCK_SGD: MockQuestion[] = [
+  {
+    id: "sgd-1", section: "Speaking", type: "Summarize Group Discussion", title: "Summarize Group Discussion",
+    prompt: "You will hear a group discussion. Summarize the main points.", stimulus: "audio_placeholder",
+    audioScript: "Person A: I think remote work is great. Person B: But we lose connection. Person C: A hybrid model is best.",
+    max_score: 5, time_limit_seconds: 90
+  },
+  {
+    id: "sgd-2", section: "Speaking", type: "Summarize Group Discussion", title: "Summarize Group Discussion",
+    prompt: "You will hear a group discussion. Summarize the main points.", stimulus: "audio_placeholder",
+    audioScript: "Person A: Public transport needs funding. Person B: Taxes are too high already.",
+    max_score: 5, time_limit_seconds: 90
+  }
+];
+
+const MOCK_RTS: MockQuestion[] = [
+  {
+    id: "rts-1", section: "Speaking", type: "Respond to a Situation", title: "Respond to a Situation",
+    prompt: "You will hear a description of a situation. Respond appropriately.", stimulus: "audio_placeholder",
+    content: "Your friend is in the hospital. What would you say to them?",
+    max_score: 5, time_limit_seconds: 40
+  },
+  {
+    id: "rts-2", section: "Speaking", type: "Respond to a Situation", title: "Respond to a Situation",
+    prompt: "You will hear a description of a situation. Respond appropriately.", stimulus: "audio_placeholder",
+    content: "You are late for a meeting. Explain why to your manager.",
+    max_score: 5, time_limit_seconds: 40
+  }
+];
+
+
 const SPEAKING_POOL: MockQuestion[] = [
   ...QUESTION_BANK.filter(q => q.section === "Speaking"),
   ...SPEAKING_QUESTIONS["Read Aloud"].map(q => ({ ...q, id: `ra-${Math.random()}`, section: "Speaking" as const, type: "Read Aloud", max_score: 15, title: q.title || "Read Aloud" })),
   ...SPEAKING_QUESTIONS["Repeat Sentence"].map(q => ({ ...q, id: `rs-${Math.random()}`, section: "Speaking" as const, type: "Repeat Sentence", max_score: 13, title: q.title || "Repeat Sentence" })),
   ...SPEAKING_QUESTIONS["Describe Image"].map(q => ({ ...q, id: `di-${Math.random()}`, section: "Speaking" as const, type: "Describe Image", max_score: 15, title: q.title || "Describe Image" })),
   ...SPEAKING_QUESTIONS["Retell Lecture"].map(q => ({ ...q, id: `rl-${Math.random()}`, section: "Speaking" as const, type: "Retell Lecture", max_score: 15, title: q.title || "Retell Lecture" })),
+  ...MOCK_ASQ,
+  ...MOCK_SGD,
+  ...MOCK_RTS
 ];
 
 const WRITING_POOL: MockQuestion[] = [
@@ -254,9 +322,17 @@ export function generateMockTest(section?: string, count = 10) {
   const hiw = getQuestions(LISTENING_POOL, "Highlight Incorrect Words", 3);
   const wfd = getQuestions(LISTENING_POOL, "Write From Dictation", 4);
 
-  // Other sections (simplified for now based on previous request, but Listening is specific)
-  // We'll just grab some randoms for others to fill the mock
-  const speaking = SPEAKING_POOL.slice(0, 10); // Placeholder count
+  // Speaking Composition
+  const ra = getQuestions(SPEAKING_POOL, "Read Aloud", 6);
+  const rs = getQuestions(SPEAKING_POOL, "Repeat Sentence", 10);
+  const di = getQuestions(SPEAKING_POOL, "Describe Image", 3);
+  const rl = getQuestions(SPEAKING_POOL, "Retell Lecture", 1);
+  const asq = getQuestions(SPEAKING_POOL, "Answer Short Question", 5);
+  const sgd = getQuestions(SPEAKING_POOL, "Summarize Group Discussion", 1);
+  const rts = getQuestions(SPEAKING_POOL, "Respond to a Situation", 1);
+  
+  const speaking = [...ra, ...rs, ...di, ...rl, ...asq, ...sgd, ...rts];
+
   const writing = WRITING_POOL.slice(0, 2);
   const reading = READING_POOL.slice(0, 10);
 

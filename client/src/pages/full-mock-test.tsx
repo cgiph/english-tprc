@@ -917,14 +917,47 @@ export default function FullMockTest() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-              <li><strong>Speaking:</strong> Read Aloud, Repeat Sentence, Describe Image, Retell Lecture, etc.</li>
-              <li><strong>Writing:</strong> Summarize Written Text, Essay.</li>
-              <li><strong>Reading:</strong> Fill in Blanks, MCQ, Reorder Paragraphs.</li>
-              <li><strong>Listening:</strong> Summarize Spoken Text, MCQ, Dictation.</li>
-            </ul>
-            <div className="mt-4 bg-muted p-4 rounded text-sm">
-              <strong>Note:</strong> You cannot save and exit. All questions must be attempted.
+            <div className="space-y-6">
+              <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                <h3 className="text-lg font-bold flex items-center gap-2 mb-2 text-primary">
+                  <span>🗣️</span> SPEAKING
+                </h3>
+                <div className="text-sm text-muted-foreground mb-4">
+                  <p>Total group time: ~30–35 minutes</p>
+                  <p>Total speaking questions: ~22–28 tasks</p>
+                </div>
+                
+                <h4 className="font-semibold text-sm mb-2">🔹 Speaking Task Types & Question Counts</h4>
+                <div className="border rounded-md overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-100">
+                      <tr>
+                        <th className="px-4 py-2 text-left font-medium text-slate-700">Task Type</th>
+                        <th className="px-4 py-2 text-left font-medium text-slate-700">Typical No. of Questions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y">
+                      <tr><td className="px-4 py-2">Read Aloud</td><td className="px-4 py-2">6–7</td></tr>
+                      <tr><td className="px-4 py-2">Repeat Sentence</td><td className="px-4 py-2">10–12</td></tr>
+                      <tr><td className="px-4 py-2">Describe Image</td><td className="px-4 py-2">3–4</td></tr>
+                      <tr><td className="px-4 py-2">Re-tell Lecture</td><td className="px-4 py-2">1–2</td></tr>
+                      <tr><td className="px-4 py-2">Answer Short Question</td><td className="px-4 py-2">5–6</td></tr>
+                      <tr><td className="px-4 py-2">Summarize Group Discussion</td><td className="px-4 py-2">1–2</td></tr>
+                      <tr><td className="px-4 py-2">Respond to a Situation</td><td className="px-4 py-2">1–2</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <ul className="list-disc pl-5 space-y-2 text-muted-foreground text-sm">
+                <li><strong>Writing:</strong> Summarize Written Text, Essay.</li>
+                <li><strong>Reading:</strong> Fill in Blanks, MCQ, Reorder Paragraphs.</li>
+                <li><strong>Listening:</strong> Summarize Spoken Text, MCQ, Dictation.</li>
+              </ul>
+              
+              <div className="mt-4 bg-muted p-4 rounded text-sm">
+                <strong>Note:</strong> You cannot save and exit. All questions must be attempted.
+              </div>
             </div>
           </CardContent>
           <CardFooter>
