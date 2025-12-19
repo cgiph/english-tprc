@@ -32,6 +32,8 @@ export default function ListeningPractice() {
   const [showResults, setShowResults] = useState<Record<string, boolean>>({});
   const [questionTimers, setQuestionTimers] = useState<Record<string, number>>({});
   
+  const [timerStarted, setTimerStarted] = useState<Record<string, boolean>>({});
+
   const { toast } = useToast();
 
   const filterQuestions = (type: string) => LISTENING_DATA.filter(q => q.type === type);
@@ -45,17 +47,23 @@ export default function ListeningPractice() {
         filterQuestions(activeTab).forEach(q => {
           if (!showResults[q.id]) { // Count continuously until answered/submitted
              if (q.type === "SST") {
-                // Initialize SST timer to 10 minutes (600s) if undefined, otherwise decrement
+                // Initialize SST timer to 10 minutes (600s) if undefined
                 const currentTime = next[q.id] === undefined ? 600 : next[q.id];
-                next[q.id] = Math.max(0, currentTime - 1);
                 
-                if (currentTime === 60) { // Alert at 1 minute remaining
-                    toast({
-                        variant: "destructive",
-                        title: "Time Alert",
-                        description: "1 minute remaining!",
-                        duration: 3000
-                    });
+                // Only decrement if timer has started for this question
+                if (timerStarted[q.id]) {
+                    next[q.id] = Math.max(0, currentTime - 1);
+                    
+                    if (currentTime === 60) { // Alert at 1 minute remaining
+                        toast({
+                            variant: "destructive",
+                            title: "Time Alert",
+                            description: "1 minute remaining!",
+                            duration: 3000
+                        });
+                    }
+                } else {
+                    next[q.id] = 600; // Ensure it stays at 600 if not started
                 }
              } else {
                 // Count up for other types
@@ -81,7 +89,7 @@ export default function ListeningPractice() {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [activeTab, playingId, showResults, toast]);
+  }, [activeTab, playingId, showResults, toast, timerStarted]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -109,6 +117,10 @@ export default function ListeningPractice() {
   };
 
   const togglePlay = (id: string, text: string, type?: string, speed: number = 1.0) => {
+    if (type === "SST" && !timerStarted[id]) {
+        setTimerStarted(prev => ({ ...prev, [id]: true }));
+    }
+
     if (playingId === id) {
       window.speechSynthesis.cancel();
       setPlayingId(null);
@@ -153,6 +165,9 @@ export default function ListeningPractice() {
 
      setShowResults(prev => ({ ...prev, [id]: false }));
      setQuestionTimers(prev => ({ ...prev, [id]: 0 }));
+     if (type === "SST") {
+        setTimerStarted(prev => ({ ...prev, [id]: false }));
+     }
   };
 
   // Renderers for different question types
