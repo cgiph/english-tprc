@@ -520,6 +520,13 @@ export default function SpeakingPractice() {
           
           <CardContent className="flex-1 p-8 flex flex-col items-center justify-center space-y-8 text-center">
             
+            {/* Instruction for Describe Image (Moved above image) */}
+            {activeTab === "Describe Image" && (
+                <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border w-full max-w-2xl">
+                  Look at the picture below. In 25 seconds, speak into the microphone and describe in detail what the picture is showing. You will have 40 seconds to complete your response.
+                </div>
+            )}
+
             {/* Image Display */}
             {currentQuestion.imageUrl && (
               <div className="rounded-lg overflow-hidden border shadow-sm max-w-2xl w-full">
@@ -649,9 +656,6 @@ export default function SpeakingPractice() {
                
                {activeTab === "Describe Image" && (
                  <div className="space-y-6">
-                   <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
-                     Look at the picture below. In 25 seconds, speak into the microphone and describe in detail what the picture is showing. You will have 40 seconds to complete your response.
-                   </div>
                    <p className="text-muted-foreground italic">
                      {currentQuestion.content}
                    </p>
