@@ -44,20 +44,36 @@ export default function ListeningPractice() {
         
         filterQuestions(activeTab).forEach(q => {
           if (!showResults[q.id]) { // Count continuously until answered/submitted
-             const currentTime = next[q.id] || 0;
-             next[q.id] = currentTime + 1;
+             if (q.type === "SST") {
+                // Initialize SST timer to 10 minutes (600s) if undefined, otherwise decrement
+                const currentTime = next[q.id] === undefined ? 600 : next[q.id];
+                next[q.id] = Math.max(0, currentTime - 1);
+                
+                if (currentTime === 60) { // Alert at 1 minute remaining
+                    toast({
+                        variant: "destructive",
+                        title: "Time Alert",
+                        description: "1 minute remaining!",
+                        duration: 3000
+                    });
+                }
+             } else {
+                // Count up for other types
+                const currentTime = next[q.id] || 0;
+                next[q.id] = currentTime + 1;
 
-             // Alerts for specific types
-             // FIB-L, HIW, WFD
-             if (["FIB-L", "HIW", "WFD"].includes(q.type)) {
-               if (currentTime === 60) { // Alert at 60s for these types
-                  toast({
-                    variant: "destructive",
-                    title: "Time Alert",
-                    description: "You're taking a while! Try to answer faster.",
-                    duration: 3000
-                  });
-               }
+                // Alerts for specific types
+                // FIB-L, HIW, WFD
+                if (["FIB-L", "HIW", "WFD"].includes(q.type)) {
+                    if (currentTime === 60) { // Alert at 60s for these types
+                        toast({
+                            variant: "destructive",
+                            title: "Time Alert",
+                            description: "You're taking a while! Try to answer faster.",
+                            duration: 3000
+                        });
+                    }
+                }
              }
           }
         });
