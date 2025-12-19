@@ -137,25 +137,168 @@ export default function ListeningPractice() {
   };
 
   // Renderers for different question types
+import { Volume2, Settings, MoreVertical, Music } from "lucide-react";
+
+export default function ListeningPractice() {
+  const [activeTab, setActiveTab] = useState("SST");
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  
+  // State for user answers
+  const [sstAnswers, setSstAnswers] = useState<Record<string, string>>({});
+  // ... other states
+  
+  const [audioSpeed, setAudioSpeed] = useState(1.0);
+  const [volume, setVolume] = useState(1.0);
+  
+  // ... existing code ...
+
+  const togglePlay = (id: string, text: string, type?: string, speed: number = 1.0) => {
+    if (playingId === id) {
+      window.speechSynthesis.cancel();
+      setPlayingId(null);
+    } else {
+      window.speechSynthesis.cancel();
+      setPlayingId(id);
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = speed;
+      utterance.volume = volume;
+      
+      // Try to find a British voice
+      const voices = window.speechSynthesis.getVoices();
+      const britishVoice = voices.find(v => v.lang.includes("GB") || v.name.includes("UK"));
+      if (britishVoice) utterance.voice = britishVoice;
+
+      utterance.onend = () => {
+        if (type === "SMW") {
+          playBeep();
+        }
+        setPlayingId(null);
+      };
+      
+      utterance.onerror = () => setPlayingId(null);
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  const handleCut = (id: string) => {
+    const text = sstAnswers[id] || "";
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(() => {
+      setSstAnswers(prev => ({ ...prev, [id]: "" }));
+      toast({ description: "Text cut to clipboard" });
+    });
+  };
+
+  const handleCopy = (id: string) => {
+    const text = sstAnswers[id] || "";
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(() => {
+      toast({ description: "Text copied to clipboard" });
+    });
+  };
+
+  const handlePaste = async (id: string) => {
+    try {
+      const text = await navigator.clipboard.readText();
+      setSstAnswers(prev => ({ ...prev, [id]: (prev[id] || "") + text }));
+      toast({ description: "Text pasted from clipboard" });
+    } catch (err) {
+      toast({ variant: "destructive", description: "Failed to paste. Please use Ctrl+V." });
+    }
+  };
+
+  // ... renderers ...
+
   const renderSST = (q: ListeningQuestion) => (
-    <div className="space-y-4">
-      <div className="bg-blue-50 p-4 rounded-lg">
-        <p className="text-sm text-blue-800 font-medium mb-2">Prompt: {q.prompt}</p>
-        <Textarea 
-          placeholder="Type your summary here..." 
-          className="min-h-[120px]"
-          value={sstAnswers[q.id] || ""}
-          onChange={(e) => setSstAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
-        />
-        <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-          <span>Word count: {(sstAnswers[q.id] || "").split(/\s+/).filter(Boolean).length}</span>
-          <span>Target: 50-70 words</span>
-        </div>
-      </div>
+    <div className="space-y-6">
+       <div className="bg-slate-50 p-6 rounded-md text-sm leading-relaxed text-slate-800 border border-slate-200">
+         <p className="font-semibold mb-2">Instructions:</p>
+         You will hear a short lecture. Write a summary for a fellow student who was not present at the lecture. You should write 50-70 words. You have 10 minutes to finish this task. Your response will be judged on the Quality of Your writing and on how well your response presents the key points presented in the lecture.
+       </div>
+
+       {/* Audio Player Section */}
+       <div className="bg-slate-100 p-6 rounded-xl flex flex-col items-center gap-6 border border-slate-200 shadow-sm">
+          <div className="flex items-center gap-4 w-full justify-center">
+             <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
+                10
+             </div>
+             <span className="text-slate-500 font-medium text-lg">Ready</span>
+             
+             {/* Progress bar simulation */}
+             <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
+                <div 
+                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_30s_linear]" : "w-0")} 
+                />
+             </div>
+             
+             <div className="flex items-center gap-2 text-slate-500">
+               <Volume2 className="h-5 w-5" />
+               <div className="w-20 h-1 bg-blue-500 rounded-full"></div>
+               <Music className="h-4 w-4 ml-1" />
+             </div>
+          </div>
+          
+          <div className="flex flex-col items-center gap-4">
+             <div className="bg-white rounded-full px-4 py-2 shadow-sm flex items-center gap-4 border">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-10 w-10 hover:bg-slate-100 rounded-full" 
+                  onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                >
+                  {playingId === q.id ? <PauseCircle className="h-8 w-8 fill-slate-800 text-slate-800" /> : <PlayCircle className="h-8 w-8 fill-slate-800 text-slate-800" />}
+                </Button>
+                <div className="text-sm font-mono text-slate-500 min-w-[80px] text-center">
+                  {playingId === q.id ? "Playing..." : "0:00 / 1:32"}
+                </div>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400">
+                   <MoreVertical className="h-4 w-4" />
+                </Button>
+             </div>
+             
+             <div className="flex items-center gap-0 bg-teal-500 rounded-md overflow-hidden p-0.5">
+                {[0.8, 1.0, 1.2, 1.5, 2.0].map(speed => (
+                  <button
+                    key={speed}
+                    className={cn(
+                      "text-xs font-medium px-3 py-1.5 transition-colors", 
+                      audioSpeed === speed 
+                        ? "bg-teal-700 text-white shadow-sm rounded-sm" 
+                        : "text-white hover:bg-teal-600/50"
+                    )}
+                    onClick={() => setAudioSpeed(speed)}
+                  >
+                    {speed}x speed
+                  </button>
+                ))}
+             </div>
+          </div>
+       </div>
+
+       <Card className="border-slate-300 shadow-sm">
+         <CardContent className="p-0">
+            <Textarea 
+              placeholder="" 
+              className="min-h-[200px] resize-none text-base p-4 border-0 focus-visible:ring-0 rounded-none rounded-t-lg"
+              value={sstAnswers[q.id] || ""}
+              onChange={(e) => setSstAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
+            />
+            <div className="bg-slate-50 border-t p-2 flex justify-between items-center rounded-b-lg">
+               <div className="flex gap-2">
+                 <Button variant="outline" size="sm" className="bg-white hover:bg-slate-50 min-w-[80px] h-8 text-xs border-slate-300" onClick={() => handleCut(q.id)}>Cut</Button>
+                 <Button variant="outline" size="sm" className="bg-white hover:bg-slate-50 min-w-[80px] h-8 text-xs border-slate-300" onClick={() => handleCopy(q.id)}>Copy</Button>
+                 <Button variant="outline" size="sm" className="bg-white hover:bg-slate-50 min-w-[80px] h-8 text-xs border-slate-300" onClick={() => handlePaste(q.id)}>Paste</Button>
+               </div>
+               <span className="font-bold text-sm text-slate-700 mr-2">Total Word Count: {(sstAnswers[q.id] || "").split(/\s+/).filter(Boolean).length}</span>
+            </div>
+         </CardContent>
+       </Card>
+
       {showResults[q.id] && (
-        <div className="bg-green-50 p-4 rounded-lg border border-green-100 animate-in fade-in">
-          <p className="text-sm font-semibold text-green-800 mb-1">Transcript:</p>
-          <p className="text-sm text-green-700">{q.audioScript}</p>
+        <div className="bg-green-50 p-6 rounded-lg border border-green-100 animate-in fade-in shadow-sm">
+          <p className="text-sm font-semibold text-green-800 mb-2 uppercase tracking-wide">Transcript</p>
+          <p className="text-base text-green-800 leading-relaxed">{q.audioScript}</p>
         </div>
       )}
     </div>
