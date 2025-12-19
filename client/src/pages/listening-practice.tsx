@@ -389,9 +389,9 @@ export default function ListeningPractice() {
 
                     <Button 
                       onClick={() => checkAnswer(q.id)} 
-                      variant={showResults[q.id] ? "outline" : "secondary"}
+                      variant={showResults[q.id] ? "outline" : "default"}
                     >
-                      {showResults[q.id] ? "Hide Answer" : "Check Answer"}
+                      {showResults[q.id] ? "Hide Answer" : "Submit"}
                     </Button>
                   </div>
                 </CardContent>
