@@ -186,7 +186,7 @@ export default function ListeningPractice() {
   // Renderers for different question types
 
   const renderQuestionHeader = (q: ListeningQuestion) => (
-    <div className="bg-[#007da5] text-white p-3 flex justify-between items-center rounded-t-md mb-4 shadow-sm">
+    <div className="bg-blue-600 text-white p-3 flex justify-between items-center rounded-t-md mb-4 shadow-sm">
       <div className="flex items-center gap-2">
         <span className="font-semibold text-sm">
             {q.id} (#{q.id})
