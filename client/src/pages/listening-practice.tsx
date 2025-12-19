@@ -401,8 +401,72 @@ export default function ListeningPractice() {
     let inputIndex = 0;
 
     return (
-      <div className="space-y-4">
-        <div className="leading-8 text-lg">
+      <div className="space-y-6">
+       <div className="bg-slate-50 p-6 rounded-md text-sm leading-relaxed text-slate-800 border border-slate-200">
+         <p className="font-semibold mb-2">Instructions:</p>
+         You will hear a recording. Type the missing words in each blank.
+       </div>
+
+       {/* Audio Player Section */}
+       <div className="bg-slate-100 p-6 rounded-xl flex flex-col items-center gap-6 border border-slate-200 shadow-sm">
+          <div className="flex items-center gap-4 w-full justify-center">
+             <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
+                2
+             </div>
+             <span className="text-slate-500 font-medium text-lg">Ready</span>
+             
+             {/* Progress bar simulation */}
+             <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
+                <div 
+                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_30s_linear]" : "w-0")} 
+                />
+             </div>
+             
+             <div className="flex items-center gap-2 text-slate-500">
+               <Volume2 className="h-5 w-5" />
+               <div className="w-20 h-1 bg-blue-500 rounded-full"></div>
+               <Music className="h-4 w-4 ml-1" />
+             </div>
+          </div>
+          
+          <div className="flex flex-col items-center gap-4">
+             <div className="bg-white rounded-full px-4 py-2 shadow-sm flex items-center gap-4 border">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-10 w-10 hover:bg-slate-100 rounded-full" 
+                  onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                >
+                  {playingId === q.id ? <PauseCircle className="h-8 w-8 fill-slate-800 text-slate-800" /> : <PlayCircle className="h-8 w-8 fill-slate-800 text-slate-800" />}
+                </Button>
+                <div className="text-sm font-mono text-slate-500 min-w-[80px] text-center">
+                  {playingId === q.id ? "Playing..." : "0:00 / 1:09"}
+                </div>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400">
+                   <MoreVertical className="h-4 w-4" />
+                </Button>
+             </div>
+             
+             <div className="flex items-center gap-0 bg-teal-500 rounded-md overflow-hidden p-0.5">
+                {[0.8, 1.0, 1.2, 1.5, 2.0].map(speed => (
+                  <button
+                    key={speed}
+                    className={cn(
+                      "text-xs font-medium px-3 py-1.5 transition-colors", 
+                      audioSpeed === speed 
+                        ? "bg-teal-700 text-white shadow-sm rounded-sm" 
+                        : "text-white hover:bg-teal-600/50"
+                    )}
+                    onClick={() => setAudioSpeed(speed)}
+                  >
+                    {speed}x speed
+                  </button>
+                ))}
+             </div>
+          </div>
+       </div>
+
+        <div className="leading-9 text-lg text-slate-800">
           {parts.map((part, idx) => {
             if (part.startsWith('[') && part.endsWith(']')) {
               const answer = part.slice(1, -1);
@@ -412,11 +476,11 @@ export default function ListeningPractice() {
               return (
                 <span key={idx} className="inline-block mx-1">
                   <Input 
-                    className={`h-8 w-32 inline-block text-center ${
+                    className={`h-8 w-40 inline-block px-2 py-0 border border-slate-400 rounded-sm bg-white focus:ring-1 focus:ring-blue-500 text-base ${
                       showResults[q.id] 
                         ? userAnswer.toLowerCase() === answer.toLowerCase() 
-                          ? "border-green-500 bg-green-50 text-green-700" 
-                          : "border-red-500 bg-red-50 text-red-700"
+                          ? "border-green-500 bg-green-50 text-green-700 font-medium" 
+                          : "border-red-500 bg-red-50 text-red-700 font-medium"
                         : ""
                     }`}
                     value={userAnswer}
@@ -427,7 +491,7 @@ export default function ListeningPractice() {
                     }}
                   />
                   {showResults[q.id] && userAnswer.toLowerCase() !== answer.toLowerCase() && (
-                    <span className="text-xs text-green-600 font-bold block text-center">{answer}</span>
+                    <span className="text-xs text-green-600 font-bold block ml-1">{answer}</span>
                   )}
                 </span>
               );
