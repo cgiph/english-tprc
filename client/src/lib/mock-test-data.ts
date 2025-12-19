@@ -62,43 +62,6 @@ const QUESTION_BANK: MockQuestion[] = [
     correctAnswer: "innovation", // Mapping for UI
     time_limit_seconds: 30,
     max_score: 2
-  },
-  {
-    id: "Q001",
-    section: "Speaking",
-    type: "Read Aloud",
-    title: "Technology Communication",
-    prompt: "Read the following text aloud.",
-    stimulus: "Technology has rapidly transformed the way people communicate.",
-    content: "Technology has rapidly transformed the way people communicate.", // Mapping for UI
-    time_limit_seconds: 40,
-    max_score: 5
-  },
-  {
-    id: "Q002",
-    section: "Reading",
-    type: "Multiple Choice (Single)",
-    title: "Main Idea",
-    prompt: "What is the main idea of the passage?",
-    text: "Passage text would go here...", // Placeholder for context
-    options: ["Option A", "Option B", "Option C"],
-    correct: "Option B",
-    correctAnswer: "Option B", // Mapping for UI
-    time_limit_seconds: 90,
-    max_score: 2
-  },
-  {
-    id: "Q003",
-    section: "Listening",
-    type: "Fill in the Blanks", // Changed from FillBlank to match UI
-    title: "Innovation Audio",
-    prompt: "Fill in the missing word you hear.",
-    stimulus: "audio_url_placeholder",
-    audioScript: "The key to success is often innovation.", // Mock script for audio
-    correct: "innovation",
-    correctAnswer: "innovation", // Mapping for UI
-    time_limit_seconds: 30,
-    max_score: 2
   }
 ];
 
