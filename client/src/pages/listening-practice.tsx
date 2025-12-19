@@ -39,14 +39,9 @@ export default function ListeningPractice() {
     const interval = setInterval(() => {
       setQuestionTimers(prev => {
         const next = { ...prev };
-        // Only increment timer if audio is NOT playing for that question, 
-        // assuming timer counts "answering time" after audio.
-        // But simplified: just count time since component mount/reset, maybe pause during audio?
-        // Requirement: "audio timer plus answering time". 
-        // Let's just count total time for simplicity and alert on answering time threshold.
         
         filterQuestions(activeTab).forEach(q => {
-          if (playingId !== q.id && !showResults[q.id]) { // Count only when not playing audio and not finished
+          if (!showResults[q.id]) { // Count continuously until answered/submitted
              const currentTime = next[q.id] || 0;
              next[q.id] = currentTime + 1;
 
@@ -76,13 +71,33 @@ export default function ListeningPractice() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const togglePlay = (id: string, text: string) => {
+  const playBeep = () => {
+    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContext) return;
+    
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(800, ctx.currentTime);
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    
+    osc.start();
+    osc.stop(ctx.currentTime + 0.3); // 300ms beep
+  };
+
+  const togglePlay = (id: string, text: string, type?: string) => {
     if (playingId === id) {
       window.speechSynthesis.cancel();
       setPlayingId(null);
     } else {
       window.speechSynthesis.cancel();
       setPlayingId(id);
+      
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 1.0;
       
@@ -91,7 +106,13 @@ export default function ListeningPractice() {
       const britishVoice = voices.find(v => v.lang.includes("GB") || v.name.includes("UK"));
       if (britishVoice) utterance.voice = britishVoice;
 
-      utterance.onend = () => setPlayingId(null);
+      utterance.onend = () => {
+        if (type === "SMW") {
+          playBeep();
+        }
+        setPlayingId(null);
+      };
+      
       utterance.onerror = () => setPlayingId(null);
       window.speechSynthesis.speak(utterance);
     }
@@ -361,7 +382,7 @@ export default function ListeningPractice() {
                         size="icon"
                         variant={playingId === q.id ? "destructive" : "default"}
                         className="rounded-full shadow-md"
-                        onClick={() => togglePlay(q.id, q.audioScript)}
+                        onClick={() => togglePlay(q.id, q.audioScript, q.type)}
                       >
                         {playingId === q.id ? <PauseCircle className="h-6 w-6" /> : <PlayCircle className="h-6 w-6" />}
                       </Button>
