@@ -11,16 +11,20 @@ export interface SpeakingScore {
 export const calculateSpeakingScore = (
   taskType: SpeakingTaskType, 
   durationSeconds: number, 
-  isSimulated: boolean = false
+  isSimulated: boolean = false,
+  hasSpeechDetected: boolean = true // Default to true for backward compatibility if not passed, but we pass it now
 ): SpeakingScore => {
   // If duration is effectively zero or very short (no recording), return 0 score
-  if (durationSeconds < 3) {
+  // OR if no speech was detected by VAD
+  if (durationSeconds < 3 || !hasSpeechDetected) {
     return {
       overall: 0,
       content: 10,
       fluency: 10,
       pronunciation: 10,
-      feedback: "No recording detected or recording was too short. Please try again."
+      feedback: !hasSpeechDetected 
+        ? "No voice detected. Please speak clearly into the microphone." 
+        : "Recording was too short. Please try again."
     };
   }
 

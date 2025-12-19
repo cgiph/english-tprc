@@ -47,8 +47,13 @@ export default function SpeakingPractice() {
   const [recordingDuration, setRecordingDuration] = useState(0);
   const [score, setScore] = useState<SpeakingScore | null>(null);
   const [isScoring, setIsScoring] = useState(false);
+  const [hasSpeechDetected, setHasSpeechDetected] = useState(false); // New state for VAD
   
   const silenceIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const dataArrayRef = useRef<Uint8Array | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
 
   const { toast } = useToast();
 
@@ -155,9 +160,50 @@ export default function SpeakingPractice() {
     try {
       setRecordedChunks([]);
       setRecordedAudioUrl(null);
+      setHasSpeechDetected(false); // Reset VAD state
       
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
+      
+      // Setup VAD (Voice Activity Detection)
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const analyser = audioContext.createAnalyser();
+      const source = audioContext.createMediaStreamSource(stream);
+      
+      source.connect(analyser);
+      analyser.fftSize = 256;
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      
+      audioContextRef.current = audioContext;
+      analyserRef.current = analyser;
+      dataArrayRef.current = dataArray;
+      sourceRef.current = source;
+      
+      // VAD loop
+      const checkAudioLevel = () => {
+        if (!analyserRef.current || !dataArrayRef.current) return;
+        
+        analyserRef.current.getByteFrequencyData(dataArrayRef.current);
+        
+        // Calculate average volume
+        let sum = 0;
+        for(let i = 0; i < dataArrayRef.current.length; i++) {
+            sum += dataArrayRef.current[i];
+        }
+        const average = sum / dataArrayRef.current.length;
+        
+        // Threshold for "speech" (adjust > 15-20 usually works for voice vs silence)
+        if (average > 20) {
+            setHasSpeechDetected(true);
+        }
+        
+        if (recorder.state === "recording") {
+            requestAnimationFrame(checkAudioLevel);
+        }
+      };
+      
+      requestAnimationFrame(checkAudioLevel);
       
       const chunks: Blob[] = [];
       recorder.ondataavailable = (e) => {
@@ -172,6 +218,12 @@ export default function SpeakingPractice() {
         setRecordedAudioUrl(url);
         setRecordedChunks(chunks);
         stream.getTracks().forEach(track => track.stop()); 
+        
+        // Clean up VAD
+        if (audioContextRef.current) {
+            audioContextRef.current.close();
+            audioContextRef.current = null;
+        }
       };
 
       // Request data every 1s to ensure we have chunks even if stopped early
@@ -186,12 +238,13 @@ export default function SpeakingPractice() {
       });
       
       // Fallback: Simulate a recording so playback isn't empty
-      // Create a dummy blob or just a timer to set a fake URL?
-      // We can't easily create a fake audio blob without Web Audio API complex setup.
-      // We'll just simulate the state so the UI doesn't break, but playback won't produce sound.
-      // OR we can use a very short silent audio base64 if needed.
-      
       setMediaRecorder(null);
+      // In simulation mode, we assume "speech" if they don't have a mic, or random?
+      // Let's assume false to prevent 0-second high scores, unless we simulate speech.
+      // Actually, if it's simulated, we can't detect speech. 
+      // Let's force hasSpeechDetected = true for simulation to assume they are "testing" logic,
+      // BUT with a 0 duration check elsewhere it should be fine.
+      setHasSpeechDetected(true); 
     }
   };
 
@@ -200,9 +253,6 @@ export default function SpeakingPractice() {
       mediaRecorder.stop();
     } else {
         // If we were in simulated mode (mediaRecorder is null but status was recording)
-        // We should set a dummy URL so "Playback" button works (even if silent/fake)
-        // so the user doesn't see "No Recording" error.
-        // Use a placeholder audio for simulation
         setRecordedAudioUrl("https://actions.google.com/sounds/v1/alarms/beep_short.ogg"); // Dummy file
     }
   };
@@ -448,7 +498,7 @@ export default function SpeakingPractice() {
     setTimeout(() => {
       // Calculate mock score based on task and duration
       // In real app, we'd send the audio blob to backend
-      const newScore = calculateSpeakingScore(activeTab, recordingDuration);
+      const newScore = calculateSpeakingScore(activeTab, recordingDuration, false, hasSpeechDetected);
       setScore(newScore);
       setIsScoring(false);
       toast({
