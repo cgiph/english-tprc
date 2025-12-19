@@ -14,7 +14,7 @@ export const calculateSpeakingScore = (
   isSimulated: boolean = false
 ): SpeakingScore => {
   // If duration is effectively zero or very short (no recording), return 0 score
-  if (durationSeconds < 1) {
+  if (durationSeconds < 3) {
     return {
       overall: 0,
       content: 10,

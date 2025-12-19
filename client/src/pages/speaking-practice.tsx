@@ -214,6 +214,29 @@ export default function SpeakingPractice() {
       });
       return;
     }
+    
+    // For Retell Lecture, Summarize Group Discussion, and Respond to a Situation
+    // Audio plays immediately, then 10s prep, then recording
+    if (activeTab === "Retell Lecture" || activeTab === "Summarize Group Discussion" || activeTab === "Respond to a Situation") {
+      setStatus("playing");
+      toast({
+        title: "Audio Playing",
+        description: "Listen carefully...",
+      });
+      
+      // Use audioScript if available, otherwise content (for Respond to a Situation)
+      const textToPlay = currentQuestion.audioScript || currentQuestion.content;
+      
+      speakText(textToPlay, () => {
+        setStatus("preparing"); // Reusing "preparing" state which triggers countdown
+        setTimeLeft(10); // 10s prep
+        toast({
+           title: "Preparation",
+           description: "You have 10 seconds to prepare.",
+        });
+      });
+      return;
+    }
 
     setStatus("preparing");
     setTimeLeft(40); // 40s prep
