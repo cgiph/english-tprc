@@ -280,24 +280,57 @@ export default function SpeakingPractice() {
       return;
     }
     
-    // For Retell Lecture, Summarize Group Discussion, and Respond to a Situation
+    // For Retell Lecture and Summarize Group Discussion
     // Audio plays immediately, then 10s prep, then recording
-    if (activeTab === "Retell Lecture" || activeTab === "Summarize Group Discussion" || activeTab === "Respond to a Situation") {
+    if (activeTab === "Retell Lecture" || activeTab === "Summarize Group Discussion") {
       setStatus("playing");
       toast({
         title: "Audio Playing",
         description: "Listen carefully...",
       });
       
-      // Use audioScript if available, otherwise content (for Respond to a Situation)
       const textToPlay = currentQuestion.audioScript || currentQuestion.content;
       
+      // Use speakConversation for SGD to get multiple voices
+      if (activeTab === "Summarize Group Discussion") {
+         speakConversation(textToPlay, () => {
+            setStatus("preparing");
+            setTimeLeft(10);
+            toast({
+               title: "Preparation",
+               description: "You have 10 seconds to prepare.",
+            });
+         });
+      } else {
+         speakText(textToPlay, () => {
+            setStatus("preparing");
+            setTimeLeft(10); 
+            toast({
+               title: "Preparation",
+               description: "You have 10 seconds to prepare.",
+            });
+         });
+      }
+      return;
+    }
+
+    // For Respond to a Situation
+    // Audio plays (situation description), then 20s prep, then recording
+    if (activeTab === "Respond to a Situation") {
+      setStatus("playing");
+      toast({
+        title: "Audio Playing",
+        description: "Listen to the situation...",
+      });
+      
+      const textToPlay = currentQuestion.content; // The situation description
+      
       speakText(textToPlay, () => {
-        setStatus("preparing"); // Reusing "preparing" state which triggers countdown
-        setTimeLeft(10); // 10s prep
+        setStatus("preparing");
+        setTimeLeft(20); // 20s prep for Respond to a Situation
         toast({
            title: "Preparation",
-           description: "You have 10 seconds to prepare.",
+           description: "You have 20 seconds to prepare.",
         });
       });
       return;
@@ -596,6 +629,9 @@ export default function SpeakingPractice() {
 
               {activeTab === "Respond to a Situation" && (
                 <div className="bg-blue-50 border border-blue-100 p-6 rounded-xl text-left space-y-4">
+                  <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border mb-4">
+                    You will listen to a description of a situation. You will have 20 seconds to prepare your response. After the beep, speak into the microphone and respond to the situation. You will have 40 seconds to complete your response.
+                  </div>
                   <div className="flex items-center gap-2 text-blue-700 font-bold">
                     <AlertCircle className="h-5 w-5" />
                     Situation
@@ -603,6 +639,11 @@ export default function SpeakingPractice() {
                   <p className="text-lg text-blue-900">
                     {currentQuestion.content}
                   </p>
+                  
+                  <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto cursor-pointer hover:bg-blue-200 transition-colors mt-4" onClick={() => speakText(currentQuestion.content)}>
+                     <Volume2 className="h-10 w-10 text-blue-700" />
+                  </div>
+                  <p className="text-center text-sm text-muted-foreground">Click Start or the icon above to listen</p>
                 </div>
               )}
                
