@@ -974,8 +974,35 @@ export default function FullMockTest() {
                 </div>
               </div>
 
+              <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                <h3 className="text-lg font-bold flex items-center gap-2 mb-2 text-primary">
+                  <span>📖</span> READING
+                </h3>
+                <div className="text-sm text-muted-foreground mb-4">
+                  <p>Group time: 29–30 minutes</p>
+                  <p>Total questions: 13–18</p>
+                </div>
+                
+                <div className="border rounded-md overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-100">
+                      <tr>
+                        <th className="px-4 py-2 text-left font-medium text-slate-700">Task Type</th>
+                        <th className="px-4 py-2 text-left font-medium text-slate-700">Typical No.</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y">
+                      <tr><td className="px-4 py-2">Fill in the Blanks (R&W – drag & drop)</td><td className="px-4 py-2">5–6</td></tr>
+                      <tr><td className="px-4 py-2">Re-order Paragraphs</td><td className="px-4 py-2">2–3</td></tr>
+                      <tr><td className="px-4 py-2">Fill in the Blanks (Reading – type-in)</td><td className="px-4 py-2">4–5</td></tr>
+                      <tr><td className="px-4 py-2">MCQ – Single Answer</td><td className="px-4 py-2">1–2</td></tr>
+                      <tr><td className="px-4 py-2">MCQ – Multiple Answers</td><td className="px-4 py-2">1–2</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
               <ul className="list-disc pl-5 space-y-2 text-muted-foreground text-sm">
-                <li><strong>Reading:</strong> Fill in Blanks, MCQ, Reorder Paragraphs.</li>
                 <li><strong>Listening:</strong> Summarize Spoken Text, MCQ, Dictation.</li>
               </ul>
               
