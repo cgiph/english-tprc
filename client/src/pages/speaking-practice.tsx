@@ -616,7 +616,7 @@ export default function SpeakingPractice() {
                        <div className="h-full bg-secondary w-1/2 animate-[pulse_2s_ease-in-out_infinite]" />
                      </div>
                    </div>
-                   <Button variant="ghost" size="sm" onClick={() => setShowTranscript(!showTranscript)} className="gap-2" disabled={activeTab === "Summarize Group Discussion" && status !== "completed"}>
+                   <Button variant="ghost" size="sm" onClick={() => setShowTranscript(!showTranscript)} className="gap-2" disabled={(activeTab === "Summarize Group Discussion" || activeTab === "Retell Lecture") && status !== "completed"}>
                      <FileText className="h-4 w-4" /> 
                      {showTranscript ? "Hide Transcript" : "View Transcript"}
                    </Button>
