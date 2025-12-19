@@ -305,29 +305,131 @@ export default function ListeningPractice() {
   );
 
   const renderMCMA = (q: ListeningQuestion) => (
-    <div className="space-y-4">
-      <p className="font-medium text-sm">{q.prompt}</p>
-      <div className="space-y-2">
-        {q.options?.map((option) => (
-          <div key={option} className="flex items-center space-x-2">
-            <Checkbox 
-              id={`${q.id}-${option}`}
-              checked={(mcmaAnswers[q.id] || []).includes(option)}
-              onCheckedChange={(checked) => {
-                const current = mcmaAnswers[q.id] || [];
-                if (checked) {
-                  setMcmaAnswers(prev => ({ ...prev, [q.id]: [...current, option] }));
-                } else {
-                  setMcmaAnswers(prev => ({ ...prev, [q.id]: current.filter(o => o !== option) }));
-                }
-              }}
-            />
-            <Label htmlFor={`${q.id}-${option}`} className="text-sm cursor-pointer">{option}</Label>
-            {showResults[q.id] && (q.correctAnswer as string[])?.includes(option) && (
-              <CheckCircle2 className="h-4 w-4 text-green-600 ml-2" />
-            )}
+    <div className="space-y-6">
+       <div className="bg-slate-50 p-6 rounded-md text-sm leading-relaxed text-slate-800 border border-slate-200">
+         <p className="font-semibold mb-2">Instructions:</p>
+         Listen to the recording and answer the question by selecting all the correct responses. You will need to select more than one response.
+       </div>
+
+       {/* Audio Player Section */}
+       <div className="bg-slate-100 p-6 rounded-xl flex flex-col items-center gap-6 border border-slate-200 shadow-sm">
+          <div className="flex items-center gap-4 w-full justify-center">
+             <div className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-slate-400 font-bold text-slate-600 bg-white shadow-sm text-lg">
+                6
+             </div>
+             <span className="text-slate-500 font-medium text-lg">Ready</span>
+             
+             {/* Progress bar simulation */}
+             <div className="h-3 flex-1 bg-slate-300 rounded-full overflow-hidden max-w-md mx-4 relative">
+                <div 
+                  className={cn("h-full bg-blue-500 origin-left transition-all duration-1000 ease-linear", playingId === q.id ? "w-full animate-[progress_30s_linear]" : "w-0")} 
+                />
+             </div>
+             
+             <div className="flex items-center gap-2 text-slate-500">
+               <Volume2 className="h-5 w-5" />
+               <div className="w-20 h-1 bg-blue-500 rounded-full"></div>
+               <Music className="h-4 w-4 ml-1" />
+             </div>
           </div>
-        ))}
+          
+          <div className="flex flex-col items-center gap-4">
+             <div className="bg-white rounded-full px-4 py-2 shadow-sm flex items-center gap-4 border">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-10 w-10 hover:bg-slate-100 rounded-full" 
+                  onClick={() => togglePlay(q.id, q.audioScript, q.type, audioSpeed)}
+                >
+                  {playingId === q.id ? <PauseCircle className="h-8 w-8 fill-slate-800 text-slate-800" /> : <PlayCircle className="h-8 w-8 fill-slate-800 text-slate-800" />}
+                </Button>
+                <div className="text-sm font-mono text-slate-500 min-w-[80px] text-center">
+                  {playingId === q.id ? "Playing..." : "0:00 / 2:18"}
+                </div>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400">
+                   <MoreVertical className="h-4 w-4" />
+                </Button>
+             </div>
+             
+             <div className="flex items-center gap-0 bg-teal-500 rounded-md overflow-hidden p-0.5">
+                {[0.8, 1.0, 1.2, 1.5, 2.0].map(speed => (
+                  <button
+                    key={speed}
+                    className={cn(
+                      "text-xs font-medium px-3 py-1.5 transition-colors", 
+                      audioSpeed === speed 
+                        ? "bg-teal-700 text-white shadow-sm rounded-sm" 
+                        : "text-white hover:bg-teal-600/50"
+                    )}
+                    onClick={() => setAudioSpeed(speed)}
+                  >
+                    {speed}x speed
+                  </button>
+                ))}
+             </div>
+          </div>
+       </div>
+
+      <div className="space-y-4">
+        <p className="font-semibold text-lg text-slate-800">{q.prompt}</p>
+        <div className="space-y-2">
+          {q.options?.map((option) => {
+             const isChecked = (mcmaAnswers[q.id] || []).includes(option);
+             const isCorrect = (q.correctAnswer as string[])?.includes(option);
+             
+             let borderClass = "border-slate-200";
+             let bgClass = "bg-white hover:bg-slate-50";
+             
+             if (showResults[q.id]) {
+                if (isCorrect) {
+                  borderClass = "border-green-500 bg-green-50/50";
+                } else if (isChecked && !isCorrect) {
+                  borderClass = "border-red-500 bg-red-50/50";
+                }
+             } else if (isChecked) {
+                bgClass = "bg-slate-100 border-blue-400";
+             }
+             
+             return (
+              <div 
+                key={option} 
+                className={cn(
+                  "flex items-center space-x-3 p-4 rounded-md border transition-all cursor-pointer",
+                  borderClass,
+                  bgClass
+                )}
+                onClick={() => {
+                  if (showResults[q.id]) return;
+                  const current = mcmaAnswers[q.id] || [];
+                  if (current.includes(option)) {
+                    setMcmaAnswers(prev => ({ ...prev, [q.id]: current.filter(o => o !== option) }));
+                  } else {
+                    setMcmaAnswers(prev => ({ ...prev, [q.id]: [...current, option] }));
+                  }
+                }}
+              >
+                <Checkbox 
+                  id={`${q.id}-${option}`}
+                  checked={isChecked}
+                  onCheckedChange={() => {}} // Handled by parent div
+                  className={cn(
+                    "data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600",
+                    showResults[q.id] && isCorrect ? "border-green-600 text-green-600" : ""
+                  )}
+                />
+                <Label 
+                  htmlFor={`${q.id}-${option}`} 
+                  className="text-base cursor-pointer flex-1 font-medium text-slate-700"
+                >
+                  {option}
+                </Label>
+                {showResults[q.id] && isCorrect && (
+                  <CheckCircle2 className="h-5 w-5 text-green-600 ml-2" />
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
