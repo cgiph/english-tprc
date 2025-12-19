@@ -580,7 +580,7 @@ export default function SpeakingPractice() {
                     <Volume2 className="h-8 w-8 text-primary" />
                   </div>
                   <p className="text-sm text-muted-foreground">Click Start or the icon above to listen, then answer.</p>
-                  <Button variant="secondary" onClick={() => setShowTranscript(!showTranscript)}>
+                  <Button variant="secondary" onClick={() => setShowTranscript(!showTranscript)} disabled={status !== "completed"}>
                     {showTranscript ? "Hide Question" : "Show Question"}
                   </Button>
                   {showTranscript && (
