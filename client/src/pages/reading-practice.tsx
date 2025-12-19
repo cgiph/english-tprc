@@ -125,43 +125,62 @@ export default function ReadingPractice() {
 
       case "Multiple Choice (Multiple)":
         return (
-          <div className="space-y-6">
-            <p className="text-lg leading-relaxed">{currentQuestion.text}</p>
-            {currentQuestion.prompt && (
-              <p className="font-medium text-primary bg-primary/5 p-3 rounded-md border border-primary/10">
-                {currentQuestion.prompt}
-              </p>
-            )}
-            <div className="space-y-3">
-              {currentQuestion.options?.map((option) => {
-                const isSelected = (answers[questionId] || []).includes(option);
-                const isCorrect = (currentQuestion.correctAnswer as string[]).includes(option);
-                
-                return (
-                  <div key={option} className={cn(
-                    "flex items-center space-x-2 p-4 rounded-lg border transition-colors",
-                    showResult && isCorrect ? "bg-green-50 border-green-500" : "",
-                    showResult && isSelected && !isCorrect ? "bg-red-50 border-red-500" : "",
-                    !showResult && "hover:bg-accent"
-                  )}>
-                    <Checkbox 
-                      id={option} 
-                      checked={isSelected}
-                      disabled={showResult}
-                      onCheckedChange={(checked) => {
+          <div className="grid md:grid-cols-2 gap-8 h-full">
+            <div className="bg-muted/30 p-6 rounded-lg border text-lg leading-relaxed h-full overflow-y-auto max-h-[600px] shadow-inner">
+               {currentQuestion.text.split('\n\n').map((para, i) => (
+                 <p key={i} className="mb-4 last:mb-0">{para}</p>
+               ))}
+            </div>
+            
+            <div className="space-y-6">
+               <div className="bg-blue-50/50 p-4 rounded-lg border border-blue-100">
+                  <p className="text-sm font-semibold text-primary mb-2">Read the text and answer the multiple-choice question by selecting the correct response. More than one response is correct.</p>
+                  <p className="font-medium text-lg">{currentQuestion.prompt}</p>
+               </div>
+               
+               <div className="space-y-3">
+                 {currentQuestion.options?.map((option) => {
+                  const isSelected = (answers[questionId] || []).includes(option);
+                  const isCorrect = (currentQuestion.correctAnswer as string[]).includes(option);
+                  
+                  return (
+                    <div key={option} className={cn(
+                      "flex items-start space-x-3 p-4 rounded-lg border transition-all cursor-pointer",
+                      showResult && isCorrect ? "bg-green-50 border-green-500 shadow-sm" : "",
+                      showResult && isSelected && !isCorrect ? "bg-red-50 border-red-500 shadow-sm" : "",
+                      !showResult && isSelected ? "bg-primary/5 border-primary shadow-sm" : "hover:bg-accent",
+                      !showResult && "hover:border-primary/50"
+                    )}
+                    onClick={() => {
+                        if (showResult) return;
                         const current = answers[questionId] || [];
-                        if (checked) {
-                          setAnswers(prev => ({ ...prev, [questionId]: [...current, option] }));
-                        } else {
+                        if (isSelected) {
                           setAnswers(prev => ({ ...prev, [questionId]: current.filter((i: string) => i !== option) }));
+                        } else {
+                          setAnswers(prev => ({ ...prev, [questionId]: [...current, option] }));
                         }
-                      }}
-                    />
-                    <Label htmlFor={option} className="flex-1 cursor-pointer text-base font-medium">{option}</Label>
-                    {showResult && isCorrect && <Check className="h-5 w-5 text-green-600" />}
-                  </div>
-                );
-              })}
+                    }}
+                    >
+                      <Checkbox 
+                        id={option} 
+                        checked={isSelected}
+                        disabled={showResult}
+                        className="mt-1"
+                        onCheckedChange={(checked) => {
+                          const current = answers[questionId] || [];
+                          if (checked) {
+                            setAnswers(prev => ({ ...prev, [questionId]: [...current, option] }));
+                          } else {
+                            setAnswers(prev => ({ ...prev, [questionId]: current.filter((i: string) => i !== option) }));
+                          }
+                        }}
+                      />
+                      <Label htmlFor={option} className="flex-1 cursor-pointer text-base leading-relaxed pointer-events-none">{option}</Label>
+                      {showResult && isCorrect && <Check className="h-5 w-5 text-green-600 shrink-0" />}
+                    </div>
+                  );
+                })}
+               </div>
             </div>
           </div>
         );

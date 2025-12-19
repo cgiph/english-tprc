@@ -235,6 +235,28 @@ export const READING_QUESTIONS: Record<ReadingTaskType, ReadingQuestion[]> = {
       prompt: "What are the characteristics of mammals?",
       options: ["Have hair/fur", "Lay eggs", "Produce milk", "Warm-blooded", "Cold-blooded"],
       correctAnswer: ["Have hair/fur", "Produce milk", "Warm-blooded"]
+    },
+    {
+      id: "mcm-11",
+      type: "Multiple Choice (Multiple)",
+      difficulty: "Difficult",
+      title: "The Old Man of the Lake",
+      text: "Small, localised enterprises are becoming ever-more imaginative in identifying opportunities to boost tourism for their areas. A more unusual attraction is the Old Man of the Lake, which is the name given to a 9-metre-tall tree stump that has been bobbing vertically in Oregon’s Crater Lake since at least 1896. For over one hundred years, it has been largely ignored but recently it has become a must-see item on the list of lake attractions. Since January 2012, tour boats regularly include the Old Man on their sightseeing trips around the lake.\n\nAt the waterline, the stump is about 60 centimetres in diameter, and the exposed part stands approximately 120 centimetres above the surface of the water. Over the years, the stump has been bleached white by the elements. The exposed end of the floating tree is splintered and worn but wide and buoyant enough to support a person’s weight.\n\nObservations indicated that the Old Man of Crater lake travels quite extensively, and sometimes with surprising rapidity. Since it can be seen Virtually anywhere on the lake, boat pilots commonly communicate its position to each other as a general matter of safety.",
+      prompt: "Which of the following are true of the Old Man of the lake according to the passage?",
+      options: [
+         "It has been a tourist attraction for decades.",
+         "It is a drifting piece of wood.",
+         "It is close to the edge of Crater Lake.",
+         "It is owned by a local businessman.",
+         "It can quickly move about the lake.",
+         "It can be a danger to boat users.",
+         "It is too small for someone to stand on."
+      ],
+      correctAnswer: [
+         "It is a drifting piece of wood.",
+         "It can quickly move about the lake.",
+         "It can be a danger to boat users."
+      ]
     }
   ],
   "R&W Fill in the Blanks": [
