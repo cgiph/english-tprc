@@ -387,13 +387,13 @@ export default function VocabularyTool() {
         </div>
       </div>
 
-      <Tabs defaultValue="vocabulary" className="space-y-6">
+      <Tabs defaultValue="phonemic-chart" className="space-y-6">
         <TabsList className="grid w-full grid-cols-5 max-w-5xl">
+          <TabsTrigger value="phonemic-chart">Phonemic Chart</TabsTrigger>
           <TabsTrigger value="vocabulary">Vocabulary Words</TabsTrigger>
           <TabsTrigger value="collocations">Common Collocations</TabsTrigger>
           <TabsTrigger value="confused">Confused Words</TabsTrigger>
           <TabsTrigger value="misspelled">Misspelled Words</TabsTrigger>
-          <TabsTrigger value="phonemic-chart">Phonemic Chart</TabsTrigger>
         </TabsList>
 
         <TabsContent value="vocabulary" className="space-y-6">
