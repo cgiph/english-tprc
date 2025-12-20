@@ -140,7 +140,6 @@ export default function TypingPractice() {
           Improve your typing speed and accuracy for the PTE Written Discourse tasks.
         </p>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="bg-primary/5 border-primary/20">
           <CardContent className="p-6 flex flex-col items-center justify-center text-center">
@@ -172,7 +171,6 @@ export default function TypingPractice() {
           </CardContent>
         </Card>
       </div>
-
       <Card className="border-2 shadow-lg">
         <CardHeader className="border-b bg-muted/10 pb-4">
           <div className="flex justify-between items-center">
@@ -261,11 +259,10 @@ export default function TypingPractice() {
               <AlertCircle className="h-3 w-3" />
               <span>Press <strong>Space</strong> to advance to the next word</span>
             </div>
-            <span>PTE Academic UKVI Standard Layout</span>
+            <span>PTE Academic Standard Layout</span>
           </div>
         </CardFooter>
       </Card>
-
       {/* Keyboard Visualization (Decorative/Static for now) */}
       <div className="opacity-50 pointer-events-none select-none" aria-hidden="true">
         <div className="bg-card border rounded-xl p-4 shadow-sm flex flex-col gap-2 items-center transform scale-95 origin-top">
