@@ -6,6 +6,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import phonemicChart from "@assets/image_1766194097490.png";
 
 export default function VocabularyTool() {
   const vocabList = [
@@ -387,11 +388,12 @@ export default function VocabularyTool() {
       </div>
 
       <Tabs defaultValue="vocabulary" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 max-w-4xl">
+        <TabsList className="grid w-full grid-cols-5 max-w-5xl">
           <TabsTrigger value="vocabulary">Vocabulary Words</TabsTrigger>
           <TabsTrigger value="collocations">Common Collocations</TabsTrigger>
           <TabsTrigger value="confused">Confused Words</TabsTrigger>
           <TabsTrigger value="misspelled">Misspelled Words</TabsTrigger>
+          <TabsTrigger value="phonemic-chart">Phonemic Chart</TabsTrigger>
         </TabsList>
 
         <TabsContent value="vocabulary" className="space-y-6">
@@ -516,6 +518,26 @@ export default function VocabularyTool() {
                     {word}
                   </div>
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="phonemic-chart">
+          <Card className="border-none shadow-md">
+            <CardHeader className="bg-muted/30 border-b">
+              <CardTitle>Phonemic Chart</CardTitle>
+              <CardDescription>
+                The 44 phonemes of Received Pronunciation based on the Adrian Underhill layout.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6 flex justify-center bg-white/50">
+              <div className="max-w-4xl w-full overflow-hidden rounded-xl border shadow-sm bg-white">
+                <img 
+                  src={phonemicChart} 
+                  alt="Phonemic Chart" 
+                  className="w-full h-auto"
+                />
               </div>
             </CardContent>
           </Card>
