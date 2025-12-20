@@ -19,10 +19,6 @@ export default function FAQ() {
           answer: "PTE Academic is accepted by over 3,900 universities and colleges globally for study, by Australia and New Zealand for work and migration visas, and for professional registration. The test of English is computer-based that assesses your academic-level speaking, writing, reading and listening skills. You take the test in a small, friendly test center environment in just two hours."
         },
         {
-          question: "How is it different from PTE UKVI?",
-          answer: "PTE Academic is designed for general academic purposes, while PTE UKVI is specifically for UK visa and immigration requirements."
-        },
-        {
           question: "Where can I take the test?",
           answer: "You can take the PTE Academic test at various test centers worldwide. PTE has over 500 test centers globally, including locations in Australia (Sydney, Melbourne, Perth, Brisbane).  Philippines: There are authorized test centers in Manila, Cebu, and Davao.   You can book your test online through the official Pearson PTE website, where you can select your preferred test center and date.  For specific locations and availability, it's best to check the official Pearson PTE website or contact the test centers directly."
         }
@@ -77,7 +73,7 @@ export default function FAQ() {
       <div className="mb-10 text-center">
         <h1 className="text-4xl font-serif font-bold text-primary mb-4">Frequently Asked Questions</h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Find answers to common questions about the PTE Academic UKVI exam and how our platform helps you prepare.
+          Find answers to common questions about the PTE Academic exam and how our platform helps you prepare.
         </p>
       </div>
 

@@ -260,7 +260,7 @@ export default function FullMockTest() {
   const speakText = useCallback((text: string) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-GB'; // UKVI preference
+    utterance.lang = 'en-GB'; 
     utterance.rate = 0.9;
     window.speechSynthesis.speak(utterance);
   }, []);

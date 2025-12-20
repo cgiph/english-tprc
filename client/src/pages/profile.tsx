@@ -19,7 +19,7 @@ export default function Profile() {
     fullName: user?.name || "Alex Johnson",
     username: (user as any)?.username || "alex_j",
     email: user?.email || "alex.johnson@example.com",
-    reason: "To prepare for UKVI Academic",
+    reason: "To prepare for PTE Academic",
     password: "password123" // Mock password
   });
 
@@ -148,7 +148,7 @@ export default function Profile() {
                       <SelectValue placeholder="Select a reason" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="To prepare for UKVI Academic">To prepare for UKVI Academic</SelectItem>
+                      <SelectItem value="To prepare for PTE Academic">To prepare for PTE Academic</SelectItem>
                       <SelectItem value="To prepare for PTE General">To prepare for PTE General</SelectItem>
                       <SelectItem value="For Migration Purposes">For Migration Purposes</SelectItem>
                       <SelectItem value="For University Admission">For University Admission</SelectItem>

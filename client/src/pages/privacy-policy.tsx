@@ -21,7 +21,7 @@ export default function PrivacyPolicy() {
             <p>Welcome to PTE PrepPH. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>
             <p>
               This privacy policy applies to all users of our educational platform, enabling candidates to prepare for 
-              the PTE Academic UKVI exam.
+              the PTE Academic exam.
             </p>
           </CardContent>
         </Card>
