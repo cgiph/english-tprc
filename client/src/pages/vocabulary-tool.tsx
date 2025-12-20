@@ -364,6 +364,12 @@ export default function VocabularyTool() {
     "wherever", "which"
   ];
 
+  // Sort lists alphabetically
+  vocabList.sort((a, b) => a.word.localeCompare(b.word));
+  collocationList.sort();
+  confusedList.sort((a, b) => a.pair.localeCompare(b.pair));
+  misspelledList.sort();
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="mb-8">
