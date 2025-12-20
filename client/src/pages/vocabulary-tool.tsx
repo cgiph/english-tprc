@@ -180,8 +180,24 @@ export default function VocabularyTool() {
         }
       ]
     },
-    { word: "abstract", type: "adjective", definition: "not concrete" },
-    { word: "aesthetic", type: "adjective", definition: "having to do with the appreciation of beauty" },
+    { 
+      word: "abstract", 
+      type: "adjective", 
+      phonetics: {
+        uk: "/æbstrækt/",
+        us: "/æbstrækt/"
+      },
+      definition: "not concrete" 
+    },
+    { 
+      word: "aesthetic", 
+      type: "adjective", 
+      phonetics: {
+        uk: "/esˈθet̬.ɪk/",
+        us: "[esˈTHedik]"
+      },
+      definition: "having to do with the appreciation of beauty" 
+    },
     { 
       word: "alleviate", 
       type: "verb", 
@@ -191,8 +207,24 @@ export default function VocabularyTool() {
       },
       definition: "to ease a pain or a burden" 
     },
-    { word: "ambivalent", type: "adjective", definition: "simultaneously feeling opposing feelings; uncertain" },
-    { word: "apathetic", type: "adjective", definition: "feeling or showing little emotion" },
+    { 
+      word: "ambivalent", 
+      type: "adjective", 
+      phonetics: {
+        uk: "/ˌæmˈbɪv.ə.lənt/",
+        us: "/ˌæmˈbɪv.ə.lənt/"
+      },
+      definition: "simultaneously feeling opposing feelings; uncertain" 
+    },
+    { 
+      word: "apathetic", 
+      type: "adjective", 
+      phonetics: {
+        uk: "/ˌæp.əˈθet̬.ɪk/",
+        us: "[ˌapəˈTHedik]"
+      },
+      definition: "feeling or showing little emotion" 
+    },
     { word: "auspicious", type: "adjective", definition: "favorable; promising" },
     { word: "benevolent", type: "adjective", definition: "well-meaning; generous" },
     { word: "candor", type: "noun", definition: "sincerity; openness" },
