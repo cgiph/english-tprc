@@ -226,8 +226,24 @@ export default function VocabularyTool() {
       },
       definition: "feeling or showing little emotion" 
     },
-    { word: "auspicious", type: "adjective", definition: "favorable; promising" },
-    { word: "benevolent", type: "adjective", definition: "well-meaning; generous" },
+    { 
+      word: "auspicious", 
+      type: "adjective", 
+      phonetics: {
+        uk: "/ɔːˈspɪʃ.əs/",
+        us: "/ɑːˈspɪʃ.əs/"
+      },
+      definition: "favorable; promising" 
+    },
+    { 
+      word: "benevolent", 
+      type: "adjective", 
+      phonetics: {
+        uk: "/bəˈnev.əl.ənt/",
+        us: "/bəˈnev.əl.ənt/"
+      },
+      definition: "well-meaning; generous" 
+    },
     { word: "candor", type: "noun", definition: "sincerity; openness" },
     { word: "cogent", type: "adjective", definition: "convincing; reasonable" },
     { word: "comprehensive", type: "adjective", definition: "broad or complete in scope or content" },
@@ -271,7 +287,15 @@ export default function VocabularyTool() {
     { word: "timorous", type: "adjective", definition: "timid; fearful" },
     { word: "transitory", type: "adjective", definition: "short-lived; temporary" },
     { word: "vindicated", type: "verb", definition: "freed from blame" },
-    { word: "ambiguous", type: "adjective", definition: "open to more than one interpretation; having a double meaning" },
+    { 
+      word: "ambiguous", 
+      type: "adjective", 
+      phonetics: {
+        uk: "/æmˈbɪɡ.ju.əs/",
+        us: "/æmˈbɪɡ.ju.əs/"
+      },
+      definition: "open to more than one interpretation; having a double meaning" 
+    },
     { word: "coherent", type: "adjective", definition: "(of an argument, theory, or policy) logical and consistent" },
     { word: "differentiate", type: "verb", definition: "recognize or ascertain what makes (someone or something) different" },
     { word: "empirical", type: "adjective", definition: "based on, concerned with, or verifiable by observation or experience rather than theory or pure logic" },
@@ -286,9 +310,33 @@ export default function VocabularyTool() {
     { word: "unprecedented", type: "adjective", definition: "never done or known before" },
     { word: "valid", type: "adjective", definition: "(of an argument or point) having a sound basis in logic or fact; reasonable or cogent" },
     { word: "widespread", type: "adjective", definition: "found or distributed over a large area or number of people" },
-    { word: "allocation", type: "noun", definition: "the action or process of allocating or sharing out something" },
-    { word: "assignment", type: "noun", definition: "a task or piece of work allocated to someone as part of a job or course of study" },
-    { word: "bibliography", type: "noun", definition: "a list of the books referred to in a scholarly work" },
+    { 
+      word: "allocation", 
+      type: "noun", 
+      phonetics: {
+        uk: "/ˌæl.əˈkeɪ.ʃən/",
+        us: "/ˌæl.əˈkeɪ.ʃən/"
+      },
+      definition: "the action or process of allocating or sharing out something" 
+    },
+    { 
+      word: "assignment", 
+      type: "noun", 
+      phonetics: {
+        uk: "/əˈsaɪn.mənt/",
+        us: "/əˈsaɪn.mənt/"
+      },
+      definition: "a task or piece of work allocated to someone as part of a job or course of study" 
+    },
+    { 
+      word: "bibliography", 
+      type: "noun", 
+      phonetics: {
+        uk: "/ˌbɪb.liˈɒɡ.rə.fi/",
+        us: "/ˌbɪb.liˈɑː.ɡrə.fi/"
+      },
+      definition: "a list of the books referred to in a scholarly work" 
+    },
     { word: "colloquial", type: "adjective", definition: "(of language) used in ordinary or familiar conversation; not formal or literary" },
     { word: "constituents", type: "noun", definition: "a component part of something" },
     { word: "curriculum", type: "noun", definition: "the subjects comprising a course of study in a school or college" },
