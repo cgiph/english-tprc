@@ -9,6 +9,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import phonemicChart from "@assets/image_1766194097490.png";
 
 export default function VocabularyTool() {
+  const playAudio = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US'; // Set to American English
+    window.speechSynthesis.speak(utterance);
+  };
+
   const vocabList = [
     {
       word: "interconnection",
@@ -244,116 +250,450 @@ export default function VocabularyTool() {
       },
       definition: "well-meaning; generous" 
     },
-    { word: "candor", type: "noun", definition: "sincerity; openness" },
-    { word: "cogent", type: "adjective", definition: "convincing; reasonable" },
-    { word: "comprehensive", type: "adjective", definition: "broad or complete in scope or content" },
-    { word: "contemporary", type: "adjective", definition: "current, modern; from the same time" },
-    { word: "conviction", type: "noun", definition: "a fixed or strong belief" },
-    { word: "diligent", type: "adjective", definition: "marked by painstaking effort; hard-working" },
-    { word: "dubious", type: "adjective", definition: "doubtful; of unlikely authenticity" },
-    { word: "eclectic", type: "adjective", definition: "made up of a variety of sources or styles" },
-    { word: "egregious", type: "adjective", definition: "conspicuously bad or offensive" },
-    { word: "exculpate", type: "verb", definition: "to free from guilt or blame" },
-    { word: "florid", type: "adjective", definition: "flowery or elaborate in style" },
-    { word: "gratuitous", type: "adjective", definition: "given freely; unearned; unwarranted" },
-    { word: "hackneyed", type: "adjective", definition: "worn out through overuse; trite" },
-    { word: "idealize", type: "verb", definition: "to consider perfect" },
-    { word: "impartial", type: "adjective", definition: "not in favor of one side or the other; unbiased" },
-    { word: "imperious", type: "adjective", definition: "arrogantly domineering or overbearing" },
-    { word: "inherent", type: "adjective", definition: "inborn; built-in" },
-    { word: "innovative", type: "adjective", definition: "introducing something new" },
-    { word: "inveterate", type: "adjective", definition: "long established; deep-rooted; habitual" },
-    { word: "laudatory", type: "adjective", definition: "giving praise" },
-    { word: "maverick", type: "noun", definition: "one who resists adherence to a group" },
-    { word: "mollify", type: "verb", definition: "to calm or soothe" },
-    { word: "novel", type: "adjective", definition: "strikingly new or unusual" },
-    { word: "obdurate", type: "adjective", definition: "stubborn; inflexible" },
-    { word: "objectivity", type: "noun", definition: "judgment uninfluenced by emotion" },
-    { word: "obstinate", type: "adjective", definition: "stubbornly adhering to an opinion" },
-    { word: "ornate", type: "adjective", definition: "elaborately decorated" },
-    { word: "ostentatious", type: "adjective", definition: "describing a pretentious display" },
-    { word: "paramount", type: "adjective", definition: "of chief concern or importance" },
-    { word: "penitent", type: "adjective", definition: "expressing remorse for one’s misdeeds" },
-    { word: "pervasive", type: "adjective", definition: "dispersed throughout" },
-    { word: "plausible", type: "adjective", definition: "seemingly valid or acceptable; credible" },
-    { word: "profound", type: "adjective", definition: "having great depth or seriousness" },
-    { word: "prosaic", type: "adjective", definition: "unimaginative; dull; ordinary" },
-    { word: "quandary", type: "noun", definition: "a state of uncertainty or perplexity" },
-    { word: "rancorous", type: "adjective", definition: "hateful; marked by deep-seated ill will" },
-    { word: "spurious", type: "adjective", definition: "not genuine; false; counterfeit" },
-    { word: "stoic", type: "adjective", definition: "indifferent to pleasure or pain; impassive" },
-    { word: "superfluous", type: "adjective", definition: "extra; unnecessary" },
-    { word: "tenuous", type: "adjective", definition: "having little substance or strength; unsure; weak" },
-    { word: "timorous", type: "adjective", definition: "timid; fearful" },
-    { word: "transitory", type: "adjective", definition: "short-lived; temporary" },
-    { word: "vindicated", type: "verb", definition: "freed from blame" },
     { 
-      word: "ambiguous", 
+      word: "candor", 
+      type: "noun", 
+      phonetics: { uk: "/ˈkæn.də/", us: "/ˈkæn.dɚ/" },
+      definition: "sincerity; openness" 
+    },
+    { 
+      word: "cogent", 
       type: "adjective", 
-      phonetics: {
-        uk: "/æmˈbɪɡ.ju.əs/",
-        us: "/æmˈbɪɡ.ju.əs/"
-      },
-      definition: "open to more than one interpretation; having a double meaning" 
-    },
-    { word: "coherent", type: "adjective", definition: "(of an argument, theory, or policy) logical and consistent" },
-    { word: "differentiate", type: "verb", definition: "recognize or ascertain what makes (someone or something) different" },
-    { word: "empirical", type: "adjective", definition: "based on, concerned with, or verifiable by observation or experience rather than theory or pure logic" },
-    { word: "fluctuate", type: "verb", definition: "rise and fall irregularly in number or amount" },
-    { word: "hierarchy", type: "noun", definition: "a system or organization in which people or groups are ranked one above the other according to status or authority" },
-    { word: "intrinsic", type: "adjective", definition: "belonging naturally; essential" },
-    { word: "legislation", type: "noun", definition: "laws, considered collectively" },
-    { word: "qualitative", type: "adjective", definition: "relating to, measuring, or measured by the quality of something rather than its quantity" },
-    { word: "rigorous", type: "adjective", definition: "extremely thorough, exhaustive, or accurate" },
-    { word: "subsequent", type: "adjective", definition: "coming after something in time; following" },
-    { word: "tangible", type: "adjective", definition: "perceptible by touch" },
-    { word: "unprecedented", type: "adjective", definition: "never done or known before" },
-    { word: "valid", type: "adjective", definition: "(of an argument or point) having a sound basis in logic or fact; reasonable or cogent" },
-    { word: "widespread", type: "adjective", definition: "found or distributed over a large area or number of people" },
-    { 
-      word: "allocation", 
-      type: "noun", 
-      phonetics: {
-        uk: "/ˌæl.əˈkeɪ.ʃən/",
-        us: "/ˌæl.əˈkeɪ.ʃən/"
-      },
-      definition: "the action or process of allocating or sharing out something" 
+      phonetics: { uk: "/ˈkəʊ.dʒənt/", us: "/ˈkoʊ.dʒənt/" },
+      definition: "convincing; reasonable" 
     },
     { 
-      word: "assignment", 
-      type: "noun", 
-      phonetics: {
-        uk: "/əˈsaɪn.mənt/",
-        us: "/əˈsaɪn.mənt/"
-      },
-      definition: "a task or piece of work allocated to someone as part of a job or course of study" 
+      word: "comprehensive", 
+      type: "adjective", 
+      phonetics: { uk: "/ˌkɒm.prɪˈhen.sɪv/", us: "/ˌkɑːm.prəˈhen.sɪv/" },
+      definition: "broad or complete in scope or content" 
     },
     { 
-      word: "bibliography", 
-      type: "noun", 
-      phonetics: {
-        uk: "/ˌbɪb.liˈɒɡ.rə.fi/",
-        us: "/ˌbɪb.liˈɑː.ɡrə.fi/"
-      },
-      definition: "a list of the books referred to in a scholarly work" 
+      word: "contemporary", 
+      type: "adjective", 
+      phonetics: { uk: "/kənˈtem.pər.ər.i/", us: "/kənˈtem.pə.rer.i/" },
+      definition: "current, modern; from the same time" 
     },
-    { word: "colloquial", type: "adjective", definition: "(of language) used in ordinary or familiar conversation; not formal or literary" },
-    { word: "constituents", type: "noun", definition: "a component part of something" },
-    { word: "curriculum", type: "noun", definition: "the subjects comprising a course of study in a school or college" },
-    { word: "dissertation", type: "noun", definition: "a long essay on a particular subject, especially one written for a university degree or diploma" },
-    { word: "epidemiology", type: "noun", definition: "the branch of medicine which deals with the incidence, distribution, and possible control of diseases" },
-    { word: "extrapolate", type: "verb", definition: "extend the application of (a method or conclusion) to an unknown situation by assuming that existing trends will continue" },
-    { word: "hypothesis", type: "noun", definition: "a supposition or proposed explanation made on the basis of limited evidence as a starting point for further investigation" },
-    { word: "interim", type: "adjective", definition: "in or for the intervening period; provisional or temporary" },
-    { word: "methodology", type: "noun", definition: "a system of methods used in a particular area of study or activity" },
-    { word: "plagiarism", type: "noun", definition: "the practice of taking someone else's work or ideas and passing them off as one's own" },
-    { word: "questionnaire", type: "noun", definition: "a set of printed or written questions with a choice of answers, devised for the purposes of a survey or statistical study" },
-    { word: "sophisticated", type: "adjective", definition: "(of a machine, system, or technique) developed to a high degree of complexity" },
-    { word: "sustainability", type: "noun", definition: "the ability to be maintained at a certain rate or level" },
-    { word: "synopsis", type: "noun", definition: "a brief summary or general survey of something" },
-    { word: "thesis", type: "noun", definition: "a statement or theory that is put forward as a premise to be maintained or proved" },
-    { word: "transcript", type: "noun", definition: "a written or printed version of material originally presented in another medium" },
-    { word: "tutorial", type: "noun", definition: "a period of instruction given by a university tutor to an individual or very small group" }
+    { 
+      word: "conviction", 
+      type: "noun", 
+      phonetics: { uk: "/kənˈvɪk.ʃən/", us: "/kənˈvɪk.ʃən/" },
+      definition: "a fixed or strong belief" 
+    },
+    { 
+      word: "diligent", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈdɪl.ɪ.dʒənt/", us: "/ˈdɪl.ə.dʒənt/" },
+      definition: "marked by painstaking effort; hard-working" 
+    },
+    { 
+      word: "dubious", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈdjuː.bi.əs/", us: "/ˈduː.bi.əs/" },
+      definition: "doubtful; of unlikely authenticity" 
+    },
+    { 
+      word: "eclectic", 
+      type: "adjective", 
+      phonetics: { uk: "/ɪˈklek.tɪk/", us: "/ɪˈklek.tɪk/" },
+      definition: "made up of a variety of sources or styles" 
+    },
+    { 
+      word: "egregious", 
+      type: "adjective", 
+      phonetics: { uk: "/ɪˈɡriː.dʒəs/", us: "/ɪˈɡriː.dʒəs/" },
+      definition: "conspicuously bad or offensive" 
+    },
+    { 
+      word: "exculpate", 
+      type: "verb", 
+      phonetics: { uk: "/ˈek.skʌl.peɪt/", us: "/ˈek.skʌl.peɪt/" },
+      definition: "to free from guilt or blame" 
+    },
+    { 
+      word: "florid", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈflɒr.ɪd/", us: "/ˈflɔːr.ɪd/" },
+      definition: "flowery or elaborate in style" 
+    },
+    { 
+      word: "gratuitous", 
+      type: "adjective", 
+      phonetics: { uk: "/ɡrəˈtjuː.ɪ.təs/", us: "/ɡrəˈtuː.ə.t̬əs/" },
+      definition: "given freely; unearned; unwarranted" 
+    },
+    { 
+      word: "hackneyed", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈhæk.nid/", us: "/ˈhæk.nid/" },
+      definition: "worn out through overuse; trite" 
+    },
+    { 
+      word: "idealize", 
+      type: "verb", 
+      phonetics: { uk: "/aɪˈdɪə.laɪz/", us: "/aɪˈdiː.ə.laɪz/" },
+      definition: "to consider perfect" 
+    },
+    { 
+      word: "impartial", 
+      type: "adjective", 
+      phonetics: { uk: "/ɪmˈpɑː.ʃəl/", us: "/ɪmˈpɑːr.ʃəl/" },
+      definition: "not in favor of one side or the other; unbiased" 
+    },
+    { 
+      word: "imperious", 
+      type: "adjective", 
+      phonetics: { uk: "/ɪmˈpɪə.ri.əs/", us: "/ɪmˈpɪr.i.əs/" },
+      definition: "arrogantly domineering or overbearing" 
+    },
+    { 
+      word: "inherent", 
+      type: "adjective", 
+      phonetics: { uk: "/ɪnˈher.ənt/", us: "/ɪnˈhɪr.ənt/" },
+      definition: "inborn; built-in" 
+    },
+    { 
+      word: "innovative", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈɪn.ə.və.tɪv/", us: "/ˈɪn.ə.veɪ.t̬ɪv/" },
+      definition: "introducing something new" 
+    },
+    { 
+      word: "inveterate", 
+      type: "adjective", 
+      phonetics: { uk: "/ɪnˈvet.ər.ət/", us: "/ɪnˈvet.ər.ət/" },
+      definition: "long established; deep-rooted; habitual" 
+    },
+    { 
+      word: "laudatory", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈlɔː.də.tər.i/", us: "/ˈlɔː.də.tɔːr.i/" },
+      definition: "giving praise" 
+    },
+    { 
+      word: "maverick", 
+      type: "noun", 
+      phonetics: { uk: "/ˈmæv.ər.ɪk/", us: "/ˈmæv.ɚ.ɪk/" },
+      definition: "one who resists adherence to a group" 
+    },
+    { 
+      word: "mollify", 
+      type: "verb", 
+      phonetics: { uk: "/ˈmɒl.ɪ.faɪ/", us: "/ˈmɑː.lə.faɪ/" },
+      definition: "to calm or soothe" 
+    },
+    { 
+      word: "novel", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈnɒv.əl/", us: "/ˈnɑː.vəl/" },
+      definition: "strikingly new or unusual" 
+    },
+    { 
+      word: "obdurate", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈɒb.djʊ.rət/", us: "/ˈɑːb.d(j)ʊ.rət/" },
+      definition: "stubborn; inflexible" 
+    },
+    { 
+      word: "objectivity", 
+      type: "noun", 
+      phonetics: { uk: "/ˌɒb.dʒekˈtɪv.ə.ti/", us: "/ˌɑːb.dʒekˈtɪv.ə.t̬i/" },
+      definition: "judgment uninfluenced by emotion" 
+    },
+    { 
+      word: "obstinate", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈɒb.stɪ.nət/", us: "/ˈɑːb.stə.nət/" },
+      definition: "stubbornly adhering to an opinion" 
+    },
+    { 
+      word: "ornate", 
+      type: "adjective", 
+      phonetics: { uk: "/ɔːˈneɪt/", us: "/ɔːrˈneɪt/" },
+      definition: "elaborately decorated" 
+    },
+    { 
+      word: "ostentatious", 
+      type: "adjective", 
+      phonetics: { uk: "/ˌɒs.tenˈteɪ.ʃəs/", us: "/ˌɑː.stenˈteɪ.ʃəs/" },
+      definition: "describing a pretentious display" 
+    },
+    { 
+      word: "paramount", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈpær.ə.maʊnt/", us: "/ˈper.ə.maʊnt/" },
+      definition: "of chief concern or importance" 
+    },
+    { 
+      word: "penitent", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈpen.ɪ.tənt/", us: "/ˈpen.ə.tənt/" },
+      definition: "expressing remorse for one’s misdeeds" 
+    },
+    { 
+      word: "pervasive", 
+      type: "adjective", 
+      phonetics: { uk: "/pəˈveɪ.sɪv/", us: "/pɚˈveɪ.sɪv/" },
+      definition: "dispersed throughout" 
+    },
+    { 
+      word: "plausible", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈplɔː.zə.bəl/", us: "/ˈplɑː.zə.bəl/" },
+      definition: "seemingly valid or acceptable; credible" 
+    },
+    { 
+      word: "profound", 
+      type: "adjective", 
+      phonetics: { uk: "/prəˈfaʊnd/", us: "/prəˈfaʊnd/" },
+      definition: "having great depth or seriousness" 
+    },
+    { 
+      word: "prosaic", 
+      type: "adjective", 
+      phonetics: { uk: "/prəˈzeɪ.ɪk/", us: "/prəˈzeɪ.ɪk/" },
+      definition: "unimaginative; dull; ordinary" 
+    },
+    { 
+      word: "quandary", 
+      type: "noun", 
+      phonetics: { uk: "/ˈkwɒn.dri/", us: "/ˈkwɑːn.dri/" },
+      definition: "a state of uncertainty or perplexity" 
+    },
+    { 
+      word: "rancorous", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈræŋ.kər.əs/", us: "/ˈræŋ.kɚ.əs/" },
+      definition: "hateful; marked by deep-seated ill will" 
+    },
+    { 
+      word: "spurious", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈspjʊə.ri.əs/", us: "/ˈspjʊr.i.əs/" },
+      definition: "not genuine; false; counterfeit" 
+    },
+    { 
+      word: "stoic", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈstəʊ.ɪk/", us: "/ˈstoʊ.ɪk/" },
+      definition: "indifferent to pleasure or pain; impassive" 
+    },
+    { 
+      word: "superfluous", 
+      type: "adjective", 
+      phonetics: { uk: "/suːˈpɜː.flu.əs/", us: "/suːˈpɝː.flu.əs/" },
+      definition: "extra; unnecessary" 
+    },
+    { 
+      word: "tenuous", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈten.ju.əs/", us: "/ˈten.ju.əs/" },
+      definition: "having little substance or strength; unsure; weak" 
+    },
+    { 
+      word: "timorous", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈtɪm.ər.əs/", us: "/ˈtɪm.ɚ.əs/" },
+      definition: "timid; fearful" 
+    },
+    { 
+      word: "transitory", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈtræn.zɪ.tər.i/", us: "/ˈtræn.sə.tɔːr.i/" },
+      definition: "short-lived; temporary" 
+    },
+    { 
+      word: "vindicated", 
+      type: "verb", 
+      phonetics: { uk: "/ˈvɪn.dɪ.keɪ.tɪd/", us: "/ˈvɪn.də.keɪ.t̬ɪd/" },
+      definition: "freed from blame" 
+    },
+    { 
+      word: "coherent", 
+      type: "adjective", 
+      phonetics: { uk: "/kəʊˈhɪə.rənt/", us: "/koʊˈhɪr.ənt/" },
+      definition: "(of an argument, theory, or policy) logical and consistent" 
+    },
+    { 
+      word: "differentiate", 
+      type: "verb", 
+      phonetics: { uk: "/ˌdɪf.əˈren.ʃi.eɪt/", us: "/ˌdɪf.əˈren.ʃi.eɪt/" },
+      definition: "recognize or ascertain what makes (someone or something) different" 
+    },
+    { 
+      word: "empirical", 
+      type: "adjective", 
+      phonetics: { uk: "/ɪmˈpɪr.ɪ.kəl/", us: "/emˈpɪr.ɪ.kəl/" },
+      definition: "based on, concerned with, or verifiable by observation or experience rather than theory or pure logic" 
+    },
+    { 
+      word: "fluctuate", 
+      type: "verb", 
+      phonetics: { uk: "/ˈflʌk.tʃu.eɪt/", us: "/ˈflʌk.tʃu.eɪt/" },
+      definition: "rise and fall irregularly in number or amount" 
+    },
+    { 
+      word: "hierarchy", 
+      type: "noun", 
+      phonetics: { uk: "/ˈhaɪə.rɑː.ki/", us: "/ˈhaɪ.rɑːr.ki/" },
+      definition: "a system or organization in which people or groups are ranked one above the other according to status or authority" 
+    },
+    { 
+      word: "intrinsic", 
+      type: "adjective", 
+      phonetics: { uk: "/ɪnˈtrɪn.zɪk/", us: "/ɪnˈtrɪn.zɪk/" },
+      definition: "belonging naturally; essential" 
+    },
+    { 
+      word: "legislation", 
+      type: "noun", 
+      phonetics: { uk: "/ˌledʒ.ɪˈsleɪ.ʃən/", us: "/ˌledʒ.əˈsleɪ.ʃən/" },
+      definition: "laws, considered collectively" 
+    },
+    { 
+      word: "qualitative", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈkwɒl.ɪ.tə.tɪv/", us: "/ˈkwɑː.lə.teɪ.t̬ɪv/" },
+      definition: "relating to, measuring, or measured by the quality of something rather than its quantity" 
+    },
+    { 
+      word: "rigorous", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈrɪɡ.ər.əs/", us: "/ˈrɪɡ.ər.əs/" },
+      definition: "extremely thorough, exhaustive, or accurate" 
+    },
+    { 
+      word: "subsequent", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈsʌb.sɪ.kwənt/", us: "/ˈsʌb.sɪ.kwənt/" },
+      definition: "coming after something in time; following" 
+    },
+    { 
+      word: "tangible", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈtæn.dʒə.bəl/", us: "/ˈtæn.dʒə.bəl/" },
+      definition: "perceptible by touch" 
+    },
+    { 
+      word: "unprecedented", 
+      type: "adjective", 
+      phonetics: { uk: "/ʌnˈpres.ɪ.den.tɪd/", us: "/ʌnˈpres.ə.den.t̬ɪd/" },
+      definition: "never done or known before" 
+    },
+    { 
+      word: "valid", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈvæl.ɪd/", us: "/ˈvæl.ɪd/" },
+      definition: "(of an argument or point) having a sound basis in logic or fact; reasonable or cogent" 
+    },
+    { 
+      word: "widespread", 
+      type: "adjective", 
+      phonetics: { uk: "/ˌwaɪdˈspred/", us: "/ˌwaɪdˈspred/" },
+      definition: "found or distributed over a large area or number of people" 
+    },
+    { 
+      word: "colloquial", 
+      type: "adjective", 
+      phonetics: { uk: "/kəˈləʊ.kwi.əl/", us: "/kəˈloʊ.kwi.əl/" },
+      definition: "(of language) used in ordinary or familiar conversation; not formal or literary" 
+    },
+    { 
+      word: "constituents", 
+      type: "noun", 
+      phonetics: { uk: "/kənˈstɪtʃ.u.ənts/", us: "/kənˈstɪtʃ.u.ənts/" },
+      definition: "a component part of something" 
+    },
+    { 
+      word: "curriculum", 
+      type: "noun", 
+      phonetics: { uk: "/kəˈrɪk.jə.ləm/", us: "/kəˈrɪk.jə.ləm/" },
+      definition: "the subjects comprising a course of study in a school or college" 
+    },
+    { 
+      word: "dissertation", 
+      type: "noun", 
+      phonetics: { uk: "/ˌdɪs.əˈteɪ.ʃən/", us: "/ˌdɪs.ɚˈteɪ.ʃən/" },
+      definition: "a long essay on a particular subject, especially one written for a university degree or diploma" 
+    },
+    { 
+      word: "epidemiology", 
+      type: "noun", 
+      phonetics: { uk: "/ˌep.ɪ.diː.miˈɒl.ə.dʒi/", us: "/ˌep.ə.diː.miˈɑː.lə.dʒi/" },
+      definition: "the branch of medicine which deals with the incidence, distribution, and possible control of diseases" 
+    },
+    { 
+      word: "extrapolate", 
+      type: "verb", 
+      phonetics: { uk: "/ɪkˈstræp.ə.leɪt/", us: "/ɪkˈstræp.ə.leɪt/" },
+      definition: "extend the application of (a method or conclusion) to an unknown situation by assuming that existing trends will continue" 
+    },
+    { 
+      word: "hypothesis", 
+      type: "noun", 
+      phonetics: { uk: "/haɪˈpɒθ.ə.sɪs/", us: "/haɪˈpɑː.θə.sɪs/" },
+      definition: "a supposition or proposed explanation made on the basis of limited evidence as a starting point for further investigation" 
+    },
+    { 
+      word: "interim", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈɪn.tər.ɪm/", us: "/ˈɪn.t̬ɚ.ɪm/" },
+      definition: "in or for the intervening period; provisional or temporary" 
+    },
+    { 
+      word: "methodology", 
+      type: "noun", 
+      phonetics: { uk: "/ˌmeθ.əˈdɒl.ə.dʒi/", us: "/ˌmeθ.əˈdɑː.lə.dʒi/" },
+      definition: "a system of methods used in a particular area of study or activity" 
+    },
+    { 
+      word: "plagiarism", 
+      type: "noun", 
+      phonetics: { uk: "/ˈpleɪ.dʒər.ɪ.zəm/", us: "/ˈpleɪ.dʒɚ.ɪ.zəm/" },
+      definition: "the practice of taking someone else's work or ideas and passing them off as one's own" 
+    },
+    { 
+      word: "questionnaire", 
+      type: "noun", 
+      phonetics: { uk: "/ˌkwes.tʃəˈneər/", us: "/ˌkwes.tʃəˈner/" },
+      definition: "a set of printed or written questions with a choice of answers, devised for the purposes of a survey or statistical study" 
+    },
+    { 
+      word: "sophisticated", 
+      type: "adjective", 
+      phonetics: { uk: "/səˈfɪs.tɪ.keɪ.tɪd/", us: "/səˈfɪs.tə.keɪ.t̬ɪd/" },
+      definition: "(of a machine, system, or technique) developed to a high degree of complexity" 
+    },
+    { 
+      word: "sustainability", 
+      type: "noun", 
+      phonetics: { uk: "/səˌsteɪ.nəˈbɪl.ə.ti/", us: "/səˌsteɪ.nəˈbɪl.ə.t̬i/" },
+      definition: "the ability to be maintained at a certain rate or level" 
+    },
+    { 
+      word: "synopsis", 
+      type: "noun", 
+      phonetics: { uk: "/sɪˈnɒp.sɪs/", us: "/sɪˈnɑːp.sɪs/" },
+      definition: "a brief summary or general survey of something" 
+    },
+    { 
+      word: "thesis", 
+      type: "noun", 
+      phonetics: { uk: "/ˈθiː.sɪs/", us: "/ˈθiː.sɪs/" },
+      definition: "a statement or theory that is put forward as a premise to be maintained or proved" 
+    },
+    { 
+      word: "transcript", 
+      type: "noun", 
+      phonetics: { uk: "/ˈtræn.skrɪpt/", us: "/ˈtræn.skrɪpt/" },
+      definition: "a written or printed version of material originally presented in another medium" 
+    },
+    { 
+      word: "tutorial", 
+      type: "noun", 
+      phonetics: { uk: "/tʃuːˈtɔː.ri.əl/", us: "/tuːˈtɔːr.i.əl/" },
+      definition: "a period of instruction given by a university tutor to an individual or very small group" 
+    }
   ];
 
   const collocationList = [
@@ -463,7 +803,16 @@ export default function VocabularyTool() {
                         <span className="text-xs text-muted-foreground">({item.altSpelling})</span>
                       )}
                     </div>
-                    <div className="flex gap-4 text-sm font-mono text-muted-foreground bg-background px-3 py-1.5 rounded-md border">
+                    <div className="flex gap-4 text-sm font-mono text-muted-foreground bg-background px-3 py-1.5 rounded-md border items-center">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6 mr-2 text-primary hover:text-primary/80"
+                        onClick={() => playAudio(item.word)}
+                        title="Listen to pronunciation"
+                      >
+                        <Volume2 className="h-4 w-4" />
+                      </Button>
                       {item.phonetics ? (
                         <>
                           <div className="flex items-center gap-2">
