@@ -29,6 +29,10 @@ export default function FAQ() {
       icon: Clock,
       items: [
         {
+          question: "Why don’t I see the disclaimer every time I start a new mock test?",
+          answer: "To provide a smoother and more realistic test experience, the disclaimer is shown once per app, not every time you start a new mock test. Many PTE reviewers take multiple practice tests in one session under time pressure. Repeating a mandatory pop-up before every attempt can interrupt focus, slow down practice, and reduce completion rates. Once you have acknowledged the disclaimer, the system remembers your response so you can continue practising without unnecessary interruptions. You may still see small reminders on certain pages (such as the start or results page) to clarify that the test is for practice purposes only and that scores are indicative, not official."
+        },
+        {
           question: "How long is the exam?",
           answer: "The exam takes approximately 2 hours to complete. It is divided into three parts: Speaking & Writing, Reading, and Listening."
         },
