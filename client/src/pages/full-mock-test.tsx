@@ -7,6 +7,15 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { generateMockTest, MockQuestion } from "@/lib/mock-test-data";
 import { calculateSpeakingScore, SpeakingScore } from "@/lib/scoring-utils";
 import { CheckCircle2, Clock, PlayCircle, AlertCircle, ChevronRight, Mic, Volume2, UserCircle, Square, Play, RotateCcw, GripVertical } from "lucide-react";
@@ -729,9 +738,29 @@ export default function FullMockTest() {
             <CardDescription className="text-lg max-w-lg mx-auto">A complete simulation of the PTE Academic exam.</CardDescription>
           </CardHeader>
           <CardFooter className="pb-10 justify-center">
-            <Button size="lg" className="w-full max-w-xs text-lg font-bold h-12" onClick={startCandidateInfo}>
-              Start Assessment
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="lg" className="w-full max-w-xs text-lg font-bold h-12">
+                  Start Assessment
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Important Disclaimer</DialogTitle>
+                  <DialogDescription>
+                    Please read the following information carefully before proceeding.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+                    <p>This full mock test is a practice simulation designed to help PTE Academic test-takers become familiar with the task types, timing, and test flow of the PTE Academic exam.</p>
+                    <p>This is not an official PTE Academic test and is not endorsed by Pearson. While the test structure is designed to reflect the PTE format, scores generated in this mock test are indicative only and do not guarantee or predict official PTE Academic scores.</p>
+                    <p>PTE Academic is a registered trademark of Pearson PLC. For visa, migration, or academic purposes, candidates must take the official test at an authorized PTE test centre.</p>
+                </div>
+                <DialogFooter>
+                  <Button onClick={startCandidateInfo} className="w-full sm:w-auto">Start Full Mock Test</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </CardFooter>
         </Card>
       </div>
