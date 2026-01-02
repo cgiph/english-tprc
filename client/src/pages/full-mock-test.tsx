@@ -1158,7 +1158,10 @@ export default function FullMockTest() {
 
           </CardContent>
           <CardFooter className="justify-center gap-4">
-            <Button variant="outline" onClick={() => setTestState("intro")}>Retake Test</Button>
+            <Button variant="outline" onClick={() => {
+              localStorage.removeItem("pteFullMockDisclaimerAccepted");
+              setTestState("intro");
+            }}>Retake Test</Button>
             <Link href="/resources" className={buttonVariants({ variant: "default" })}>
               Back to Resources
             </Link>
