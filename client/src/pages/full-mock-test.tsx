@@ -28,6 +28,20 @@ export default function FullMockTest() {
   } | null>(null);
   const [timeLeft, setTimeLeft] = useState(0); // For countdown
   const { toast } = useToast();
+  
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
+
+  useEffect(() => {
+    const accepted = localStorage.getItem("pteFullMockDisclaimerAccepted");
+    if (!accepted) {
+      setShowDisclaimer(true);
+    }
+  }, []);
+
+  const handleAcceptDisclaimer = () => {
+    localStorage.setItem("pteFullMockDisclaimerAccepted", "true");
+    setShowDisclaimer(false);
+  };
 
   // Candidate Info
   const [candidateInfo, setCandidateInfo] = useState({
@@ -721,6 +735,10 @@ export default function FullMockTest() {
   if (testState === "intro") {
     return (
       <div className="container mx-auto px-4 py-12 max-w-3xl">
+        <DisclaimerModal
+          isOpen={showDisclaimer}
+          onAccept={handleAcceptDisclaimer}
+        />
         <Card className="border-2 border-primary/10 shadow-lg">
           <CardHeader className="text-center space-y-4 pb-8 pt-10">
             <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-2">
@@ -730,11 +748,9 @@ export default function FullMockTest() {
             <CardDescription className="text-lg max-w-lg mx-auto">A complete simulation of the PTE Academic exam.</CardDescription>
           </CardHeader>
           <CardFooter className="pb-10 justify-center">
-            <DisclaimerModal onStart={startCandidateInfo}>
-              <Button size="lg" className="w-full max-w-xs text-lg font-bold h-12">
-                Start Assessment
-              </Button>
-            </DisclaimerModal>
+            <Button size="lg" className="w-full max-w-xs text-lg font-bold h-12" onClick={startCandidateInfo}>
+              Start Assessment
+            </Button>
           </CardFooter>
         </Card>
       </div>

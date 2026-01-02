@@ -5,23 +5,19 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import React from "react";
 
 interface DisclaimerModalProps {
-  onStart: () => void;
-  children: React.ReactNode;
+  isOpen: boolean;
+  onAccept: () => void;
 }
 
-export default function DisclaimerModal({ onStart, children }: DisclaimerModalProps) {
+export default function DisclaimerModal({ isOpen, onAccept }: DisclaimerModalProps) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
-      <DialogContent className="max-w-2xl">
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onAccept()}>
+      <DialogContent className="max-w-2xl" onInteractOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Important Disclaimer</DialogTitle>
           <DialogDescription>
@@ -34,7 +30,7 @@ export default function DisclaimerModal({ onStart, children }: DisclaimerModalPr
             <p>PTE Academic is a registered trademark of Pearson PLC. For visa, migration, or academic purposes, candidates must take the official test at an authorized PTE test centre.</p>
         </div>
         <DialogFooter>
-          <Button onClick={onStart} className="w-full sm:w-auto">Start Full Mock Test</Button>
+          <Button onClick={onAccept} className="w-full sm:w-auto">Start Full Mock Test</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
