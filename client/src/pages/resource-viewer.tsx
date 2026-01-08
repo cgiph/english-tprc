@@ -3700,7 +3700,7 @@ export default function ResourceViewer() {
                              </p>
                           </div>
                         ) : (category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) ? (
-                           <div className="w-full h-full flex items-center justify-center p-6">
+                           <div className="w-full h-full flex items-center justify-center p-6 pt-[20px] pb-[20px]">
                              <h3 className="font-serif font-bold text-xl text-primary text-center">{item.title}</h3>
                            </div>
                         ) : (
