@@ -225,7 +225,8 @@ export default function FullMockTest() {
       // Initialize Speaking Logic
       if (currentQ.section === "Speaking" && speakingState === "idle") {
         setSpeakingState("prep");
-        setSpeakingTimer(40); // 40s prep
+        // Repeat Sentence: shorter prep (3s after audio), others: 40s
+        setSpeakingTimer(currentQ.type === "Repeat Sentence" ? 3 : 40);
       } else if (speakingState === "idle") {
         // Standard Timer for non-speaking
         setTimeLeft(prev => (prev === 0 ? limit : prev));
@@ -256,7 +257,8 @@ export default function FullMockTest() {
                 playBeep(); // Beep on transition to recording
                 startQuestionRecording(); // Start recording
                 setSpeakingState("recording");
-                return 40; // Start 40s recording
+                // Repeat Sentence: 10s recording, others: 40s
+                return currentQ.type === "Repeat Sentence" ? 10 : 40;
               } else if (speakingState === "recording") {
                 stopQuestionRecording(); // Stop recording
                 handleNext(); // Auto next
@@ -586,9 +588,17 @@ export default function FullMockTest() {
           
           {/* Content/Prompt */}
           {/* Prioritize 'text' for reading, 'content' for others, but check both */}
-          {(q.text || q.content) && (
+          {/* Hide content for Repeat Sentence - students must listen and repeat */}
+          {(q.text || q.content) && q.type !== "Repeat Sentence" && (
             <div className="bg-muted/10 p-6 rounded-lg border leading-relaxed text-lg">
                {q.text || q.content}
+            </div>
+          )}
+          
+          {/* Repeat Sentence instruction */}
+          {q.type === "Repeat Sentence" && (
+            <div className="bg-amber-50 border border-amber-200 p-4 rounded-lg text-sm text-amber-800">
+              <strong>Instructions:</strong> Listen carefully to the sentence. After the audio ends, you will have 10 seconds to repeat the sentence exactly as you heard it.
             </div>
           )}
           
@@ -620,8 +630,13 @@ export default function FullMockTest() {
              <div className="flex flex-col items-center p-8 bg-muted/10 rounded-xl border-2 border-dashed relative overflow-hidden">
                 {speakingState === "prep" && (
                   <div className="text-center mb-4">
-                    <p className="text-lg font-medium text-muted-foreground">Prepare your answer</p>
+                    <p className="text-lg font-medium text-muted-foreground">
+                      {q.type === "Repeat Sentence" ? "Listen to the audio above, then speak" : "Prepare your answer"}
+                    </p>
                     <div className="text-4xl font-mono font-bold">{speakingTimer}s</div>
+                    {q.type === "Repeat Sentence" && (
+                      <p className="text-sm text-muted-foreground mt-2">Recording will begin automatically</p>
+                    )}
                   </div>
                 )}
                 {speakingState === "recording" && (
@@ -631,25 +646,31 @@ export default function FullMockTest() {
                        <svg className="absolute inset-0 w-full h-full -rotate-90">
                          <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-muted" />
                          <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-red-500 transition-all duration-1000" 
-                           strokeDasharray={276} strokeDashoffset={276 * (1 - speakingTimer/40)} />
+                           strokeDasharray={276} strokeDashoffset={276 * (1 - speakingTimer/(q.type === "Repeat Sentence" ? 10 : 40))} />
                        </svg>
                        <Mic className="h-10 w-10 text-red-500 animate-pulse" />
                     </div>
-                    <p className="font-medium mb-4 text-red-600">Recording...</p>
+                    <p className="font-medium mb-4 text-red-600">
+                      {q.type === "Repeat Sentence" ? "Repeat the sentence now..." : "Recording..."}
+                    </p>
                     
                     {/* Sound Wave Visualizer */}
                     <div className="flex items-end justify-center gap-1 h-12 w-full max-w-xs">
-                      {[...Array(10)].map((_, i) => (
+                      {[...Array(12)].map((_, i) => (
                         <div key={i} 
                              className="w-2 bg-primary/60 rounded-full animate-bounce" 
                              style={{ 
                                height: `${Math.random() * 100}%`, 
-                               animationDelay: `${i * 0.1}s`,
-                               animationDuration: '0.5s'
+                               animationDelay: `${i * 0.08}s`,
+                               animationDuration: '0.4s'
                              }} 
                         />
                       ))}
                     </div>
+                    
+                    {q.type === "Repeat Sentence" && (
+                      <p className="text-xs text-muted-foreground mt-4">Time remaining: {speakingTimer}s</p>
+                    )}
                   </div>
                 )}
              </div>
