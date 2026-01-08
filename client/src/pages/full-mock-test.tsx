@@ -223,15 +223,19 @@ export default function FullMockTest() {
       const limit = currentQ.time_limit_seconds || 120; 
       
       // Initialize Speaking Logic
+      // Types that have beep-then-record flow (handled by audio onend callback) skip normal prep
+      const audioThenBeepTypes = ["Repeat Sentence", "Answer Short Question", "Retell Lecture", "Summarize Group Discussion", "Respond to a Situation"];
+      const skipPrepForAudio = audioThenBeepTypes.includes(currentQ.type);
+      
       if (currentQ.section === "Speaking" && speakingState === "idle") {
-        setSpeakingState("prep");
-        // Repeat Sentence/Answer Short Question: shorter prep (3s after audio)
-        // Summarize Group Discussion: 5s prep after longer audio
-        // Respond to a Situation: 3s prep after audio
-        // Others: 40s prep
-        const prepTime = (currentQ.type === "Repeat Sentence" || currentQ.type === "Answer Short Question" || currentQ.type === "Respond to a Situation") ? 3 
-          : currentQ.type === "Summarize Group Discussion" ? 5 : 40;
-        setSpeakingTimer(prepTime);
+        if (skipPrepForAudio) {
+          // These types will be handled by the audio onend callback - stay idle until audio finishes
+          // The audio callback will play beep and start recording directly
+        } else {
+          // Other speaking types: use normal prep timer
+          setSpeakingState("prep");
+          setSpeakingTimer(40);
+        }
       } else if (speakingState === "idle") {
         // Standard Timer for non-speaking
         setTimeLeft(prev => (prev === 0 ? limit : prev));
@@ -282,15 +286,21 @@ export default function FullMockTest() {
   }, [currentIndex, testState, currentTest, speakingState]);
 
   // Audio Playback Logic
-  const speakText = useCallback((text: string) => {
+  const speakText = useCallback((text: string, onEndCallback?: () => void) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-GB'; 
     utterance.rate = 0.9;
+    if (onEndCallback) {
+      utterance.onend = onEndCallback;
+    }
     window.speechSynthesis.speak(utterance);
   }, []);
 
   const stopAudio = () => window.speechSynthesis.cancel();
+
+  // Types that need beep immediately after audio, then start recording
+  const audioThenBeepTypes = ["Repeat Sentence", "Answer Short Question", "Retell Lecture", "Summarize Group Discussion", "Respond to a Situation"];
 
   // Effect to play audio for Listening/Speaking questions automatically
   useEffect(() => {
@@ -300,8 +310,25 @@ export default function FullMockTest() {
       const textToSpeak = q.audioScript || ((q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Respond to a Situation") ? q.content : null);
 
       if ((q.section === "Listening" || q.section === "Speaking") && textToSpeak) {
+        // Check if this type needs beep-then-record flow
+        const needsBeepAfterAudio = audioThenBeepTypes.includes(q.type);
+        
+        const onAudioEnd = needsBeepAfterAudio ? () => {
+          // Play beep immediately after audio ends
+          playBeep();
+          // Start recording after a brief moment for beep
+          setTimeout(() => {
+            startQuestionRecording();
+            setSpeakingState("recording");
+            // Set recording timer based on type
+            const recordTime = (q.type === "Repeat Sentence" || q.type === "Answer Short Question") ? 10 
+              : q.type === "Summarize Group Discussion" ? 60 : 40;
+            setSpeakingTimer(recordTime);
+          }, 300);
+        } : undefined;
+
         // Brief delay to allow UI to settle
-        const timer = setTimeout(() => speakText(textToSpeak), 1000);
+        const timer = setTimeout(() => speakText(textToSpeak, onAudioEnd), 1000);
         return () => {
           clearTimeout(timer);
           stopAudio();
