@@ -3700,12 +3700,18 @@ export default function ResourceViewer() {
                                 "Listen to the sample answer"}
                              </p>
                           </div>
+                        ) : (category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) ? (
+                           <div className="w-full h-full flex items-center justify-center p-6">
+                             <h3 className="font-serif font-bold text-xl text-primary text-center">{item.title}</h3>
+                           </div>
                         ) : (
                            <div className="text-muted-foreground">No media available</div>
                         )}
                       </div>
                       <CardContent className="p-6 space-y-4">
-                        <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
+                        {!(category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) && (
+                          <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
+                        )}
                         
                         {(category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) ? (
                           <div className="space-y-6">
