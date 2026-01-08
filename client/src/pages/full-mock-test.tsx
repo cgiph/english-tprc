@@ -623,8 +623,12 @@ export default function FullMockTest() {
           
           {/* Content/Prompt */}
           {/* Prioritize 'text' for reading, 'content' for others, but check both */}
-          {/* Hide content for Repeat Sentence and Answer Short Question - students must listen */}
-          {(q.text || q.content) && q.type !== "Repeat Sentence" && q.type !== "Answer Short Question" && (
+          {/* Hide content for types that have custom rendering: Repeat Sentence, Answer Short Question, Fill in Blanks types */}
+          {(q.text || q.content) && 
+           q.type !== "Repeat Sentence" && 
+           q.type !== "Answer Short Question" && 
+           q.type !== "R&W Fill in the Blanks" && 
+           q.type !== "Reading Fill in the Blanks" && (
             <div className="bg-muted/10 p-6 rounded-lg border leading-relaxed text-lg">
                {q.text || q.content}
             </div>
