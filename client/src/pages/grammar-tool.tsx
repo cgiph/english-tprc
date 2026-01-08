@@ -166,6 +166,14 @@ export default function GrammarTool() {
       addFeedback(/good\s+in\b/i, "Preposition error. 'Good' (ability) is followed by 'at'.", 'error', ["Use 'good at'."]);
       addFeedback(/responsible\s+of/i, "Preposition error. 'Responsible' is followed by 'for'.", 'error', ["Use 'responsible for'."]);
 
+      // Compare structure errors
+      addFeedback(/\bcompare[sd]?\s+[\w\s]+\s+than\b/i, "Grammar error. Do not use 'than' with the verb 'compare'. Correct patterns are: 'compare A with B' or 'compare A and B'.", 'error', ["Use 'compare A with B' or 'compare A and B'."]);
+      addFeedback(/\bcomparing\s+[\w\s]+\s+than\b/i, "Grammar error. Do not use 'than' with 'comparing'. Correct patterns are: 'comparing A with B' or 'comparing A and B'.", 'error', ["Use 'comparing A with B' or 'comparing A and B'."]);
+      
+      // "for" misused with compare (when talking about aspects)
+      addFeedback(/\bcompare[sd]?\s+[\w\s]+\s+for\s+the\b/i, "Preposition error. When discussing topics or aspects with 'compare', use 'in terms of', 'regarding', or 'based on', not 'for'.", 'error', ["Use 'in terms of', 'regarding', or 'based on'."]);
+      addFeedback(/\bcomparing\s+[\w\s]+\s+for\s+the\b/i, "Preposition error. When discussing topics or aspects with 'comparing', use 'in terms of', 'regarding', or 'based on', not 'for'.", 'error', ["Use 'in terms of', 'regarding', or 'based on'."]);
+
       // Common spellings
       const misspellings: Record<string, string> = {
         "teh": "the", "recieve": "receive", "definately": "definitely", "seperate": "separate",
