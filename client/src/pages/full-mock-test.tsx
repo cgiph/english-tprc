@@ -991,20 +991,24 @@ export default function FullMockTest() {
                    Words: {currentVal ? currentVal.trim().split(/\s+/).length : 0}
                 </div>
              </div>
-          ) : q.type === "Multiple Choice, Multiple Answers" && q.options ? (
-             // FIX 1: Checkboxes for multiple answer selection
+          ) : (q.type === "Multiple Choice, Multiple Answers" || q.type === "Multiple Choice (Multiple)") && q.options ? (
+             // FIX 1: Checkboxes for multiple answer selection (max 3)
              <div className="space-y-2">
-               <p className="text-sm text-muted-foreground mb-2">Select all that apply</p>
+               <p className="text-sm text-muted-foreground mb-2">Select up to 3 answers that apply</p>
                {q.options.map(opt => {
-                 const selected = (currentVal as string[] || []).includes(opt);
+                 const current = (currentVal as string[]) || [];
+                 const selected = current.includes(opt);
+                 const atLimit = current.length >= 3 && !selected;
                  return (
                    <div 
                      key={opt} 
-                     className={`flex items-center space-x-3 p-3 border rounded cursor-pointer transition-all ${
-                       selected ? "bg-primary/10 border-primary" : "bg-white hover:bg-muted/30"
+                     className={`flex items-center space-x-3 p-3 border rounded transition-all ${
+                       selected ? "bg-primary/10 border-primary cursor-pointer" : 
+                       atLimit ? "bg-muted/20 border-muted cursor-not-allowed opacity-60" : 
+                       "bg-white hover:bg-muted/30 cursor-pointer"
                      }`}
                      onClick={() => {
-                       const current = (currentVal as string[]) || [];
+                       if (atLimit) return; // Don't allow more than 3
                        if (selected) {
                          submitAnswer(current.filter(c => c !== opt));
                        } else {
@@ -1017,10 +1021,11 @@ export default function FullMockTest() {
                      }`}>
                        {selected && <CheckCircle2 className="h-4 w-4 text-white" />}
                      </div>
-                     <Label className="text-base cursor-pointer flex-1">{opt}</Label>
+                     <Label className={`text-base flex-1 ${atLimit ? "cursor-not-allowed" : "cursor-pointer"}`}>{opt}</Label>
                    </div>
                  );
                })}
+               <p className="text-xs text-muted-foreground mt-2">Selected: {((currentVal as string[]) || []).length} / 3</p>
              </div>
           ) : q.type === "Fill in the Blanks (Listening)" && q.transcript ? (
              // FIX 2: Listening Fill in the Blanks with passage
