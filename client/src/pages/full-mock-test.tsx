@@ -460,11 +460,11 @@ export default function FullMockTest() {
     let totalPoints = 0;
     let maxPoints = 0;
     
-    // Communicative Skills Buckets
-    let speakingScoreTotal = 0, speakingMax = 0;
-    let writingScore = 0, writingMax = 0;
-    let readingScore = 0, readingMax = 0;
-    let listeningScore = 0, listeningMax = 0;
+    // Communicative Skills Buckets - track answered and max separately
+    let speakingScoreTotal = 0, speakingMax = 0, speakingAnswered = 0;
+    let writingScore = 0, writingMax = 0, writingAnswered = 0;
+    let readingScore = 0, readingMax = 0, readingAnswered = 0;
+    let listeningScore = 0, listeningMax = 0, listeningAnswered = 0;
 
     const details = [];
 
@@ -472,10 +472,13 @@ export default function FullMockTest() {
       const response = responses[item.id];
       let itemScore = 0;
       let autoZero = false;
+      const hasResponse = response !== undefined && response !== null && response !== "" && 
+        !(Array.isArray(response) && response.length === 0) &&
+        !(typeof response === 'object' && Object.keys(response).length === 0);
 
       // Logic for specific constraints
       if (item.type === "Summarize Written Text") {
-         if (!response) {
+         if (!hasResponse) {
            itemScore = 0;
          } else {
             const wordCount = response.trim().split(/\s+/).length;
@@ -491,7 +494,7 @@ export default function FullMockTest() {
             }
          }
       } else if (item.type === "Write Essay") {
-         if (!response) {
+         if (!hasResponse) {
            itemScore = 0;
          } else {
            const wordCount = response.trim().split(/\s+/).length;
@@ -510,7 +513,7 @@ export default function FullMockTest() {
              }
            }
          }
-      } else if (item.correctAnswer) {
+      } else if (item.correctAnswer && hasResponse) {
          if (Array.isArray(item.correctAnswer) && Array.isArray(response)) {
             const correct = item.correctAnswer.sort().join();
             const user = response.sort().join();
@@ -518,70 +521,95 @@ export default function FullMockTest() {
          } else if (response === item.correctAnswer) {
             itemScore = item.max_score;
          }
+      } else if (!hasResponse) {
+        // No response = no score
+        itemScore = 0;
       } else {
-        // Speaking/Open ended mock
-        if (response && response.length > 5) itemScore = Math.floor(item.max_score * 0.75);
+        // Open ended with response - partial credit
+        if (typeof response === 'string' && response.length > 5) {
+          itemScore = Math.floor(item.max_score * 0.75);
+        }
       }
 
       if (autoZero) itemScore = 0;
 
       // Aggregate Skills
       if (item.section === "Speaking") { 
-        // Enhanced Scoring for Speaking
-        // Use our utility to generate consistent mock sub-scores
-        const speakingScore = calculateSpeakingScore(item.type as any, 20); // Mock duration
-        
-        // Update the item score to match the utility's result roughly scaled to max_score
-        // The utility returns 0-90, max_score might be different (e.g. 15)
-        const ratio = speakingScore.overall / 90;
-        itemScore = Math.round(item.max_score * ratio);
-        
-        // Add sub-skills
-        details.push({
-           question_id: item.id,
-           score: itemScore,
-           max: item.max_score,
-           type: item.type,
-           subscores: {
-             fluency: speakingScore.fluency,
-             pronunciation: speakingScore.pronunciation,
-             content: speakingScore.content
-           }
-        });
-
+        // Only score speaking if there was an actual response/recording
+        if (hasResponse) {
+          // Enhanced Scoring for Speaking
+          const speakingScoreCalc = calculateSpeakingScore(item.type as any, 20);
+          const ratio = speakingScoreCalc.overall / 90;
+          itemScore = Math.round(item.max_score * ratio);
+          
+          details.push({
+             question_id: item.id,
+             score: itemScore,
+             max: item.max_score,
+             type: item.type,
+             answered: true,
+             subscores: {
+               fluency: speakingScoreCalc.fluency,
+               pronunciation: speakingScoreCalc.pronunciation,
+               content: speakingScoreCalc.content
+             }
+          });
+          speakingAnswered++;
+        } else {
+          // Not answered - zero score
+          itemScore = 0;
+          details.push({ question_id: item.id, score: 0, max: item.max_score, type: item.type, answered: false });
+        }
         speakingScoreTotal += itemScore; 
         speakingMax += item.max_score; 
       } else {
         // Normal handling for other sections
-        details.push({ question_id: item.id, score: itemScore, max: item.max_score, type: item.type });
+        details.push({ question_id: item.id, score: itemScore, max: item.max_score, type: item.type, answered: hasResponse });
       }
 
-      if (item.section === "Writing") { writingScore += itemScore; writingMax += item.max_score; }
-      if (item.section === "Reading") { readingScore += itemScore; readingMax += item.max_score; }
-      if (item.section === "Listening") { listeningScore += itemScore; listeningMax += item.max_score; }
+      if (item.section === "Writing") { 
+        writingScore += itemScore; 
+        writingMax += item.max_score;
+        if (hasResponse) writingAnswered++;
+      }
+      if (item.section === "Reading") { 
+        readingScore += itemScore; 
+        readingMax += item.max_score;
+        if (hasResponse) readingAnswered++;
+      }
+      if (item.section === "Listening") { 
+        listeningScore += itemScore; 
+        listeningMax += item.max_score;
+        if (hasResponse) listeningAnswered++;
+      }
 
       totalPoints += itemScore;
       maxPoints += item.max_score;
     }
 
-    // Scale to 90
-    const scale = (curr: number, max: number) => max === 0 ? 0 : Math.round((curr / max) * 90);
+    // Scale to 90 - only calculate for sections with answers
+    const scale = (curr: number, max: number, answered: number) => {
+      if (answered === 0) return 0; // No answers = 0 score
+      if (max === 0) return 0;
+      return Math.round((curr / max) * 90);
+    };
 
     const finalScores = {
-      overall: scale(totalPoints, maxPoints),
+      overall: scale(totalPoints, maxPoints, speakingAnswered + writingAnswered + readingAnswered + listeningAnswered),
       communicative: {
-        speaking: scale(speakingScoreTotal, speakingMax),
-        writing: scale(writingScore, writingMax),
-        reading: scale(readingScore, readingMax),
-        listening: scale(listeningScore, listeningMax)
+        speaking: scale(speakingScoreTotal, speakingMax, speakingAnswered),
+        writing: scale(writingScore, writingMax, writingAnswered),
+        reading: scale(readingScore, readingMax, readingAnswered),
+        listening: scale(listeningScore, listeningMax, listeningAnswered)
       },
-      skills: { // Mocked breakdown based on overall performance
-        grammar: scale(totalPoints, maxPoints) - 5,
-        fluency: scale(speakingScoreTotal, speakingMax), // Use actual calc
-        pronunciation: scale(speakingScoreTotal, speakingMax) - 2, // Use actual calc
-        spelling: scale(writingScore, writingMax),
-        vocabulary: scale(readingScore, readingMax),
-        discourse: scale(writingScore, writingMax)
+      skills: { 
+        // Only show skills for sections that were answered
+        grammar: writingAnswered > 0 || readingAnswered > 0 ? Math.max(0, scale(writingScore + readingScore, writingMax + readingMax, writingAnswered + readingAnswered) - 5) : 0,
+        fluency: speakingAnswered > 0 ? scale(speakingScoreTotal, speakingMax, speakingAnswered) : 0,
+        pronunciation: speakingAnswered > 0 ? Math.max(0, scale(speakingScoreTotal, speakingMax, speakingAnswered) - 2) : 0,
+        spelling: writingAnswered > 0 ? scale(writingScore, writingMax, writingAnswered) : 0,
+        vocabulary: readingAnswered > 0 ? scale(readingScore, readingMax, readingAnswered) : 0,
+        discourse: writingAnswered > 0 ? scale(writingScore, writingMax, writingAnswered) : 0
       },
       details
     };
