@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import DisclaimerModal from "@/components/disclaimer-modal";
 import { generateMockTest, MockQuestion } from "@/lib/mock-test-data";
 import { calculateSpeakingScore, SpeakingScore } from "@/lib/scoring-utils";
-import { CheckCircle2, Clock, PlayCircle, AlertCircle, ChevronRight, Mic, Volume2, UserCircle, Square, Play, RotateCcw, GripVertical } from "lucide-react";
+import { CheckCircle2, Clock, PlayCircle, AlertCircle, ChevronRight, ChevronUp, ChevronDown, Mic, Volume2, UserCircle, Square, Play, RotateCcw, GripVertical } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -742,14 +742,74 @@ export default function FullMockTest() {
              </div>
           ) : q.type === "Reorder Paragraphs" && q.paragraphs ? (
              <div className="space-y-2">
-               <p className="text-sm text-muted-foreground mb-2">Drag and drop paragraphs to reorder (Mock: Click to move)</p>
-               {/* Mock Reorder Interface using simplified Click-to-Swap for prototype */}
-               {q.paragraphs.map((p, i) => (
-                 <div key={p.id} className="flex items-start gap-3 p-3 bg-white border rounded cursor-grab hover:border-primary">
-                   <GripVertical className="h-5 w-5 text-muted-foreground mt-1" />
-                   <p>{p.text}</p>
-                 </div>
-               ))}
+               <p className="text-sm text-muted-foreground mb-2">Click a paragraph to select, then click another to swap positions</p>
+               {/* Interactive Reorder using click-to-swap */}
+               {(() => {
+                 const currentOrder = (currentVal as string[]) || q.paragraphs.map(p => p.id);
+                 const orderedParagraphs = currentOrder.map(id => q.paragraphs!.find(p => p.id === id)!).filter(Boolean);
+                 const selectedIdx = responses[`${q.id}_selected`] as number | undefined;
+                 
+                 return orderedParagraphs.map((p, i) => (
+                   <div 
+                     key={p.id} 
+                     className={`flex items-start gap-3 p-3 bg-white border rounded cursor-pointer transition-all ${
+                       selectedIdx === i 
+                         ? "border-primary ring-2 ring-primary/30 bg-primary/5" 
+                         : "hover:border-primary hover:bg-muted/30"
+                     }`}
+                     onClick={() => {
+                       if (selectedIdx === undefined) {
+                         setResponses(prev => ({...prev, [`${q.id}_selected`]: i}));
+                       } else if (selectedIdx === i) {
+                         setResponses(prev => ({...prev, [`${q.id}_selected`]: undefined}));
+                       } else {
+                         const newOrder = [...currentOrder];
+                         [newOrder[selectedIdx], newOrder[i]] = [newOrder[i], newOrder[selectedIdx]];
+                         submitAnswer(newOrder);
+                         setResponses(prev => ({...prev, [`${q.id}_selected`]: undefined}));
+                       }
+                     }}
+                   >
+                     <div className="flex flex-col items-center gap-1">
+                       <Button 
+                         size="icon" 
+                         variant="ghost" 
+                         className="h-6 w-6"
+                         onClick={(e) => {
+                           e.stopPropagation();
+                           if (i > 0) {
+                             const newOrder = [...currentOrder];
+                             [newOrder[i-1], newOrder[i]] = [newOrder[i], newOrder[i-1]];
+                             submitAnswer(newOrder);
+                           }
+                         }}
+                         disabled={i === 0}
+                       >
+                         <ChevronUp className="h-4 w-4" />
+                       </Button>
+                       <GripVertical className="h-5 w-5 text-muted-foreground" />
+                       <Button 
+                         size="icon" 
+                         variant="ghost" 
+                         className="h-6 w-6"
+                         onClick={(e) => {
+                           e.stopPropagation();
+                           if (i < orderedParagraphs.length - 1) {
+                             const newOrder = [...currentOrder];
+                             [newOrder[i], newOrder[i+1]] = [newOrder[i+1], newOrder[i]];
+                             submitAnswer(newOrder);
+                           }
+                         }}
+                         disabled={i === orderedParagraphs.length - 1}
+                       >
+                         <ChevronDown className="h-4 w-4" />
+                       </Button>
+                     </div>
+                     <p className="flex-1">{p.text}</p>
+                     <Badge variant="outline" className="ml-2">{i + 1}</Badge>
+                   </div>
+                 ));
+               })()}
              </div>
           ) : q.type === "R&W Fill in the Blanks" && q.blanks ? (
              <div className="leading-loose text-lg">
