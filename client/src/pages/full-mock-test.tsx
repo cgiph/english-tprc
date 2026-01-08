@@ -232,9 +232,12 @@ export default function FullMockTest() {
           // These types will be handled by the audio onend callback - stay idle until audio finishes
           // The audio callback will play beep and start recording directly
         } else {
-          // Other speaking types: use normal prep timer
+          // Other speaking types: use prep timer
           setSpeakingState("prep");
-          setSpeakingTimer(40);
+          // Describe Image: 25s prep, then beep, then 40s recording
+          // Read Aloud and others: 40s prep
+          const prepTime = currentQ.type === "Describe Image" ? 25 : 40;
+          setSpeakingTimer(prepTime);
         }
       } else if (speakingState === "idle") {
         // Standard Timer for non-speaking
