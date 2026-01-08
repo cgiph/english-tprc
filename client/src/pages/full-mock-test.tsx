@@ -831,21 +831,82 @@ export default function FullMockTest() {
              </div>
           ) : q.type === "Reading Fill in the Blanks" && q.blanks ? (
              <div className="space-y-4">
-               <div className="leading-loose text-lg bg-muted/10 p-4 rounded border">
-                 {q.text?.split(/\{\{\d+\}\}/g).map((part, i) => (
-                   <span key={i}>
-                     {part}
-                     {i < (q.blanks?.length || 0) && (
-                       <span className="inline-block w-24 h-8 border-b-2 border-primary mx-1 bg-white/50 align-bottom" />
-                     )}
-                   </span>
-                 ))}
-               </div>
-               <div className="flex gap-2 flex-wrap p-4 bg-muted rounded">
-                 {q.options?.map(opt => (
-                   <Badge key={opt} variant="outline" className="text-base py-1 px-3 cursor-grab hover:bg-white">{opt}</Badge>
-                 ))}
-               </div>
+               {(() => {
+                 const filledBlanks = (currentVal as Record<number, string>) || {};
+                 const usedWords = Object.values(filledBlanks);
+                 const selectedBlank = responses[`${q.id}_selectedBlank`] as number | undefined;
+                 
+                 return (
+                   <>
+                     <p className="text-sm text-muted-foreground">Click a blank to select it, then click a word to fill it. Click a filled blank to clear it.</p>
+                     <div className="leading-loose text-lg bg-muted/10 p-4 rounded border">
+                       {q.text?.split(/\{\{\d+\}\}/g).map((part, i) => (
+                         <span key={i}>
+                           {part}
+                           {i < (q.blanks?.length || 0) && (
+                             <span 
+                               className={`inline-block min-w-24 h-8 border-b-2 mx-1 align-bottom px-2 cursor-pointer transition-all ${
+                                 filledBlanks[i] 
+                                   ? "bg-primary/10 border-primary text-primary font-medium" 
+                                   : selectedBlank === i 
+                                     ? "bg-yellow-100 border-yellow-500 ring-2 ring-yellow-300" 
+                                     : "bg-white/50 border-primary hover:bg-primary/5"
+                               }`}
+                               onClick={() => {
+                                 if (filledBlanks[i]) {
+                                   // Clear this blank
+                                   const newFilled = {...filledBlanks};
+                                   delete newFilled[i];
+                                   submitAnswer(newFilled);
+                                 } else {
+                                   // Select this blank
+                                   setResponses(prev => ({...prev, [`${q.id}_selectedBlank`]: i}));
+                                 }
+                               }}
+                             >
+                               {filledBlanks[i] || ""}
+                             </span>
+                           )}
+                         </span>
+                       ))}
+                     </div>
+                     <div className="flex gap-2 flex-wrap p-4 bg-muted rounded">
+                       {q.options?.map(opt => {
+                         const isUsed = usedWords.includes(opt);
+                         return (
+                           <Badge 
+                             key={opt} 
+                             variant={isUsed ? "secondary" : "outline"} 
+                             className={`text-base py-1 px-3 transition-all ${
+                               isUsed 
+                                 ? "opacity-40 cursor-not-allowed" 
+                                 : "cursor-pointer hover:bg-primary hover:text-white"
+                             }`}
+                             onClick={() => {
+                               if (isUsed) return;
+                               if (selectedBlank !== undefined) {
+                                 // Fill the selected blank
+                                 const newFilled = {...filledBlanks, [selectedBlank]: opt};
+                                 submitAnswer(newFilled);
+                                 setResponses(prev => ({...prev, [`${q.id}_selectedBlank`]: undefined}));
+                               } else {
+                                 // Find first empty blank
+                                 const firstEmpty = q.blanks?.findIndex((_, idx) => !filledBlanks[idx]);
+                                 if (firstEmpty !== undefined && firstEmpty >= 0) {
+                                   const newFilled = {...filledBlanks, [firstEmpty]: opt};
+                                   submitAnswer(newFilled);
+                                 }
+                               }
+                             }}
+                           >
+                             {opt}
+                           </Badge>
+                         );
+                       })}
+                     </div>
+                   </>
+                 );
+               })()}
              </div>
           ) : q.section === "Writing" || q.type === "Summarize Spoken Text" ? (
              <div className="space-y-2">
