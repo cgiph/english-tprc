@@ -3707,7 +3707,7 @@ export default function ResourceViewer() {
                            <div className="text-muted-foreground">No media available</div>
                         )}
                       </div>
-                      <CardContent className="p-6 space-y-4 pt-[50px] pb-[50px] pl-[20px] pr-[20px]">
+                      <CardContent className="p-6 space-y-4 pl-[20px] pr-[20px] pt-[50px] pb-[50px]">
                         {!(category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) && (
                           <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
                         )}
