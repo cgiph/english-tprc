@@ -740,13 +740,18 @@ export default function FullMockTest() {
           onAccept={handleAcceptDisclaimer}
         />
         <Card className="border-2 border-primary/10 shadow-lg">
-          <CardHeader className="text-center space-y-4 pb-8 pt-10">
+          <CardHeader className="text-center space-y-4 pb-6 pt-10">
             <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-2">
               <Clock className="h-8 w-8 text-primary" />
             </div>
             <CardTitle className="text-3xl font-serif font-bold">Full Mock Test - PTE Academic</CardTitle>
             <CardDescription className="text-lg max-w-lg mx-auto">A complete simulation of the PTE Academic exam.</CardDescription>
           </CardHeader>
+          <CardContent className="pt-0 pb-6">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800 leading-relaxed">
+              <p>This is not an official PTE Academic test and does not replicate the test format. Results from the test do not predict official scores. For skills assessment, visa, or migration purposes, candidates must take an official IELTS or PTE Academic test at an authorized test centre.</p>
+            </div>
+          </CardContent>
           <CardFooter className="pb-10 justify-center">
             <Button size="lg" className="w-full max-w-xs text-lg font-bold h-12" onClick={startCandidateInfo}>
               Start Assessment
