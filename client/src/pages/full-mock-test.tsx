@@ -301,6 +301,29 @@ export default function FullMockTest() {
   }, []);
 
   const stopAudio = () => window.speechSynthesis.cancel();
+  
+  const audioElementRef = useRef<HTMLAudioElement | null>(null);
+  
+  const stopAllAudio = useCallback(() => {
+    window.speechSynthesis.cancel();
+    if (audioElementRef.current) {
+      audioElementRef.current.pause();
+      audioElementRef.current = null;
+    }
+  }, []);
+
+  const playAudioFile = useCallback((url: string, onEndCallback?: () => void) => {
+    stopAllAudio();
+    const audio = new Audio(url);
+    audioElementRef.current = audio;
+    if (onEndCallback) {
+      audio.onended = onEndCallback;
+    }
+    audio.onerror = () => {
+      console.error("Audio file failed to load, falling back to TTS");
+    };
+    audio.play().catch(err => console.error("Audio play failed:", err));
+  }, [stopAllAudio]);
 
   // Types that need beep immediately after audio, then start recording
   const audioThenBeepTypes = ["Repeat Sentence", "Answer Short Question", "Retell Lecture", "Summarize Group Discussion", "Respond to a Situation"];
@@ -309,10 +332,12 @@ export default function FullMockTest() {
   useEffect(() => {
     if (testState === "active" && currentTest) {
       const q = currentTest.items[currentIndex];
+      // Check if stimulus is a real audio file URL
+      const isRealAudio = q.stimulus && (q.stimulus.endsWith('.mp3') || q.stimulus.endsWith('.ogg') || q.stimulus.endsWith('.wav') || q.stimulus.startsWith('http'));
       // Determine text to speak: audioScript for Listening/Retell Lecture, content for Repeat Sentence/Answer Short Question/Respond to a Situation
       const textToSpeak = q.audioScript || ((q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Respond to a Situation") ? q.content : null);
 
-      if ((q.section === "Listening" || q.section === "Speaking") && textToSpeak) {
+      if ((q.section === "Listening" || q.section === "Speaking") && (isRealAudio || textToSpeak)) {
         // Check if this type needs beep-then-record flow
         const needsBeepAfterAudio = audioThenBeepTypes.includes(q.type);
         // Select Missing Word needs beep at end to signal missing word
@@ -336,14 +361,20 @@ export default function FullMockTest() {
         } : undefined;
 
         // Brief delay to allow UI to settle
-        const timer = setTimeout(() => speakText(textToSpeak, onAudioEnd), 1000);
+        const timer = setTimeout(() => {
+          if (isRealAudio && q.stimulus) {
+            playAudioFile(q.stimulus, onAudioEnd);
+          } else if (textToSpeak) {
+            speakText(textToSpeak, onAudioEnd);
+          }
+        }, 1000);
         return () => {
           clearTimeout(timer);
-          stopAudio();
+          stopAllAudio();
         };
       }
     }
-  }, [currentIndex, testState, currentTest, speakText]);
+  }, [currentIndex, testState, currentTest, speakText, playAudioFile, stopAllAudio]);
 
 
   // Mock API Call simulation
@@ -708,9 +739,16 @@ export default function FullMockTest() {
           )}
 
           {/* Audio Controls */}
-          {((q.section === "Listening" && q.audioScript) || (q.section === "Speaking" && (q.audioScript || q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Respond to a Situation"))) && (
+          {((q.section === "Listening" && q.audioScript) || (q.section === "Speaking" && (q.audioScript || q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Respond to a Situation" || (q.stimulus && q.stimulus.endsWith('.mp3'))))) && (
             <div className="bg-muted p-4 rounded-lg flex items-center gap-4">
-              <Button size="icon" variant="secondary" className="rounded-full" onClick={() => speakText(q.audioScript || q.content || "")}>
+              <Button size="icon" variant="secondary" className="rounded-full" onClick={() => {
+                const isRealAudio = q.stimulus && (q.stimulus.endsWith('.mp3') || q.stimulus.endsWith('.ogg') || q.stimulus.endsWith('.wav'));
+                if (isRealAudio && q.stimulus) {
+                  playAudioFile(q.stimulus);
+                } else {
+                  speakText(q.audioScript || q.content || "");
+                }
+              }}>
                 <PlayCircle className="h-6 w-6" />
               </Button>
               <div className="h-1 flex-1 bg-primary/20 rounded-full overflow-hidden">
