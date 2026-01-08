@@ -227,8 +227,9 @@ export default function FullMockTest() {
         setSpeakingState("prep");
         // Repeat Sentence/Answer Short Question: shorter prep (3s after audio)
         // Summarize Group Discussion: 5s prep after longer audio
+        // Respond to a Situation: 3s prep after audio
         // Others: 40s prep
-        const prepTime = (currentQ.type === "Repeat Sentence" || currentQ.type === "Answer Short Question") ? 3 
+        const prepTime = (currentQ.type === "Repeat Sentence" || currentQ.type === "Answer Short Question" || currentQ.type === "Respond to a Situation") ? 3 
           : currentQ.type === "Summarize Group Discussion" ? 5 : 40;
         setSpeakingTimer(prepTime);
       } else if (speakingState === "idle") {
@@ -261,9 +262,10 @@ export default function FullMockTest() {
                 playBeep(); // Beep on transition to recording
                 startQuestionRecording(); // Start recording
                 setSpeakingState("recording");
-                // Repeat Sentence/Answer Short Question: 10s, Summarize Group Discussion: 60s, others: 40s
+                // Repeat Sentence/Answer Short Question: 10s, Summarize Group Discussion: 60s, Respond to a Situation: 40s, others: 40s
                 const recordTime = (currentQ.type === "Repeat Sentence" || currentQ.type === "Answer Short Question") ? 10 
-                  : currentQ.type === "Summarize Group Discussion" ? 60 : 40;
+                  : currentQ.type === "Summarize Group Discussion" ? 60 
+                  : currentQ.type === "Respond to a Situation" ? 40 : 40;
                 return recordTime;
               } else if (speakingState === "recording") {
                 stopQuestionRecording(); // Stop recording
@@ -294,8 +296,8 @@ export default function FullMockTest() {
   useEffect(() => {
     if (testState === "active" && currentTest) {
       const q = currentTest.items[currentIndex];
-      // Determine text to speak: audioScript for Listening/Retell Lecture, content for Repeat Sentence/Answer Short Question
-      const textToSpeak = q.audioScript || ((q.type === "Repeat Sentence" || q.type === "Answer Short Question") ? q.content : null);
+      // Determine text to speak: audioScript for Listening/Retell Lecture, content for Repeat Sentence/Answer Short Question/Respond to a Situation
+      const textToSpeak = q.audioScript || ((q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Respond to a Situation") ? q.content : null);
 
       if ((q.section === "Listening" || q.section === "Speaking") && textToSpeak) {
         // Brief delay to allow UI to settle
@@ -622,6 +624,13 @@ export default function FullMockTest() {
             </div>
           )}
           
+          {/* Respond to a Situation instruction */}
+          {q.type === "Respond to a Situation" && (
+            <div className="bg-green-50 border border-green-200 p-4 rounded-lg text-sm text-green-800">
+              <strong>Instructions:</strong> Listen to the situation described. After the audio ends, you will have 40 seconds to respond appropriately to the situation.
+            </div>
+          )}
+          
           {q.prompt && <p className="font-medium text-blue-800 bg-blue-50 p-3 rounded">{q.prompt}</p>}
           
           {/* Image */}
@@ -632,7 +641,7 @@ export default function FullMockTest() {
           )}
 
           {/* Audio Controls */}
-          {((q.section === "Listening" && q.audioScript) || (q.section === "Speaking" && (q.audioScript || q.type === "Repeat Sentence" || q.type === "Answer Short Question"))) && (
+          {((q.section === "Listening" && q.audioScript) || (q.section === "Speaking" && (q.audioScript || q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Respond to a Situation"))) && (
             <div className="bg-muted p-4 rounded-lg flex items-center gap-4">
               <Button size="icon" variant="secondary" className="rounded-full" onClick={() => speakText(q.audioScript || q.content || "")}>
                 <PlayCircle className="h-6 w-6" />
@@ -653,10 +662,11 @@ export default function FullMockTest() {
                     <p className="text-lg font-medium text-muted-foreground">
                       {q.type === "Repeat Sentence" ? "Listen to the audio above, then speak" : 
                        q.type === "Answer Short Question" ? "Listen to the question, then answer" : 
-                       q.type === "Summarize Group Discussion" ? "Audio finished. Get ready to summarize" : "Prepare your answer"}
+                       q.type === "Summarize Group Discussion" ? "Audio finished. Get ready to summarize" : 
+                       q.type === "Respond to a Situation" ? "Audio finished. Get ready to respond" : "Prepare your answer"}
                     </p>
                     <div className="text-4xl font-mono font-bold">{speakingTimer}s</div>
-                    {(q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Summarize Group Discussion") && (
+                    {(q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Summarize Group Discussion" || q.type === "Respond to a Situation") && (
                       <p className="text-sm text-muted-foreground mt-2">Recording will begin automatically</p>
                     )}
                   </div>
@@ -675,7 +685,8 @@ export default function FullMockTest() {
                     <p className="font-medium mb-4 text-red-600">
                       {q.type === "Repeat Sentence" ? "Repeat the sentence now..." : 
                        q.type === "Answer Short Question" ? "Answer now..." : 
-                       q.type === "Summarize Group Discussion" ? "Summarize the discussion now..." : "Recording..."}
+                       q.type === "Summarize Group Discussion" ? "Summarize the discussion now..." : 
+                       q.type === "Respond to a Situation" ? "Respond to the situation now..." : "Recording..."}
                     </p>
                     
                     {/* Sound Wave Visualizer */}
@@ -692,7 +703,7 @@ export default function FullMockTest() {
                       ))}
                     </div>
                     
-                    {(q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Summarize Group Discussion") && (
+                    {(q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Summarize Group Discussion" || q.type === "Respond to a Situation") && (
                       <p className="text-xs text-muted-foreground mt-4">Time remaining: {speakingTimer}s</p>
                     )}
                   </div>

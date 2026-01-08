@@ -116,15 +116,24 @@ const MOCK_SGD: MockQuestion[] = [
 
 const MOCK_RTS: MockQuestion[] = [
   {
-    id: "rts-1", section: "Speaking", type: "Respond to a Situation", title: "Respond to a Situation",
-    prompt: "You will hear a description of a situation. Respond appropriately.", stimulus: "audio_placeholder",
-    content: "Your friend is in the hospital. What would you say to them?",
+    id: "rts-1", section: "Speaking", type: "Respond to a Situation", title: "Hospital Visit",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "audio_placeholder",
+    content: "Your friend is in the hospital after a minor surgery. You visit them during visiting hours. What would you say to comfort them and wish them a speedy recovery?",
+    audioScript: "Your friend is in the hospital after a minor surgery. You visit them during visiting hours. What would you say to comfort them and wish them a speedy recovery?",
     max_score: 5, time_limit_seconds: 40
   },
   {
-    id: "rts-2", section: "Speaking", type: "Respond to a Situation", title: "Respond to a Situation",
-    prompt: "You will hear a description of a situation. Respond appropriately.", stimulus: "audio_placeholder",
-    content: "You are late for a meeting. Explain why to your manager.",
+    id: "rts-2", section: "Speaking", type: "Respond to a Situation", title: "Late to Meeting",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "audio_placeholder",
+    content: "You are 30 minutes late for an important team meeting with your manager. The delay was caused by unexpected traffic due to an accident on the highway. What would you say to your manager when you arrive?",
+    audioScript: "You are 30 minutes late for an important team meeting with your manager. The delay was caused by unexpected traffic due to an accident on the highway. What would you say to your manager when you arrive?",
+    max_score: 5, time_limit_seconds: 40
+  },
+  {
+    id: "rts-3", section: "Speaking", type: "Respond to a Situation", title: "Cultural Festival Committee",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "audio_placeholder",
+    content: "You're on a student committee organizing a cultural festival. One of the team members hasn't delivered their tasks, and the event is just a week away. You need to address this in the next team meeting without sounding aggressive. What would you say to the team?",
+    audioScript: "You're on a student committee organizing a cultural festival. One of the team members hasn't delivered their tasks, and the event is just a week away. You need to address this in the next team meeting without sounding aggressive. What would you say to the team?",
     max_score: 5, time_limit_seconds: 40
   }
 ];
