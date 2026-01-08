@@ -3651,6 +3651,18 @@ export default function ResourceViewer() {
                 <div className="grid md:grid-cols-2 gap-8">
                   {CHARTS[category]?.map((item) => (
                     <Card key={item.id} className="overflow-hidden border-2 hover:border-primary/20 transition-colors">
+                      {(category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) ? (
+                        <>
+                          <div className="w-full bg-primary/5 border-b py-4 px-6">
+                            <h3 className="font-serif font-bold text-xl text-primary text-center">{item.title}</h3>
+                          </div>
+                          <CardContent className="p-6 space-y-6">
+                            <Teleprompter text={item.answer} />
+                            <VoiceRecorder />
+                          </CardContent>
+                        </>
+                      ) : (
+                        <>
                       <div className="aspect-video w-full bg-muted border-b relative group flex items-center justify-center bg-gray-50">
                         {item.image ? (
                           <img 
@@ -3699,34 +3711,21 @@ export default function ResourceViewer() {
                                 "Listen to the sample answer"}
                              </p>
                           </div>
-                        ) : (category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) ? (
-                           <div className="w-full h-full flex items-center justify-center p-6 pt-[20px] pb-[20px]">
-                             <h3 className="font-serif font-bold text-xl text-primary text-center">{item.title}</h3>
-                           </div>
                         ) : (
                            <div className="text-muted-foreground">No media available</div>
                         )}
                       </div>
-                      <CardContent className="p-6 space-y-4 pl-[20px] pr-[20px] pt-[50px] pb-[50px]">
-                        {!(category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) && (
-                          <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
-                        )}
+                      <CardContent className="p-6 space-y-4">
+                        <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
                         
-                        {(category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) ? (
-                          <div className="space-y-6">
-                             <Teleprompter text={item.answer} />
-                             <VoiceRecorder />
-                          </div>
-                        ) : (
-                          <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground whitespace-pre-wrap">
-                            <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
-                              {category === "Read Aloud" ? "Passage to Read" : 
-                               category === "Respond to a Situation" ? "Situation" :
-                               "Model Answer"}
-                            </span>
-                            {item.answer}
-                          </div>
-                        )}
+                        <div className="bg-muted/30 p-4 rounded-lg border text-sm leading-relaxed text-muted-foreground whitespace-pre-wrap">
+                          <span className="font-bold text-foreground block mb-2 text-xs uppercase tracking-wider">
+                            {category === "Read Aloud" ? "Passage to Read" : 
+                             category === "Respond to a Situation" ? "Situation" :
+                             "Model Answer"}
+                          </span>
+                          {item.answer}
+                        </div>
                         
                         {category === "Read Aloud" && (item.id === "ra-1" || item.id === "ra-2") && (
                           <div className="mt-4 pt-4 border-t">
@@ -3819,6 +3818,8 @@ export default function ResourceViewer() {
                         )}
 
                       </CardContent>
+                        </>
+                      )}
                     </Card>
                   ))}
                   
