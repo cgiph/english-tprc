@@ -315,6 +315,8 @@ export default function FullMockTest() {
       if ((q.section === "Listening" || q.section === "Speaking") && textToSpeak) {
         // Check if this type needs beep-then-record flow
         const needsBeepAfterAudio = audioThenBeepTypes.includes(q.type);
+        // Select Missing Word needs beep at end to signal missing word
+        const needsBeepOnly = q.type === "Select Missing Word";
         
         const onAudioEnd = needsBeepAfterAudio ? () => {
           // Play beep immediately after audio ends
@@ -328,6 +330,9 @@ export default function FullMockTest() {
               : q.type === "Summarize Group Discussion" ? 60 : 40;
             setSpeakingTimer(recordTime);
           }, 300);
+        } : needsBeepOnly ? () => {
+          // FIX 4: Beep at end of Select Missing Word to signal missing word
+          playBeep();
         } : undefined;
 
         // Brief delay to allow UI to settle
@@ -919,6 +924,94 @@ export default function FullMockTest() {
                 <div className="flex justify-end text-sm text-muted-foreground">
                    Words: {currentVal ? currentVal.trim().split(/\s+/).length : 0}
                 </div>
+             </div>
+          ) : q.type === "Multiple Choice, Multiple Answers" && q.options ? (
+             // FIX 1: Checkboxes for multiple answer selection
+             <div className="space-y-2">
+               <p className="text-sm text-muted-foreground mb-2">Select all that apply</p>
+               {q.options.map(opt => {
+                 const selected = (currentVal as string[] || []).includes(opt);
+                 return (
+                   <div 
+                     key={opt} 
+                     className={`flex items-center space-x-3 p-3 border rounded cursor-pointer transition-all ${
+                       selected ? "bg-primary/10 border-primary" : "bg-white hover:bg-muted/30"
+                     }`}
+                     onClick={() => {
+                       const current = (currentVal as string[]) || [];
+                       if (selected) {
+                         submitAnswer(current.filter(c => c !== opt));
+                       } else {
+                         submitAnswer([...current, opt]);
+                       }
+                     }}
+                   >
+                     <div className={`w-5 h-5 border-2 rounded flex items-center justify-center ${
+                       selected ? "bg-primary border-primary" : "border-muted-foreground"
+                     }`}>
+                       {selected && <CheckCircle2 className="h-4 w-4 text-white" />}
+                     </div>
+                     <Label className="text-base cursor-pointer flex-1">{opt}</Label>
+                   </div>
+                 );
+               })}
+             </div>
+          ) : q.type === "Fill in the Blanks (Listening)" && q.transcript ? (
+             // FIX 2: Listening Fill in the Blanks with passage
+             <div className="space-y-4">
+               <p className="text-sm text-muted-foreground">Listen to the audio and fill in the missing words in the passage below</p>
+               <div className="leading-loose text-lg bg-muted/10 p-4 rounded border">
+                 {(() => {
+                   const parts = q.transcript!.split(/\[([^\]]+)\]/g);
+                   const filledBlanks = (currentVal as Record<number, string>) || {};
+                   let blankIdx = 0;
+                   return parts.map((part, i) => {
+                     if (i % 2 === 1) {
+                       const idx = blankIdx++;
+                       return (
+                         <Input
+                           key={i}
+                           className="inline-block w-28 mx-1 text-center"
+                           placeholder="..."
+                           value={filledBlanks[idx] || ""}
+                           onChange={(e) => submitAnswer({...filledBlanks, [idx]: e.target.value})}
+                         />
+                       );
+                     }
+                     return <span key={i}>{part}</span>;
+                   });
+                 })()}
+               </div>
+             </div>
+          ) : q.type === "Highlight Incorrect Words" && q.displayTranscript ? (
+             // FIX 5: Highlight Incorrect Words with clickable passage
+             <div className="space-y-4">
+               <p className="text-sm text-muted-foreground">Listen to the audio and click on the words that differ from what you hear</p>
+               <div className="leading-loose text-lg bg-muted/10 p-4 rounded border">
+                 {(() => {
+                   const words = q.displayTranscript!.split(/\s+/);
+                   const selected = (currentVal as number[]) || [];
+                   return words.map((word, i) => (
+                     <span
+                       key={i}
+                       className={`inline-block mx-0.5 px-1 py-0.5 rounded cursor-pointer transition-all ${
+                         selected.includes(i) 
+                           ? "bg-red-500 text-white line-through" 
+                           : "hover:bg-yellow-100"
+                       }`}
+                       onClick={() => {
+                         if (selected.includes(i)) {
+                           submitAnswer(selected.filter(s => s !== i));
+                         } else {
+                           submitAnswer([...selected, i]);
+                         }
+                       }}
+                     >
+                       {word}
+                     </span>
+                   ));
+                 })()}
+               </div>
              </div>
           ) : q.options ? (
              <RadioGroup value={currentVal} onValueChange={submitAnswer}>

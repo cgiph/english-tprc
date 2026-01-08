@@ -22,6 +22,9 @@ export type MockQuestion = {
   // New fields for complex types
   paragraphs?: { id: string; text: string; correctOrder: number }[]; // For Reorder Paragraphs
   blanks?: { index: number; correct: string; options?: string[] }[]; // For FIB
+  transcript?: string; // For Listening FIB - text with [blanks]
+  displayTranscript?: string; // For HIW - text with wrong words to highlight
+  wrongWords?: number[]; // For HIW - indices of incorrect words
 };
 
 // User provided question bank
@@ -205,11 +208,16 @@ const MOCK_HCS: MockQuestion[] = [
     id: "hcs-1",
     section: "Listening",
     type: "Highlight Correct Summary",
-    title: "Climate Change Summary",
-    prompt: "Highlight the summary that best matches the recording.",
-    audioScript: "Climate change is accelerating due to human activities...",
-    options: ["Summary A: It is natural.", "Summary B: It is human-caused and accelerating.", "Summary C: It is slowing down."],
-    correctAnswer: "Summary B: It is human-caused and accelerating.",
+    title: "Climate Change and Global Response",
+    prompt: "Select the paragraph that best summarizes the recording.",
+    audioScript: "Climate change represents one of the most pressing challenges facing humanity today. The scientific consensus is clear: human activities, particularly the burning of fossil fuels and deforestation, are driving an unprecedented rise in global temperatures. This warming is causing sea levels to rise, extreme weather events to become more frequent and severe, and ecosystems worldwide to face significant stress. International efforts, such as the Paris Agreement, aim to limit warming to 1.5 degrees Celsius above pre-industrial levels. However, achieving this goal requires immediate and dramatic reductions in greenhouse gas emissions across all sectors of the global economy.",
+    options: [
+      "The speaker discusses how natural climate cycles are primarily responsible for current temperature changes, with human activities playing only a minor role in the overall pattern of global warming observed over recent decades.",
+      "According to the speaker, climate change driven by human activities like burning fossil fuels poses major challenges including rising seas and extreme weather, prompting international agreements like the Paris Accord to limit warming through emission reductions.",
+      "The lecture explains that climate change has been largely solved through technological innovations in renewable energy, with most countries now on track to meet their emission reduction targets ahead of schedule.",
+      "The speaker argues that the economic costs of addressing climate change far outweigh the potential benefits, suggesting that adaptation strategies are preferable to emission reduction efforts."
+    ],
+    correctAnswer: "According to the speaker, climate change driven by human activities like burning fossil fuels poses major challenges including rising seas and extreme weather, prompting international agreements like the Paris Accord to limit warming through emission reductions.",
     max_score: 1,
     time_limit_seconds: 120
   },
@@ -217,11 +225,33 @@ const MOCK_HCS: MockQuestion[] = [
     id: "hcs-2",
     section: "Listening",
     type: "Highlight Correct Summary",
-    title: "Economic Policy Summary",
-    prompt: "Highlight the summary that best matches the recording.",
-    audioScript: "Inflation targeting is a key central bank policy...",
-    options: ["Summary A: Banks ignore inflation.", "Summary B: Banks target employment only.", "Summary C: Banks use inflation targeting."],
-    correctAnswer: "Summary C: Banks use inflation targeting.",
+    title: "Modern Monetary Policy",
+    prompt: "Select the paragraph that best summarizes the recording.",
+    audioScript: "Central banks around the world have adopted inflation targeting as a primary monetary policy framework. This approach involves setting a specific inflation rate, typically around two percent, as the main goal of monetary policy. When inflation exceeds this target, central banks raise interest rates to cool economic activity. Conversely, when inflation falls below target, they lower rates to stimulate spending and investment. The transparency of this framework helps anchor public expectations about future price levels, which itself helps to stabilize actual inflation. Critics argue, however, that focusing solely on inflation may lead policymakers to neglect other important objectives such as full employment and financial stability.",
+    options: [
+      "The recording describes how central banks use inflation targeting to maintain price stability by adjusting interest rates, though critics suggest this focus may come at the expense of other economic goals like employment.",
+      "The speaker explains that central banks have abandoned inflation targeting in favor of directly managing employment levels, as controlling prices has proven to be too difficult in the modern economy.",
+      "According to the lecture, inflation targeting has been universally successful and faces no significant criticism from economists or policymakers around the world.",
+      "The recording argues that central banks should ignore inflation entirely and focus exclusively on maintaining high levels of economic growth regardless of price stability concerns."
+    ],
+    correctAnswer: "The recording describes how central banks use inflation targeting to maintain price stability by adjusting interest rates, though critics suggest this focus may come at the expense of other economic goals like employment.",
+    max_score: 1,
+    time_limit_seconds: 120
+  },
+  {
+    id: "hcs-3",
+    section: "Listening",
+    type: "Highlight Correct Summary",
+    title: "Artificial Intelligence in Healthcare",
+    prompt: "Select the paragraph that best summarizes the recording.",
+    audioScript: "Artificial intelligence is transforming healthcare delivery in remarkable ways. Machine learning algorithms can now analyze medical images with accuracy rivaling or exceeding that of trained radiologists. AI systems are being used to predict patient outcomes, identify individuals at risk for specific conditions, and personalize treatment plans based on genetic and lifestyle factors. However, significant challenges remain. Questions about data privacy, algorithmic bias, and the appropriate role of human oversight continue to spark debate. Additionally, the integration of AI into clinical workflows requires careful change management to ensure that healthcare providers can effectively collaborate with these new tools.",
+    options: [
+      "The speaker discusses how AI has completely replaced human doctors in most medical settings, with machines now making all diagnostic and treatment decisions without any human involvement.",
+      "The recording explains that AI is revolutionizing healthcare through improved diagnostics and personalized treatment, though challenges around privacy, bias, and human oversight require careful consideration.",
+      "According to the lecture, artificial intelligence has been rejected by the medical community due to its inability to match human performance in any clinical task.",
+      "The speaker argues that AI in healthcare is purely theoretical and has not yet been implemented in any real-world medical settings or clinical applications."
+    ],
+    correctAnswer: "The recording explains that AI is revolutionizing healthcare through improved diagnostics and personalized treatment, though challenges around privacy, bias, and human oversight require careful consideration.",
     max_score: 1,
     time_limit_seconds: 120
   }
