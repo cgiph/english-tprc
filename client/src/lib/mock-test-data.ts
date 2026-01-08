@@ -306,7 +306,19 @@ export function generateMockTest(section?: string, count = 10) {
   const speaking = [...ra, ...rs, ...di, ...rl, ...asq, ...sgd, ...rts];
 
   const writing = WRITING_POOL.slice(0, 2);
-  const reading = READING_POOL.slice(0, 10);
+  // Reading Composition (13-18 questions total per PTE format)
+  // R&W Fill in the Blanks (drag & drop): 5-6
+  // Reorder Paragraphs: 2-3
+  // Reading Fill in the Blanks (type-in): 4-5
+  // MCQ Single Answer: 1-2
+  // MCQ Multiple Answers: 1-2
+  const rwFib = getQuestions(READING_POOL, "R&W Fill in the Blanks", 5);
+  const reorder = getQuestions(READING_POOL, "Reorder Paragraphs", 2);
+  const readingFib = getQuestions(READING_POOL, "Reading Fill in the Blanks", 4);
+  const mcSingle = getQuestions(READING_POOL, "Multiple Choice (Single)", 2);
+  const mcMultiple = getQuestions(READING_POOL, "Multiple Choice (Multiple)", 2);
+  
+  const reading = [...rwFib, ...reorder, ...readingFib, ...mcSingle, ...mcMultiple];
 
   const items = [
     ...speaking,
