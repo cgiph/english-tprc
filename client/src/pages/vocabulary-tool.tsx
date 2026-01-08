@@ -693,6 +693,90 @@ export default function VocabularyTool() {
       type: "noun", 
       phonetics: { uk: "/tʃuːˈtɔː.ri.əl/", us: "/tuːˈtɔːr.i.əl/" },
       definition: "a period of instruction given by a university tutor to an individual or very small group" 
+    },
+    { 
+      word: "traverse", 
+      type: "verb", 
+      phonetics: { uk: "/trəˈvɜːs/", us: "/trəˈvɜːrs/" },
+      definition: "1. to move across or through 2. to cross 3. to extend across" 
+    },
+    { 
+      word: "treatise", 
+      type: "noun", 
+      phonetics: { uk: "/ˈtriː.tɪs/", us: "/ˈtriː.tɪs/" },
+      definition: "a formal, usually lengthy, book or piece of writing about a particular subject" 
+    },
+    { 
+      word: "trivial", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈtrɪv.i.əl/", us: "/ˈtrɪv.i.əl/" },
+      definition: "1. of no real importance 2. ordinary 3. insignificant or minor" 
+    },
+    { 
+      word: "truant", 
+      type: "noun", 
+      phonetics: { uk: "/ˈtruː.ənt/", us: "/ˈtruː.ənt/" },
+      definition: "1. a student who avoids school without permission 2. a lazy person 3. a person who avoids or neglects his or her work duties" 
+    },
+    { 
+      word: "tumult", 
+      type: "noun", 
+      phonetics: { uk: "/ˈtjuː.mʌlt/", us: "/ˈtuː.mʌlt/" },
+      definition: "1. a loud noise that is produced by a large group of people 2. a violent or turbulent uprising; a riot 3. confusion" 
+    },
+    { 
+      word: "underlie", 
+      type: "verb", 
+      phonetics: { uk: "/ˌʌn.dəˈlaɪ/", us: "/ˌʌn.dɚˈlaɪ/" },
+      definition: "1. to serve as a basis for 2. to be a strong influence on 3. to be situated below something" 
+    },
+    { 
+      word: "underlying", 
+      type: "adjective", 
+      phonetics: { uk: "/ˌʌn.dəˈlaɪ.ɪŋ/", us: "/ˌʌn.dɚˈlaɪ.ɪŋ/" },
+      definition: "1. fundamental 2. lying beneath 3. basic" 
+    },
+    { 
+      word: "undertake", 
+      type: "verb", 
+      phonetics: { uk: "/ˌʌn.dəˈteɪk/", us: "/ˌʌn.dɚˈteɪk/" },
+      definition: "1. to agree to do something 2. to begin something, especially a long and difficult process 3. to pledge to do something" 
+    },
+    { 
+      word: "ungainly", 
+      type: "adjective", 
+      phonetics: { uk: "/ʌnˈɡeɪn.li/", us: "/ʌnˈɡeɪn.li/" },
+      definition: "(of a person or movement) awkward; clumsy; not moving in an attractive or graceful way" 
+    },
+    { 
+      word: "validity", 
+      type: "noun", 
+      phonetics: { uk: "/vəˈlɪd.ə.ti/", us: "/vəˈlɪd.ə.t̬i/" },
+      definition: "1. well grounded 2. the state of being valid 3. having legal force" 
+    },
+    { 
+      word: "vary", 
+      type: "verb", 
+      phonetics: { uk: "/ˈveə.ri/", us: "/ˈver.i/" },
+      definition: "1. to change 2. to fluctuate 3. to alter 4. to differ" 
+    },
+    { 
+      word: "vehement", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈviː.ə.mənt/", us: "/ˈviː.ə.mənt/" },
+      definition: "1. powerful 2. forceful 3. intense; impassioned 4. expressing strong feelings and great energy" 
+    },
+    { 
+      word: "venerable", 
+      type: "adjective", 
+      phonetics: { uk: "/ˈven.ər.ə.bəl/", us: "/ˈven.ɚ.ə.bəl/" },
+      definition: "deserving respect, especially because of age, wisdom, character, long use, etc." 
+    },
+    { 
+      word: "venerate", 
+      type: "verb", 
+      phonetics: { uk: "/ˈven.ər.eɪt/", us: "/ˈven.ə.reɪt/" },
+      definition: "regard or treat (someone or something) with great respect" 
     }
   ];
 
