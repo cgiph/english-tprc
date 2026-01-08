@@ -41,12 +41,12 @@ const QUESTION_BANK: MockQuestion[] = [
     id: "Q002",
     section: "Reading",
     type: "Multiple Choice (Single)",
-    title: "Main Idea",
-    prompt: "What is the main idea of the passage?",
-    text: "Passage text would go here...", // Placeholder for context
-    options: ["Option A", "Option B", "Option C"],
-    correct: "Option B",
-    correctAnswer: "Option B", // Mapping for UI
+    title: "Climate Change",
+    prompt: "What is the main warning given by scientists?",
+    text: "The rapid acceleration of climate change has led to unpredictable weather patterns. Scientists warn that without immediate intervention, the consequences could be irreversible. Recent studies show that global temperatures have risen by an average of 1.1 degrees Celsius since pre-industrial times, with the past decade being the warmest on record. The melting of polar ice caps, rising sea levels, and increased frequency of extreme weather events are all indicators of this accelerating crisis.",
+    options: ["Weather is becoming more predictable", "Immediate action is unnecessary", "Consequences may be permanent", "Scientists are optimistic"],
+    correct: "Consequences may be permanent",
+    correctAnswer: "Consequences may be permanent",
     time_limit_seconds: 90,
     max_score: 2
   },
