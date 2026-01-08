@@ -3585,7 +3585,6 @@ export default function ResourceViewer() {
           <Download className="h-4 w-4" /> Download PDF
         </Button>
       </header>
-
       <main className="container mx-auto px-4 py-8 flex-1">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
           <TabsList className="w-full justify-start md:justify-center bg-muted/50 p-1 h-auto flex-wrap">
@@ -3708,7 +3707,7 @@ export default function ResourceViewer() {
                            <div className="text-muted-foreground">No media available</div>
                         )}
                       </div>
-                      <CardContent className="p-6 space-y-4">
+                      <CardContent className="p-6 space-y-4 pt-[50px] pb-[50px] pl-[20px] pr-[20px]">
                         {!(category === "Read Aloud" && (item.id === "ra-3" || item.id === "ra-4")) && (
                           <h3 className="font-serif font-bold text-lg text-primary">{item.title}</h3>
                         )}
