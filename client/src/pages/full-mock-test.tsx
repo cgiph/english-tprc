@@ -1042,11 +1042,11 @@ export default function FullMockTest() {
                </div>
              </div>
           ) : q.options ? (
-             <RadioGroup value={currentVal} onValueChange={submitAnswer}>
+             <RadioGroup value={currentVal || ""} onValueChange={submitAnswer}>
                {q.options.map(opt => (
                  <div key={opt} className="flex items-center space-x-2 mb-2">
-                   <RadioGroupItem value={opt} id={opt} />
-                   <Label htmlFor={opt} className="text-base">{opt}</Label>
+                   <RadioGroupItem value={opt} id={`${q.id}-${opt}`} />
+                   <Label htmlFor={`${q.id}-${opt}`} className="text-base">{opt}</Label>
                  </div>
                ))}
              </RadioGroup>
