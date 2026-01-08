@@ -225,8 +225,12 @@ export default function FullMockTest() {
       // Initialize Speaking Logic
       if (currentQ.section === "Speaking" && speakingState === "idle") {
         setSpeakingState("prep");
-        // Repeat Sentence/Answer Short Question: shorter prep (3s after audio), others: 40s
-        setSpeakingTimer((currentQ.type === "Repeat Sentence" || currentQ.type === "Answer Short Question") ? 3 : 40);
+        // Repeat Sentence/Answer Short Question: shorter prep (3s after audio)
+        // Summarize Group Discussion: 5s prep after longer audio
+        // Others: 40s prep
+        const prepTime = (currentQ.type === "Repeat Sentence" || currentQ.type === "Answer Short Question") ? 3 
+          : currentQ.type === "Summarize Group Discussion" ? 5 : 40;
+        setSpeakingTimer(prepTime);
       } else if (speakingState === "idle") {
         // Standard Timer for non-speaking
         setTimeLeft(prev => (prev === 0 ? limit : prev));
@@ -257,8 +261,10 @@ export default function FullMockTest() {
                 playBeep(); // Beep on transition to recording
                 startQuestionRecording(); // Start recording
                 setSpeakingState("recording");
-                // Repeat Sentence/Answer Short Question: 10s recording, others: 40s
-                return (currentQ.type === "Repeat Sentence" || currentQ.type === "Answer Short Question") ? 10 : 40;
+                // Repeat Sentence/Answer Short Question: 10s, Summarize Group Discussion: 60s, others: 40s
+                const recordTime = (currentQ.type === "Repeat Sentence" || currentQ.type === "Answer Short Question") ? 10 
+                  : currentQ.type === "Summarize Group Discussion" ? 60 : 40;
+                return recordTime;
               } else if (speakingState === "recording") {
                 stopQuestionRecording(); // Stop recording
                 handleNext(); // Auto next
@@ -609,6 +615,13 @@ export default function FullMockTest() {
             </div>
           )}
           
+          {/* Summarize Group Discussion instruction */}
+          {q.type === "Summarize Group Discussion" && (
+            <div className="bg-purple-50 border border-purple-200 p-4 rounded-lg text-sm text-purple-800">
+              <strong>Instructions:</strong> Listen carefully to the group discussion (approximately 1-2 minutes). After the audio ends, you will have 60 seconds to summarize the main points discussed.
+            </div>
+          )}
+          
           {q.prompt && <p className="font-medium text-blue-800 bg-blue-50 p-3 rounded">{q.prompt}</p>}
           
           {/* Image */}
@@ -639,10 +652,11 @@ export default function FullMockTest() {
                   <div className="text-center mb-4">
                     <p className="text-lg font-medium text-muted-foreground">
                       {q.type === "Repeat Sentence" ? "Listen to the audio above, then speak" : 
-                       q.type === "Answer Short Question" ? "Listen to the question, then answer" : "Prepare your answer"}
+                       q.type === "Answer Short Question" ? "Listen to the question, then answer" : 
+                       q.type === "Summarize Group Discussion" ? "Audio finished. Get ready to summarize" : "Prepare your answer"}
                     </p>
                     <div className="text-4xl font-mono font-bold">{speakingTimer}s</div>
-                    {(q.type === "Repeat Sentence" || q.type === "Answer Short Question") && (
+                    {(q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Summarize Group Discussion") && (
                       <p className="text-sm text-muted-foreground mt-2">Recording will begin automatically</p>
                     )}
                   </div>
@@ -654,13 +668,14 @@ export default function FullMockTest() {
                        <svg className="absolute inset-0 w-full h-full -rotate-90">
                          <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-muted" />
                          <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-red-500 transition-all duration-1000" 
-                           strokeDasharray={276} strokeDashoffset={276 * (1 - speakingTimer/((q.type === "Repeat Sentence" || q.type === "Answer Short Question") ? 10 : 40))} />
+                           strokeDasharray={276} strokeDashoffset={276 * (1 - speakingTimer/((q.type === "Repeat Sentence" || q.type === "Answer Short Question") ? 10 : q.type === "Summarize Group Discussion" ? 60 : 40))} />
                        </svg>
                        <Mic className="h-10 w-10 text-red-500 animate-pulse" />
                     </div>
                     <p className="font-medium mb-4 text-red-600">
                       {q.type === "Repeat Sentence" ? "Repeat the sentence now..." : 
-                       q.type === "Answer Short Question" ? "Answer now..." : "Recording..."}
+                       q.type === "Answer Short Question" ? "Answer now..." : 
+                       q.type === "Summarize Group Discussion" ? "Summarize the discussion now..." : "Recording..."}
                     </p>
                     
                     {/* Sound Wave Visualizer */}
@@ -677,7 +692,7 @@ export default function FullMockTest() {
                       ))}
                     </div>
                     
-                    {(q.type === "Repeat Sentence" || q.type === "Answer Short Question") && (
+                    {(q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Summarize Group Discussion") && (
                       <p className="text-xs text-muted-foreground mt-4">Time remaining: {speakingTimer}s</p>
                     )}
                   </div>
