@@ -114,6 +114,12 @@ const MOCK_SGD: MockQuestion[] = [
     prompt: "You will hear a group discussion. After the audio ends, summarize the main points in 60 seconds.", stimulus: "audio_placeholder",
     audioScript: "Dean: We have received a significant government grant of $2 million, specifically earmarked for Campus Modernization. The board is split on how to best utilize these funds. One faction wants to build a new state-of-the-art sports complex to attract more undergraduates. The other side argues we should renovate the science laboratories, which are decades old. Head of Sciences: It shouldn't even be a debate. Our chemistry labs are a safety hazard at this point. Ventilation is poor, and equipment is outdated. We are losing top research grants because our facilities aren't up to standard. A sports complex is a luxury; safe and functional labs are a necessity for a research university. Athletics Director: I disagree with the characterization of sports as a luxury. Athletics brings in alumni donations and school spirit, which indirectly funds academics. Enrollment is down 5% this year. A new stadium would boost our visibility and appeal to prospective students who are looking for a holistic college experience, not just a degree factory. Dean: Both valid points. But we must consider the grant's stipulations. It mentions modernization. Could we potentially split the funds? Or perhaps renovate the labs now and launch a separate fundraising campaign for the sports complex? Head of Sciences: Splitting the money would result in two half-finished projects that satisfy no one. $1 million isn't enough to properly overhaul the labs. We need to prioritize academic integrity. If we can't do research, we aren't a university. Athletics Director: Maybe there's a compromise. What if we use the funds for the labs, but commit a percentage of future patent royalties from that research towards the athletics fund? That aligns our interests.",
     max_score: 12, time_limit_seconds: 60
+  },
+  {
+    id: "sgd-3", section: "Speaking", type: "Summarize Group Discussion", title: "Impacts of AI",
+    prompt: "You will hear a group discussion. After the audio ends, summarize the main points in 60 seconds.", stimulus: "/attached_assets/SGD_AI_2_1767940510732.mp3",
+    audioScript: "",
+    max_score: 12, time_limit_seconds: 60
   }
 ];
 
