@@ -422,6 +422,16 @@ export default function GrammarTool() {
         addFeedback(new RegExp(`\\b${wrong}\\b`, 'i'), `Spelling suggestion: '${wrong}' may be a typo.`, 'warning', [`Standard spelling: '${misspellings[wrong]}'`]);
       });
 
+      // ========== EXAM-ACCEPTED PATTERNS - DO NOT FLAG ==========
+      // These structures are accepted by IELTS/PTE/TOEFL scorers.
+      // They may be stylistically weak but are NOT grammatically incorrect.
+      // ✅ Starting sentences with "So" - acceptable
+      // ✅ Using "I think" / "In my opinion" - allowed (limited range, not error)
+      // ✅ Simple sentence repetition - affects range score, not accuracy
+      // ✅ "There are many reasons" - acceptable even if clichéd
+      // ✅ Basic connectors (Firstly, Secondly, In conclusion) - acceptable
+      // PRINCIPLE: If scorers accept it, don't mark it incorrect.
+      
       // ========== HIGH PRIORITY: MEANING-CRITICAL ERRORS ==========
       // These MUST be corrected because they obscure meaning and block basic clause structure
       
