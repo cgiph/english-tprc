@@ -496,6 +496,9 @@ export default function FullMockTest() {
     let writingScore = 0, writingMax = 0, writingAnswered = 0;
     let readingScore = 0, readingMax = 0, readingAnswered = 0;
     let listeningScore = 0, listeningMax = 0, listeningAnswered = 0;
+    
+    // Track accumulated speaking subscores for skills breakdown
+    let totalFluency = 0, totalPronunciation = 0, speakingSubCount = 0;
 
     const details = [];
 
@@ -573,6 +576,11 @@ export default function FullMockTest() {
           const ratio = speakingScoreCalc.overall / 90;
           itemScore = Math.round(item.max_score * ratio);
           
+          // Accumulate subscores for skills breakdown
+          totalFluency += speakingScoreCalc.fluency;
+          totalPronunciation += speakingScoreCalc.pronunciation;
+          speakingSubCount++;
+          
           details.push({
              question_id: item.id,
              score: itemScore,
@@ -625,6 +633,10 @@ export default function FullMockTest() {
       return Math.round((curr / max) * 90);
     };
 
+    // Calculate average speaking subscores from actual speaking responses
+    const avgFluency = speakingSubCount > 0 ? Math.round(totalFluency / speakingSubCount) : 0;
+    const avgPronunciation = speakingSubCount > 0 ? Math.round(totalPronunciation / speakingSubCount) : 0;
+    
     const finalScores = {
       overall: scale(totalPoints, maxPoints, speakingAnswered + writingAnswered + readingAnswered + listeningAnswered),
       communicative: {
@@ -634,12 +646,20 @@ export default function FullMockTest() {
         listening: scale(listeningScore, listeningMax, listeningAnswered)
       },
       skills: { 
-        // Only show skills for sections that were answered
-        grammar: writingAnswered > 0 || readingAnswered > 0 ? Math.max(0, scale(writingScore + readingScore, writingMax + readingMax, writingAnswered + readingAnswered) - 5) : 0,
-        fluency: speakingAnswered > 0 ? scale(speakingScoreTotal, speakingMax, speakingAnswered) : 0,
-        pronunciation: speakingAnswered > 0 ? Math.max(0, scale(speakingScoreTotal, speakingMax, speakingAnswered) - 2) : 0,
-        spelling: writingAnswered > 0 ? scale(writingScore, writingMax, writingAnswered) : 0,
-        vocabulary: readingAnswered > 0 ? scale(readingScore, readingMax, readingAnswered) : 0,
+        // Grammar: weighted from writing and reading performance
+        grammar: writingAnswered > 0 || readingAnswered > 0 
+          ? Math.round((scale(writingScore, writingMax, writingAnswered) * 0.6 + scale(readingScore, readingMax, readingAnswered) * 0.4) * 0.9)
+          : 0,
+        // Fluency and Pronunciation: use actual speaking subscores
+        fluency: avgFluency,
+        pronunciation: avgPronunciation,
+        // Spelling: from writing tasks
+        spelling: writingAnswered > 0 ? Math.round(scale(writingScore, writingMax, writingAnswered) * 0.95) : 0,
+        // Vocabulary: from reading and listening comprehension
+        vocabulary: readingAnswered > 0 || listeningAnswered > 0 
+          ? Math.round((scale(readingScore, readingMax, readingAnswered) * 0.5 + scale(listeningScore, listeningMax, listeningAnswered) * 0.5))
+          : 0,
+        // Written Discourse: from writing tasks
         discourse: writingAnswered > 0 ? scale(writingScore, writingMax, writingAnswered) : 0
       },
       details
