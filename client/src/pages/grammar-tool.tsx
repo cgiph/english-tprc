@@ -310,6 +310,18 @@ export default function GrammarTool() {
         ["Correct form: 'married to a doctor' (spouse relationship)"]
       );
       
+      addFeedback(/\b(leads?|led)\s+for\b/i,
+        "Preposition error: 'Lead' pairs with 'to' not 'for'.",
+        'error',
+        ["Correct form: 'leads to many problems' / 'led to success'"]
+      );
+      
+      addFeedback(/\b(results?|resulted)\s+for\b/i,
+        "Preposition error: 'Result' pairs with 'in' not 'for'.",
+        'error',
+        ["Correct form: 'results in problems' / 'resulted in failure'"]
+      );
+      
       addFeedback(/listen\s+(?!to\b)\w+/i, 
         "Meaning note: 'Listen' requires 'to' before its object in English.", 
         'warning', 
