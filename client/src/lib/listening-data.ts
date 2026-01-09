@@ -179,6 +179,14 @@ export const LISTENING_DATA: ListeningQuestion[] = [
     transcript: "The shift to remote work has [transformed] the traditional office dynamic. Employees appreciate the [flexibility] and reduced commute times. Employers, meanwhile, must adapt their management styles to [maintain] productivity and team [cohesion].",
     correctAnswer: ["transformed", "flexibility", "maintain", "cohesion"]
   },
+  {
+    id: "fib-11",
+    type: "FIB-L",
+    title: "Global Economic Integration",
+    audioScript: "The phenomenon of global economic integration has fundamentally altered the landscape of international commerce and financial markets. Multinational corporations now operate across borders with unprecedented ease, establishing subsidiaries and manufacturing facilities in developing nations to capitalize on lower labor costs and emerging consumer markets. This interconnectedness has created complex supply chains that span multiple continents, with raw materials sourced from one region, components manufactured in another, and final assembly occurring in a third location before products reach consumers worldwide. Critics argue that this model exacerbates inequality between developed and developing nations, while proponents contend that it accelerates technology transfer and creates employment opportunities in regions that previously had limited access to global markets. The regulatory frameworks governing these activities remain fragmented, with individual nations attempting to balance economic growth with environmental protection and labor rights.",
+    transcript: "The phenomenon of global economic [integration] has fundamentally altered the landscape of international commerce and financial markets. [Multinational] corporations now operate across borders with unprecedented ease, establishing [subsidiaries] and manufacturing facilities in developing nations to capitalize on lower labor costs and emerging consumer markets. This [interconnectedness] has created complex supply chains that span multiple continents, with raw materials sourced from one region, components [manufactured] in another, and final assembly occurring in a third location before products reach consumers worldwide. Critics argue that this model [exacerbates] inequality between developed and developing nations, while proponents contend that it accelerates technology [transfer] and creates employment opportunities in regions that previously had limited access to global markets. The [regulatory] frameworks governing these activities remain fragmented, with individual nations attempting to balance economic growth with environmental protection and labor rights.",
+    correctAnswer: ["integration", "Multinational", "subsidiaries", "interconnectedness", "manufactured", "exacerbates", "transfer", "regulatory"]
+  },
 
   // 4. Multiple Choice Single Answer (5 items)
   {
@@ -369,6 +377,14 @@ export const LISTENING_DATA: ListeningQuestion[] = [
     audioScript: "Energy is the quantitative property that must be transferred to a body or physical system to perform work on the body, or to heat it.",
     displayTranscript: "Energy is the quantitative property that must be transferred to a body or physical object to perform work on the body, or to heat it.",
     wrongWords: [14] // object(14) vs system
+  },
+  {
+    id: "hiw-11",
+    type: "HIW",
+    title: "Climate Change and Biodiversity",
+    audioScript: "The accelerating pace of climate change poses unprecedented challenges to global biodiversity and ecosystem stability. Rising temperatures are forcing species to migrate toward higher latitudes and elevations in search of suitable habitats, disrupting established ecological relationships that have evolved over millennia. Marine ecosystems are particularly vulnerable, with coral bleaching events becoming more frequent and severe as ocean temperatures rise and acidification increases. Scientists have documented significant shifts in the timing of seasonal events, such as flowering and migration patterns, which can lead to mismatches between species and their food sources. Conservation efforts must now incorporate climate projections into habitat protection strategies, acknowledging that the geographic ranges of many species will shift dramatically over the coming decades.",
+    displayTranscript: "The accelerating pace of climate change poses unprecedented challenges to global biodiversity and ecosystem balance. Rising temperatures are forcing species to migrate toward higher altitudes and elevations in search of suitable habitats, disrupting established ecological relationships that have developed over millennia. Marine ecosystems are particularly sensitive, with coral bleaching events becoming more frequent and severe as ocean temperatures rise and acidification increases. Scientists have documented significant changes in the timing of seasonal events, such as flowering and migration patterns, which can lead to mismatches between species and their food sources. Conservation efforts must now incorporate climate predictions into habitat protection strategies, acknowledging that the geographic ranges of many species will shift dramatically over the coming decades.",
+    wrongWords: [16, 25, 42, 53, 76, 94] // balance(16) vs stability, altitudes(25) vs latitudes, developed(42) vs evolved, sensitive(53) vs vulnerable, changes(76) vs shifts, predictions(94) vs projections
   },
 
   // 7. Write From Dictation (10 items)
