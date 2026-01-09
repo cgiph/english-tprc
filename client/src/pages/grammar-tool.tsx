@@ -327,9 +327,52 @@ export default function GrammarTool() {
         addFeedback(new RegExp(`\\b${wrong}\\b`, 'i'), `Spelling suggestion: '${wrong}' may be a typo.`, 'warning', [`Standard spelling: '${misspellings[wrong]}'`]);
       });
 
-      // Tense/Time
-      addFeedback(/\byesterday\s+(is|are|go|eat|walk)\b/i, "Tense note: 'Yesterday' signals past time, so past tense verbs work best here.", 'warning', ["Consider: 'was', 'went', etc."]);
-      addFeedback(/\btomorrow\s+(was|were|went|ate|walked)\b/i, "Tense note: 'Tomorrow' signals future time, so future tense works best.", 'warning', ["Consider: 'will be', 'will go', etc."]);
+      // ========== HIGH PRIORITY: MEANING-CRITICAL TENSE ERRORS ==========
+      // These MUST be corrected because they obscure meaning and convey wrong time relationships
+      
+      // Past time markers with present tense base verbs (meaning-critical)
+      addFeedback(/\byesterday\s+I\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave|put|bring|begin|keep|hold|write|stand|hear|let|mean|set|meet|pay|sit|speak|lie|lead|read|grow|lose|fall|feel|catch|buy|send|build|spend|cut|win|teach|sell|throw|break|drive|draw|show|choose|wear)\b/i, 
+        "Meaning-critical: 'Yesterday' requires past tense. The present tense here may confuse the time reference.", 
+        'error', 
+        ["Correct form: Use past tense. Example: 'Yesterday I went to school.'"]
+      );
+      addFeedback(/\byesterday\s+(he|she|it|we|they)\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave|put|bring|begin|keep|hold|write|stand|hear|let|mean|set|meet|pay|sit|speak|lie|lead|read|grow|lose|fall|feel|catch|buy|send|build|spend|cut|win|teach|sell|throw|break|drive|draw|show|choose|wear)\b/i, 
+        "Meaning-critical: 'Yesterday' requires past tense to convey the correct time relationship.", 
+        'error', 
+        ["Correct form: Use past tense verbs (went, ate, walked, etc.)"]
+      );
+      
+      // "Last week/month/year" with present tense
+      addFeedback(/\blast\s+(week|month|year|night|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s+I\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell)\b/i, 
+        "Meaning-critical: Past time reference requires past tense verbs.", 
+        'error', 
+        ["Correct form: Use past tense. Example: 'Last week I went...'"]
+      );
+      
+      // "X days/weeks/months ago" with present tense
+      addFeedback(/\b(\d+|two|three|four|five|six|seven|eight|nine|ten)\s+(days?|weeks?|months?|years?)\s+ago\s+(I|he|she|it|we|they)\s+(go|eat|walk|run|see|do|make|take|come|give|get|have)\b/i, 
+        "Meaning-critical: 'Ago' signals past time and requires past tense verbs.", 
+        'error', 
+        ["Correct form: Use past tense. Example: 'Two days ago I went...'"]
+      );
+      
+      // Future time markers with past tense (meaning-critical)
+      addFeedback(/\btomorrow\s+I\s+(went|ate|walked|ran|saw|did|made|took|came|gave|got|had|said|told|knew|thought|found|left)\b/i, 
+        "Meaning-critical: 'Tomorrow' requires future tense. Past tense here confuses the time reference.", 
+        'error', 
+        ["Correct form: Use 'will + verb' or 'am going to'. Example: 'Tomorrow I will go...'"]
+      );
+      addFeedback(/\bnext\s+(week|month|year|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s+I\s+(went|ate|walked|ran|saw|did|made|took|came|gave|got|had)\b/i, 
+        "Meaning-critical: 'Next week/month' requires future tense.", 
+        'error', 
+        ["Correct form: Use 'will + verb'. Example: 'Next week I will go...'"]
+      );
+      
+      // ========== END MEANING-CRITICAL TENSE ERRORS ==========
+      
+      // General tense notes (less critical)
+      addFeedback(/\byesterday\s+(is|are)\b/i, "Tense note: 'Yesterday' signals past time, so past tense verbs work best here.", 'warning', ["Consider: 'was', 'were'."]);
+      addFeedback(/\btomorrow\s+(was|were)\b/i, "Tense note: 'Tomorrow' signals future time, so future tense works best.", 'warning', ["Consider: 'will be'"]);
       
       // Past time marker + present tense verb error
       addFeedback(/\bbefore\s+(is|are|am)\b/i, "Tense suggestion: 'Before' typically indicates past time, so past tense may be clearer.", 'warning', ["Consider: 'was' or 'were' instead of 'is/are'."]);
