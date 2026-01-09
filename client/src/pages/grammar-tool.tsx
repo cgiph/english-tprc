@@ -145,19 +145,19 @@ export default function GrammarTool() {
       }
 
       // Missing auxiliary verb "have" in perfect tenses
-      addFeedback(/\bI\s+been\b/i, "Missing auxiliary verb. Use 'I have been' or 'I had been'.", 'error', ["Use 'I have been' or 'I had been'."]);
-      addFeedback(/\b(he|she|it)\s+been\b/i, "Missing auxiliary verb. Use 'has been' or 'had been'.", 'error', ["Use 'has been' or 'had been'."]);
-      addFeedback(/\b(we|they|you)\s+been\b/i, "Missing auxiliary verb. Use 'have been' or 'had been'.", 'error', ["Use 'have been' or 'had been'."]);
+      addFeedback(/\bI\s+been\b/i, "Consider adding an auxiliary verb here. Standard form: 'I have been' or 'I had been'.", 'warning', ["Formal alternative: 'I have been' or 'I had been'."]);
+      addFeedback(/\b(he|she|it)\s+been\b/i, "Consider adding an auxiliary verb here. Standard form: 'has been' or 'had been'.", 'warning', ["Formal alternative: 'has been' or 'had been'."]);
+      addFeedback(/\b(we|they|you)\s+been\b/i, "Consider adding an auxiliary verb here. Standard form: 'have been' or 'had been'.", 'warning', ["Formal alternative: 'have been' or 'had been'."]);
       
       // Missing auxiliary with past participle
-      addFeedback(/\bI\s+(gone|done|seen|taken|given|written|spoken|eaten|driven|broken|chosen|forgotten|frozen|stolen|worn)\b(?!\s+by)/i, "Missing auxiliary verb. Past participles need 'have/has/had'.", 'error', ["Use 'I have gone', 'I had done', etc."]);
-      addFeedback(/\b(he|she|it)\s+(gone|done|seen|taken|given|written|spoken|eaten|driven|broken|chosen|forgotten|frozen|stolen|worn)\b(?!\s+by)/i, "Missing auxiliary verb. Past participles need 'have/has/had'.", 'error', ["Use 'has gone', 'had done', etc."]);
+      addFeedback(/\bI\s+(gone|done|seen|taken|given|written|spoken|eaten|driven|broken|chosen|forgotten|frozen|stolen|worn)\b(?!\s+by)/i, "Past participles typically need an auxiliary verb (have/has/had) in standard English.", 'warning', ["Formal alternative: 'I have gone', 'I had done', etc."]);
+      addFeedback(/\b(he|she|it)\s+(gone|done|seen|taken|given|written|spoken|eaten|driven|broken|chosen|forgotten|frozen|stolen|worn)\b(?!\s+by)/i, "Past participles typically need an auxiliary verb in standard English.", 'warning', ["Formal alternative: 'has gone', 'had done', etc."]);
       
       // Irregular verbs
-      addFeedback(/\b(runned|goed|eated)\b/i, "Irregular verb error detected.", 'error', ["ran", "went", "ate"]);
+      addFeedback(/\b(runned|goed|eated)\b/i, "This verb has an irregular past form. Quick tip: run→ran, go→went, eat→ate.", 'warning', ["Standard forms: ran, went, ate"]);
 
       // Subject-verb agreement (this/that are)
-      addFeedback(/(?:^|[.!?]\s+)(this|that)\s+are\b/i, "Subject-verb agreement error. 'This' and 'That' are singular, but 'are' is plural.", 'error', ["Use 'These are', 'Those are', 'This is', or 'That is'."]);
+      addFeedback(/(?:^|[.!?]\s+)(this|that)\s+are\b/i, "Quick grammar note: 'This' and 'That' are singular demonstratives, so they pair with singular verbs.", 'warning', ["Consider: 'These are', 'Those are', 'This is', or 'That is'."]);
 
       // ========== HIGH-IMPACT RULES WITH SAFEGUARDS ==========
       
@@ -167,16 +167,16 @@ export default function GrammarTool() {
       
       // Flag incorrect: "a number of [noun] is/was/has"
       addFeedback(/\ba\s+number\s+of\s+\w+\s+(is|was|has)\b/i, 
-        "Subject-verb agreement: 'A number of' takes a PLURAL verb because it emphasizes the individuals.", 
-        'error', 
-        ["Use 'are', 'were', or 'have'. Example: 'A number of students ARE absent.'"]
+        "Helpful tip: 'A number of' emphasizes the individuals, so it pairs with a plural verb.", 
+        'warning', 
+        ["Formal alternative: 'are', 'were', or 'have'. Example: 'A number of students ARE absent.'"]
       );
       
       // Flag incorrect: "the number of [noun] are/were/have"
       addFeedback(/\bthe\s+number\s+of\s+\w+\s+(are|were|have)\b/i, 
-        "Subject-verb agreement: 'The number of' takes a SINGULAR verb because it refers to the quantity itself.", 
-        'error', 
-        ["Use 'is', 'was', or 'has'. Example: 'The number of students IS increasing.'"]
+        "Helpful tip: 'The number of' refers to the quantity itself, so it pairs with a singular verb.", 
+        'warning', 
+        ["Formal alternative: 'is', 'was', or 'has'. Example: 'The number of students IS increasing.'"]
       );
       
       // Similar patterns: "a majority of", "a variety of" take plural
@@ -203,20 +203,20 @@ export default function GrammarTool() {
       // In spoken English, "there's" with plural is common but grammatically informal
       if (isFormal || isAcademic) {
         addFeedback(/\bthere's\s+(many|several|numerous|various|multiple|some|a\s+lot\s+of|lots\s+of)\b/i,
-          "Spoken grammar in formal writing: 'There's' (there is) with plural nouns is common in speech but incorrect in formal writing.",
-          'error',
-          ["Use 'There are many/several...' in formal writing."]
+          "Grammatically acceptable in speech, but consider 'There are' for formal/academic writing.",
+          'warning',
+          ["Formal alternative: 'There are many/several...'"]
         );
         addFeedback(/\bthere's\s+\d+\s+\w+s\b/i,
-          "Spoken grammar: 'There's' with plural quantities should be 'There are' in formal writing.",
-          'error',
-          ["Use 'There are' with plural nouns."]
+          "This is common in spoken English. For formal writing, 'There are' pairs with plural nouns.",
+          'warning',
+          ["Formal alternative: 'There are' with plural nouns."]
         );
       } else if (isSemiFormal) {
         addFeedback(/\bthere's\s+(many|several|numerous)\b/i,
-          "Note: 'There's' with plural nouns is common in speech. Consider 'There are' for clarity.",
-          'warning',
-          ["Consider: 'There are many/several...'"]
+          "Grammatically acceptable, but 'There are' may sound slightly more polished here.",
+          'info',
+          ["Optional refinement: 'There are many/several...'"]
         );
       }
       // In informal writing, this is acceptable - no feedback
@@ -243,79 +243,79 @@ export default function GrammarTool() {
       // ========== END HIGH-IMPACT RULES ==========
 
       // Punctuation (multiple marks)
-      addFeedback(/[.,;?!]{2,}(?!\.)/g, "Punctuation error. Avoid using multiple punctuation marks.", 'error', ["Use a single punctuation mark."]);
+      addFeedback(/[.,;?!]{2,}(?!\.)/g, "Punctuation tip: A single punctuation mark is typically cleaner.", 'warning', ["Consider using just one punctuation mark."]);
 
       // Spacing after punctuation
-      addFeedback(/[.,;?!][a-zA-Z]/g, "Spacing error. Always put a space after punctuation marks.", 'error', ["Add a space after the punctuation."]);
+      addFeedback(/[.,;?!][a-zA-Z]/g, "Formatting suggestion: Adding a space after punctuation improves readability.", 'warning', ["Optional improvement: Add a space after the punctuation."]);
 
       // Capitalization (start of sentence)
-      addFeedback(/\. [a-z]/g, "Capitalization error. Always capitalize the first letter of a new sentence.", 'error', ["Capitalize the first letter."]);
+      addFeedback(/\. [a-z]/g, "Capitalization note: New sentences typically start with a capital letter.", 'warning', ["Consider capitalizing the first letter."]);
 
       // Space before comma
-      addFeedback(/\s+,/g, "Punctuation error. Do not put a space before a comma.", 'error', ["Remove the space before the comma."]);
+      addFeedback(/\s+,/g, "Formatting tip: In standard punctuation, commas follow words directly without a space.", 'warning', ["Consider removing the space before the comma."]);
 
       // Subject-verb agreement (who)
-      addFeedback(/\b(student|person|one)\s+who\s+(learn|build|make|do|go)\b/i, "Subject-verb agreement error in relative clause. Singular subject 'who' requires a singular verb.", 'error', ["Use 'learns', 'builds', etc."]);
+      addFeedback(/\b(student|person|one)\s+who\s+(learn|build|make|do|go)\b/i, "Grammar note: When 'who' refers to a singular noun, the verb usually takes the singular form.", 'warning', ["Formal alternative: 'learns', 'builds', etc."]);
 
       // Space before punctuation
-      addFeedback(/\s+[.,;?!]/g, "Punctuation error. Do not put a space before punctuation marks.", 'error', ["Remove the space."]);
+      addFeedback(/\s+[.,;?!]/g, "Formatting suggestion: Punctuation marks typically follow words directly.", 'warning', ["Consider removing the space."]);
 
       // Plural subject singular verb
-      addFeedback(/\b(skills|benefits|students|people)\s+(helps|makes|is|has)\b/i, "Subject-verb agreement error. Plural subject requires a plural verb.", 'error', ["Use 'help', 'make', 'are', 'have'."]);
+      addFeedback(/\b(skills|benefits|students|people)\s+(helps|makes|is|has)\b/i, "Subject-verb tip: Plural subjects pair with plural verbs for agreement.", 'warning', ["Formal alternative: 'help', 'make', 'are', 'have'."]);
 
       // Word form
-      addFeedback(/\bthinking\s+creativity\b/i, "Word form error. Use an adverb to modify a verb.", 'error', ["Use 'think creatively'."]);
+      addFeedback(/\bthinking\s+creativity\b/i, "Word form suggestion: Verbs are modified by adverbs, not nouns.", 'warning', ["Consider: 'think creatively'."]);
 
       // Spelling/Word choice
-      addFeedback(/\bspear\s+parts\b/i, "Spelling error / Wrong word choice.", 'error', ["Did you mean 'spare parts'?"]);
+      addFeedback(/\bspear\s+parts\b/i, "Possible typo detected. Did you mean a different word?", 'warning', ["Did you mean 'spare parts'?"]);
 
       // Number agreement
-      addFeedback(/\btheoretical\s+concept\b/i, "Number agreement error. In this context, the plural form is usually required.", 'error', ["Use 'theoretical concepts'."]);
+      addFeedback(/\btheoretical\s+concept\b/i, "Optional improvement for academic writing: Consider using the plural form when discussing multiple ideas.", 'info', ["Consider: 'theoretical concepts'."]);
 
       // Missing object
-      addFeedback(/\breads\s+about\s+in\b/i, "Missing object error. The verb 'reads' needs an object here.", 'error', ["Use 'reads about it in'."]);
+      addFeedback(/\breads\s+about\s+in\b/i, "Clarity suggestion: Adding an object here would make the meaning clearer.", 'warning', ["Consider: 'reads about it in'."]);
 
       // Capitalization (secondly)
-      addFeedback(/\.\s+secondly/i, "Capitalization error. Sentences should start with a capital letter.", 'error', ["Use 'Secondly'."]);
+      addFeedback(/\.\s+secondly/i, "Capitalization note: Sentences begin with a capital letter.", 'warning', ["Consider: 'Secondly'."]);
 
       // Word choice
-      addFeedback(/the\s+important\s+of/i, "Word choice error. 'Important' is an adjective, but a noun is needed here.", 'error', ["Use 'the importance of'."]);
+      addFeedback(/the\s+important\s+of/i, "Word form tip: This position needs a noun. 'Important' is an adjective.", 'warning', ["Formal alternative: 'the importance of'."]);
 
       // Subject-verb agreement (singular subject)
-      addFeedback(/\b(student|he|she|it)\s+(prepare|learn|need|want|go)\b(?!\s+(will|can|should|must|might|could|would))/i, "Subject-verb agreement error. Singular subjects require singular verbs.", 'error', ["Change to singular form (e.g., 'prepares')."]);
+      addFeedback(/\b(student|he|she|it)\s+(prepare|learn|need|want|go)\b(?!\s+(will|can|should|must|might|could|would))/i, "Grammar note: Third-person singular subjects use verb forms ending in -s/-es.", 'warning', ["Formal alternative: 'prepares', 'learns', etc."]);
 
       // Passive voice
-      addFeedback(/be\s+equip\b/i, "Passive voice error. After 'be', use the past participle form.", 'error', ["Use 'be equipped'."]);
+      addFeedback(/be\s+equip\b/i, "Verb form note: After 'be', use the past participle form for passive constructions.", 'warning', ["Standard form: 'be equipped'."]);
 
       // Punctuation (?.)
-      addFeedback(/\?\./g, "Punctuation error. Do not use a period immediately after a question mark.", 'error', ["Remove the period."]);
+      addFeedback(/\?\./g, "Punctuation tip: A question mark already ends the sentence; no period needed.", 'info', ["Consider removing the period."]);
 
       // Awkward phrasing
-      addFeedback(/number\s+one\s+benefits/i, "Awkward phrasing. 'Number one benefits' is not standard English.", 'error', ["Use 'numerous benefits'."]);
+      addFeedback(/number\s+one\s+benefits/i, "Phrasing suggestion: This expression may sound more natural with a different structure.", 'info', ["Consider: 'numerous benefits' or 'many benefits'."]);
 
       // Verb form (is went)
-      addFeedback(/\b(am|is|are|was|were)\s+went\b/i, "Incorrect verb form. 'To be' verbs cannot be used with 'went'.", 'error', ["Use 'I went' or 'I am going'."]);
+      addFeedback(/\b(am|is|are|was|were)\s+went\b/i, "Verb combination note: 'Be' verbs pair with -ing forms or past participles, not simple past.", 'warning', ["Consider: 'I went' or 'I am going'."]);
 
       // Parallelism
-      addFeedback(/\b(love|like|enjoy|hate|prefer)\s+(run|walk|swim|read|write|speak|talk)\s+and\s+\w+ing\b/i, "Parallelism error. Verbs should match in form.", 'error', ["Use matching forms (e.g., 'running and jogging')."]);
+      addFeedback(/\b(love|like|enjoy|hate|prefer)\s+(run|walk|swim|read|write|speak|talk)\s+and\s+\w+ing\b/i, "Style tip: Parallel structure (matching verb forms) improves flow.", 'info', ["Consider matching forms: 'running and jogging' or 'run and jog'."]);
 
       // Stative verbs
-      addFeedback(/\b(am|is|are|was|were)\s+(knowing|believing|wanting|hating|preferring|needing)\b/i, "Stative verb error. This verb isn't usually used in continuous forms.", 'error', ["Use simple tense (e.g., 'I know')."]);
+      addFeedback(/\b(am|is|are|was|were)\s+(knowing|believing|wanting|hating|preferring|needing)\b/i, "Grammar note: Some verbs (stative verbs) typically aren't used in continuous forms.", 'info', ["Standard form: 'I know', 'I believe', etc."]);
 
       // Prepositions
-      addFeedback(/depend\s+of/i, "Preposition error. 'Depend' is followed by 'on'.", 'error', ["Use 'depend on'."]);
-      addFeedback(/interested\s+on/i, "Preposition error. 'Interested' is followed by 'in'.", 'error', ["Use 'interested in'."]);
-      addFeedback(/married\s+with/i, "Preposition error. 'Married' is followed by 'to'.", 'error', ["Use 'married to'."]);
-      addFeedback(/good\s+in\b/i, "Preposition error. 'Good' (ability) is followed by 'at'.", 'error', ["Use 'good at'."]);
-      addFeedback(/responsible\s+of/i, "Preposition error. 'Responsible' is followed by 'for'.", 'error', ["Use 'responsible for'."]);
+      addFeedback(/depend\s+of/i, "Preposition note: 'Depend' pairs with 'on' in standard usage.", 'warning', ["Standard form: 'depend on'."]);
+      addFeedback(/interested\s+on/i, "Preposition note: 'Interested' pairs with 'in' in standard usage.", 'warning', ["Standard form: 'interested in'."]);
+      addFeedback(/married\s+with/i, "Preposition note: 'Married' typically pairs with 'to' when referring to a spouse.", 'warning', ["Standard form: 'married to'."]);
+      addFeedback(/good\s+in\b/i, "Preposition note: When describing ability, 'good' pairs with 'at'.", 'warning', ["Standard form: 'good at'."]);
+      addFeedback(/responsible\s+of/i, "Preposition note: 'Responsible' pairs with 'for' in standard usage.", 'warning', ["Standard form: 'responsible for'."]);
 
       // Compare structure errors
-      addFeedback(/\bcompare[sd]?\s+[\w\s]+\s+than\b/i, "Grammar error. Do not use 'than' with the verb 'compare'. Correct patterns are: 'compare A with B' or 'compare A and B'.", 'error', ["Use 'compare A with B' or 'compare A and B'."]);
-      addFeedback(/\bcomparing\s+[\w\s]+\s+than\b/i, "Grammar error. Do not use 'than' with 'comparing'. Correct patterns are: 'comparing A with B' or 'comparing A and B'.", 'error', ["Use 'comparing A with B' or 'comparing A and B'."]);
+      addFeedback(/\bcompare[sd]?\s+[\w\s]+\s+than\b/i, "Grammar note: 'Compare' uses 'with' or 'to', not 'than'. ('Than' is for comparatives like 'bigger than'.)", 'warning', ["Standard patterns: 'compare A with B' or 'compare A and B'."]);
+      addFeedback(/\bcomparing\s+[\w\s]+\s+than\b/i, "Grammar note: 'Comparing' uses 'with' or 'to', not 'than'.", 'warning', ["Standard patterns: 'comparing A with B' or 'comparing A and B'."]);
       
       // "for" misused with compare (when talking about aspects)
-      addFeedback(/\bcompare[sd]?\s+[\w\s]+\s+for\s+the\b/i, "Preposition error. When discussing topics or aspects with 'compare', use 'in terms of', 'regarding', or 'based on', not 'for'.", 'error', ["Use 'in terms of', 'regarding', or 'based on'."]);
-      addFeedback(/\bcomparing\s+[\w\s]+\s+for\s+the\b/i, "Preposition error. When discussing topics or aspects with 'comparing', use 'in terms of', 'regarding', or 'based on', not 'for'.", 'error', ["Use 'in terms of', 'regarding', or 'based on'."]);
+      addFeedback(/\bcompare[sd]?\s+[\w\s]+\s+for\s+the\b/i, "Preposition suggestion: When discussing aspects with 'compare', consider 'in terms of' or 'regarding'.", 'info', ["Formal alternatives: 'in terms of', 'regarding', or 'based on'."]);
+      addFeedback(/\bcomparing\s+[\w\s]+\s+for\s+the\b/i, "Preposition suggestion: When discussing aspects, 'in terms of' or 'regarding' are more precise.", 'info', ["Formal alternatives: 'in terms of', 'regarding', or 'based on'."]);
 
       // Common spellings
       const misspellings: Record<string, string> = {
@@ -324,24 +324,24 @@ export default function GrammarTool() {
         "publically": "publicly", "goverment": "government", "environment": "environment"
       };
       Object.keys(misspellings).forEach(wrong => {
-        addFeedback(new RegExp(`\\b${wrong}\\b`, 'i'), `Spelling error detected: '${wrong}'`, 'error', [`Did you mean '${misspellings[wrong]}'?`]);
+        addFeedback(new RegExp(`\\b${wrong}\\b`, 'i'), `Spelling suggestion: '${wrong}' may be a typo.`, 'warning', [`Standard spelling: '${misspellings[wrong]}'`]);
       });
 
       // Tense/Time
-      addFeedback(/\byesterday\s+(is|are|go|eat|walk)\b/i, "Tense error. 'Yesterday' requires past tense.", 'error', ["Use 'was', 'went', etc."]);
-      addFeedback(/\btomorrow\s+(was|were|went|ate|walked)\b/i, "Tense error. 'Tomorrow' requires future tense.", 'error', ["Use 'will be', 'will go', etc."]);
+      addFeedback(/\byesterday\s+(is|are|go|eat|walk)\b/i, "Tense note: 'Yesterday' signals past time, so past tense verbs work best here.", 'warning', ["Consider: 'was', 'went', etc."]);
+      addFeedback(/\btomorrow\s+(was|were|went|ate|walked)\b/i, "Tense note: 'Tomorrow' signals future time, so future tense works best.", 'warning', ["Consider: 'will be', 'will go', etc."]);
       
       // Past time marker + present tense verb error
-      addFeedback(/\bbefore\s+(is|are|am)\b/i, "Tense inconsistency. 'Before' indicates past time, so use past tense.", 'error', ["Use 'was' or 'were' instead of 'is/are'."]);
-      addFeedback(/\b(ago|previously|formerly|earlier)\s+(is|are|am)\b/i, "Tense inconsistency. Past time markers require past tense verbs.", 'error', ["Use 'was' or 'were' instead."]);
-      addFeedback(/\b(last\s+(?:week|month|year|time))\s+(is|are|am)\b/i, "Tense inconsistency. Past time references require past tense.", 'error', ["Use 'was' or 'were'."]);
+      addFeedback(/\bbefore\s+(is|are|am)\b/i, "Tense suggestion: 'Before' typically indicates past time, so past tense may be clearer.", 'warning', ["Consider: 'was' or 'were' instead of 'is/are'."]);
+      addFeedback(/\b(ago|previously|formerly|earlier)\s+(is|are|am)\b/i, "Tense note: These time markers signal the past, so past tense maintains consistency.", 'warning', ["Consider: 'was' or 'were'."]);
+      addFeedback(/\b(last\s+(?:week|month|year|time))\s+(is|are|am)\b/i, "Tense note: Past time references pair naturally with past tense verbs.", 'warning', ["Consider: 'was' or 'were'."]);
       
       // Present/future time marker + past tense error
-      addFeedback(/\b(now|currently|presently)\s+(was|were)\b/i, "Tense inconsistency. 'Now/Currently' requires present tense.", 'error', ["Use 'is' or 'are' instead."]);
-      addFeedback(/\b(next\s+(?:week|month|year))\s+(was|were)\b/i, "Tense inconsistency. Future time references require future tense.", 'error', ["Use 'will be'."]);
+      addFeedback(/\b(now|currently|presently)\s+(was|were)\b/i, "Tense note: 'Now/Currently' signals present time.", 'warning', ["Consider: 'is' or 'are'."]);
+      addFeedback(/\b(next\s+(?:week|month|year))\s+(was|were)\b/i, "Tense note: Future time references work best with future tense.", 'warning', ["Consider: 'will be'."]);
       
       // "before is" pattern anywhere in sentence (more flexible)
-      addFeedback(/\bbefore\b[^.!?]*\b(is|are|am)\s+\w+ing?\b/i, "Tense inconsistency. When describing past situations with 'before', use past tense verbs.", 'error', ["Change 'is/are' to 'was/were'."]);
+      addFeedback(/\bbefore\b[^.!?]*\b(is|are|am)\s+\w+ing?\b/i, "Tense suggestion: When describing past situations with 'before', past tense maintains consistency.", 'warning', ["Consider changing 'is/are' to 'was/were'."]);
 
       // Fragments - CONTEXT AWARE
       if (/^(because|although|since|if|when)\s+[a-z\s]+\.$/i.test(text) && !text.includes(",")) {
@@ -373,31 +373,31 @@ export default function GrammarTool() {
       }
 
       // Articles
-      addFeedback(/\ba\s+(apple|orange|egg|elephant|umbrella|hour)\b/i, "Article error. Use 'an' before vowel sounds.", 'error', ["Use 'an'."]);
-      addFeedback(/\ban\s+(car|house|university|book|cat)\b/i, "Article error. Use 'a' before consonant sounds.", 'error', ["Use 'a'."]);
+      addFeedback(/\ba\s+(apple|orange|egg|elephant|umbrella|hour)\b/i, "Article tip: 'An' is used before vowel sounds for smoother pronunciation.", 'warning', ["Consider: 'an'"]);
+      addFeedback(/\ban\s+(car|house|university|book|cat)\b/i, "Article tip: 'A' is used before consonant sounds.", 'warning', ["Consider: 'a'"]);
 
-      // Capitalization (I) - always an error
-      addFeedback(/\bi\b/g, "Capitalization error. The pronoun 'I' must always be capitalized.", 'error', ["Use 'I'."]);
+      // Capitalization (I) - always important
+      addFeedback(/\bi\b/g, "Quick reminder: The pronoun 'I' is always capitalized in English.", 'warning', ["Standard form: 'I'"]);
 
       // Slang/Contractions - CONTEXT AWARE
       if (isFormal || isAcademic) {
-        addFeedback(/\bain't\b/i, "Avoid slang like 'ain't' in formal/academic writing.", 'error', ["Use 'is not', 'are not', or 'am not'."]);
-        addFeedback(/\bgonna\b/i, "Avoid informal language in formal writing.", 'error', ["Use 'going to'."]);
-        addFeedback(/\bwanna\b/i, "Avoid informal language in formal writing.", 'error', ["Use 'want to'."]);
-        addFeedback(/\bgotta\b/i, "Avoid informal language in formal writing.", 'error', ["Use 'have to' or 'got to'."]);
-        addFeedback(/\bkinda\b/i, "Avoid informal language in formal writing.", 'error', ["Use 'kind of' or 'somewhat'."]);
-        addFeedback(/\bsorta\b/i, "Avoid informal language in formal writing.", 'error', ["Use 'sort of' or 'somewhat'."]);
+        addFeedback(/\bain't\b/i, "Register note: 'Ain't' is informal/dialectal. For academic writing, consider standard forms.", 'warning', ["Formal alternatives: 'is not', 'are not', or 'am not'"]);
+        addFeedback(/\bgonna\b/i, "Register note: Informal spelling. Consider the full form for academic writing.", 'warning', ["Formal alternative: 'going to'"]);
+        addFeedback(/\bwanna\b/i, "Register note: Informal spelling. Consider the full form for academic writing.", 'warning', ["Formal alternative: 'want to'"]);
+        addFeedback(/\bgotta\b/i, "Register note: Informal spelling. Consider the full form for academic writing.", 'warning', ["Formal alternative: 'have to' or 'got to'"]);
+        addFeedback(/\bkinda\b/i, "Register note: Informal spelling. Consider more precise language for academic writing.", 'warning', ["Formal alternatives: 'kind of', 'somewhat', or 'rather'"]);
+        addFeedback(/\bsorta\b/i, "Register note: Informal spelling. Consider more precise language for academic writing.", 'warning', ["Formal alternatives: 'sort of', 'somewhat', or 'rather'"]);
       } else if (isSemiFormal) {
-        addFeedback(/\bain't\b/i, "Slang may be too casual for business communication.", 'warning', ["Consider 'is not' or 'are not'."]);
-        addFeedback(/\bgonna\b/i, "Consider more formal language for professional contexts.", 'warning', ["Consider 'going to'."]);
+        addFeedback(/\bain't\b/i, "This is quite casual for professional communication.", 'info', ["Consider: 'is not' or 'are not'"]);
+        addFeedback(/\bgonna\b/i, "Optional refinement for professional contexts.", 'info', ["Consider: 'going to'"]);
       }
       // In informal contexts, these are acceptable - no feedback given
       
       // Contractions in formal writing
       if (isAcademic) {
         addFeedback(/\b(don't|won't|can't|isn't|aren't|wasn't|weren't|hasn't|haven't|hadn't|wouldn't|couldn't|shouldn't|didn't)\b/i, 
-          "Contractions are generally avoided in academic essays. Consider using full forms.", 'warning', 
-          ["Use full forms: 'do not', 'will not', 'cannot', etc."]);
+          "Style note for academic writing: Full verb forms are often preferred over contractions in formal essays.", 'info', 
+          ["Optional improvement: 'do not', 'will not', 'cannot', etc."]);
       }
 
       // Add context summary at the end
@@ -477,7 +477,7 @@ export default function GrammarTool() {
                    feedback.type === 'warning' ? 'text-amber-700' : 
                    feedback.type === 'info' ? 'text-blue-700' : 'text-green-700'
                  }`}>
-                   {feedback.type === 'error' ? 'Error' : feedback.type === 'warning' ? 'Suggestion' : feedback.type === 'info' ? 'Note' : 'Success'}
+                   {feedback.type === 'error' ? 'Worth Reviewing' : feedback.type === 'warning' ? 'Consider This' : feedback.type === 'info' ? 'Helpful Tip' : 'Looks Good'}
                  </h4>
               </div>
               <p className="text-sm text-foreground">{feedback.message}</p>
@@ -665,7 +665,7 @@ export default function GrammarTool() {
                                   feedback.type === 'warning' ? 'text-amber-600' : 
                                   feedback.type === 'info' ? 'text-blue-600' : 'text-green-600'
                                 }`}>
-                                  {feedback.type === 'error' ? 'Error' : feedback.type === 'warning' ? 'Suggestion' : feedback.type === 'info' ? 'Note' : 'Good'}
+                                  {feedback.type === 'error' ? 'Review' : feedback.type === 'warning' ? 'Consider' : feedback.type === 'info' ? 'Tip' : 'Great'}
                                 </span>
                               </div>
                               <p className="text-sm font-medium leading-snug">{feedback.message}</p>
