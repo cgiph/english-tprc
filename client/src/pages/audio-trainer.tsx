@@ -13,6 +13,7 @@ type AudioTask = {
   transcript: string;
   difficulty: "Easy" | "Medium" | "Hard";
   focus?: string; // e.g., "Blended Sounds", "British Accent"
+  audioFile?: string; // Optional: path to actual audio file
 };
 
 const REPEAT_SENTENCE_ITEMS: AudioTask[] = [
@@ -26,6 +27,16 @@ const REPEAT_SENTENCE_ITEMS: AudioTask[] = [
   { id: "rs-8", title: "University Policy", transcript: "Student concession cards can be obtained by completing an application form.", difficulty: "Hard", focus: "Complex Sentence Structure" },
   { id: "rs-9", title: "Geography", transcript: "Rivers provide a habitat and migration route for numerous species of fish.", difficulty: "Medium", focus: "Plural Endings" },
   { id: "rs-10", title: "Medical Research", transcript: "Clinical trials are currently evaluating the safety of the new vaccine.", difficulty: "Hard", focus: "Medical Vocabulary" },
+  { id: "rs-30", title: "Academic Writing", transcript: "The essay should include an introduction, body paragraphs, and a conclusion.", difficulty: "Easy", focus: "Clear Structure", audioFile: "/audio/Rs_Version_6-_(30)_1767948563022.mp3" },
+  { id: "rs-31", title: "Research Methods", transcript: "Quantitative research involves the collection and analysis of numerical data.", difficulty: "Medium", focus: "Academic Terms", audioFile: "/audio/Rs_Version_6-_(31)_1767948563022.mp3" },
+  { id: "rs-32", title: "Climate Change", transcript: "Rising sea levels are a direct consequence of global warming and ice cap melting.", difficulty: "Hard", focus: "Environmental Vocabulary", audioFile: "/audio/Rs_Version_6-_(32)_1767948563022.mp3" },
+  { id: "rs-33", title: "Psychology Lecture", transcript: "Cognitive behavioral therapy is widely used to treat anxiety and depression.", difficulty: "Medium", focus: "Medical Terminology", audioFile: "/audio/Rs_Version_6-_(33)_1767948563023.mp3" },
+  { id: "rs-34", title: "Campus Facilities", transcript: "The new sports complex will be open to all registered students from next semester.", difficulty: "Easy", focus: "Future Tense", audioFile: "/audio/Rs_Version_6-_(34)_1767948563023.mp3" },
+  { id: "rs-35", title: "Art History", transcript: "The Renaissance period marked a significant shift in artistic expression and technique.", difficulty: "Medium", focus: "Historical Terms", audioFile: "/audio/Rs_Version_6-_(35)_1767948563024.mp3" },
+  { id: "rs-36", title: "Business Studies", transcript: "Effective marketing strategies can significantly increase brand awareness and sales.", difficulty: "Medium", focus: "Business Vocabulary", audioFile: "/audio/Rs_Version_6-_(36)_1767948563019.mp3" },
+  { id: "rs-37", title: "Environmental Science", transcript: "Renewable energy sources are becoming increasingly important for sustainable development.", difficulty: "Hard", focus: "Technical Terms", audioFile: "/audio/Rs_Version_6-_(37)_1767948563020.mp3" },
+  { id: "rs-38", title: "Study Skills", transcript: "Time management is essential for balancing academic work and personal life.", difficulty: "Easy", focus: "Clear Pronunciation", audioFile: "/audio/Rs_Version_6-_(38)_1767948563020.mp3" },
+  { id: "rs-39", title: "Technology Trends", transcript: "Artificial intelligence is transforming various industries and job markets.", difficulty: "Medium", focus: "Modern Vocabulary", audioFile: "/audio/Rs_Version_6-_(39)_1767948563021.mp3" },
 ];
 
 const DICTATION_ITEMS: AudioTask[] = [
@@ -46,14 +57,24 @@ export default function AudioTrainer() {
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [revealedId, setRevealedId] = useState<string | null>(null);
   const [userInputs, setUserInputs] = useState<Record<string, string>>({});
+  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
 
   const togglePlay = (id: string) => {
     if (playingId === id) {
       setPlayingId(null);
       window.speechSynthesis.cancel();
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        setCurrentAudio(null);
+      }
     } else {
-      // Cancel any previous speech
+      // Cancel any previous speech or audio
       window.speechSynthesis.cancel();
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
       
       const task = activeTab === "repeat-sentence" 
         ? REPEAT_SENTENCE_ITEMS.find(i => i.id === id) 
@@ -61,6 +82,24 @@ export default function AudioTrainer() {
       
       if (task) {
         setPlayingId(id);
+        
+        // Use actual audio file if available
+        if (task.audioFile) {
+          const audio = new Audio(task.audioFile);
+          setCurrentAudio(audio);
+          audio.onended = () => {
+            setPlayingId(null);
+            setCurrentAudio(null);
+          };
+          audio.onerror = () => {
+            setPlayingId(null);
+            setCurrentAudio(null);
+          };
+          audio.play();
+          return;
+        }
+        
+        // Fallback to speech synthesis
         const utterance = new SpeechSynthesisUtterance(task.transcript);
         
         // Attempt to find a British voice for 'Standard British' focus
