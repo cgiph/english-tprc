@@ -302,12 +302,78 @@ export default function GrammarTool() {
       // Stative verbs
       addFeedback(/\b(am|is|are|was|were)\s+(knowing|believing|wanting|hating|preferring|needing)\b/i, "Grammar note: Some verbs (stative verbs) typically aren't used in continuous forms.", 'info', ["Standard form: 'I know', 'I believe', etc."]);
 
-      // Prepositions
-      addFeedback(/depend\s+of/i, "Preposition note: 'Depend' pairs with 'on' in standard usage.", 'warning', ["Standard form: 'depend on'."]);
-      addFeedback(/interested\s+on/i, "Preposition note: 'Interested' pairs with 'in' in standard usage.", 'warning', ["Standard form: 'interested in'."]);
-      addFeedback(/married\s+with/i, "Preposition note: 'Married' typically pairs with 'to' when referring to a spouse.", 'warning', ["Standard form: 'married to'."]);
-      addFeedback(/good\s+in\b/i, "Preposition note: When describing ability, 'good' pairs with 'at'.", 'warning', ["Standard form: 'good at'."]);
-      addFeedback(/responsible\s+of/i, "Preposition note: 'Responsible' pairs with 'for' in standard usage.", 'warning', ["Standard form: 'responsible for'."]);
+      // ========== PREPOSITIONS (ESL-SENSITIVE) ==========
+      // Meaning-affecting preposition errors (marked as errors)
+      addFeedback(/married\s+with\s+(a|an|the|my|his|her)\s+\w+/i, 
+        "Meaning-critical: 'Married to' refers to your spouse. 'Married with' would mean 'having' (e.g., married with children).", 
+        'error', 
+        ["Correct form: 'married to a doctor' (spouse relationship)"]
+      );
+      
+      addFeedback(/listen\s+(?!to\b)\w+/i, 
+        "Meaning note: 'Listen' requires 'to' before its object in English.", 
+        'warning', 
+        ["Standard form: 'listen to music/someone'"]
+      );
+      
+      // Common ESL patterns - marked as suggestions, not errors
+      addFeedback(/discuss\s+about\s+(the|a|an|this|that|our|their|my|his|her)/i, 
+        "Common ESL pattern: 'Discuss' is transitive and doesn't need 'about'. However, this is widely understood.", 
+        'info', 
+        ["Optional refinement: 'discuss the problem' (no 'about' needed)"]
+      );
+      
+      addFeedback(/explain\s+(me|him|her|us|them)\s+/i, 
+        "Common ESL pattern: 'Explain' uses 'to' before the person. This is a frequent learner pattern.", 
+        'info', 
+        ["Optional refinement: 'explain to me' / 'explain it to him'"]
+      );
+      
+      addFeedback(/enter\s+(into|in)\s+(the|a|an)/i, 
+        "Common ESL pattern: 'Enter' is transitive and doesn't need 'into/in'. However, meaning is clear.", 
+        'info', 
+        ["Optional refinement: 'enter the room' (no preposition needed)"]
+      );
+      
+      addFeedback(/reach\s+(to|at)\s+(the|a|an)/i, 
+        "Common ESL pattern: 'Reach' is transitive. The preposition isn't needed but meaning is clear.", 
+        'info', 
+        ["Optional refinement: 'reach the destination' (no preposition needed)"]
+      );
+      
+      // Standard preposition collocations - suggestions not errors
+      addFeedback(/depend\s+of/i, 
+        "Collocation note: 'Depend' typically pairs with 'on' in standard usage.", 
+        'info', 
+        ["Standard collocation: 'depend on'"]
+      );
+      addFeedback(/interested\s+on/i, 
+        "Collocation note: 'Interested' typically pairs with 'in'.", 
+        'info', 
+        ["Standard collocation: 'interested in'"]
+      );
+      addFeedback(/good\s+in\b/i, 
+        "Collocation note: When describing ability, 'good at' is the standard form.", 
+        'info', 
+        ["Standard collocation: 'good at'"]
+      );
+      addFeedback(/responsible\s+of/i, 
+        "Collocation note: 'Responsible' typically pairs with 'for'.", 
+        'info', 
+        ["Standard collocation: 'responsible for'"]
+      );
+      addFeedback(/consist\s+in\b/i, 
+        "Collocation note: 'Consist of' is the standard form (though 'consist in' has a different, rarer meaning).", 
+        'info', 
+        ["Standard collocation: 'consist of'"]
+      );
+      addFeedback(/arrive\s+to\b/i, 
+        "Collocation note: 'Arrive at' (specific place) or 'arrive in' (city/country) are standard.", 
+        'info', 
+        ["Standard collocations: 'arrive at the station' / 'arrive in London'"]
+      );
+      
+      // ========== END PREPOSITIONS ==========
 
       // Compare structure errors
       addFeedback(/\bcompare[sd]?\s+[\w\s]+\s+than\b/i, "Grammar note: 'Compare' uses 'with' or 'to', not 'than'. ('Than' is for comparatives like 'bigger than'.)", 'warning', ["Standard patterns: 'compare A with B' or 'compare A and B'."]);
