@@ -428,15 +428,25 @@ export default function GrammarTool() {
         addFeedback(new RegExp(`\\b${wrong}\\b`, 'i'), `Spelling suggestion: '${wrong}' may be a typo.`, 'warning', [`Standard spelling: '${misspellings[wrong]}'`]);
       });
 
-      // ========== EXAM-ACCEPTED PATTERNS - DO NOT FLAG ==========
-      // These structures are accepted by IELTS/PTE/TOEFL scorers.
-      // They may be stylistically weak but are NOT grammatically incorrect.
+      // ========== EXAM-ALIGNED FEEDBACK PHILOSOPHY ==========
+      // Feedback should mirror examiner language to build learner trust.
+      // 
+      // NON-NEGOTIABLE RULES BY EXAM:
+      // - IELTS: Penalize faulty complex sentences
+      // - TOEFL: Penalize tense sequence errors  
+      // - PTE: Penalize repetition & sentence control
+      //
+      // EXAM-ACCEPTED PATTERNS - DO NOT FLAG AS ERRORS:
       // ✅ Starting sentences with "So" - acceptable
       // ✅ Using "I think" / "In my opinion" - allowed (limited range, not error)
       // ✅ Simple sentence repetition - affects range score, not accuracy
       // ✅ "There are many reasons" - acceptable even if clichéd
       // ✅ Basic connectors (Firstly, Secondly, In conclusion) - acceptable
-      // PRINCIPLE: If scorers accept it, don't mark it incorrect.
+      // 
+      // FEEDBACK LANGUAGE:
+      // ❌ "Incorrect grammar" → ✅ "This may reduce your grammar score"
+      // ❌ "Error" → ✅ "To reach Band 7+, consider..."
+      // ❌ "Wrong" → ✅ "Grammatically correct, but limits range"
       
       // ========== HIGH PRIORITY: MEANING-CRITICAL ERRORS ==========
       // These MUST be corrected because they obscure meaning and block basic clause structure
@@ -444,23 +454,23 @@ export default function GrammarTool() {
       // Relative Pronoun Error: "which" for people → should be "who"
       // "Students which study abroad" → "Students who study abroad"
       addFeedback(/\b(students?|people|persons?|children|kids|men|women|teachers?|doctors?|engineers?|workers?|employees?|managers?|customers?|users?|members?|players?|athletes?|artists?|writers?|readers?|speakers?|listeners?|learners?|researchers?|scientists?|politicians?|citizens?|residents?|visitors?|tourists?|passengers?|patients?|clients?|colleagues?|friends?|neighbors?|parents?|mothers?|fathers?|brothers?|sisters?|sons?|daughters?|grandparents?|babies?|adults?|teenagers?|individuals?|candidates?|applicants?|participants?|volunteers?|professionals?|experts?|specialists?|officials?|representatives?|leaders?|founders?|owners?|investors?|entrepreneurs?|executives?|directors?|presidents?|staff|team|crew|audience|crowd|population|community|society|humanity|mankind|everyone|someone|anyone|those|they)\s+which\b/i,
-        "Relative pronoun error: Use 'who' for people, not 'which'. 'Which' is for things/objects.",
+        "This will reduce your grammar accuracy score. Use 'who' for people, 'which' for things.",
         'error',
-        ["Correct form: 'Students who study abroad...' / 'People who work here...'"]
+        ["To score higher: 'Students who study abroad...' / 'People who work here...'"]
       );
       
-      // Double Conjunction Error (Very High Exam Relevance)
+      // Double Conjunction Error (Very High Exam Relevance - IELTS penalizes faulty complex sentences)
       // "Although it is expensive, but many buy it" - cannot use both subordinator AND coordinator
       addFeedback(/\b(although|though|even though|while|whereas)\b[^.!?]*,\s*(but|however|yet)\b/i,
-        "Grammar error: Cannot use both a subordinating conjunction ('although/though') AND a coordinating conjunction ('but/yet'). Choose one.",
+        "This faulty complex sentence will lower your IELTS/PTE grammar score. You cannot use both 'although' AND 'but' together.",
         'error',
-        ["Fix option 1: 'Although it is expensive, many buy it.' (remove 'but')", "Fix option 2: 'It is expensive, but many buy it.' (remove 'although')"]
+        ["To score Band 7+: 'Although it is expensive, many buy it.' OR 'It is expensive, but many buy it.'"]
       );
       
       addFeedback(/\b(because|since|as)\b[^.!?]*,\s*(so|therefore)\b/i,
-        "Grammar error: Cannot use both 'because/since' AND 'so/therefore' in the same sentence. Choose one.",
+        "This structure reduces your grammar accuracy. 'Because' and 'so' cannot be used together.",
         'error',
-        ["Fix option 1: 'Because it rained, we stayed home.' (remove 'so')", "Fix option 2: 'It rained, so we stayed home.' (remove 'because')"]
+        ["To improve: 'Because it rained, we stayed home.' OR 'It rained, so we stayed home.'"]
       );
       
       addFeedback(/\b(if|unless|when|whenever)\b[^.!?]*,\s*(then)\b/i,
@@ -472,85 +482,85 @@ export default function GrammarTool() {
       // 2️⃣ Missing Copula Verb (Sentence Skeleton Errors)
       // "She very happy" → "She is very happy"
       addFeedback(/\b(I|you|he|she|it|we|they)\s+(very|so|really|quite|extremely|absolutely|totally|completely)\s+(happy|sad|angry|tired|hungry|thirsty|busy|ready|sorry|afraid|sure|glad|proud|lucky|careful|certain|aware|able|different|similar|important|necessary|possible|impossible|difficult|easy|hard|simple|nice|good|bad|beautiful|ugly|tall|short|big|small|old|young|new|hot|cold|warm|cool|fast|slow|rich|poor|smart|clever|stupid|lazy|crazy|funny|serious|quiet|loud|clean|dirty|dry|wet|safe|dangerous|healthy|sick|ill|fine|okay|wrong|right|true|false|real|fake|free|expensive|cheap|empty|full)\b/i,
-        "Meaning-critical: Missing verb 'be'. Without a linking verb, the sentence structure is incomplete.",
+        "This missing verb will significantly reduce your grammar score. Every sentence needs a main verb.",
         'error',
-        ["Correct form: Add 'am/is/are'. Example: 'She is very happy.'"]
+        ["To fix: Add 'am/is/are'. Example: 'She is very happy.'"]
       );
       
       // More specific patterns for copula omission
       addFeedback(/\b(he|she|it)\s+(very|so|really)\s+(good|bad|nice|kind|smart|fast|slow|big|small|tall|short)\b/i,
-        "Meaning-critical: Missing 'is'. The sentence needs a linking verb.",
+        "Missing 'is' will reduce your accuracy score. Add the linking verb.",
         'error',
-        ["Correct form: 'He/She/It is very...' Example: 'She is very kind.'"]
+        ["To fix: 'He/She/It is very...' Example: 'She is very kind.'"]
       );
       
       addFeedback(/\b(I)\s+(very|so|really)\s+(happy|sad|tired|hungry|busy|sorry|sure|glad)\b/i,
-        "Meaning-critical: Missing 'am'. The sentence needs a linking verb.",
+        "Missing 'am' will reduce your accuracy score. Add the linking verb.",
         'error',
-        ["Correct form: 'I am very...' Example: 'I am very happy.'"]
+        ["To fix: 'I am very...' Example: 'I am very happy.'"]
       );
       
       addFeedback(/\b(we|they|you)\s+(very|so|really)\s+(happy|sad|tired|hungry|busy|ready|sorry|sure|glad)\b/i,
-        "Meaning-critical: Missing 'are'. The sentence needs a linking verb.",
+        "Missing 'are' will reduce your accuracy score. Add the linking verb.",
         'error',
-        ["Correct form: 'We/They/You are very...' Example: 'They are very busy.'"]
+        ["To fix: 'We/They/You are very...' Example: 'They are very busy.'"]
       );
       
       // 3️⃣ Subject-Verb Agreement (Third Person Singular - Basic Forms)
       // "He go to work" → "He goes to work"
       addFeedback(/\b(he|she|it)\s+(go|do|have|say|make|take|come|see|get|know|think|want|use|find|give|tell|work|call|try|ask|need|feel|become|leave|put|mean|keep|let|begin|seem|help|show|hear|play|run|move|live|believe|bring|happen|write|sit|stand|lose|pay|meet|include|continue|set|learn|change|lead|understand|watch|follow|stop|create|speak|read|allow|add|spend|grow|open|walk|win|offer|remember|love|consider|appear|buy|wait|serve|die|send|expect|build|stay|fall|cut|reach|kill|remain|suggest|raise|pass|sell|require|report|decide|pull)\b(?!\s+(to|that|it|him|her|them|us|me|you|up|down|in|out|on|off|back|away|over|through))/i,
-        "Meaning-critical: Third-person singular subjects (he/she/it) need verb forms ending in -s/-es.",
+        "Subject-verb agreement error. This will reduce your grammar accuracy score in all exams.",
         'error',
-        ["Correct form: Add -s/-es. Example: 'He goes to work every day.'"]
+        ["To score higher: Add -s/-es. 'He goes to work every day.'"]
       );
       
       // Specific common patterns
       addFeedback(/\b(he|she|it)\s+go\s+to\b/i,
-        "Meaning-critical: 'He/She/It' requires 'goes' (third-person singular).",
+        "Subject-verb agreement error. 'He/She/It' requires 'goes'. This affects your accuracy score.",
         'error',
-        ["Correct form: 'He goes to...' / 'She goes to...'"]
+        ["To fix: 'He goes to...' / 'She goes to...'"]
       );
       
       addFeedback(/\b(he|she|it)\s+have\s+(a|an|the|to|no|some|many)\b/i,
-        "Meaning-critical: 'He/She/It' requires 'has' (third-person singular).",
+        "Subject-verb agreement error. 'He/She/It' requires 'has'. This affects your accuracy score.",
         'error',
-        ["Correct form: 'He has...' / 'She has...'"]
+        ["To fix: 'He has...' / 'She has...'"]
       );
       
       addFeedback(/\b(he|she|it)\s+do\s+not\b/i,
-        "Meaning-critical: 'He/She/It' requires 'does not' (third-person singular).",
+        "Subject-verb agreement error. 'He/She/It' requires 'does not'. This affects your accuracy score.",
         'error',
-        ["Correct form: 'He does not...' / 'She does not...'"]
+        ["To fix: 'He does not...' / 'She does not...'"]
       );
       
       // 4️⃣ Incorrect Word Order That Affects Meaning
       // "I like very much English" → "I like English very much"
       addFeedback(/\b(like|love|enjoy|hate|want|need)\s+(very\s+much|so\s+much|a\s+lot)\s+(\w+)\b/i,
-        "Word order note: In English, the object typically comes before adverbs like 'very much'.",
+        "Word order error. This structure may reduce your grammar score. Object should come before 'very much'.",
         'error',
-        ["Correct order: 'I like English very much' (object before adverb)"]
+        ["To score higher: 'I like English very much' (object before adverb)"]
       );
       
       addFeedback(/\b(speak|know|understand|learn|study|teach)\s+(very\s+well|quite\s+well|really\s+well)\s+(\w+)\b/i,
-        "Word order note: The object usually comes before adverbs of manner.",
+        "Word order error. This affects sentence control scores (especially in PTE).",
         'error',
-        ["Correct order: 'I speak English very well' (object before adverb)"]
+        ["To fix: 'I speak English very well' (object before adverb)"]
       );
       
       // "Always I go" → "I always go"
       addFeedback(/\b(always|never|often|usually|sometimes|rarely|seldom)\s+(I|you|he|she|it|we|they)\s+(go|do|have|make|take|get|want|need|like|love)\b/i,
-        "Word order note: Frequency adverbs typically come after the subject in statements.",
+        "Grammatically correct, but this word order limits your range score. Standard order places adverbs after the subject.",
         'warning',
-        ["Standard order: 'I always go...' / 'She never eats...'"]
+        ["To reach Band 7+: 'I always go...' / 'She never eats...'"]
       );
       
-      // ========== TENSE ERRORS (MEANING-CRITICAL) ==========
+      // ========== TENSE ERRORS (TOEFL penalizes tense sequence errors) ==========
       
       // Past time markers with present tense base verbs (meaning-critical)
       addFeedback(/\byesterday\s+I\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave|put|bring|begin|keep|hold|write|stand|hear|let|mean|set|meet|pay|sit|speak|lie|lead|read|grow|lose|fall|feel|catch|buy|send|build|spend|cut|win|teach|sell|throw|break|drive|draw|show|choose|wear)\b/i, 
-        "Meaning-critical: 'Yesterday' requires past tense. The present tense here may confuse the time reference.", 
+        "Tense sequence error. TOEFL and PTE penalize this. 'Yesterday' requires past tense.", 
         'error', 
-        ["Correct form: Use past tense. Example: 'Yesterday I went to school.'"]
+        ["To fix: 'Yesterday I went to school.' (use past tense)"]
       );
       addFeedback(/\byesterday\s+(he|she|it|we|they)\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave|put|bring|begin|keep|hold|write|stand|hear|let|mean|set|meet|pay|sit|speak|lie|lead|read|grow|lose|fall|feel|catch|buy|send|build|spend|cut|win|teach|sell|throw|break|drive|draw|show|choose|wear)\b/i, 
         "Meaning-critical: 'Yesterday' requires past tense to convey the correct time relationship.", 
