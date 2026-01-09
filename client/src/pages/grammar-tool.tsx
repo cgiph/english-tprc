@@ -187,6 +187,18 @@ export default function GrammarTool() {
       // Tense/Time
       addFeedback(/\byesterday\s+(is|are|go|eat|walk)\b/i, "Tense error. 'Yesterday' requires past tense.", 'error', ["Use 'was', 'went', etc."]);
       addFeedback(/\btomorrow\s+(was|were|went|ate|walked)\b/i, "Tense error. 'Tomorrow' requires future tense.", 'error', ["Use 'will be', 'will go', etc."]);
+      
+      // Past time marker + present tense verb error
+      addFeedback(/\bbefore\s+(is|are|am)\b/i, "Tense inconsistency. 'Before' indicates past time, so use past tense.", 'error', ["Use 'was' or 'were' instead of 'is/are'."]);
+      addFeedback(/\b(ago|previously|formerly|earlier)\s+(is|are|am)\b/i, "Tense inconsistency. Past time markers require past tense verbs.", 'error', ["Use 'was' or 'were' instead."]);
+      addFeedback(/\b(last\s+(?:week|month|year|time))\s+(is|are|am)\b/i, "Tense inconsistency. Past time references require past tense.", 'error', ["Use 'was' or 'were'."]);
+      
+      // Present/future time marker + past tense error
+      addFeedback(/\b(now|currently|presently)\s+(was|were)\b/i, "Tense inconsistency. 'Now/Currently' requires present tense.", 'error', ["Use 'is' or 'are' instead."]);
+      addFeedback(/\b(next\s+(?:week|month|year))\s+(was|were)\b/i, "Tense inconsistency. Future time references require future tense.", 'error', ["Use 'will be'."]);
+      
+      // "before is" pattern anywhere in sentence (more flexible)
+      addFeedback(/\bbefore\b[^.!?]*\b(is|are|am)\s+\w+ing?\b/i, "Tense inconsistency. When describing past situations with 'before', use past tense verbs.", 'error', ["Change 'is/are' to 'was/were'."]);
 
       // Fragments
       if (/^(because|although|since|if|when)\s+[a-z\s]+\.$/i.test(text) && !text.includes(",")) {
