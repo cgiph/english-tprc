@@ -357,8 +357,8 @@ export function generateMockTest(section?: string, count = 10) {
   const di = getQuestions(SPEAKING_POOL, "Describe Image", 3);
   const rl = getQuestions(SPEAKING_POOL, "Retell Lecture", 1);
   const asq = getQuestions(SPEAKING_POOL, "Answer Short Question", 5);
-  const sgd = getQuestions(SPEAKING_POOL, "Summarize Group Discussion", 1);
-  const rts = getQuestions(SPEAKING_POOL, "Respond to a Situation", 1);
+  const sgd = getQuestions(SPEAKING_POOL, "Summarize Group Discussion", 2);
+  const rts = getQuestions(SPEAKING_POOL, "Respond to a Situation", 4);
   
   const speaking = [...ra, ...rs, ...di, ...rl, ...asq, ...sgd, ...rts];
 
