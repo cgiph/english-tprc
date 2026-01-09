@@ -327,8 +327,85 @@ export default function GrammarTool() {
         addFeedback(new RegExp(`\\b${wrong}\\b`, 'i'), `Spelling suggestion: '${wrong}' may be a typo.`, 'warning', [`Standard spelling: '${misspellings[wrong]}'`]);
       });
 
-      // ========== HIGH PRIORITY: MEANING-CRITICAL TENSE ERRORS ==========
-      // These MUST be corrected because they obscure meaning and convey wrong time relationships
+      // ========== HIGH PRIORITY: MEANING-CRITICAL ERRORS ==========
+      // These MUST be corrected because they obscure meaning and block basic clause structure
+      
+      // 2️⃣ Missing Copula Verb (Sentence Skeleton Errors)
+      // "She very happy" → "She is very happy"
+      addFeedback(/\b(I|you|he|she|it|we|they)\s+(very|so|really|quite|extremely|absolutely|totally|completely)\s+(happy|sad|angry|tired|hungry|thirsty|busy|ready|sorry|afraid|sure|glad|proud|lucky|careful|certain|aware|able|different|similar|important|necessary|possible|impossible|difficult|easy|hard|simple|nice|good|bad|beautiful|ugly|tall|short|big|small|old|young|new|hot|cold|warm|cool|fast|slow|rich|poor|smart|clever|stupid|lazy|crazy|funny|serious|quiet|loud|clean|dirty|dry|wet|safe|dangerous|healthy|sick|ill|fine|okay|wrong|right|true|false|real|fake|free|expensive|cheap|empty|full)\b/i,
+        "Meaning-critical: Missing verb 'be'. Without a linking verb, the sentence structure is incomplete.",
+        'error',
+        ["Correct form: Add 'am/is/are'. Example: 'She is very happy.'"]
+      );
+      
+      // More specific patterns for copula omission
+      addFeedback(/\b(he|she|it)\s+(very|so|really)\s+(good|bad|nice|kind|smart|fast|slow|big|small|tall|short)\b/i,
+        "Meaning-critical: Missing 'is'. The sentence needs a linking verb.",
+        'error',
+        ["Correct form: 'He/She/It is very...' Example: 'She is very kind.'"]
+      );
+      
+      addFeedback(/\b(I)\s+(very|so|really)\s+(happy|sad|tired|hungry|busy|sorry|sure|glad)\b/i,
+        "Meaning-critical: Missing 'am'. The sentence needs a linking verb.",
+        'error',
+        ["Correct form: 'I am very...' Example: 'I am very happy.'"]
+      );
+      
+      addFeedback(/\b(we|they|you)\s+(very|so|really)\s+(happy|sad|tired|hungry|busy|ready|sorry|sure|glad)\b/i,
+        "Meaning-critical: Missing 'are'. The sentence needs a linking verb.",
+        'error',
+        ["Correct form: 'We/They/You are very...' Example: 'They are very busy.'"]
+      );
+      
+      // 3️⃣ Subject-Verb Agreement (Third Person Singular - Basic Forms)
+      // "He go to work" → "He goes to work"
+      addFeedback(/\b(he|she|it)\s+(go|do|have|say|make|take|come|see|get|know|think|want|use|find|give|tell|work|call|try|ask|need|feel|become|leave|put|mean|keep|let|begin|seem|help|show|hear|play|run|move|live|believe|bring|happen|write|sit|stand|lose|pay|meet|include|continue|set|learn|change|lead|understand|watch|follow|stop|create|speak|read|allow|add|spend|grow|open|walk|win|offer|remember|love|consider|appear|buy|wait|serve|die|send|expect|build|stay|fall|cut|reach|kill|remain|suggest|raise|pass|sell|require|report|decide|pull)\b(?!\s+(to|that|it|him|her|them|us|me|you|up|down|in|out|on|off|back|away|over|through))/i,
+        "Meaning-critical: Third-person singular subjects (he/she/it) need verb forms ending in -s/-es.",
+        'error',
+        ["Correct form: Add -s/-es. Example: 'He goes to work every day.'"]
+      );
+      
+      // Specific common patterns
+      addFeedback(/\b(he|she|it)\s+go\s+to\b/i,
+        "Meaning-critical: 'He/She/It' requires 'goes' (third-person singular).",
+        'error',
+        ["Correct form: 'He goes to...' / 'She goes to...'"]
+      );
+      
+      addFeedback(/\b(he|she|it)\s+have\s+(a|an|the|to|no|some|many)\b/i,
+        "Meaning-critical: 'He/She/It' requires 'has' (third-person singular).",
+        'error',
+        ["Correct form: 'He has...' / 'She has...'"]
+      );
+      
+      addFeedback(/\b(he|she|it)\s+do\s+not\b/i,
+        "Meaning-critical: 'He/She/It' requires 'does not' (third-person singular).",
+        'error',
+        ["Correct form: 'He does not...' / 'She does not...'"]
+      );
+      
+      // 4️⃣ Incorrect Word Order That Affects Meaning
+      // "I like very much English" → "I like English very much"
+      addFeedback(/\b(like|love|enjoy|hate|want|need)\s+(very\s+much|so\s+much|a\s+lot)\s+(\w+)\b/i,
+        "Word order note: In English, the object typically comes before adverbs like 'very much'.",
+        'error',
+        ["Correct order: 'I like English very much' (object before adverb)"]
+      );
+      
+      addFeedback(/\b(speak|know|understand|learn|study|teach)\s+(very\s+well|quite\s+well|really\s+well)\s+(\w+)\b/i,
+        "Word order note: The object usually comes before adverbs of manner.",
+        'error',
+        ["Correct order: 'I speak English very well' (object before adverb)"]
+      );
+      
+      // "Always I go" → "I always go"
+      addFeedback(/\b(always|never|often|usually|sometimes|rarely|seldom)\s+(I|you|he|she|it|we|they)\s+(go|do|have|make|take|get|want|need|like|love)\b/i,
+        "Word order note: Frequency adverbs typically come after the subject in statements.",
+        'warning',
+        ["Standard order: 'I always go...' / 'She never eats...'"]
+      );
+      
+      // ========== TENSE ERRORS (MEANING-CRITICAL) ==========
       
       // Past time markers with present tense base verbs (meaning-critical)
       addFeedback(/\byesterday\s+I\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave|put|bring|begin|keep|hold|write|stand|hear|let|mean|set|meet|pay|sit|speak|lie|lead|read|grow|lose|fall|feel|catch|buy|send|build|spend|cut|win|teach|sell|throw|break|drive|draw|show|choose|wear)\b/i, 
