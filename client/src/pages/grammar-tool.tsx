@@ -587,23 +587,42 @@ export default function GrammarTool() {
       addFeedback(/\bbefore\b[^.!?]*\b(is|are|am)\s+\w+ing?\b/i, "Tense suggestion: When describing past situations with 'before', past tense maintains consistency.", 'warning', ["Consider changing 'is/are' to 'was/were'."]);
 
       // Fragments - CONTEXT AWARE
-      if (/^(because|although|since|if|when)\s+[a-z\s]+\.$/i.test(text) && !text.includes(",")) {
-        if (isFormal || isAcademic) {
+      // ✅ Task 1 / TOEFL Integrated / Academic Essay → Error (must be corrected)
+      // ✅ Task 2 conclusions / Reflective / General → Suggestion (optional)
+      // ✅ Creative → Acceptable stylistic choice
+      if (/^(because|although|since|if|when|while|unless|until|after|before)\s+[a-z\s,]+\.$/i.test(text) && !/,\s*[a-z]/i.test(text)) {
+        if (isFormal && isAcademic) {
+          // Task 1 / Integrated / Academic Essay context - fragments are errors
           newFeedbacks.push({
             type: 'error',
-            message: "Sentence fragment. In formal/academic writing, subordinate clauses must be attached to a main clause.",
-            corrections: ["Rewrite as a complete sentence, e.g., 'Because the experiment failed, the results were invalid.'"]
+            message: "Sentence fragment. In academic essays and formal task responses, subordinate clauses must be attached to a main clause.",
+            corrections: ["Attach to a main clause: 'Because X happened, Y resulted.'", "Or rewrite as an independent statement."]
+          });
+        } else if (isFormal) {
+          // Formal but not academic (e.g., business email) - still an error but different tone
+          newFeedbacks.push({
+            type: 'error',
+            message: "Incomplete sentence. In professional writing, ensure all sentences have both a subject and a main verb.",
+            corrections: ["Complete the thought: 'Because of X, we recommend Y.'"]
           });
         } else if (isCreative) {
+          // Creative writing - fragments are stylistic choices, just note it
           newFeedbacks.push({
             type: 'info',
-            message: "Sentence fragment detected. In creative/reflective writing, fragments can be used intentionally for emphasis or stylistic effect.",
+            message: "Fragment detected. In creative writing, this can be an effective stylistic choice for emphasis or pacing.",
           });
-        } else {
+        } else if (genre === 'general') {
+          // General writing - optional suggestion, not error
           newFeedbacks.push({
             type: 'warning',
-            message: "Sentence fragment. Consider whether this is intentional for effect, or needs a main clause.",
-            corrections: ["Add a main clause if clarity is the goal."]
+            message: "Sentence fragment detected. Consider completing this thought with a main clause for clarity.",
+            corrections: ["Optional: Add a main clause to complete the sentence."]
+          });
+        } else {
+          // Reflective/conversation/other - fragments are acceptable, gentle suggestion
+          newFeedbacks.push({
+            type: 'info',
+            message: "This is a fragment. In reflective or conversational writing, fragments can work for personal voice, but complete sentences may read more smoothly.",
           });
         }
       }
