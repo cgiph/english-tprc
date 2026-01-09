@@ -159,6 +159,89 @@ export default function GrammarTool() {
       // Subject-verb agreement (this/that are)
       addFeedback(/(?:^|[.!?]\s+)(this|that)\s+are\b/i, "Subject-verb agreement error. 'This' and 'That' are singular, but 'are' is plural.", 'error', ["Use 'These are', 'Those are', 'This is', or 'That is'."]);
 
+      // ========== HIGH-IMPACT RULES WITH SAFEGUARDS ==========
+      
+      // 1️⃣ Subject-Verb Agreement: "A number of" vs "The number of"
+      // "A number of + plural noun" = PLURAL verb (correct: "A number of students ARE absent")
+      // "The number of + plural noun" = SINGULAR verb (correct: "The number of students IS increasing")
+      
+      // Flag incorrect: "a number of [noun] is/was/has"
+      addFeedback(/\ba\s+number\s+of\s+\w+\s+(is|was|has)\b/i, 
+        "Subject-verb agreement: 'A number of' takes a PLURAL verb because it emphasizes the individuals.", 
+        'error', 
+        ["Use 'are', 'were', or 'have'. Example: 'A number of students ARE absent.'"]
+      );
+      
+      // Flag incorrect: "the number of [noun] are/were/have"
+      addFeedback(/\bthe\s+number\s+of\s+\w+\s+(are|were|have)\b/i, 
+        "Subject-verb agreement: 'The number of' takes a SINGULAR verb because it refers to the quantity itself.", 
+        'error', 
+        ["Use 'is', 'was', or 'has'. Example: 'The number of students IS increasing.'"]
+      );
+      
+      // Similar patterns: "a majority of", "a variety of" take plural
+      addFeedback(/\ba\s+(majority|variety)\s+of\s+\w+\s+(is|was|has)\b/i,
+        "Subject-verb agreement: 'A majority/variety of' typically takes a PLURAL verb.",
+        'warning',
+        ["Consider using 'are', 'were', or 'have'."]
+      );
+      
+      // 2️⃣ Article Usage - DO NOT flag uncountable/abstract nouns
+      // List of common uncountable nouns that don't need articles
+      const uncountableNouns = [
+        'knowledge', 'information', 'advice', 'news', 'furniture', 'equipment', 
+        'research', 'evidence', 'progress', 'homework', 'music', 'art', 'love',
+        'happiness', 'sadness', 'anger', 'courage', 'patience', 'honesty',
+        'education', 'health', 'wealth', 'success', 'failure', 'experience',
+        'water', 'air', 'rice', 'bread', 'coffee', 'tea', 'milk', 'sugar', 'salt'
+      ];
+      
+      // Only flag article errors for COUNTABLE nouns, not uncountable ones
+      // This prevents false positives like flagging "Knowledge is important"
+      
+      // 3️⃣ Spoken vs Written Grammar - "There's many/several/numerous"
+      // In spoken English, "there's" with plural is common but grammatically informal
+      if (isFormal || isAcademic) {
+        addFeedback(/\bthere's\s+(many|several|numerous|various|multiple|some|a\s+lot\s+of|lots\s+of)\b/i,
+          "Spoken grammar in formal writing: 'There's' (there is) with plural nouns is common in speech but incorrect in formal writing.",
+          'error',
+          ["Use 'There are many/several...' in formal writing."]
+        );
+        addFeedback(/\bthere's\s+\d+\s+\w+s\b/i,
+          "Spoken grammar: 'There's' with plural quantities should be 'There are' in formal writing.",
+          'error',
+          ["Use 'There are' with plural nouns."]
+        );
+      } else if (isSemiFormal) {
+        addFeedback(/\bthere's\s+(many|several|numerous)\b/i,
+          "Note: 'There's' with plural nouns is common in speech. Consider 'There are' for clarity.",
+          'warning',
+          ["Consider: 'There are many/several...'"]
+        );
+      }
+      // In informal writing, this is acceptable - no feedback
+      
+      // 4️⃣ Passive Voice - Context-dependent, NOT always wrong
+      // Only flag passive in contexts where active voice is preferred
+      const passivePattern = /\b(is|are|was|were|been|being)\s+(being\s+)?(done|made|taken|given|shown|found|used|called|known|seen|considered|reported|believed|thought|expected|required|needed|allowed|asked|told|written|built|created|designed|developed|produced|manufactured|established|formed|organized|conducted|performed|completed|achieved|received|obtained|discovered|identified|observed|noted|recorded|measured|analyzed|examined|tested|evaluated|assessed|reviewed|discussed|described|explained|defined|determined|established|calculated|estimated|predicted|proposed|suggested|recommended|indicated|demonstrated|illustrated|confirmed|verified|validated|proved|supported|maintained|preserved|protected|prevented|reduced|increased|improved|enhanced|extended|expanded|modified|changed|adjusted|adapted|applied|implemented|introduced|incorporated|integrated|combined|separated|divided|distributed|transferred|transported|delivered|provided|supplied|offered|presented|displayed|represented|expressed|communicated|transmitted|sent|received)\b/i;
+      
+      // Only flag passive voice in informal/conversation contexts where active is more natural
+      if (isConversation) {
+        // Check for passive voice patterns
+        const passiveMatch = text.match(passivePattern);
+        if (passiveMatch) {
+          newFeedbacks.push({
+            type: 'info',
+            message: "Passive voice detected. In conversational writing, active voice is often more engaging and direct.",
+            corrections: ["Consider rephrasing in active voice for a more conversational tone."]
+          });
+        }
+      }
+      // In academic/formal writing, passive voice is often preferred - NO flag
+      // "The data were collected" is CORRECT in research writing
+      
+      // ========== END HIGH-IMPACT RULES ==========
+
       // Punctuation (multiple marks)
       addFeedback(/[.,;?!]{2,}(?!\.)/g, "Punctuation error. Avoid using multiple punctuation marks.", 'error', ["Use a single punctuation mark."]);
 
