@@ -93,6 +93,15 @@ export default function GrammarTool() {
         });
       }
 
+      // Missing auxiliary verb "have" in perfect tenses
+      addFeedback(/\bI\s+been\b/i, "Missing auxiliary verb. Use 'I have been' or 'I had been'.", 'error', ["Use 'I have been' or 'I had been'."]);
+      addFeedback(/\b(he|she|it)\s+been\b/i, "Missing auxiliary verb. Use 'has been' or 'had been'.", 'error', ["Use 'has been' or 'had been'."]);
+      addFeedback(/\b(we|they|you)\s+been\b/i, "Missing auxiliary verb. Use 'have been' or 'had been'.", 'error', ["Use 'have been' or 'had been'."]);
+      
+      // Missing auxiliary with past participle
+      addFeedback(/\bI\s+(gone|done|seen|taken|given|written|spoken|eaten|driven|broken|chosen|forgotten|frozen|stolen|worn)\b(?!\s+by)/i, "Missing auxiliary verb. Past participles need 'have/has/had'.", 'error', ["Use 'I have gone', 'I had done', etc."]);
+      addFeedback(/\b(he|she|it)\s+(gone|done|seen|taken|given|written|spoken|eaten|driven|broken|chosen|forgotten|frozen|stolen|worn)\b(?!\s+by)/i, "Missing auxiliary verb. Past participles need 'have/has/had'.", 'error', ["Use 'has gone', 'had done', etc."]);
+      
       // Irregular verbs
       addFeedback(/\b(runned|goed|eated)\b/i, "Irregular verb error detected.", 'error', ["ran", "went", "ate"]);
 
