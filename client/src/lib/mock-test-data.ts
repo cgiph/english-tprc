@@ -146,24 +146,24 @@ const MOCK_RTS: MockQuestion[] = [
     max_score: 5, time_limit_seconds: 40
   },
   {
-    id: "rts-4", section: "Speaking", type: "Respond to a Situation", title: "Respond to Situation 4",
+    id: "rts-4", section: "Speaking", type: "Respond to a Situation", title: "Library Book Return",
     prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_4_1767941319553.mp3",
-    content: "",
-    audioScript: "",
+    content: "You borrowed several books from the university library last month. You just realized that one of the books is two weeks overdue and you cannot find it anywhere in your apartment. You need to go to the library and explain the situation to the librarian. What would you say?",
+    audioScript: "You borrowed several books from the university library last month. You just realized that one of the books is two weeks overdue and you cannot find it anywhere in your apartment. You need to go to the library and explain the situation to the librarian. What would you say?",
     max_score: 5, time_limit_seconds: 40
   },
   {
-    id: "rts-5", section: "Speaking", type: "Respond to a Situation", title: "Respond to Situation 5",
+    id: "rts-5", section: "Speaking", type: "Respond to a Situation", title: "Noisy Neighbor",
     prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_5_1767941323864.mp3",
-    content: "",
-    audioScript: "",
+    content: "You have an important exam tomorrow morning, but your neighbor has been playing loud music for the past two hours. It's now 11 PM and you cannot concentrate on your studies. You decide to knock on their door and politely ask them to lower the volume. What would you say?",
+    audioScript: "You have an important exam tomorrow morning, but your neighbor has been playing loud music for the past two hours. It's now 11 PM and you cannot concentrate on your studies. You decide to knock on their door and politely ask them to lower the volume. What would you say?",
     max_score: 5, time_limit_seconds: 40
   },
   {
-    id: "rts-6", section: "Speaking", type: "Respond to a Situation", title: "Respond to Situation 6",
+    id: "rts-6", section: "Speaking", type: "Respond to a Situation", title: "Group Project Conflict",
     prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_6_1767941327985.mp3",
-    content: "",
-    audioScript: "",
+    content: "You are working on a group assignment for your university course. Two of your group members have very different ideas about how to approach the project and have been arguing for the past 20 minutes. As the group leader, you need to step in and help resolve the conflict. What would you say to both of them?",
+    audioScript: "You are working on a group assignment for your university course. Two of your group members have very different ideas about how to approach the project and have been arguing for the past 20 minutes. As the group leader, you need to step in and help resolve the conflict. What would you say to both of them?",
     max_score: 5, time_limit_seconds: 40
   }
 ];
