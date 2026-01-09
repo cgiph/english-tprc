@@ -648,17 +648,28 @@ export default function FullMockTest() {
     const readingScaled = readingAnswered > 0 ? scale(readingScore, readingMax, readingAnswered) : 0;
     const listeningScaled = listeningAnswered > 0 ? scale(listeningScore, listeningMax, listeningAnswered) : 0;
     
-    // PTE Overall Score: Weighted average of all communicative skills
-    // Only include sections that were answered
-    const answeredSections: number[] = [];
-    if (speakingAnswered > 0) answeredSections.push(speakingScaled);
-    if (writingAnswered > 0) answeredSections.push(writingScaled);
-    if (readingAnswered > 0) answeredSections.push(readingScaled);
-    if (listeningAnswered > 0) answeredSections.push(listeningScaled);
-    
-    const overallScore = answeredSections.length > 0 
-      ? Math.round(answeredSections.reduce((a, b) => a + b, 0) / answeredSections.length)
+    // Calculate enabling skills first
+    const grammarScore = writingAnswered > 0 || readingAnswered > 0 
+      ? Math.round((writingScaled * 0.6 + readingScaled * 0.4))
       : 0;
+    const fluencyScore = avgFluency;
+    const pronunciationScore = avgPronunciation;
+    const spellingScore = writingScaled;
+    const vocabularyScore = (readingAnswered > 0 || listeningAnswered > 0 || writingAnswered > 0)
+      ? Math.round((readingScaled * 0.4 + listeningScaled * 0.3 + writingScaled * 0.3))
+      : 0;
+    const discourseScore = writingScaled;
+    
+    // PTE Overall Score: Derived from ENABLING SKILLS (not communicative skills)
+    // Grammar: 20%, Oral Fluency: 20%, Pronunciation: 15%, Vocabulary: 15%, Written Discourse: 20%, Spelling: 10%
+    const overallScore = Math.round(
+      grammarScore * 0.20 +
+      fluencyScore * 0.20 +
+      pronunciationScore * 0.15 +
+      vocabularyScore * 0.15 +
+      discourseScore * 0.20 +
+      spellingScore * 0.10
+    );
     
     const finalScores = {
       overall: overallScore,
@@ -669,22 +680,12 @@ export default function FullMockTest() {
         listening: listeningScaled
       },
       skills: { 
-        // Grammar: Derived from writing (60%) and reading (40%) - shows language accuracy
-        grammar: writingAnswered > 0 || readingAnswered > 0 
-          ? Math.round((writingScaled * 0.6 + readingScaled * 0.4))
-          : 0,
-        // Oral Fluency: From actual speaking task subscores
-        fluency: avgFluency,
-        // Pronunciation: From actual speaking task subscores  
-        pronunciation: avgPronunciation,
-        // Spelling: Primarily from writing performance
-        spelling: writingScaled,
-        // Vocabulary: From reading, listening, and speaking comprehension
-        vocabulary: answeredSections.length > 0
-          ? Math.round((readingScaled * 0.4 + listeningScaled * 0.3 + writingScaled * 0.3))
-          : 0,
-        // Written Discourse: From writing task performance
-        discourse: writingScaled
+        grammar: grammarScore,
+        fluency: fluencyScore,
+        pronunciation: pronunciationScore,
+        spelling: spellingScore,
+        vocabulary: vocabularyScore,
+        discourse: discourseScore
       },
       details
     };
