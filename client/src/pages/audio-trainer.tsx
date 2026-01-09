@@ -50,6 +50,16 @@ const DICTATION_ITEMS: AudioTask[] = [
   { id: "wfd-8", title: "Financial Aid", transcript: "Financial aid applications must be submitted by the end of the semester.", difficulty: "Hard" },
   { id: "wfd-9", title: "Guest Speaker", transcript: "A renowned scientist will be delivering a guest lecture tomorrow.", difficulty: "Medium" },
   { id: "wfd-10", title: "Library Fine", transcript: "Overdue books will incur a daily fine until they are returned.", difficulty: "Easy" },
+  { id: "wfd-40", title: "Lecture Recording", transcript: "Students can download the lecture recordings from the online platform.", difficulty: "Easy", audioFile: "/audio/Rs_Version_6-_(40)_1767948638553.mp3" },
+  { id: "wfd-41", title: "Thesis Submission", transcript: "The final thesis must be submitted before the end of the academic year.", difficulty: "Medium", audioFile: "/audio/Rs_Version_6-_(41)_1767948638554.mp3" },
+  { id: "wfd-42", title: "Student Housing", transcript: "Applications for student accommodation should be made well in advance.", difficulty: "Medium", audioFile: "/audio/Rs_Version_6-_(42)_1767948638555.mp3" },
+  { id: "wfd-43", title: "Lab Equipment", transcript: "All laboratory equipment must be returned at the end of the semester.", difficulty: "Easy", audioFile: "/audio/Rs_Version_6-_(43)_1767948638555.mp3" },
+  { id: "wfd-44", title: "Academic Calendar", transcript: "The academic calendar is available on the university website.", difficulty: "Easy", audioFile: "/audio/Rs_Version_6-_(44)_1767948638549.mp3" },
+  { id: "wfd-45", title: "Research Grant", transcript: "Researchers must apply for funding before starting their projects.", difficulty: "Medium", audioFile: "/audio/Rs_Version_6-_(45)_1767948638550.mp3" },
+  { id: "wfd-46", title: "Tutorial Sessions", transcript: "Tutorial sessions are scheduled for Friday afternoons in the main building.", difficulty: "Medium", audioFile: "/audio/Rs_Version_6-_(46)_1767948638551.mp3" },
+  { id: "wfd-47", title: "Exam Preparation", transcript: "Students are advised to begin their exam preparation at least two weeks early.", difficulty: "Hard", audioFile: "/audio/Rs_Version_6-_(47)_1767948638551.mp3" },
+  { id: "wfd-48", title: "Career Fair", transcript: "The annual career fair will feature over fifty employers this year.", difficulty: "Medium", audioFile: "/audio/Rs_Version_6-_(48)_1767948638552.mp3" },
+  { id: "wfd-49", title: "International Students", transcript: "International students must register with the immigration office upon arrival.", difficulty: "Hard", audioFile: "/audio/Rs_Version_6-_(49)_1767948638553.mp3" },
 ];
 
 export default function AudioTrainer() {
