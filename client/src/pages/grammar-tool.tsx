@@ -408,6 +408,14 @@ export default function GrammarTool() {
       // ========== HIGH PRIORITY: MEANING-CRITICAL ERRORS ==========
       // These MUST be corrected because they obscure meaning and block basic clause structure
       
+      // Relative Pronoun Error: "which" for people → should be "who"
+      // "Students which study abroad" → "Students who study abroad"
+      addFeedback(/\b(students?|people|persons?|children|kids|men|women|teachers?|doctors?|engineers?|workers?|employees?|managers?|customers?|users?|members?|players?|athletes?|artists?|writers?|readers?|speakers?|listeners?|learners?|researchers?|scientists?|politicians?|citizens?|residents?|visitors?|tourists?|passengers?|patients?|clients?|colleagues?|friends?|neighbors?|parents?|mothers?|fathers?|brothers?|sisters?|sons?|daughters?|grandparents?|babies?|adults?|teenagers?|individuals?|candidates?|applicants?|participants?|volunteers?|professionals?|experts?|specialists?|officials?|representatives?|leaders?|founders?|owners?|investors?|entrepreneurs?|executives?|directors?|presidents?|staff|team|crew|audience|crowd|population|community|society|humanity|mankind|everyone|someone|anyone|those|they)\s+which\b/i,
+        "Relative pronoun error: Use 'who' for people, not 'which'. 'Which' is for things/objects.",
+        'error',
+        ["Correct form: 'Students who study abroad...' / 'People who work here...'"]
+      );
+      
       // Double Conjunction Error (Very High Exam Relevance)
       // "Although it is expensive, but many buy it" - cannot use both subordinator AND coordinator
       addFeedback(/\b(although|though|even though|while|whereas)\b[^.!?]*,\s*(but|however|yet)\b/i,
