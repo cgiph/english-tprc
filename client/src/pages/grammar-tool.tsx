@@ -10,12 +10,39 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
+type WritingContext = {
+  register: 'formal' | 'semi-formal' | 'informal';
+  genre: 'academic-essay' | 'business-email' | 'reflection' | 'creative' | 'conversation' | 'general';
+  goal: 'clarity' | 'persuasion' | 'creativity' | 'fluency';
+};
+
+const REGISTER_OPTIONS = [
+  { value: 'formal', label: 'Formal', desc: 'Academic essays, reports, official documents' },
+  { value: 'semi-formal', label: 'Semi-Formal', desc: 'Business emails, presentations' },
+  { value: 'informal', label: 'Informal', desc: 'Personal writing, chat, social media' }
+];
+
+const GENRE_OPTIONS = [
+  { value: 'academic-essay', label: 'Academic Essay', desc: 'Research papers, thesis, scholarly writing' },
+  { value: 'business-email', label: 'Business Email', desc: 'Professional correspondence' },
+  { value: 'reflection', label: 'Reflection/Journal', desc: 'Personal reflections, diary entries' },
+  { value: 'creative', label: 'Creative Writing', desc: 'Stories, poetry, narratives' },
+  { value: 'conversation', label: 'Conversation/Chat', desc: 'Dialogue, messaging' },
+  { value: 'general', label: 'General', desc: 'Standard writing, no specific genre' }
+];
+
 export default function GrammarTool() {
   const [text, setText] = useState("");
   const [isChecking, setIsChecking] = useState(false);
   const [isReviewMode, setIsReviewMode] = useState(false);
+  const [showContextSelector, setShowContextSelector] = useState(false);
+  const [writingContext, setWritingContext] = useState<WritingContext>({
+    register: 'formal',
+    genre: 'general',
+    goal: 'clarity'
+  });
   const [feedbacks, setFeedbacks] = useState<Array<{ 
-    type: 'success' | 'error' | 'warning', 
+    type: 'success' | 'error' | 'warning' | 'info', 
     message: string, 
     corrections?: string[],
     range?: [number, number] 
@@ -32,15 +59,23 @@ export default function GrammarTool() {
       setIsChecking(false);
       setIsReviewMode(true);
       
+      const { register, genre } = writingContext;
+      const isFormal = register === 'formal';
+      const isSemiFormal = register === 'semi-formal';
+      const isInformal = register === 'informal';
+      const isAcademic = genre === 'academic-essay';
+      const isCreative = genre === 'creative' || genre === 'reflection';
+      const isConversation = genre === 'conversation';
+      
       const lowerText = text.toLowerCase();
       const newFeedbacks: Array<{ 
-        type: 'success' | 'error' | 'warning', 
+        type: 'success' | 'error' | 'warning' | 'info', 
         message: string, 
         corrections?: string[],
         range?: [number, number]
       }> = [];
       
-      const addFeedback = (pattern: RegExp | string, message: string, type: 'error' | 'warning', corrections?: string[]) => {
+      const addFeedback = (pattern: RegExp | string, message: string, type: 'error' | 'warning' | 'info', corrections?: string[]) => {
         let match;
         const regex = typeof pattern === 'string' 
           ? new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi') 
@@ -55,11 +90,27 @@ export default function GrammarTool() {
           });
         }
       };
+      
+      // Context-aware feedback helper
+      const addContextAwareFeedback = (
+        pattern: RegExp | string,
+        formalMessage: string,
+        informalMessage: string | null,
+        formalType: 'error' | 'warning',
+        informalType: 'info' | 'warning' | null,
+        corrections?: string[]
+      ) => {
+        if (isFormal || isSemiFormal) {
+          addFeedback(pattern, formalMessage, formalType, corrections);
+        } else if (informalMessage && informalType) {
+          addFeedback(pattern, informalMessage, informalType);
+        }
+      };
 
       if (text.length < 10) {
         newFeedbacks.push({
-          type: 'error',
-          message: "Your sentence is too short. Try writing a complete sentence for better analysis.",
+          type: 'warning',
+          message: "Your text is quite short. A longer sample provides better analysis.",
         });
       }
 
@@ -209,32 +260,70 @@ export default function GrammarTool() {
       // "before is" pattern anywhere in sentence (more flexible)
       addFeedback(/\bbefore\b[^.!?]*\b(is|are|am)\s+\w+ing?\b/i, "Tense inconsistency. When describing past situations with 'before', use past tense verbs.", 'error', ["Change 'is/are' to 'was/were'."]);
 
-      // Fragments
+      // Fragments - CONTEXT AWARE
       if (/^(because|although|since|if|when)\s+[a-z\s]+\.$/i.test(text) && !text.includes(",")) {
-         newFeedbacks.push({
-          type: 'error',
-          message: "Sentence fragment. Subordinate clauses must be attached to a main clause.",
-          corrections: ["Add a comma and a main clause."]
-        });
+        if (isFormal || isAcademic) {
+          newFeedbacks.push({
+            type: 'error',
+            message: "Sentence fragment. In formal/academic writing, subordinate clauses must be attached to a main clause.",
+            corrections: ["Rewrite as a complete sentence, e.g., 'Because the experiment failed, the results were invalid.'"]
+          });
+        } else if (isCreative) {
+          newFeedbacks.push({
+            type: 'info',
+            message: "Sentence fragment detected. In creative/reflective writing, fragments can be used intentionally for emphasis or stylistic effect.",
+          });
+        } else {
+          newFeedbacks.push({
+            type: 'warning',
+            message: "Sentence fragment. Consider whether this is intentional for effect, or needs a main clause.",
+            corrections: ["Add a main clause if clarity is the goal."]
+          });
+        }
       }
 
-      // Run-ons
-      addFeedback(/,\s+(however|therefore|moreover|furthermore)/i, "Run-on sentence / Comma splice.", 'error', ["Use '; however,' or '. However,'."]);
+      // Run-ons - severity depends on register
+      if (isFormal) {
+        addFeedback(/,\s+(however|therefore|moreover|furthermore)/i, "Run-on sentence / Comma splice. In formal writing, use a semicolon or period.", 'error', ["Use '; however,' or '. However,'."]);
+      } else {
+        addFeedback(/,\s+(however|therefore|moreover|furthermore)/i, "Comma splice. Consider using a semicolon or period for clarity.", 'warning', ["Use '; however,' or '. However,'."]);
+      }
 
       // Articles
       addFeedback(/\ba\s+(apple|orange|egg|elephant|umbrella|hour)\b/i, "Article error. Use 'an' before vowel sounds.", 'error', ["Use 'an'."]);
       addFeedback(/\ban\s+(car|house|university|book|cat)\b/i, "Article error. Use 'a' before consonant sounds.", 'error', ["Use 'a'."]);
 
-      // Capitalization (I)
+      // Capitalization (I) - always an error
       addFeedback(/\bi\b/g, "Capitalization error. The pronoun 'I' must always be capitalized.", 'error', ["Use 'I'."]);
 
-      // Slang
-      addFeedback(/\bain't\b/i, "Avoid using slang like 'ain't' in academic writing.", 'error', ["Use 'is not' or 'are not'."]);
+      // Slang/Contractions - CONTEXT AWARE
+      if (isFormal || isAcademic) {
+        addFeedback(/\bain't\b/i, "Avoid slang like 'ain't' in formal/academic writing.", 'error', ["Use 'is not', 'are not', or 'am not'."]);
+        addFeedback(/\bgonna\b/i, "Avoid informal language in formal writing.", 'error', ["Use 'going to'."]);
+        addFeedback(/\bwanna\b/i, "Avoid informal language in formal writing.", 'error', ["Use 'want to'."]);
+        addFeedback(/\bgotta\b/i, "Avoid informal language in formal writing.", 'error', ["Use 'have to' or 'got to'."]);
+        addFeedback(/\bkinda\b/i, "Avoid informal language in formal writing.", 'error', ["Use 'kind of' or 'somewhat'."]);
+        addFeedback(/\bsorta\b/i, "Avoid informal language in formal writing.", 'error', ["Use 'sort of' or 'somewhat'."]);
+      } else if (isSemiFormal) {
+        addFeedback(/\bain't\b/i, "Slang may be too casual for business communication.", 'warning', ["Consider 'is not' or 'are not'."]);
+        addFeedback(/\bgonna\b/i, "Consider more formal language for professional contexts.", 'warning', ["Consider 'going to'."]);
+      }
+      // In informal contexts, these are acceptable - no feedback given
+      
+      // Contractions in formal writing
+      if (isAcademic) {
+        addFeedback(/\b(don't|won't|can't|isn't|aren't|wasn't|weren't|hasn't|haven't|hadn't|wouldn't|couldn't|shouldn't|didn't)\b/i, 
+          "Contractions are generally avoided in academic essays. Consider using full forms.", 'warning', 
+          ["Use full forms: 'do not', 'will not', 'cannot', etc."]);
+      }
+
+      // Add context summary at the end
+      const contextLabel = `${REGISTER_OPTIONS.find(r => r.value === register)?.label} / ${GENRE_OPTIONS.find(g => g.value === genre)?.label}`;
 
       if (newFeedbacks.length === 0) {
          newFeedbacks.push({
           type: 'success',
-          message: "Great job! Your sentence structure looks sound and grammatically correct.",
+          message: `Great job! Your writing looks grammatically correct for ${contextLabel.toLowerCase()} writing.`,
         });
       }
 
@@ -284,7 +373,8 @@ export default function GrammarTool() {
 
       // Highlighted text
       const highlightColor = feedback.type === 'error' ? 'bg-red-100 border-b-2 border-red-500' : 
-                             feedback.type === 'warning' ? 'bg-amber-100 border-b-2 border-amber-500' : 'bg-green-100 border-b-2 border-green-500';
+                             feedback.type === 'warning' ? 'bg-amber-100 border-b-2 border-amber-500' : 
+                             feedback.type === 'info' ? 'bg-blue-100 border-b-2 border-blue-500' : 'bg-green-100 border-b-2 border-green-500';
 
       elements.push(
         <HoverCard key={`highlight-${i}`} openDelay={0} closeDelay={0}>
@@ -297,12 +387,14 @@ export default function GrammarTool() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                  {feedback.type === 'error' ? <AlertTriangle className="h-4 w-4 text-red-600" /> : 
-                  feedback.type === 'warning' ? <Info className="h-4 w-4 text-amber-600" /> : <Check className="h-4 w-4 text-green-600" />}
+                  feedback.type === 'warning' ? <Info className="h-4 w-4 text-amber-600" /> : 
+                  feedback.type === 'info' ? <BookOpen className="h-4 w-4 text-blue-600" /> : <Check className="h-4 w-4 text-green-600" />}
                  <h4 className={`font-semibold text-sm ${
                    feedback.type === 'error' ? 'text-red-700' : 
-                   feedback.type === 'warning' ? 'text-amber-700' : 'text-green-700'
+                   feedback.type === 'warning' ? 'text-amber-700' : 
+                   feedback.type === 'info' ? 'text-blue-700' : 'text-green-700'
                  }`}>
-                   {feedback.type === 'error' ? 'Error' : feedback.type === 'warning' ? 'Suggestion' : 'Success'}
+                   {feedback.type === 'error' ? 'Error' : feedback.type === 'warning' ? 'Suggestion' : feedback.type === 'info' ? 'Note' : 'Success'}
                  </h4>
               </div>
               <p className="text-sm text-foreground">{feedback.message}</p>
@@ -376,6 +468,80 @@ export default function GrammarTool() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* Writing Context Selector */}
+              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-100 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4 text-purple-600" />
+                    <span className="font-medium text-purple-800 text-sm">Writing Context</span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowContextSelector(!showContextSelector)}
+                    className="text-xs h-7 text-purple-600 hover:text-purple-800 hover:bg-purple-100"
+                  >
+                    {showContextSelector ? 'Hide Options' : 'Change Context'}
+                  </Button>
+                </div>
+                
+                {!showContextSelector ? (
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="bg-purple-100 text-purple-700 hover:bg-purple-100">
+                      {REGISTER_OPTIONS.find(r => r.value === writingContext.register)?.label}
+                    </Badge>
+                    <Badge variant="secondary" className="bg-indigo-100 text-indigo-700 hover:bg-indigo-100">
+                      {GENRE_OPTIONS.find(g => g.value === writingContext.genre)?.label}
+                    </Badge>
+                  </div>
+                ) : (
+                  <div className="space-y-4 mt-3">
+                    <div>
+                      <Label className="text-xs text-purple-700 mb-2 block">Register (Formality Level)</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {REGISTER_OPTIONS.map(opt => (
+                          <Button
+                            key={opt.value}
+                            variant={writingContext.register === opt.value ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setWritingContext(prev => ({ ...prev, register: opt.value as WritingContext['register'] }))}
+                            className={`text-xs ${writingContext.register === opt.value ? 'bg-purple-600 hover:bg-purple-700' : 'hover:bg-purple-50'}`}
+                          >
+                            {opt.label}
+                          </Button>
+                        ))}
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {REGISTER_OPTIONS.find(r => r.value === writingContext.register)?.desc}
+                      </p>
+                    </div>
+                    <div>
+                      <Label className="text-xs text-indigo-700 mb-2 block">Genre (Type of Writing)</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {GENRE_OPTIONS.map(opt => (
+                          <Button
+                            key={opt.value}
+                            variant={writingContext.genre === opt.value ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setWritingContext(prev => ({ ...prev, genre: opt.value as WritingContext['genre'] }))}
+                            className={`text-xs ${writingContext.genre === opt.value ? 'bg-indigo-600 hover:bg-indigo-700' : 'hover:bg-indigo-50'}`}
+                          >
+                            {opt.label}
+                          </Button>
+                        ))}
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {GENRE_OPTIONS.find(g => g.value === writingContext.genre)?.desc}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                
+                <p className="text-xs text-purple-600 mt-3 italic">
+                  Grammar rules are applied based on your writing context. Fragments and informal language may be acceptable in creative writing but not in academic essays.
+                </p>
+              </div>
+
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                    <Label htmlFor="grammar-input">Your Text</Label>
@@ -406,15 +572,17 @@ export default function GrammarTool() {
                         {feedbacks.map((feedback, index) => (
                           <Card key={index} className={`border-l-4 shadow-sm ${
                             feedback.type === 'error' ? 'border-l-red-500' : 
-                            feedback.type === 'warning' ? 'border-l-amber-500' : 'border-l-green-500'
+                            feedback.type === 'warning' ? 'border-l-amber-500' : 
+                            feedback.type === 'info' ? 'border-l-blue-500' : 'border-l-green-500'
                           }`}>
                             <CardContent className="p-3 space-y-2">
                               <div className="flex items-start justify-between gap-2">
                                 <span className={`text-xs font-bold uppercase ${
                                   feedback.type === 'error' ? 'text-red-600' : 
-                                  feedback.type === 'warning' ? 'text-amber-600' : 'text-green-600'
+                                  feedback.type === 'warning' ? 'text-amber-600' : 
+                                  feedback.type === 'info' ? 'text-blue-600' : 'text-green-600'
                                 }`}>
-                                  {feedback.type === 'error' ? 'Error' : feedback.type === 'warning' ? 'Suggestion' : 'Good'}
+                                  {feedback.type === 'error' ? 'Error' : feedback.type === 'warning' ? 'Suggestion' : feedback.type === 'info' ? 'Note' : 'Good'}
                                 </span>
                               </div>
                               <p className="text-sm font-medium leading-snug">{feedback.message}</p>
@@ -453,6 +621,7 @@ export default function GrammarTool() {
                     <div key={index} className={`p-4 rounded-lg border ${
                       feedback.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 
                       feedback.type === 'warning' ? 'bg-amber-50 border-amber-200 text-amber-800' :
+                      feedback.type === 'info' ? 'bg-blue-50 border-blue-200 text-blue-800' :
                       'bg-red-50 border-red-200 text-red-800'
                     }`}>
                       <div className="flex items-start gap-3">
@@ -460,6 +629,8 @@ export default function GrammarTool() {
                           <Check className="h-5 w-5 mt-0.5 shrink-0 text-green-600" />
                         ) : feedback.type === 'warning' ? (
                           <Info className="h-5 w-5 mt-0.5 shrink-0 text-amber-600" />
+                        ) : feedback.type === 'info' ? (
+                          <BookOpen className="h-5 w-5 mt-0.5 shrink-0 text-blue-600" />
                         ) : (
                           <AlertTriangle className="h-5 w-5 mt-0.5 shrink-0 text-red-600" />
                         )}
