@@ -396,6 +396,26 @@ export default function GrammarTool() {
       // ========== HIGH PRIORITY: MEANING-CRITICAL ERRORS ==========
       // These MUST be corrected because they obscure meaning and block basic clause structure
       
+      // Double Conjunction Error (Very High Exam Relevance)
+      // "Although it is expensive, but many buy it" - cannot use both subordinator AND coordinator
+      addFeedback(/\b(although|though|even though|while|whereas)\b[^.!?]*,\s*(but|however|yet)\b/i,
+        "Grammar error: Cannot use both a subordinating conjunction ('although/though') AND a coordinating conjunction ('but/yet'). Choose one.",
+        'error',
+        ["Fix option 1: 'Although it is expensive, many buy it.' (remove 'but')", "Fix option 2: 'It is expensive, but many buy it.' (remove 'although')"]
+      );
+      
+      addFeedback(/\b(because|since|as)\b[^.!?]*,\s*(so|therefore)\b/i,
+        "Grammar error: Cannot use both 'because/since' AND 'so/therefore' in the same sentence. Choose one.",
+        'error',
+        ["Fix option 1: 'Because it rained, we stayed home.' (remove 'so')", "Fix option 2: 'It rained, so we stayed home.' (remove 'because')"]
+      );
+      
+      addFeedback(/\b(if|unless|when|whenever)\b[^.!?]*,\s*(then)\b/i,
+        "Style note: 'Then' is often redundant after 'if/when' clauses, though not strictly incorrect.",
+        'info',
+        ["Consider: 'If you study hard, you will pass.' (without 'then')"]
+      );
+      
       // 2️⃣ Missing Copula Verb (Sentence Skeleton Errors)
       // "She very happy" → "She is very happy"
       addFeedback(/\b(I|you|he|she|it|we|they)\s+(very|so|really|quite|extremely|absolutely|totally|completely)\s+(happy|sad|angry|tired|hungry|thirsty|busy|ready|sorry|afraid|sure|glad|proud|lucky|careful|certain|aware|able|different|similar|important|necessary|possible|impossible|difficult|easy|hard|simple|nice|good|bad|beautiful|ugly|tall|short|big|small|old|young|new|hot|cold|warm|cool|fast|slow|rich|poor|smart|clever|stupid|lazy|crazy|funny|serious|quiet|loud|clean|dirty|dry|wet|safe|dangerous|healthy|sick|ill|fine|okay|wrong|right|true|false|real|fake|free|expensive|cheap|empty|full)\b/i,
