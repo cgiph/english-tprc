@@ -105,7 +105,7 @@ const MOCK_ASQ: MockQuestion[] = [
 const MOCK_SGD: MockQuestion[] = [
   {
     id: "sgd-1", section: "Speaking", type: "Summarize Group Discussion", title: "Impact of AI on Education",
-    prompt: "You will hear a group discussion. After the audio ends, summarize the main points in 60 seconds.", stimulus: "/attached_assets/SGD_AI_2_1767880164856.mp3",
+    prompt: "You will hear a group discussion. After the audio ends, summarize the main points in 60 seconds.", stimulus: "/audio/SGD_AI_2_1767880164856.mp3",
     audioScript: "Moderator: Welcome everyone. Today we're discussing the integration of Artificial Intelligence in higher education. Professor Chen, let's start with you. Some argue AI tools are undermining critical thinking skills in students. What is your perspective on this growing concern? Professor Chen: That's a valid concern, but I believe it's a bit shortsighted. While there is a risk of students over-relying on AI for essay writing, the technology also offers unprecedented opportunities for personalized learning. AI tutors can provide 24/7 support, adapting to each student's pace and learning style in a way that a single human instructor simply cannot manage for a class of hundreds. The key is not banning these tools, but redesigning our assessment methods to focus on analysis and synthesis rather than rote information retrieval. Student Rep: As a student, I have to agree with Professor Chen. The reality is that we will be using these tools in the workforce. Ignoring them now puts us at a disadvantage later. However, I do worry about the equity issue. Premium AI tools are expensive. If universities don't provide access to everyone, we risk creating a two-tiered system where wealthy students have a significant technological edge over their peers who can't afford subscriptions. Moderator: That's an excellent point about the digital divide. Professor, how do universities address this cost barrier? Professor Chen: It's a challenge. Ideally, institutions should license these tools for all students, treating them like library resources. But budgets are tight. We might need to look at open-source alternatives or government grants to ensure a level playing field. Student Rep: Exactly. Also, we need more guidance on ethics. Many students are unsure about where the line is between assistance and plagiarism when using AI. Clearer policies would actually help us use these tools more responsibly.",
     max_score: 12, time_limit_seconds: 60
   },
@@ -117,7 +117,7 @@ const MOCK_SGD: MockQuestion[] = [
   },
   {
     id: "sgd-3", section: "Speaking", type: "Summarize Group Discussion", title: "Impacts of AI",
-    prompt: "You will hear a group discussion. After the audio ends, summarize the main points in 60 seconds.", stimulus: "/attached_assets/SGD_AI_2_1767940510732.mp3",
+    prompt: "You will hear a group discussion. After the audio ends, summarize the main points in 60 seconds.", stimulus: "/audio/SGD_AI_2_1767940510732.mp3",
     audioScript: "",
     max_score: 12, time_limit_seconds: 60
   }
@@ -147,21 +147,21 @@ const MOCK_RTS: MockQuestion[] = [
   },
   {
     id: "rts-4", section: "Speaking", type: "Respond to a Situation", title: "Respond to Situation 4",
-    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/attached_assets/RTS_4_1767941319553.mp3",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_4_1767941319553.mp3",
     content: "",
     audioScript: "",
     max_score: 5, time_limit_seconds: 40
   },
   {
     id: "rts-5", section: "Speaking", type: "Respond to a Situation", title: "Respond to Situation 5",
-    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/attached_assets/RTS_5_1767941323864.mp3",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_5_1767941323864.mp3",
     content: "",
     audioScript: "",
     max_score: 5, time_limit_seconds: 40
   },
   {
     id: "rts-6", section: "Speaking", type: "Respond to a Situation", title: "Respond to Situation 6",
-    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/attached_assets/RTS_6_1767941327985.mp3",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_6_1767941327985.mp3",
     content: "",
     audioScript: "",
     max_score: 5, time_limit_seconds: 40
