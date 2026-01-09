@@ -503,7 +503,10 @@ export default function FullMockTest() {
     const details = [];
 
     for (const item of currentTest.items) {
-      const response = responses[item.id];
+      // Check for speaking audio responses (stored with _audio suffix)
+      const response = item.section === "Speaking" 
+        ? responses[item.id + "_audio"] || responses[item.id]
+        : responses[item.id];
       let itemScore = 0;
       let autoZero = false;
       const hasResponse = response !== undefined && response !== null && response !== "" && 
