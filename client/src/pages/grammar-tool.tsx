@@ -41,11 +41,17 @@ export default function GrammarTool() {
     genre: 'general',
     goal: 'clarity'
   });
+  // Feedback categories:
+  // 'error' = Grammar error → lowers accuracy score
+  // 'warning' = Limited range → caps band score (not wrong, but limits potential)
+  // 'info' = Style choice → optional improvement
+  // 'success' = All good!
   const [feedbacks, setFeedbacks] = useState<Array<{ 
     type: 'success' | 'error' | 'warning' | 'info', 
     message: string, 
     corrections?: string[],
-    range?: [number, number] 
+    range?: [number, number],
+    category?: 'accuracy' | 'range' | 'style'  // New: explicit score impact
   }>>([]);
 
   const handleCheck = () => {
@@ -932,13 +938,26 @@ export default function GrammarTool() {
                           }`}>
                             <CardContent className="p-3 space-y-2">
                               <div className="flex items-start justify-between gap-2">
-                                <span className={`text-xs font-bold uppercase ${
-                                  feedback.type === 'error' ? 'text-red-600' : 
-                                  feedback.type === 'warning' ? 'text-amber-600' : 
-                                  feedback.type === 'info' ? 'text-blue-600' : 'text-green-600'
-                                }`}>
-                                  {feedback.type === 'error' ? 'Review' : feedback.type === 'warning' ? 'Consider' : feedback.type === 'info' ? 'Tip' : 'Great'}
-                                </span>
+                                <div className="flex items-center gap-2">
+                                  <span className={`text-xs font-bold uppercase ${
+                                    feedback.type === 'error' ? 'text-red-600' : 
+                                    feedback.type === 'warning' ? 'text-amber-600' : 
+                                    feedback.type === 'info' ? 'text-blue-600' : 'text-green-600'
+                                  }`}>
+                                    {feedback.type === 'error' ? '❌ Grammar Error' : 
+                                     feedback.type === 'warning' ? '⚠️ Limited Range' : 
+                                     feedback.type === 'info' ? '✅ Style Choice' : 'Great'}
+                                  </span>
+                                  <span className={`text-[10px] px-1.5 py-0.5 rounded ${
+                                    feedback.type === 'error' ? 'bg-red-100 text-red-700' : 
+                                    feedback.type === 'warning' ? 'bg-amber-100 text-amber-700' : 
+                                    feedback.type === 'info' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
+                                  }`}>
+                                    {feedback.type === 'error' ? '↓ Accuracy' : 
+                                     feedback.type === 'warning' ? '↓ Band Cap' : 
+                                     feedback.type === 'info' ? 'Optional' : ''}
+                                  </span>
+                                </div>
                               </div>
                               <p className="text-sm font-medium leading-snug">{feedback.message}</p>
                               {feedback.corrections && feedback.corrections.length > 0 && (
@@ -990,6 +1009,22 @@ export default function GrammarTool() {
                           <AlertTriangle className="h-5 w-5 mt-0.5 shrink-0 text-red-600" />
                         )}
                         <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-xs uppercase">
+                              {feedback.type === 'error' ? '❌ Grammar Error' : 
+                               feedback.type === 'warning' ? '⚠️ Limited Range' : 
+                               feedback.type === 'info' ? '✅ Style Choice' : 'Great!'}
+                            </span>
+                            <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${
+                              feedback.type === 'error' ? 'bg-red-200 text-red-800' : 
+                              feedback.type === 'warning' ? 'bg-amber-200 text-amber-800' : 
+                              feedback.type === 'info' ? 'bg-blue-200 text-blue-800' : 'bg-green-200 text-green-800'
+                            }`}>
+                              {feedback.type === 'error' ? '↓ Accuracy' : 
+                               feedback.type === 'warning' ? '↓ Band Cap' : 
+                               feedback.type === 'info' ? 'Optional' : ''}
+                            </span>
+                          </div>
                           <p className="font-medium">{feedback.message}</p>
                           {feedback.corrections && feedback.corrections.length > 0 && (
                             <ul className="list-disc pl-5 text-sm space-y-1">
