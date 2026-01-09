@@ -284,7 +284,24 @@ export default function GrammarTool() {
       // Subject-verb agreement (singular subject)
       addFeedback(/\b(student|he|she|it)\s+(prepare|learn|need|want|go)\b(?!\s+(will|can|should|must|might|could|would))/i, "Grammar note: Third-person singular subjects use verb forms ending in -s/-es.", 'warning', ["Formal alternative: 'prepares', 'learns', etc."]);
 
-      // Passive voice
+      // ========== PASSIVE VOICE ==========
+      // ✅ Correctly formed passive is ACCEPTABLE (especially in academic writing)
+      // "The data were collected" - CORRECT, do NOT flag
+      // ❌ Only flag INCORRECTLY FORMED passive (missing past participle)
+      // "The data was collect" - ERROR, missing -ed
+      
+      addFeedback(/\b(was|were|is|are|been|being)\s+(collect|conduct|analyze|organize|complete|create|develop|establish|examine|investigate|observe|present|produce|provide|receive|record|report|select|study|treat|use)\b(?!\w)/i, 
+        "Passive voice formation error: Use the past participle (-ed form) after 'be' verbs.",
+        'error',
+        ["Correct form: 'was collected', 'were analyzed', 'is completed', etc."]
+      );
+      
+      addFeedback(/\b(was|were|is|are|been|being)\s+(build|choose|drive|eat|give|grow|know|make|take|write|break|speak|steal|throw|wear|begin|drink|ring|sing|swim|do|go|see|draw|fly|show)\b(?!\w)/i,
+        "Passive voice formation error: Use the past participle form after 'be' verbs.",
+        'error',
+        ["Correct forms: 'was built', 'were chosen', 'is given', 'was taken', 'were written', etc."]
+      );
+      
       addFeedback(/be\s+equip\b/i, "Verb form note: After 'be', use the past participle form for passive constructions.", 'warning', ["Standard form: 'be equipped'."]);
 
       // Punctuation (?.)
