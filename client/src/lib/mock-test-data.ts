@@ -144,6 +144,27 @@ const MOCK_RTS: MockQuestion[] = [
     content: "You're on a student committee organizing a cultural festival. One of the team members hasn't delivered their tasks, and the event is just a week away. You need to address this in the next team meeting without sounding aggressive. What would you say to the team?",
     audioScript: "You're on a student committee organizing a cultural festival. One of the team members hasn't delivered their tasks, and the event is just a week away. You need to address this in the next team meeting without sounding aggressive. What would you say to the team?",
     max_score: 5, time_limit_seconds: 40
+  },
+  {
+    id: "rts-4", section: "Speaking", type: "Respond to a Situation", title: "Respond to Situation 4",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/attached_assets/RTS_4_1767941319553.mp3",
+    content: "",
+    audioScript: "",
+    max_score: 5, time_limit_seconds: 40
+  },
+  {
+    id: "rts-5", section: "Speaking", type: "Respond to a Situation", title: "Respond to Situation 5",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/attached_assets/RTS_5_1767941323864.mp3",
+    content: "",
+    audioScript: "",
+    max_score: 5, time_limit_seconds: 40
+  },
+  {
+    id: "rts-6", section: "Speaking", type: "Respond to a Situation", title: "Respond to Situation 6",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/attached_assets/RTS_6_1767941327985.mp3",
+    content: "",
+    audioScript: "",
+    max_score: 5, time_limit_seconds: 40
   }
 ];
 
