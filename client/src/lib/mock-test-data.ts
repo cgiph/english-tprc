@@ -153,10 +153,17 @@ const MOCK_RTS: MockQuestion[] = [
     max_score: 5, time_limit_seconds: 40
   },
   {
-    id: "rts-5", section: "Speaking", type: "Respond to a Situation", title: "Noisy Hotel",
+    id: "rts-5", section: "Speaking", type: "Respond to a Situation", title: "Group Project Conflict",
     prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_5_1767941323864.mp3",
-    content: "Your hotel is very noisy. You have a brunch seminar the next day and need a good night's sleep. You go to the front desk to complain to the receptionist. What would you say?",
-    audioScript: "Your hotel is very noisy. You have a brunch seminar the next day and need a good night's sleep. You go to the front desk to complain to the receptionist. What would you say?",
+    content: "You are working on a group assignment for your university course. Two of your group members have very different ideas about how to approach the project and have been arguing for the past 20 minutes. As the group leader, you need to step in and help resolve the conflict. What would you say to both of them?",
+    audioScript: "You are working on a group assignment for your university course. Two of your group members have very different ideas about how to approach the project and have been arguing for the past 20 minutes. As the group leader, you need to step in and help resolve the conflict. What would you say to both of them?",
+    max_score: 5, time_limit_seconds: 40
+  },
+  {
+    id: "rts-6", section: "Speaking", type: "Respond to a Situation", title: "Noisy Hotel",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_6_1767941327985.mp3",
+    content: "Your hotel room is very noisy. You have a brunch seminar the next day and need a good night's sleep. You go to the front desk to complain to the receptionist. What would you say?",
+    audioScript: "Your hotel room is very noisy. You have a brunch seminar the next day and need a good night's sleep. You go to the front desk to complain to the receptionist. What would you say?",
     max_score: 5, time_limit_seconds: 40
   },
   {
@@ -164,13 +171,6 @@ const MOCK_RTS: MockQuestion[] = [
     prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "audio_placeholder",
     content: "You have an important exam tomorrow morning, but your neighbor has been playing loud music for the past two hours. It's now 11 PM and you cannot concentrate on your studies. You decide to knock on their door and politely ask them to lower the volume. What would you say?",
     audioScript: "You have an important exam tomorrow morning, but your neighbor has been playing loud music for the past two hours. It's now 11 PM and you cannot concentrate on your studies. You decide to knock on their door and politely ask them to lower the volume. What would you say?",
-    max_score: 5, time_limit_seconds: 40
-  },
-  {
-    id: "rts-6", section: "Speaking", type: "Respond to a Situation", title: "Group Project Conflict",
-    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_6_1767941327985.mp3",
-    content: "You are working on a group assignment for your university course. Two of your group members have very different ideas about how to approach the project and have been arguing for the past 20 minutes. As the group leader, you need to step in and help resolve the conflict. What would you say to both of them?",
-    audioScript: "You are working on a group assignment for your university course. Two of your group members have very different ideas about how to approach the project and have been arguing for the past 20 minutes. As the group leader, you need to step in and help resolve the conflict. What would you say to both of them?",
     max_score: 5, time_limit_seconds: 40
   },
   {

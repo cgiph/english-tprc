@@ -629,41 +629,62 @@ export default function FullMockTest() {
       maxPoints += item.max_score;
     }
 
-    // Scale to 90 - only calculate for sections with answers
+    // PTE Academic scoring: Scale raw scores to 10-90 range
     const scale = (curr: number, max: number, answered: number) => {
-      if (answered === 0) return 0; // No answers = 0 score
+      if (answered === 0) return 0;
       if (max === 0) return 0;
-      return Math.round((curr / max) * 90);
+      // PTE scores range from 10-90, scale proportionally
+      const ratio = curr / max;
+      return Math.round(10 + (ratio * 80)); // Minimum 10, max 90
     };
 
     // Calculate average speaking subscores from actual speaking responses
     const avgFluency = speakingSubCount > 0 ? Math.round(totalFluency / speakingSubCount) : 0;
     const avgPronunciation = speakingSubCount > 0 ? Math.round(totalPronunciation / speakingSubCount) : 0;
     
+    // Calculate communicative skill scores
+    const speakingScaled = speakingAnswered > 0 ? scale(speakingScoreTotal, speakingMax, speakingAnswered) : 0;
+    const writingScaled = writingAnswered > 0 ? scale(writingScore, writingMax, writingAnswered) : 0;
+    const readingScaled = readingAnswered > 0 ? scale(readingScore, readingMax, readingAnswered) : 0;
+    const listeningScaled = listeningAnswered > 0 ? scale(listeningScore, listeningMax, listeningAnswered) : 0;
+    
+    // PTE Overall Score: Weighted average of all communicative skills
+    // Only include sections that were answered
+    const answeredSections: number[] = [];
+    if (speakingAnswered > 0) answeredSections.push(speakingScaled);
+    if (writingAnswered > 0) answeredSections.push(writingScaled);
+    if (readingAnswered > 0) answeredSections.push(readingScaled);
+    if (listeningAnswered > 0) answeredSections.push(listeningScaled);
+    
+    const overallScore = answeredSections.length > 0 
+      ? Math.round(answeredSections.reduce((a, b) => a + b, 0) / answeredSections.length)
+      : 0;
+    
     const finalScores = {
-      overall: scale(totalPoints, maxPoints, speakingAnswered + writingAnswered + readingAnswered + listeningAnswered),
+      overall: overallScore,
       communicative: {
-        speaking: scale(speakingScoreTotal, speakingMax, speakingAnswered),
-        writing: scale(writingScore, writingMax, writingAnswered),
-        reading: scale(readingScore, readingMax, readingAnswered),
-        listening: scale(listeningScore, listeningMax, listeningAnswered)
+        speaking: speakingScaled,
+        writing: writingScaled,
+        reading: readingScaled,
+        listening: listeningScaled
       },
       skills: { 
-        // Grammar: weighted from writing and reading performance
+        // Grammar: Derived from writing (60%) and reading (40%) - shows language accuracy
         grammar: writingAnswered > 0 || readingAnswered > 0 
-          ? Math.round((scale(writingScore, writingMax, writingAnswered) * 0.6 + scale(readingScore, readingMax, readingAnswered) * 0.4) * 0.9)
+          ? Math.round((writingScaled * 0.6 + readingScaled * 0.4))
           : 0,
-        // Fluency and Pronunciation: use actual speaking subscores
+        // Oral Fluency: From actual speaking task subscores
         fluency: avgFluency,
+        // Pronunciation: From actual speaking task subscores  
         pronunciation: avgPronunciation,
-        // Spelling: from writing tasks
-        spelling: writingAnswered > 0 ? Math.round(scale(writingScore, writingMax, writingAnswered) * 0.95) : 0,
-        // Vocabulary: from reading and listening comprehension
-        vocabulary: readingAnswered > 0 || listeningAnswered > 0 
-          ? Math.round((scale(readingScore, readingMax, readingAnswered) * 0.5 + scale(listeningScore, listeningMax, listeningAnswered) * 0.5))
+        // Spelling: Primarily from writing performance
+        spelling: writingScaled,
+        // Vocabulary: From reading, listening, and speaking comprehension
+        vocabulary: answeredSections.length > 0
+          ? Math.round((readingScaled * 0.4 + listeningScaled * 0.3 + writingScaled * 0.3))
           : 0,
-        // Written Discourse: from writing tasks
-        discourse: writingAnswered > 0 ? scale(writingScore, writingMax, writingAnswered) : 0
+        // Written Discourse: From writing task performance
+        discourse: writingScaled
       },
       details
     };
