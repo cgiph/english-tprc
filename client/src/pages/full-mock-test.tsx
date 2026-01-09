@@ -993,7 +993,7 @@ export default function FullMockTest() {
              </div>
           ) : (q.type === "Multiple Choice, Multiple Answers" || q.type === "Multiple Choice (Multiple)") && q.options ? (
              // FIX 1: Checkboxes for multiple answer selection (max 3)
-             <div className="space-y-2">
+             (<div className="space-y-2">
                <p className="text-sm text-muted-foreground mb-2">Select up to 3 answers that apply</p>
                {q.options.map(opt => {
                  const current = (currentVal as string[]) || [];
@@ -1026,10 +1026,10 @@ export default function FullMockTest() {
                  );
                })}
                <p className="text-xs text-muted-foreground mt-2">Selected: {((currentVal as string[]) || []).length} / 3</p>
-             </div>
+             </div>)
           ) : q.type === "Fill in the Blanks (Listening)" && q.transcript ? (
              // FIX 2: Listening Fill in the Blanks with passage
-             <div className="space-y-4">
+             (<div className="space-y-4">
                <p className="text-sm text-muted-foreground">Listen to the audio and fill in the missing words in the passage below</p>
                <div className="leading-loose text-lg bg-muted/10 p-4 rounded border">
                  {(() => {
@@ -1053,10 +1053,10 @@ export default function FullMockTest() {
                    });
                  })()}
                </div>
-             </div>
+             </div>)
           ) : q.type === "Highlight Incorrect Words" && q.displayTranscript ? (
              // FIX 5: Highlight Incorrect Words with clickable passage
-             <div className="space-y-4">
+             (<div className="space-y-4">
                <p className="text-sm text-muted-foreground">Listen to the audio and click on the words that differ from what you hear</p>
                <div className="leading-loose text-lg bg-muted/10 p-4 rounded border">
                  {(() => {
@@ -1083,7 +1083,7 @@ export default function FullMockTest() {
                    ));
                  })()}
                </div>
-             </div>
+             </div>)
           ) : q.options ? (
              <RadioGroup value={currentVal || ""} onValueChange={submitAnswer}>
                {q.options.map(opt => (
@@ -1459,9 +1459,7 @@ export default function FullMockTest() {
               <CheckCircle2 className="h-8 w-8 text-green-600" />
             </div>
             <CardTitle className="text-3xl font-serif font-bold text-green-900">Test Report</CardTitle>
-            <CardDescription className="text-lg">
-              PTE Academic UKVI Simulation
-            </CardDescription>
+            <CardDescription className="text-lg">PTE Academic Simulation</CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
             {/* Candidate Info Display */}
