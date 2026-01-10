@@ -676,9 +676,11 @@ export default function FullMockTest() {
         : 0
     );
     
-    // PTE Overall Score: Derived from ENABLING SKILLS (not communicative skills)
-    // Grammar: 20%, Oral Fluency: 20%, Pronunciation: 15%, Vocabulary: 15%, Written Discourse: 20%, Spelling: 10%
-    // Do NOT divide by 90 or average communicative skills
+    // IMPORTANT:
+    // Overall score is derived from weighted ENABLING SKILLS only.
+    // Do not average communicative skills or divide by 90.
+    // Changes here can significantly affect student results.
+    // Weights: Grammar 20%, Oral Fluency 20%, Pronunciation 15%, Vocabulary 15%, Written Discourse 20%, Spelling 10%
     let overallScore = 
       (grammarScore * 0.20) +
       (fluencyScore * 0.20) +
