@@ -648,28 +648,44 @@ export default function FullMockTest() {
     const readingScaled = readingAnswered > 0 ? scale(readingScore, readingMax, readingAnswered) : 0;
     const listeningScaled = listeningAnswered > 0 ? scale(listeningScore, listeningMax, listeningAnswered) : 0;
     
-    // Calculate enabling skills first
-    const grammarScore = writingAnswered > 0 || readingAnswered > 0 
-      ? Math.round((writingScaled * 0.6 + readingScaled * 0.4))
-      : 0;
-    const fluencyScore = avgFluency;
-    const pronunciationScore = avgPronunciation;
-    const spellingScore = writingScaled;
-    const vocabularyScore = (readingAnswered > 0 || listeningAnswered > 0 || writingAnswered > 0)
-      ? Math.round((readingScaled * 0.4 + listeningScaled * 0.3 + writingScaled * 0.3))
-      : 0;
-    const discourseScore = writingScaled;
+    // Calculate enabling skills first (clamp all to 0-90)
+    const clamp = (val: number) => Math.max(0, Math.min(90, val));
+    
+    const grammarScore = clamp(
+      writingAnswered > 0 || readingAnswered > 0 
+        ? (writingScaled * 0.6 + readingScaled * 0.4)
+        : 0
+    );
+    const fluencyScore = clamp(avgFluency);
+    const pronunciationScore = clamp(avgPronunciation);
+    const spellingScore = clamp(writingScaled);
+    const vocabularyScore = clamp(
+      (readingAnswered > 0 || listeningAnswered > 0 || writingAnswered > 0)
+        ? (readingScaled * 0.4 + listeningScaled * 0.3 + writingScaled * 0.3)
+        : 0
+    );
+    const discourseScore = clamp(writingScaled);
     
     // PTE Overall Score: Derived from ENABLING SKILLS (not communicative skills)
     // Grammar: 20%, Oral Fluency: 20%, Pronunciation: 15%, Vocabulary: 15%, Written Discourse: 20%, Spelling: 10%
-    const overallScore = Math.round(
-      grammarScore * 0.20 +
-      fluencyScore * 0.20 +
-      pronunciationScore * 0.15 +
-      vocabularyScore * 0.15 +
-      discourseScore * 0.20 +
-      spellingScore * 0.10
-    );
+    // Do NOT divide by 90 or average communicative skills
+    let overallScore = 
+      (grammarScore * 0.20) +
+      (fluencyScore * 0.20) +
+      (pronunciationScore * 0.15) +
+      (vocabularyScore * 0.15) +
+      (discourseScore * 0.20) +
+      (spellingScore * 0.10);
+    
+    // Sanity check: Overall should never be significantly lower than strongest enabling skill
+    const strongestSkill = Math.max(grammarScore, fluencyScore, pronunciationScore, vocabularyScore, discourseScore, spellingScore);
+    const minFloor = strongestSkill * 0.6; // Overall should be at least 60% of strongest skill
+    if (overallScore < minFloor && strongestSkill > 0) {
+      overallScore = minFloor;
+    }
+    
+    // Round only the final overall score
+    overallScore = Math.round(overallScore);
     
     const finalScores = {
       overall: overallScore,
