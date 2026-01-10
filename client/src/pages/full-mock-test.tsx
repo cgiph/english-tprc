@@ -697,6 +697,20 @@ export default function FullMockTest() {
     // Round only the final overall score
     overallScore = Math.round(overallScore);
     
+    // DEV ONLY: Log enabling skills → overall score mapping for testing
+    if (import.meta.env.DEV) {
+      console.log("PTE Scoring Debug:", {
+        grammarScore,
+        fluencyScore,
+        pronunciationScore,
+        vocabularyScore,
+        discourseScore,
+        spellingScore,
+        overallScore,
+        rawCalculation: `(${grammarScore}×0.20) + (${fluencyScore}×0.20) + (${pronunciationScore}×0.15) + (${vocabularyScore}×0.15) + (${discourseScore}×0.20) + (${spellingScore}×0.10)`
+      });
+    }
+    
     const finalScores = {
       overall: overallScore,
       communicative: {
