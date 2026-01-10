@@ -648,23 +648,33 @@ export default function FullMockTest() {
     const readingScaled = readingAnswered > 0 ? scale(readingScore, readingMax, readingAnswered) : 0;
     const listeningScaled = listeningAnswered > 0 ? scale(listeningScore, listeningMax, listeningAnswered) : 0;
     
-    // Calculate enabling skills first (clamp all to 0-90)
-    const clamp = (val: number) => Math.max(0, Math.min(90, val));
+    // Calculate enabling skills (clamp all to 0-90 range)
+    // Clamp helper ensures no score drifts outside PTE bounds
+    const clamp = (v: number) => Math.max(0, Math.min(90, v));
     
+    // Grammar: Weighted from writing (60%) and reading (40%) - NO early rounding
     const grammarScore = clamp(
       writingAnswered > 0 || readingAnswered > 0 
         ? (writingScaled * 0.6 + readingScaled * 0.4)
         : 0
     );
+    
+    // Oral Fluency & Pronunciation: From actual speaking task subscores
     const fluencyScore = clamp(avgFluency);
     const pronunciationScore = clamp(avgPronunciation);
+    
+    // Note: Spelling & Discourse currently derived from writing performance
+    // This effectively gives writing 30% total weight (Spelling 10% + Discourse 20%)
+    // Acceptable for diagnostic purposes in prototype mode
     const spellingScore = clamp(writingScaled);
+    const discourseScore = clamp(writingScaled);
+    
+    // Vocabulary: Weighted from reading (40%), listening (30%), writing (30%) - NO early rounding
     const vocabularyScore = clamp(
       (readingAnswered > 0 || listeningAnswered > 0 || writingAnswered > 0)
         ? (readingScaled * 0.4 + listeningScaled * 0.3 + writingScaled * 0.3)
         : 0
     );
-    const discourseScore = clamp(writingScaled);
     
     // PTE Overall Score: Derived from ENABLING SKILLS (not communicative skills)
     // Grammar: 20%, Oral Fluency: 20%, Pronunciation: 15%, Vocabulary: 15%, Written Discourse: 20%, Spelling: 10%
