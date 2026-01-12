@@ -1537,7 +1537,57 @@ export default function FullMockTest() {
     );
   }
 
+  // Helper to get questions by section
+  const getQuestionsBySection = (section: string) => {
+    if (!currentTest) return [];
+    return currentTest.items.filter(q => q.section === section);
+  };
+
+  // Helper to get answer summary for a question
+  const getAnswerSummary = (q: MockQuestion) => {
+    const userAnswer = responses[q.id];
+    const correctAnswer = q.correctAnswer || (q.options?.find(o => o.includes("(correct)"))?.replace(" (correct)", ""));
+    
+    // For speaking/writing, check if recording exists
+    if (q.section === "Speaking") {
+      const hasRecording = responses[q.id + "_audio"];
+      return {
+        userAnswer: hasRecording ? "Audio recorded" : "No response",
+        correctAnswer: q.audioScript || q.content || "Spoken response required",
+        isCorrect: hasRecording ? null : false, // null means subjective scoring
+        type: "speaking"
+      };
+    }
+    
+    if (q.section === "Writing") {
+      return {
+        userAnswer: userAnswer || "No response",
+        correctAnswer: "Written response required",
+        isCorrect: userAnswer ? null : false,
+        type: "writing"
+      };
+    }
+    
+    // For objective questions
+    const isCorrect = userAnswer && correctAnswer && 
+      (userAnswer.toLowerCase?.() === correctAnswer.toLowerCase?.() || 
+       (Array.isArray(userAnswer) && Array.isArray(correctAnswer) && 
+        JSON.stringify(userAnswer.sort()) === JSON.stringify(correctAnswer.sort())));
+    
+    return {
+      userAnswer: userAnswer || "No response",
+      correctAnswer: correctAnswer || "N/A",
+      isCorrect,
+      type: "objective"
+    };
+  };
+
+  // State for expanded sections
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+
   if (testState === "finished") {
+    const sections = ["Listening", "Reading", "Speaking", "Writing"];
+    
     return (
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <Card className="border-green-100 bg-green-50/30 mb-6">
@@ -1585,39 +1635,169 @@ export default function FullMockTest() {
               <p className="text-muted-foreground font-medium text-lg">Overall Score</p>
             </div>
 
-            {/* Communicative Skills */}
+            {/* Communicative Skills - Clickable */}
             <div className="space-y-4">
-               <h3 className="font-bold text-lg border-b pb-2">Communicative Skills</h3>
+               <h3 className="font-bold text-lg border-b pb-2">Communicative Skills <span className="text-sm font-normal text-muted-foreground">(click to view details)</span></h3>
                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="p-4 bg-white rounded shadow-sm text-center">
-                     <div className="text-2xl font-bold text-blue-600">{score?.communicative.listening}</div>
-                     <div className="text-sm text-muted-foreground">Listening</div>
-                  </div>
-                  <div className="p-4 bg-white rounded shadow-sm text-center">
-                     <div className="text-2xl font-bold text-blue-600">{score?.communicative.reading}</div>
-                     <div className="text-sm text-muted-foreground">Reading</div>
-                  </div>
-                  <div className="p-4 bg-white rounded shadow-sm text-center">
-                     <div className="text-2xl font-bold text-blue-600">{score?.communicative.speaking}</div>
-                     <div className="text-sm text-muted-foreground">Speaking</div>
-                  </div>
-                  <div className="p-4 bg-white rounded shadow-sm text-center">
-                     <div className="text-2xl font-bold text-blue-600">{score?.communicative.writing}</div>
-                     <div className="text-sm text-muted-foreground">Writing</div>
-                  </div>
+                  {sections.map(section => {
+                    const sectionQuestions = getQuestionsBySection(section);
+                    const correctCount = sectionQuestions.filter(q => getAnswerSummary(q).isCorrect === true).length;
+                    const totalCount = sectionQuestions.length;
+                    const sectionScore = section === "Listening" ? score?.communicative.listening :
+                                         section === "Reading" ? score?.communicative.reading :
+                                         section === "Speaking" ? score?.communicative.speaking :
+                                         score?.communicative.writing;
+                    
+                    return (
+                      <button
+                        key={section}
+                        onClick={() => setExpandedSection(expandedSection === section ? null : section)}
+                        className={cn(
+                          "p-4 bg-white rounded shadow-sm text-center transition-all hover:shadow-md hover:ring-2 hover:ring-blue-200 cursor-pointer",
+                          expandedSection === section && "ring-2 ring-blue-500 bg-blue-50"
+                        )}
+                      >
+                        <div className="text-2xl font-bold text-blue-600">{sectionScore}</div>
+                        <div className="text-sm text-muted-foreground">{section}</div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          {totalCount} questions
+                        </div>
+                        <ChevronDown className={cn(
+                          "h-4 w-4 mx-auto mt-1 text-muted-foreground transition-transform",
+                          expandedSection === section && "rotate-180"
+                        )} />
+                      </button>
+                    );
+                  })}
                </div>
+               
+               {/* Expanded Section Details */}
+               {expandedSection && (
+                 <div className="mt-4 p-4 bg-white rounded-lg border-2 border-blue-100 animate-in slide-in-from-top-2">
+                   <h4 className="font-bold text-lg mb-4 flex items-center gap-2">
+                     <Badge variant="outline">{expandedSection}</Badge>
+                     Detailed Results
+                   </h4>
+                   
+                   {getQuestionsBySection(expandedSection).map((q, idx) => {
+                     const summary = getAnswerSummary(q);
+                     const isCorrectIcon = summary.isCorrect === true ? (
+                       <CheckCircle2 className="h-5 w-5 text-green-600" />
+                     ) : summary.isCorrect === false ? (
+                       <AlertCircle className="h-5 w-5 text-red-500" />
+                     ) : (
+                       <div className="h-5 w-5 rounded-full bg-yellow-200 flex items-center justify-center text-xs">?</div>
+                     );
+                     
+                     return (
+                       <div key={q.id} className={cn(
+                         "p-4 rounded-lg mb-3 border",
+                         summary.isCorrect === true ? "bg-green-50 border-green-200" :
+                         summary.isCorrect === false ? "bg-red-50 border-red-200" :
+                         "bg-yellow-50 border-yellow-200"
+                       )}>
+                         <div className="flex items-start gap-3">
+                           <div className="mt-1">{isCorrectIcon}</div>
+                           <div className="flex-1">
+                             <div className="font-medium text-sm mb-1">
+                               Q{idx + 1}: {q.type} {q.title && `- ${q.title}`}
+                             </div>
+                             
+                             {/* Question Content Preview */}
+                             {q.content && (
+                               <p className="text-xs text-muted-foreground mb-2 line-clamp-2">
+                                 {q.content.substring(0, 150)}{q.content.length > 150 ? "..." : ""}
+                               </p>
+                             )}
+                             
+                             {/* Your Answer */}
+                             <div className="mt-2 p-2 bg-white/80 rounded text-sm">
+                               <span className="font-medium text-muted-foreground">Your Answer: </span>
+                               <span className={cn(
+                                 summary.isCorrect === false ? "text-red-700" : 
+                                 summary.isCorrect === true ? "text-green-700" : "text-gray-700"
+                               )}>
+                                 {typeof summary.userAnswer === 'object' ? 
+                                   JSON.stringify(summary.userAnswer) : 
+                                   summary.userAnswer || "No response"}
+                               </span>
+                             </div>
+                             
+                             {/* Correct Answer (for objective questions) */}
+                             {summary.type === "objective" && summary.isCorrect === false && (
+                               <div className="mt-1 p-2 bg-green-100/50 rounded text-sm">
+                                 <span className="font-medium text-green-800">Correct Answer: </span>
+                                 <span className="text-green-700">
+                                   {typeof summary.correctAnswer === 'object' ? 
+                                     JSON.stringify(summary.correctAnswer) : 
+                                     summary.correctAnswer}
+                                 </span>
+                               </div>
+                             )}
+                             
+                             {/* For Speaking - show expected content */}
+                             {summary.type === "speaking" && (
+                               <div className="mt-1 p-2 bg-blue-50 rounded text-sm">
+                                 <span className="font-medium text-blue-800">Expected Response: </span>
+                                 <span className="text-blue-700 text-xs">
+                                   {summary.correctAnswer?.substring(0, 200)}{(summary.correctAnswer?.length || 0) > 200 ? "..." : ""}
+                                 </span>
+                               </div>
+                             )}
+                           </div>
+                         </div>
+                       </div>
+                     );
+                   })}
+                   
+                   {/* Section Summary */}
+                   <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm">
+                     <div className="font-medium mb-2">What to improve in {expandedSection}:</div>
+                     <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                       {expandedSection === "Speaking" && (
+                         <>
+                           <li>Practice pronunciation and oral fluency</li>
+                           <li>Work on content delivery and pacing</li>
+                           <li>Record yourself and compare with native speakers</li>
+                         </>
+                       )}
+                       {expandedSection === "Writing" && (
+                         <>
+                           <li>Review grammar and sentence structure</li>
+                           <li>Expand vocabulary for academic writing</li>
+                           <li>Practice spelling commonly misspelled words</li>
+                         </>
+                       )}
+                       {expandedSection === "Reading" && (
+                         <>
+                           <li>Improve vocabulary recognition</li>
+                           <li>Practice reading comprehension strategies</li>
+                           <li>Work on grammar patterns in context</li>
+                         </>
+                       )}
+                       {expandedSection === "Listening" && (
+                         <>
+                           <li>Practice with different accents</li>
+                           <li>Improve note-taking while listening</li>
+                           <li>Focus on catching key words and phrases</li>
+                         </>
+                       )}
+                     </ul>
+                   </div>
+                 </div>
+               )}
             </div>
 
             {/* Enabling Skills Breakdown */}
             <div className="space-y-4">
                <h3 className="font-bold text-lg border-b pb-2">Skills Breakdown</h3>
                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
-                  <div className="flex justify-between p-2 bg-white rounded"><span>Grammar</span> <b>{score?.skills.grammar}</b></div>
-                  <div className="flex justify-between p-2 bg-white rounded"><span>Oral Fluency</span> <b>{score?.skills.fluency}</b></div>
-                  <div className="flex justify-between p-2 bg-white rounded"><span>Pronunciation</span> <b>{score?.skills.pronunciation}</b></div>
-                  <div className="flex justify-between p-2 bg-white rounded"><span>Spelling</span> <b>{score?.skills.spelling}</b></div>
-                  <div className="flex justify-between p-2 bg-white rounded"><span>Vocabulary</span> <b>{score?.skills.vocabulary}</b></div>
-                  <div className="flex justify-between p-2 bg-white rounded"><span>Written Discourse</span> <b>{score?.skills.discourse}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Grammar</span> <b>{Math.round((score?.skills.grammar || 0) * 10) / 10}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Oral Fluency</span> <b>{Math.round((score?.skills.fluency || 0) * 10) / 10}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Pronunciation</span> <b>{Math.round((score?.skills.pronunciation || 0) * 10) / 10}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Spelling</span> <b>{Math.round((score?.skills.spelling || 0) * 10) / 10}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Vocabulary</span> <b>{Math.round((score?.skills.vocabulary || 0) * 10) / 10}</b></div>
+                  <div className="flex justify-between p-2 bg-white rounded"><span>Written Discourse</span> <b>{Math.round((score?.skills.discourse || 0) * 10) / 10}</b></div>
                </div>
             </div>
 
