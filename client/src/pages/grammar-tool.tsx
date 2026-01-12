@@ -557,6 +557,7 @@ export default function GrammarTool() {
       // ========== TENSE ERRORS (TOEFL penalizes tense sequence errors) ==========
       
       // Past time markers with present tense base verbs (meaning-critical)
+      // Pattern 1: "Yesterday I go..." (yesterday at start)
       addFeedback(/\byesterday\s+I\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave|put|bring|begin|keep|hold|write|stand|hear|let|mean|set|meet|pay|sit|speak|lie|lead|read|grow|lose|fall|feel|catch|buy|send|build|spend|cut|win|teach|sell|throw|break|drive|draw|show|choose|wear)\b/i, 
         "Tense sequence error. TOEFL and PTE penalize this. 'Yesterday' requires past tense.", 
         'error', 
@@ -566,6 +567,32 @@ export default function GrammarTool() {
         "Meaning-critical: 'Yesterday' requires past tense to convey the correct time relationship.", 
         'error', 
         ["Correct form: Use past tense verbs (went, ate, walked, etc.)"]
+      );
+      
+      // Pattern 2: "I go to work yesterday" (yesterday at end) - CRITICAL for ESL learners
+      addFeedback(/\bI\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave|put|bring|begin|keep|hold|write|stand|hear|let|mean|set|meet|pay|sit|speak|lie|lead|read|grow|lose|fall|feel|catch|buy|send|build|spend|cut|win|teach|sell|throw|break|drive|draw|show|choose|wear)\b[^.!?]*\byesterday\b/i, 
+        "Tense error: 'Yesterday' indicates past time, but you used present tense. Use past tense instead.", 
+        'error', 
+        ["To fix: 'I went to work yesterday.' (change 'go' to 'went')"]
+      );
+      addFeedback(/\b(he|she|it|we|they|you)\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave|put|bring|begin|keep|hold|write|stand|hear|let|mean|set|meet|pay|sit|speak|lie|lead|read|grow|lose|fall|feel|catch|buy|send|build|spend|cut|win|teach|sell|throw|break|drive|draw|show|choose|wear)s?\b[^.!?]*\byesterday\b/i, 
+        "Tense error: 'Yesterday' requires past tense verbs.", 
+        'error', 
+        ["Correct form: Use past tense (went, ate, walked, saw, did, etc.)"]
+      );
+      
+      // Pattern 3: Present tense + "last week/month/year" at end
+      addFeedback(/\bI\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell)\b[^.!?]*\blast\s+(week|month|year|night|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/i, 
+        "Tense error: 'Last week/month/year' indicates past time. Use past tense verbs.", 
+        'error', 
+        ["To fix: 'I went to the store last week.' (use past tense)"]
+      );
+      
+      // Pattern 4: Present tense + "X days/weeks ago" at end  
+      addFeedback(/\bI\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell)\b[^.!?]*\b(\d+|two|three|four|five|six|seven|eight|nine|ten)\s+(days?|weeks?|months?|years?)\s+ago\b/i, 
+        "Tense error: 'Ago' signals past time. Use past tense verbs.", 
+        'error', 
+        ["To fix: 'I went there two days ago.' (use past tense)"]
       );
       
       // "Last week/month/year" with present tense
