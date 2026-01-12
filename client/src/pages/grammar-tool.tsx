@@ -525,6 +525,14 @@ export default function GrammarTool() {
           'error',
           ["To fix: 'He goes to...' / 'She goes to...'"]
         );
+        
+        // Family nouns as 3rd person singular subjects
+        // "My mother cook" → "My mother cooks"
+        addFeedback(/\b(my|his|her|our|their|the)\s+(mother|father|sister|brother|grandmother|grandfather|aunt|uncle|cousin|friend|teacher|boss|manager|doctor|neighbor|wife|husband|son|daughter|child|baby|student|professor|colleague|partner)\s+(cook|go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|work|play|want|need|like|love|hate|try|help|live|stay|start|stop|watch|learn|study|read|write|speak|listen|wait|sit|stand|sleep|clean|wash|drive|fly|swim|dance|sing|draw|buy|sell|send|bring|carry|open|close|turn|hold)\b/i,
+          "Subject-verb agreement error. 'My mother/father/etc.' is 3rd person singular and requires -s/-es on the verb.",
+          'error',
+          ["To fix: 'My mother cooks' / 'His father works' / 'Her sister plays' (add -s/-es)"]
+        );
       }
       
       if (!hasPastTimeMarker) {
@@ -540,6 +548,15 @@ export default function GrammarTool() {
           ["To fix: 'He does not...' / 'She does not...'"]
         );
       }
+      
+      // ========== POSSESSIVE + WRONG VERB FORM (Noun vs Verb confusion) ==========
+      // "her loved" → "her love" (when used as noun)
+      // "his worked" → "his work"
+      addFeedback(/\b(my|your|his|her|its|our|their)\s+(loved|worked|helped|cared|supported|cooked|cleaned|wished|hoped|feared|hated|liked|wanted|needed|tried|believed|trusted|respected|appreciated|dreamed|prayed|thanked|blessed|cursed)\b(?!\s+(one|ones|by|for|to|is|was|has|had|will|would|should|could|might))/i,
+        "Word form error: After possessive pronouns (my/his/her/etc.), use the noun form, not the past tense verb.",
+        'error',
+        ["To fix: 'her love' (not 'her loved') / 'his work' (not 'his worked') / 'their help' (not 'their helped')"]
+      );
       
       // 4️⃣ Incorrect Word Order That Affects Meaning
       // "I like very much English" → "I like English very much"
