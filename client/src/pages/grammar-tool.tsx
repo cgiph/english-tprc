@@ -652,6 +652,28 @@ export default function GrammarTool() {
       
       // ========== END MEANING-CRITICAL TENSE ERRORS ==========
       
+      // ========== INFINITIVE ERRORS (PTE Academic Reading Fill in the Blanks focus) ==========
+      // "to finished" → "to finish" (infinitive requires base form)
+      addFeedback(/\bto\s+(finished|worked|played|walked|talked|called|started|stopped|opened|closed|helped|moved|lived|stayed|learned|changed|turned|carried|pushed|pulled|picked|dropped|watched|listened|studied|needed|wanted|tried|asked|answered|cleaned|cooked|fixed|used|looked|showed|followed|added|checked|passed|reached|touched|rushed|wished|missed|kissed|dressed|pressed|guessed|blessed|stressed|processed|discussed|focused|noticed|practiced|placed|faced|traced|raced|paced|based|chased|erased|replaced|embraced|spaced)\b/i,
+        "Infinitive error: After 'to', use the base form of the verb, not the past tense.",
+        'error',
+        ["To fix: 'to finish' / 'to work' / 'to play' (remove -ed ending)"]
+      );
+      
+      // Irregular past tense after "to"
+      addFeedback(/\bto\s+(went|ate|saw|did|made|took|came|gave|got|had|said|told|knew|thought|found|left|wrote|spoke|broke|chose|drove|forgot|threw|wore|drank|sang|swam|began|ran|sat|stood|understood|heard|felt|kept|held|brought|bought|caught|taught|fought|sought|lost|sent|spent|built|lent|meant|met|paid|sold|read|led|fed|bled|fled|sped|wed|shook|woke|froze|rose|stole|hid|bit|lit|quit|shut|split|rid|slid|spread|shed|cost|hurt|cut|put|set|bet|let|hit)\b/i,
+        "Infinitive error: After 'to', use the base form of the verb, not the past tense.",
+        'error',
+        ["To fix: 'to go' (not 'to went') / 'to eat' (not 'to ate') / 'to see' (not 'to saw')"]
+      );
+      
+      // -ing form after "to" (except for specific phrases like "look forward to")
+      addFeedback(/\bto\s+(going|eating|walking|running|seeing|doing|making|taking|coming|giving|getting|having|saying|telling|working|playing|reading|writing|speaking|learning|studying|watching|listening|waiting|sitting|standing|sleeping|thinking|trying|helping|moving|living|staying|starting|stopping|opening|closing)\b(?!\s+(to|the|a|an|my|your|his|her|their|our|this|that))/i,
+        "Infinitive error: After 'to', use the base form of the verb, not the -ing form.",
+        'error',
+        ["To fix: 'to go' (not 'to going') / 'to eat' (not 'to eating')"]
+      );
+      
       // ========== CONTINUOUS TENSE ERRORS (Common A1-B1 errors) ==========
       // "I am go" → "I am going"
       addFeedback(/\b(I\s+am|you\s+are|he\s+is|she\s+is|it\s+is|we\s+are|they\s+are)\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|work|play|read|write|speak|learn|study|watch|listen|wait|sit|stand|sleep|think|try|help|move|live|stay|start|stop|open|close|turn|carry|hold|cook|clean|drive|fly|swim|dance|sing|draw|paint|build|fix|buy|sell|send|bring|carry|push|pull|pick|drop|throw|catch|hit|cut|break|grow|fall|rise|change)\b/i,
