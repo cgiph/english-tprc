@@ -652,6 +652,172 @@ export default function GrammarTool() {
       
       // ========== END MEANING-CRITICAL TENSE ERRORS ==========
       
+      // ========== CONTINUOUS TENSE ERRORS (Common A1-B1 errors) ==========
+      // "I am go" → "I am going"
+      addFeedback(/\b(I\s+am|you\s+are|he\s+is|she\s+is|it\s+is|we\s+are|they\s+are)\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|work|play|read|write|speak|learn|study|watch|listen|wait|sit|stand|sleep|think|try|help|move|live|stay|start|stop|open|close|turn|carry|hold|cook|clean|drive|fly|swim|dance|sing|draw|paint|build|fix|buy|sell|send|bring|carry|push|pull|pick|drop|throw|catch|hit|cut|break|grow|fall|rise|change)\b/i,
+        "Continuous tense error: After 'am/is/are', use the -ing form of the verb.",
+        'error',
+        ["To fix: 'I am going' / 'She is working' / 'They are playing' (add -ing to the verb)"]
+      );
+      
+      // "I was go" → "I was going"
+      addFeedback(/\b(I\s+was|you\s+were|he\s+was|she\s+was|it\s+was|we\s+were|they\s+were)\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|work|play|read|write|speak|learn|study|watch|listen|wait|sit|stand|sleep|think|try|help|move|live|stay|start|stop|open|close|turn|carry|hold|cook|clean|drive|fly|swim|dance|sing|draw|paint|build|fix|buy|sell|send|bring|carry|push|pull|pick|drop|throw|catch|hit|cut|break|grow|fall|rise|change)\b/i,
+        "Past continuous error: After 'was/were', use the -ing form of the verb.",
+        'error',
+        ["To fix: 'I was going' / 'She was working' / 'They were playing' (add -ing to the verb)"]
+      );
+      
+      // ========== PERFECT TENSE ERRORS (Common A1-B1 errors) ==========
+      // "I have went" → "I have gone" (irregular past participles)
+      addFeedback(/\b(have|has|had)\s+went\b/i,
+        "Perfect tense error: Use 'gone' (past participle), not 'went' (simple past).",
+        'error',
+        ["To fix: 'I have gone' / 'She has gone' / 'They had gone'"]
+      );
+      addFeedback(/\b(have|has|had)\s+ate\b/i,
+        "Perfect tense error: Use 'eaten' (past participle), not 'ate' (simple past).",
+        'error',
+        ["To fix: 'I have eaten' / 'She has eaten'"]
+      );
+      addFeedback(/\b(have|has|had)\s+saw\b/i,
+        "Perfect tense error: Use 'seen' (past participle), not 'saw' (simple past).",
+        'error',
+        ["To fix: 'I have seen' / 'She has seen'"]
+      );
+      addFeedback(/\b(have|has|had)\s+did\b/i,
+        "Perfect tense error: Use 'done' (past participle), not 'did' (simple past).",
+        'error',
+        ["To fix: 'I have done' / 'She has done'"]
+      );
+      addFeedback(/\b(have|has|had)\s+took\b/i,
+        "Perfect tense error: Use 'taken' (past participle), not 'took' (simple past).",
+        'error',
+        ["To fix: 'I have taken' / 'She has taken'"]
+      );
+      addFeedback(/\b(have|has|had)\s+gave\b/i,
+        "Perfect tense error: Use 'given' (past participle), not 'gave' (simple past).",
+        'error',
+        ["To fix: 'I have given' / 'She has given'"]
+      );
+      addFeedback(/\b(have|has|had)\s+came\b/i,
+        "Perfect tense error: Use 'come' (past participle), not 'came' (simple past).",
+        'error',
+        ["To fix: 'I have come' / 'She has come'"]
+      );
+      addFeedback(/\b(have|has|had)\s+ran\b/i,
+        "Perfect tense error: Use 'run' (past participle), not 'ran' (simple past).",
+        'error',
+        ["To fix: 'I have run' / 'She has run'"]
+      );
+      addFeedback(/\b(have|has|had)\s+wrote\b/i,
+        "Perfect tense error: Use 'written' (past participle), not 'wrote' (simple past).",
+        'error',
+        ["To fix: 'I have written' / 'She has written'"]
+      );
+      addFeedback(/\b(have|has|had)\s+spoke\b/i,
+        "Perfect tense error: Use 'spoken' (past participle), not 'spoke' (simple past).",
+        'error',
+        ["To fix: 'I have spoken' / 'She has spoken'"]
+      );
+      addFeedback(/\b(have|has|had)\s+broke\b/i,
+        "Perfect tense error: Use 'broken' (past participle), not 'broke' (simple past).",
+        'error',
+        ["To fix: 'I have broken' / 'It has broken'"]
+      );
+      addFeedback(/\b(have|has|had)\s+chose\b/i,
+        "Perfect tense error: Use 'chosen' (past participle), not 'chose' (simple past).",
+        'error',
+        ["To fix: 'I have chosen' / 'She has chosen'"]
+      );
+      addFeedback(/\b(have|has|had)\s+drove\b/i,
+        "Perfect tense error: Use 'driven' (past participle), not 'drove' (simple past).",
+        'error',
+        ["To fix: 'I have driven' / 'She has driven'"]
+      );
+      addFeedback(/\b(have|has|had)\s+forgot\b/i,
+        "Perfect tense error: Use 'forgotten' (past participle), not 'forgot' (simple past).",
+        'error',
+        ["To fix: 'I have forgotten' / 'She has forgotten'"]
+      );
+      addFeedback(/\b(have|has|had)\s+knew\b/i,
+        "Perfect tense error: Use 'known' (past participle), not 'knew' (simple past).",
+        'error',
+        ["To fix: 'I have known' / 'She has known'"]
+      );
+      addFeedback(/\b(have|has|had)\s+threw\b/i,
+        "Perfect tense error: Use 'thrown' (past participle), not 'threw' (simple past).",
+        'error',
+        ["To fix: 'I have thrown' / 'She has thrown'"]
+      );
+      addFeedback(/\b(have|has|had)\s+wore\b/i,
+        "Perfect tense error: Use 'worn' (past participle), not 'wore' (simple past).",
+        'error',
+        ["To fix: 'I have worn' / 'She has worn'"]
+      );
+      addFeedback(/\b(have|has|had)\s+drank\b/i,
+        "Perfect tense error: Use 'drunk' (past participle), not 'drank' (simple past).",
+        'error',
+        ["To fix: 'I have drunk' / 'She has drunk'"]
+      );
+      addFeedback(/\b(have|has|had)\s+sang\b/i,
+        "Perfect tense error: Use 'sung' (past participle), not 'sang' (simple past).",
+        'error',
+        ["To fix: 'I have sung' / 'She has sung'"]
+      );
+      addFeedback(/\b(have|has|had)\s+swam\b/i,
+        "Perfect tense error: Use 'swum' (past participle), not 'swam' (simple past).",
+        'error',
+        ["To fix: 'I have swum' / 'She has swum'"]
+      );
+      addFeedback(/\b(have|has|had)\s+began\b/i,
+        "Perfect tense error: Use 'begun' (past participle), not 'began' (simple past).",
+        'error',
+        ["To fix: 'I have begun' / 'She has begun'"]
+      );
+      
+      // "I have go" → "I have gone" (base form instead of past participle)
+      addFeedback(/\b(have|has|had)\s+(go|eat|see|do|take|give|come|run|write|speak|break|choose|drive|forget|know|throw|wear|drink|sing|swim|begin|fly|grow|hide|ride|rise|shake|steal|wake)\b/i,
+        "Perfect tense error: Use the past participle form after 'have/has/had'.",
+        'error',
+        ["To fix: 'I have gone' / 'She has eaten' / 'They have seen' (use past participle: gone, eaten, seen, done, taken, etc.)"]
+      );
+      
+      // ========== FUTURE TENSE ERRORS (Common A1-B1 errors) ==========
+      // "I will went" → "I will go"
+      addFeedback(/\bwill\s+(went|ate|walked|ran|saw|did|made|took|came|gave|got|had|said|told|knew|thought|found|left|wrote|spoke|broke|chose|drove|forgot|threw|wore|drank|sang|swam|began)\b/i,
+        "Future tense error: Use the base form of the verb after 'will', not the past tense.",
+        'error',
+        ["To fix: 'I will go' / 'She will eat' / 'They will come' (use base form after 'will')"]
+      );
+      
+      // "I will going" → "I will go" or "I will be going"
+      addFeedback(/\bwill\s+(going|eating|walking|running|seeing|doing|making|taking|coming|giving|getting|having|saying|telling|working|playing|reading|writing|speaking|learning)\b/i,
+        "Future tense error: Use base form after 'will', or use 'will be + -ing' for future continuous.",
+        'error',
+        ["To fix: 'I will go' OR 'I will be going' (for continuous)"]
+      );
+      
+      // ========== COMMON "DID" + PAST TENSE ERRORS ==========
+      // "Did you went?" → "Did you go?"
+      addFeedback(/\bdid\s+(not\s+)?(I|you|he|she|it|we|they)?\s*(went|ate|walked|ran|saw|made|took|came|gave|got|had|said|told|knew|thought|found|left|wrote|spoke|broke|chose|drove|forgot|threw|wore|drank|sang|swam|began|worked|played|watched|listened|studied|finished|started|stopped)\b/i,
+        "Tense error: After 'did', use the base form of the verb, not the past tense.",
+        'error',
+        ["To fix: 'Did you go?' / 'Did she eat?' / 'I did not see' (use base form after 'did')"]
+      );
+      
+      // ========== WE/THEY/YOU + base form + past markers ==========
+      addFeedback(/\b(we|they|you)\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|work|play|watch|listen|study|finish|start|stop|open|close|help|move|live|stay|learn|change)\b[^.!?]*\byesterday\b/i,
+        "Tense error: 'Yesterday' requires past tense verbs.",
+        'error',
+        ["To fix: 'We went yesterday' / 'They worked yesterday' (use past tense)"]
+      );
+      
+      addFeedback(/\b(we|they|you)\s+(go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|work|play|watch|listen|study|finish|start|stop|open|close|help|move|live|stay|learn|change)\b[^.!?]*\blast\s+(week|month|year|night)\b/i,
+        "Tense error: 'Last week/month/year' requires past tense verbs.",
+        'error',
+        ["To fix: 'We went last week' / 'They worked last month' (use past tense)"]
+      );
+      
       // General tense notes (less critical)
       addFeedback(/\byesterday\s+(is|are)\b/i, "Tense note: 'Yesterday' signals past time, so past tense verbs work best here.", 'warning', ["Consider: 'was', 'were'."]);
       addFeedback(/\btomorrow\s+(was|were)\b/i, "Tense note: 'Tomorrow' signals future time, so future tense works best.", 'warning', ["Consider: 'will be'"]);
