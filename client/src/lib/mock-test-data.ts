@@ -147,7 +147,7 @@ const MOCK_RTS: MockQuestion[] = [
   },
   {
     id: "rts-4", section: "Speaking", type: "Respond to a Situation", title: "Library Book Return",
-    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_4_1767941319553.mp3",
+    prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "audio_placeholder",
     content: "You borrowed several books from the university library last month. You just realized that one of the books is two weeks overdue and you cannot find it anywhere in your apartment. You need to go to the library and explain the situation to the librarian. What would you say?",
     audioScript: "You borrowed several books from the university library last month. You just realized that one of the books is two weeks overdue and you cannot find it anywhere in your apartment. You need to go to the library and explain the situation to the librarian. What would you say?",
     max_score: 5, time_limit_seconds: 40
