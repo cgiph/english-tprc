@@ -508,30 +508,38 @@ export default function GrammarTool() {
       
       // 3️⃣ Subject-Verb Agreement (Third Person Singular - Basic Forms)
       // "He go to work" → "He goes to work"
-      addFeedback(/\b(he|she|it)\s+(go|do|have|say|make|take|come|see|get|know|think|want|use|find|give|tell|work|call|try|ask|need|feel|become|leave|put|mean|keep|let|begin|seem|help|show|hear|play|run|move|live|believe|bring|happen|write|sit|stand|lose|pay|meet|include|continue|set|learn|change|lead|understand|watch|follow|stop|create|speak|read|allow|add|spend|grow|open|walk|win|offer|remember|love|consider|appear|buy|wait|serve|die|send|expect|build|stay|fall|cut|reach|kill|remain|suggest|raise|pass|sell|require|report|decide|pull)\b(?!\s+(to|that|it|him|her|them|us|me|you|up|down|in|out|on|off|back|away|over|through))/i,
-        "Subject-verb agreement error. This will reduce your grammar accuracy score in all exams.",
-        'error',
-        ["To score higher: Add -s/-es. 'He goes to work every day.'"]
-      );
+      // NOTE: Skip this check if sentence contains past time markers (yesterday, last week, ago)
+      // Those are tense errors, not subject-verb agreement errors
+      const hasPastTimeMarker = /\b(yesterday|last\s+(week|month|year|night|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)|\d+\s+(days?|weeks?|months?|years?)\s+ago)\b/i.test(text);
       
-      // Specific common patterns
-      addFeedback(/\b(he|she|it)\s+go\s+to\b/i,
-        "Subject-verb agreement error. 'He/She/It' requires 'goes'. This affects your accuracy score.",
-        'error',
-        ["To fix: 'He goes to...' / 'She goes to...'"]
-      );
+      if (!hasPastTimeMarker) {
+        addFeedback(/\b(he|she|it)\s+(go|do|have|say|make|take|come|see|get|know|think|want|use|find|give|tell|work|call|try|ask|need|feel|become|leave|put|mean|keep|let|begin|seem|help|show|hear|play|run|move|live|believe|bring|happen|write|sit|stand|lose|pay|meet|include|continue|set|learn|change|lead|understand|watch|follow|stop|create|speak|read|allow|add|spend|grow|open|walk|win|offer|remember|love|consider|appear|buy|wait|serve|die|send|expect|build|stay|fall|cut|reach|kill|remain|suggest|raise|pass|sell|require|report|decide|pull)\b(?!\s+(to|that|it|him|her|them|us|me|you|up|down|in|out|on|off|back|away|over|through))/i,
+          "Subject-verb agreement error. This will reduce your grammar accuracy score in all exams.",
+          'error',
+          ["To score higher: Add -s/-es. 'He goes to work every day.'"]
+        );
+        
+        // Specific common patterns
+        addFeedback(/\b(he|she|it)\s+go\s+to\b/i,
+          "Subject-verb agreement error. 'He/She/It' requires 'goes'. This affects your accuracy score.",
+          'error',
+          ["To fix: 'He goes to...' / 'She goes to...'"]
+        );
+      }
       
-      addFeedback(/\b(he|she|it)\s+have\s+(a|an|the|to|no|some|many)\b/i,
-        "Subject-verb agreement error. 'He/She/It' requires 'has'. This affects your accuracy score.",
-        'error',
-        ["To fix: 'He has...' / 'She has...'"]
-      );
-      
-      addFeedback(/\b(he|she|it)\s+do\s+not\b/i,
-        "Subject-verb agreement error. 'He/She/It' requires 'does not'. This affects your accuracy score.",
-        'error',
-        ["To fix: 'He does not...' / 'She does not...'"]
-      );
+      if (!hasPastTimeMarker) {
+        addFeedback(/\b(he|she|it)\s+have\s+(a|an|the|to|no|some|many)\b/i,
+          "Subject-verb agreement error. 'He/She/It' requires 'has'. This affects your accuracy score.",
+          'error',
+          ["To fix: 'He has...' / 'She has...'"]
+        );
+        
+        addFeedback(/\b(he|she|it)\s+do\s+not\b/i,
+          "Subject-verb agreement error. 'He/She/It' requires 'does not'. This affects your accuracy score.",
+          'error',
+          ["To fix: 'He does not...' / 'She does not...'"]
+        );
+      }
       
       // 4️⃣ Incorrect Word Order That Affects Meaning
       // "I like very much English" → "I like English very much"
@@ -555,6 +563,27 @@ export default function GrammarTool() {
       );
       
       // ========== TENSE ERRORS (TOEFL penalizes tense sequence errors) ==========
+      // NOTE: These patterns MUST come before subject-verb agreement to take priority
+      
+      // Pattern 0: "He/She work hard yesterday" - base form verb + yesterday (common ESL error)
+      // This must be checked FIRST to avoid false subject-verb agreement suggestions
+      addFeedback(/\b(he|she|it)\s+(work|go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave|put|bring|begin|keep|write|stand|hear|meet|pay|sit|speak|read|lose|fall|feel|catch|buy|send|build|spend|teach|sell|throw|break|drive|draw|show|choose|play|try|call|ask|need|help|move|live|happen|stay|start|stop|watch|learn|change|open|close|turn|carry|hold|pass|pull|push|pick|drop|hit|cut|win|die)\b[^.!?]*\byesterday\b/i, 
+        "Tense error: 'Yesterday' requires past tense. Change the verb to past tense.", 
+        'error', 
+        ["To fix: 'He worked hard yesterday.' / 'She went home yesterday.' (use past tense -ed or irregular form)"]
+      );
+      
+      addFeedback(/\b(he|she|it)\s+(work|go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave|put|bring|begin|keep|write|stand|hear|meet|pay|sit|speak|read|lose|fall|feel|catch|buy|send|build|spend|teach|sell|throw|break|drive|draw|show|choose|play|try|call|ask|need|help|move|live|happen|stay|start|stop|watch|learn|change|open|close|turn|carry|hold|pass|pull|push|pick|drop|hit|cut|win|die)\b[^.!?]*\blast\s+(week|month|year|night|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/i, 
+        "Tense error: 'Last week/month/year' requires past tense.", 
+        'error', 
+        ["To fix: Use past tense. 'He worked last week.' / 'She went last night.'"]
+      );
+      
+      addFeedback(/\b(he|she|it)\s+(work|go|eat|walk|run|see|do|make|take|come|give|get|have|say|tell|know|think|find|leave)\b[^.!?]*\b(\d+|two|three|four|five|six|seven|eight|nine|ten)\s+(days?|weeks?|months?|years?)\s+ago\b/i, 
+        "Tense error: 'Ago' signals past time. Use past tense.", 
+        'error', 
+        ["To fix: 'He worked two days ago.' (use past tense)"]
+      );
       
       // Past time markers with present tense base verbs (meaning-critical)
       // Pattern 1: "Yesterday I go..." (yesterday at start)
