@@ -55,42 +55,55 @@ export default function DemoPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-50" />
+      {/* Hero Section - Matching Homepage Style */}
+      <section className="relative min-h-[70vh] flex items-center">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=2128&q=80')`
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent" />
         
-        <div className="container mx-auto px-6 py-20 relative">
-          <div className="flex items-center gap-2 mb-6">
-            <Badge className="bg-blue-500/20 text-blue-200 border-blue-400/30 px-4 py-1">
+        <div className="container mx-auto px-6 py-20 relative z-10">
+          <div className="max-w-2xl">
+            <Badge className="mb-4 bg-amber-100 text-amber-700 border-amber-200">
               <Sparkles className="h-3 w-3 mr-1" /> Board Presentation Demo
             </Badge>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            PTE Academic<br />
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Preparation Portal
-            </span>
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-slate-300 max-w-2xl mb-10 leading-relaxed">
-            A comprehensive exam simulation platform with accurate question formats, 
-            AI-powered grammar checking, and PTE-aligned scoring based on weighted enabling skills.
-          </p>
-          
-          <div className="flex flex-wrap gap-4">
-            <Link href="/full-mock-test">
-              <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 gap-2 text-lg px-8">
-                <GraduationCap className="h-5 w-5" />
-                Try Full Mock Test
-              </Button>
-            </Link>
-            <Link href="/grammar-tool">
-              <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 gap-2 text-lg px-8">
-                <Brain className="h-5 w-5" />
-                AI Grammar Checker
-              </Button>
-            </Link>
+            
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+              <span className="text-slate-800">Your Path to</span><br />
+              <span className="text-amber-500">Academic Success</span>
+            </h1>
+            
+            <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+              Join thousands of students sharing real exam experiences, strategies, 
+              and verified study resources for the PTE Academic.
+            </p>
+            
+            <div className="flex flex-wrap gap-4 mb-8">
+              <Link href="/resources/full-mock-test">
+                <Button size="lg" className="bg-amber-500 hover:bg-amber-600 text-white gap-2 text-lg px-8">
+                  Read Reviews
+                </Button>
+              </Link>
+              <Link href="/resources">
+                <Button size="lg" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-50 gap-2 text-lg px-8">
+                  Explore Resources
+                </Button>
+              </Link>
+            </div>
+            
+            <div className="flex items-center gap-6 text-sm text-slate-500">
+              <div className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                <span>10k+ Members</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4" />
+                <span>Verified Scores</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
