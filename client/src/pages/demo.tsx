@@ -82,7 +82,7 @@ export default function DemoPage() {
             </p>
             
             <div className="flex flex-wrap gap-4 mb-8">
-              <Link href="/resources/full-mock-test">
+              <Link href="/reviews">
                 <Button size="lg" className="bg-amber-500 hover:bg-amber-600 text-white gap-2 text-lg px-8">
                   Read Reviews
                 </Button>
@@ -184,7 +184,7 @@ export default function DemoPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/grammar-tool">
+              <Link href="/resources/grammar-tool">
                 <Button size="lg" className="gap-2">
                   Try Grammar Checker <ChevronRight className="h-4 w-4" />
                 </Button>
@@ -334,7 +334,7 @@ export default function DemoPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/audio-trainer">
+              <Link href="/resources/audio-trainer">
                 <Button size="lg" className="gap-2 bg-green-600 hover:bg-green-700">
                   Try Audio Trainer <ChevronRight className="h-4 w-4" />
                 </Button>
