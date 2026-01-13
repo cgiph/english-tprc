@@ -427,12 +427,12 @@ export default function DemoPage() {
       <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
         <div className="container mx-auto px-6 text-center">
           <Award className="h-16 w-16 mx-auto mb-6 text-blue-200" />
-          <h2 className="text-4xl font-bold mb-4">Ready for the Demo?</h2>
+          <h2 className="text-4xl font-bold mb-4">Experience the Simulation</h2>
           <p className="text-xl text-blue-100 mb-8 max-w-xl mx-auto">
-            Experience the full PTE Academic simulation with all features enabled
+            Try the full PTE Academic simulation with all features enabled
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/full-mock-test">
+            <Link href="/resources/full-mock-test">
               <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 gap-2 text-lg px-8">
                 <GraduationCap className="h-5 w-5" />
                 Start Full Mock Test
