@@ -518,7 +518,150 @@ export default function FullMockTest() {
         !(typeof response === 'object' && Object.keys(response).length === 0);
 
       // Logic for specific constraints
-      if (item.type === "Summarize Written Text") {
+      if (item.type === "Summarize Spoken Text") {
+         if (!hasResponse) {
+           itemScore = 0;
+         } else {
+            const wordCount = response.trim().split(/\s+/).length;
+            
+            // Form: 50-70 words
+            let formScore = 2; // Max 2
+            if (wordCount < 40 || wordCount > 100) formScore = 0;
+            else if (wordCount < 50 || wordCount > 70) formScore = 1;
+            
+            // Content: Keyword matching (if keywords exist in mock data, else simple length proxy)
+            let contentScore = 2; // Max 2
+            if (item.keywords && Array.isArray(item.keywords)) {
+               const matches = item.keywords.filter(k => response.toLowerCase().includes(k.toLowerCase())).length;
+               const ratio = matches / item.keywords.length;
+               if (ratio > 0.8) contentScore = 2;
+               else if (ratio > 0.4) contentScore = 1;
+               else contentScore = 0;
+            } else {
+               // Fallback: length proxy
+               contentScore = wordCount > 40 ? 2 : 1;
+            }
+
+            // Grammar/Spelling (Mock)
+            let grammarScore = 2; // Max 2
+            let vocabScore = 2;   // Max 2
+            // Simple check for sentence starters/connectors
+            const connectors = ["however", "furthermore", "moreover", "in addition", "consequently", "therefore", "although", "but", "and", "so"];
+            const hasConnectors = connectors.some(c => response.toLowerCase().includes(c));
+            if (!hasConnectors) vocabScore = 1;
+
+            // Spelling check (simulated based on length/complexity)
+            if (response.length < 100) grammarScore = 1;
+
+            itemScore = formScore + contentScore + grammarScore + vocabScore;
+            // Scale to max score (usually 10)
+            itemScore = Math.round((itemScore / 8) * item.max_score);
+         }
+      } else if (item.type === "Write From Dictation") {
+         if (!hasResponse) {
+            itemScore = 0;
+         } else {
+            // WFD: 1 point per correct word
+            const userWords = response.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"").split(/\s+/);
+            const correctText = item.correctAnswer || item.audioScript || "";
+            const correctWords = correctText.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"").split(/\s+/);
+            
+            let matchCount = 0;
+            // Naive matching (should ideally handle sequence, but bag-of-words is often close enough for PTE WFD partial)
+            const userWordSet = [...userWords]; // copy
+            
+            correctWords.forEach(word => {
+               const idx = userWordSet.indexOf(word);
+               if (idx !== -1) {
+                  matchCount++;
+                  userWordSet.splice(idx, 1); // Remove matched to avoid double counting
+               }
+            });
+            
+            // Score is typically 1 point per word. Max score set in mock data is 10 (normalized).
+            // We'll calculate raw correct words, then normalize to item.max_score
+            // Real PTE WFD is basically raw points = max points (e.g. 12 words = 12 pts).
+            // Here we normalize to keep scores consistent.
+            itemScore = Math.min(item.max_score, Math.round((matchCount / correctWords.length) * item.max_score));
+         }
+      } else if (item.type === "Highlight Incorrect Words" || item.type === "Multiple Choice, Multiple Answers") {
+         // Array comparison with partial credit
+         // Highlight Incorrect Words typically: +1 correct, -1 incorrect (min 0)
+         if (!hasResponse) {
+            itemScore = 0;
+         } else {
+            let userSelection = [];
+            let correctSelection = [];
+            
+            if (Array.isArray(response)) userSelection = response;
+            else if (typeof response === 'string') userSelection = [response]; // Should be array though
+            
+            if (Array.isArray(item.correctAnswer)) correctSelection = item.correctAnswer;
+            // HIW correctAnswer might be indices [1, 5, 8]
+            
+            // Calculate matches
+            let correctCount = 0;
+            let incorrectCount = 0;
+            
+            userSelection.forEach(val => {
+               // Loose comparison for numbers/strings
+               if (correctSelection.some(c => c == val)) correctCount++;
+               else incorrectCount++;
+            });
+            
+            // PTE Formula: Score = Correct - Incorrect (Min 0)
+            let rawScore = Math.max(0, correctCount - incorrectCount);
+            
+            // Normalize to max_score? 
+            // Usually max_score for these items matches the number of correct options.
+            // If item.max_score is 1 (mock default), we treat it as percentage.
+            // If item.max_score is > 1 (e.g. 5), we use raw.
+            if (item.max_score === 1) {
+               itemScore = correctSelection.length > 0 ? (rawScore / correctSelection.length) : 0;
+            } else {
+               itemScore = Math.min(item.max_score, rawScore);
+            }
+         }
+      } else if (item.type === "R&W Fill in the Blanks" || item.type === "Reading Fill in the Blanks" || item.type === "Fill in the Blanks (Listening)") {
+         // Object comparison {0: "word", 1: "word"}
+         if (!hasResponse || typeof response !== 'object') {
+            itemScore = 0;
+         } else {
+            let correctCount = 0;
+            let totalBlanks = 0;
+            
+            // Determine total blanks and correct answers
+            // We need the correct answers map. 
+            // In mock-test-data, FIB usually has 'correctAnswer' as object or array, OR embedded in text?
+            // Usually mock data has 'blanks' array with 'correctAnswer' inside each blank object.
+            
+            if (item.blanks) {
+               totalBlanks = item.blanks.length;
+               item.blanks.forEach((blank, idx) => {
+                  const userVal = response[idx];
+                  if (userVal && userVal.toLowerCase() === blank.correctAnswer?.toLowerCase()) {
+                     correctCount++;
+                  }
+               });
+            } else if (typeof item.correctAnswer === 'object') {
+               // Fallback if defined as simple object
+               const correctMap = item.correctAnswer as Record<string, string>;
+               totalBlanks = Object.keys(correctMap).length;
+               Object.keys(correctMap).forEach(key => {
+                  if (response[key] == correctMap[key]) correctCount++;
+               });
+            }
+            
+            // 1 point per blank
+            if (item.max_score === 1) {
+               itemScore = totalBlanks > 0 ? (correctCount / totalBlanks) : 0;
+            } else {
+               // If max_score reflects number of blanks (ideal), use raw
+               // If max_score is fixed (e.g. 10), scale it
+               itemScore = Math.round((correctCount / totalBlanks) * item.max_score);
+            }
+         }
+      } else if (item.type === "Summarize Written Text") {
          if (!hasResponse) {
            itemScore = 0;
          } else {

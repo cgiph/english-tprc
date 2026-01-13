@@ -25,6 +25,7 @@ export type MockQuestion = {
   transcript?: string; // For Listening FIB - text with [blanks]
   displayTranscript?: string; // For HIW - text with wrong words to highlight
   wrongWords?: number[]; // For HIW - indices of incorrect words
+  keywords?: string[]; // For content scoring (SST, RL)
 };
 
 // User provided question bank
@@ -319,6 +320,7 @@ const LISTENING_POOL: MockQuestion[] = [
           q.type === "HIW" ? "Highlight Incorrect Words" :
           q.type === "WFD" ? "Write From Dictation" : q.type,
     max_score: q.type === "WFD" || q.type === "SST" ? 10 : 1,
+    keywords: q.keywords, // Pass through keywords if present
     time_limit_seconds: q.type === "SST" ? 600 : // 10 mins
                         q.type === "MC-MA" ? 120 : // 2 mins
                         q.type === "FIB-L" ? 120 : // 2 mins
