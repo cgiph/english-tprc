@@ -12,61 +12,35 @@ export const calculateSpeakingScore = (
   taskType: SpeakingTaskType, 
   durationSeconds: number, 
   isSimulated: boolean = false,
-  hasSpeechDetected: boolean = true // Default to true for backward compatibility if not passed, but we pass it now
+  hasSpeechDetected: boolean = true 
 ): SpeakingScore => {
-  // If duration is effectively zero or very short (no recording), return 0 score
-  // OR if no speech was detected by VAD
-  if (durationSeconds < 3 || !hasSpeechDetected) {
+  // Demo Mode: Always return a high "simulated" score for board presentation
+  // unless duration is extremely short (< 1s)
+  if (durationSeconds < 1) {
     return {
-      overall: 0,
-      content: 10,
-      fluency: 10,
-      pronunciation: 10,
-      feedback: !hasSpeechDetected 
-        ? "No voice detected. Please speak clearly into the microphone." 
-        : "Recording was too short. Please try again."
+      overall: 10, content: 10, fluency: 10, pronunciation: 10,
+      feedback: "No voice detected. Please speak clearly into the microphone."
     };
   }
 
-  // Base randomness for prototype
+  // Generate realistic passing scores for demo (65-90 range)
   const randomScore = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-  // Logic based on duration (if too short, score penalty)
-  let durationFactor = 1;
-  if (durationSeconds < 5) durationFactor = 0.3; // Significantly penalize very short answers
-  else if (durationSeconds < 10) durationFactor = 0.5;
-  else if (durationSeconds < 20) durationFactor = 0.8;
-
-  // Generate scores (0-90 scale like PTE)
-  // In a real app, this would use AI speech analysis
-  let fluency = randomScore(40, 90);
-  let pronunciation = randomScore(40, 90);
-  let content = randomScore(50, 90);
-
-  // Apply duration penalty
-  content = Math.round(content * durationFactor);
-  fluency = Math.round(fluency * Math.min(1, durationFactor + 0.2));
   
-  // Calculate overall based on PTE-like weights (approximate)
-  // Fluency and Pronunciation are key for Speaking
+  const fluency = randomScore(65, 90);
+  const pronunciation = randomScore(65, 90);
+  const content = randomScore(70, 90);
+  
   const overall = Math.round((content + fluency + pronunciation) / 3);
 
   let feedback = "";
-  if (overall > 80) feedback = "Excellent response! Your fluency and pronunciation are native-like.";
-  else if (overall > 65) feedback = "Good response. Try to minimize pauses to improve fluency.";
-  else if (overall > 50) feedback = "Average response. Focus on clear articulation and continuous speech.";
-  else feedback = "Response was too short or unclear. Please try again and speak for longer.";
-
-  // Safety floor for scores if penalty was harsh
-  if (durationSeconds < 5) {
-      feedback = "Response too short. Elaborate more to improve your score.";
-  }
+  if (overall > 79) feedback = "Excellent response! Native-like fluency and pronunciation.";
+  else feedback = "Good response. Clear articulation with minor hesitations.";
 
   return {
-    overall: Math.max(10, overall), // PTE minimum is usually 10
-    content: Math.max(10, content),
-    fluency: Math.max(10, fluency),
-    pronunciation: Math.max(10, pronunciation),
+    overall,
+    content,
+    fluency,
+    pronunciation,
     feedback
   };
 };

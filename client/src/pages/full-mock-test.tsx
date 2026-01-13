@@ -96,10 +96,12 @@ export default function FullMockTest() {
         const blob = new Blob(chunks, { type: "audio/webm" });
         const url = URL.createObjectURL(blob);
         setQuestionAudioURL(url);
+        // Force update responses for immediate state reflection
         setResponses(prev => {
            if (!currentTest) return prev;
            const qId = currentTest.items[currentIndex].id;
-           return { ...prev, [qId + "_audio"]: url }; 
+           console.log(`Recording saved for ${qId}:`, url, "Blob size:", blob.size);
+           return { ...prev, [qId + "_audio"]: url, [qId + "_audio_blob"]: blob }; 
         });
       };
 
