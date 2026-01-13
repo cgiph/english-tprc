@@ -616,12 +616,13 @@ export default function FullMockTest() {
             itemScore = 0;
          } else {
             let userSelection = [];
-            let correctSelection = [];
+            let correctSelection: any[] = [];
             
             if (Array.isArray(response)) userSelection = response;
             else if (typeof response === 'string') userSelection = [response]; 
             
             if (Array.isArray(item.correctAnswer)) correctSelection = item.correctAnswer;
+            else if (item.wrongWords) correctSelection = item.wrongWords;
             
             // Calculate matches
             let correctCount = 0;
@@ -1915,7 +1916,7 @@ export default function FullMockTest() {
     // 5. Highlight Incorrect Words
     else if (q.type === "Highlight Incorrect Words") {
        const userIndices = (Array.isArray(userAnswer) ? userAnswer : []).sort();
-       const correctIndices = (Array.isArray(q.correctAnswer) ? q.correctAnswer : []).sort();
+       const correctIndices = (Array.isArray(q.correctAnswer) ? q.correctAnswer : q.wrongWords || []).sort();
        
        isCorrect = JSON.stringify(userIndices) === JSON.stringify(correctIndices);
        
