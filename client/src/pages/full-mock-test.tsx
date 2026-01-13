@@ -82,11 +82,14 @@ export default function FullMockTest() {
     oscillator.stop(audioContext.currentTime + 0.5); 
   }, []);
 
-  const startQuestionRecording = async () => {
+  const startQuestionRecording = async (questionId?: string) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
       const chunks: Blob[] = [];
+
+      // Determine QID now to close over it
+      const targetQId = questionId || (currentTest ? currentTest.items[currentIndex].id : null);
 
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunks.push(e.data);
@@ -96,10 +99,14 @@ export default function FullMockTest() {
         const blob = new Blob(chunks, { type: "audio/webm" });
         const url = URL.createObjectURL(blob);
         setQuestionAudioURL(url);
+        
         // Force update responses for immediate state reflection
         setResponses(prev => {
-           if (!currentTest) return prev;
-           const qId = currentTest.items[currentIndex].id;
+           // Use the captured targetQId to ensure we save to the correct question
+           // even if currentIndex has moved on.
+           const qId = targetQId; 
+           if (!qId) return prev; // Should not happen if logic is correct
+           
            console.log(`Recording saved for ${qId}:`, url, "Blob size:", blob.size);
            return { ...prev, [qId + "_audio"]: url, [qId + "_audio_blob"]: blob }; 
         });
@@ -271,7 +278,7 @@ export default function FullMockTest() {
             if (prev <= 1) {
               if (speakingState === "prep") {
                 playBeep(); // Beep on transition to recording
-                startQuestionRecording(); // Start recording
+                startQuestionRecording(currentQ.id); // Explicitly pass ID
                 setSpeakingState("recording");
                 // Repeat Sentence/Answer Short Question: 10s, Summarize Group Discussion: 60s, Respond to a Situation: 40s, others: 40s
                 const recordTime = (currentQ.type === "Repeat Sentence" || currentQ.type === "Answer Short Question") ? 10 
@@ -325,9 +332,23 @@ export default function FullMockTest() {
     }
     audio.onerror = () => {
       console.error("Audio file failed to load, falling back to TTS");
+      // Fallback to TTS if file fails
+      if (currentTest) {
+          const q = currentTest.items[currentIndex];
+          const text = q.audioScript || q.content || "";
+          if (text) speakText(text, onEndCallback);
+      }
     };
-    audio.play().catch(err => console.error("Audio play failed:", err));
-  }, [stopAllAudio]);
+    audio.play().catch(err => {
+        console.error("Audio play failed:", err);
+        // Fallback to TTS on play error too
+        if (currentTest) {
+            const q = currentTest.items[currentIndex];
+            const text = q.audioScript || q.content || "";
+            if (text) speakText(text, onEndCallback);
+        }
+    });
+  }, [stopAllAudio, speakText, currentTest, currentIndex]);
 
   // Types that need beep immediately after audio, then start recording
   const audioThenBeepTypes = ["Repeat Sentence", "Answer Short Question", "Retell Lecture", "Summarize Group Discussion", "Respond to a Situation"];
@@ -336,8 +357,9 @@ export default function FullMockTest() {
   useEffect(() => {
     if (testState === "active" && currentTest) {
       const q = currentTest.items[currentIndex];
-      // Check if stimulus is a real audio file URL
-      const isRealAudio = q.stimulus && (q.stimulus.endsWith('.mp3') || q.stimulus.endsWith('.ogg') || q.stimulus.endsWith('.wav') || q.stimulus.startsWith('http'));
+      // Check if stimulus is a real audio file URL (and not a placeholder)
+      const isRealAudio = q.stimulus && (q.stimulus.endsWith('.mp3') || q.stimulus.endsWith('.ogg') || q.stimulus.endsWith('.wav') || q.stimulus.startsWith('http')) && !q.stimulus.includes("placeholder");
+      
       // Determine text to speak: audioScript for Listening/Retell Lecture, content for Repeat Sentence/Answer Short Question/Respond to a Situation
       const textToSpeak = q.audioScript || ((q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Respond to a Situation") ? q.content : null);
 
@@ -352,7 +374,8 @@ export default function FullMockTest() {
           playBeep();
           // Start recording after a brief moment for beep
           setTimeout(() => {
-            startQuestionRecording();
+            // FIX: Pass the current Question ID explicitly to avoid race conditions
+            startQuestionRecording(q.id);
             setSpeakingState("recording");
             // Set recording timer based on type
             const recordTime = (q.type === "Repeat Sentence" || q.type === "Answer Short Question") ? 10 
@@ -360,7 +383,6 @@ export default function FullMockTest() {
             setSpeakingTimer(recordTime);
           }, 300);
         } : needsBeepOnly ? () => {
-          // FIX 4: Beep at end of Select Missing Word to signal missing word
           playBeep();
         } : undefined;
 
@@ -379,6 +401,7 @@ export default function FullMockTest() {
       }
     }
   }, [currentIndex, testState, currentTest, speakText, playAudioFile, stopAllAudio]);
+
 
 
   // Mock API Call simulation
@@ -570,7 +593,7 @@ export default function FullMockTest() {
             // Naive matching (should ideally handle sequence, but bag-of-words is often close enough for PTE WFD partial)
             const userWordSet = [...userWords]; // copy
             
-            correctWords.forEach(word => {
+            correctWords.forEach((word: string) => {
                const idx = userWordSet.indexOf(word);
                if (idx !== -1) {
                   matchCount++;
@@ -639,7 +662,7 @@ export default function FullMockTest() {
                totalBlanks = item.blanks.length;
                item.blanks.forEach((blank, idx) => {
                   const userVal = response[idx];
-                  if (userVal && userVal.toLowerCase() === blank.correctAnswer?.toLowerCase()) {
+                  if (userVal && userVal.toLowerCase() === blank.correct?.toLowerCase()) {
                      correctCount++;
                   }
                });
@@ -1920,7 +1943,39 @@ export default function FullMockTest() {
         displayCorrect = correctArr.join(", ");
     }
 
-    // 7. Default Objective (Single Choice, etc.)
+    // 7. Summarize Spoken Text (SST) & Write From Dictation (WFD) Handling
+    else if (q.type === "Summarize Spoken Text") {
+       return {
+          userAnswer: userAnswer || "No response",
+          // Show keywords or model guidance instead of N/A
+          correctAnswer: "Evaluation based on: Content (keywords), Form (50-70 words), Grammar, and Spelling.",
+          isCorrect: null, 
+          type: "writing"
+       };
+    }
+    else if (q.type === "Write From Dictation") {
+       // WFD: Show Diff if possible, otherwise simple comparison
+       const correctText = q.audioScript || q.correctAnswer || "";
+       
+       // Simple check
+       const userClean = String(userAnswer || "").trim().toLowerCase().replace(/[.,!?;]/g, "");
+       const correctClean = String(correctText).trim().toLowerCase().replace(/[.,!?;]/g, "");
+       
+       isCorrect = userClean === correctClean;
+       
+       // If almost correct (high match rate), mark as true or partial? 
+       // WFD is typically scoring per word.
+       // Let's rely on the visual difference which is better handled by showing both.
+       
+       return {
+          userAnswer: userAnswer || "No response",
+          correctAnswer: correctText,
+          isCorrect: isCorrect ? true : (userAnswer ? null : false), // null for partial/check manually
+          type: "objective"
+       };
+    }
+
+    // 8. Default Objective (Single Choice, etc.)
     else {
        // Fallback for standard text/string comparison
        const userStr = String(userAnswer || "").trim().toLowerCase();
