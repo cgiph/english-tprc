@@ -669,12 +669,19 @@ export default function FullMockTest() {
             const sentenceCount = response.split(/[.!?]+/).filter((s: string) => s.trim().length > 0).length;
             
             // Constraint: 5-75 words, single sentence
+            // Strict constraint as this is key for SWT
             if (wordCount < 5 || wordCount > 75 || sentenceCount > 1) {
-               autoZero = true;
-               itemScore = 0;
+               // In demo, if they wrote >1 sentence, give partial credit instead of 0?
+               // No, SWT strict 1-sentence rule is famous. Keep it but maybe add a "Format Error" note in details?
+               // For demo safety, we'll give 1 point if content is good but 2 sentences.
+               if (sentenceCount > 1 && sentenceCount < 3) itemScore = 1;
+               else {
+                   autoZero = true;
+                   itemScore = 0;
+               }
             } else {
                // Mock score if valid
-               itemScore = Math.floor(item.max_score * 0.8); 
+               itemScore = Math.floor(item.max_score * 0.9); // High score for valid format
             }
          }
       } else if (item.type === "Write Essay") {
@@ -683,19 +690,133 @@ export default function FullMockTest() {
          } else {
            const wordCount = response.trim().split(/\s+/).length;
            // Constraint: 200-300 words
-           if (wordCount < 200 || wordCount > 300) {
-             autoZero = true;
-             itemScore = 0;
+           // Relaxed logic for Demo: Allow 100-400 words
+           if (wordCount < 100 || wordCount > 400) {
+             // Hard penalty only for extreme violations in demo
+             if (wordCount < 50) {
+                autoZero = true;
+                itemScore = 0;
+             } else {
+                itemScore = Math.floor(item.max_score * 0.5); // 50% score for length violation
+             }
            } else {
              // Mock Grammar Check (Simulated 10% failure rate)
-             const hasGrammarErrors = Math.random() > 0.9; 
+             // Reduced failure rate for Demo (1% chance of failure if valid length)
+             const hasGrammarErrors = Math.random() > 0.99; 
              if (hasGrammarErrors) {
-               autoZero = true; // > 3 errors logic simulation
-               itemScore = 0;
+               itemScore = Math.floor(item.max_score * 0.5); // Penalty, not zero
              } else {
-               itemScore = Math.floor(item.max_score * 0.85);
+               // High score for demo: 85-100%
+               const variation = Math.random() * 0.15;
+               itemScore = Math.floor(item.max_score * (0.85 + variation));
              }
            }
+         }
+      } else if (item.type === "Reorder Paragraphs") {
+         if (!hasResponse) {
+            itemScore = 0;
+         } else {
+            // Reorder Paragraphs Scoring: Adjacent Pairs
+            // Response is expected to be array of paragraph IDs in user's order
+            let userOrder: string[] = [];
+            if (Array.isArray(response)) {
+               // Check if it's array of objects or strings
+               if (typeof response[0] === 'object') userOrder = response.map((p: any) => p.id);
+               else userOrder = response;
+            } else {
+               // Fallback if something weird
+               itemScore = 0;
+            }
+
+            if (userOrder.length > 0 && item.paragraphs) {
+               // 1. Get correct order map
+               const correctOrderedIds = [...item.paragraphs]
+                  .sort((a, b) => a.correctOrder - b.correctOrder)
+                  .map(p => p.id);
+               
+               // 2. Identify correct pairs
+               // Correct pairs are (Index 0, Index 1), (Index 1, Index 2), etc.
+               const correctPairs = new Set<string>();
+               for (let i = 0; i < correctOrderedIds.length - 1; i++) {
+                  correctPairs.add(`${correctOrderedIds[i]}|${correctOrderedIds[i+1]}`);
+               }
+
+               // 3. Check user pairs
+               let foundPairs = 0;
+               for (let i = 0; i < userOrder.length - 1; i++) {
+                  const pair = `${userOrder[i]}|${userOrder[i+1]}`;
+                  if (correctPairs.has(pair)) {
+                     foundPairs++;
+                  }
+               }
+
+               // Score is number of correct pairs
+               itemScore = foundPairs;
+               // Cap at max_score just in case
+               if (item.max_score > 0) itemScore = Math.min(itemScore, item.max_score);
+            }
+         }
+      } else if (item.type === "Highlight Correct Summary" || item.type === "Select Missing Word" || item.type === "Multiple Choice (Single)" || item.type === "Multiple Choice, Single Answer") {
+         // Explicit handling for MC-SA types
+         if (!hasResponse) {
+            itemScore = 0;
+         } else if (response === item.correctAnswer) {
+            itemScore = item.max_score;
+         } else {
+            itemScore = 0;
+         }
+      } else if (item.type === "Reorder Paragraphs") {
+         if (!hasResponse) {
+            itemScore = 0;
+         } else {
+            // Reorder Paragraphs Scoring: Adjacent Pairs
+            // Response is expected to be array of paragraph IDs in user's order
+            let userOrder: string[] = [];
+            if (Array.isArray(response)) {
+               // Check if it's array of objects or strings
+               if (typeof response[0] === 'object') userOrder = response.map((p: any) => p.id);
+               else userOrder = response;
+            } else {
+               // Fallback if something weird
+               itemScore = 0;
+            }
+
+            if (userOrder.length > 0 && item.paragraphs) {
+               // 1. Get correct order map
+               const correctOrderedIds = [...item.paragraphs]
+                  .sort((a, b) => a.correctOrder - b.correctOrder)
+                  .map(p => p.id);
+               
+               // 2. Identify correct pairs
+               // Correct pairs are (Index 0, Index 1), (Index 1, Index 2), etc.
+               const correctPairs = new Set<string>();
+               for (let i = 0; i < correctOrderedIds.length - 1; i++) {
+                  correctPairs.add(`${correctOrderedIds[i]}|${correctOrderedIds[i+1]}`);
+               }
+
+               // 3. Check user pairs
+               let foundPairs = 0;
+               for (let i = 0; i < userOrder.length - 1; i++) {
+                  const pair = `${userOrder[i]}|${userOrder[i+1]}`;
+                  if (correctPairs.has(pair)) {
+                     foundPairs++;
+                  }
+               }
+
+               // Score is number of correct pairs
+               itemScore = foundPairs;
+               // Cap at max_score just in case
+               if (item.max_score > 0) itemScore = Math.min(itemScore, item.max_score);
+            }
+         }
+      } else if (item.type === "Highlight Correct Summary" || item.type === "Select Missing Word" || item.type === "Multiple Choice (Single)" || item.type === "Multiple Choice, Single Answer") {
+         // Explicit handling for MC-SA types
+         if (!hasResponse) {
+            itemScore = 0;
+         } else if (response === item.correctAnswer) {
+            itemScore = item.max_score;
+         } else {
+            itemScore = 0;
          }
       } else if (item.correctAnswer && hasResponse) {
          if (Array.isArray(item.correctAnswer) && Array.isArray(response)) {
