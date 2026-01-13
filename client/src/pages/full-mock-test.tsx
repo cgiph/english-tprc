@@ -29,6 +29,8 @@ export default function FullMockTest() {
   const [timeLeft, setTimeLeft] = useState(0); // For countdown
   const { toast } = useToast();
   
+  const [expandedSection, setExpandedSection] = useState<string | null>(null); // Moved here
+
   const [showDisclaimer, setShowDisclaimer] = useState(false);
 
   useEffect(() => {
@@ -1583,7 +1585,7 @@ export default function FullMockTest() {
   };
 
   // State for expanded sections
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  // const [expandedSection, setExpandedSection] = useState<string | null>(null); // Moved to top
 
   if (testState === "finished") {
     const sections = ["Listening", "Reading", "Speaking", "Writing"];
