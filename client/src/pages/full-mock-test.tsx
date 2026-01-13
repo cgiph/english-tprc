@@ -541,6 +541,9 @@ export default function FullMockTest() {
         !(typeof response === 'object' && Object.keys(response).length === 0);
 
       // Logic for specific constraints
+      // Capture current max score potential (dynamically updated for some types)
+      let currentItemMax = item.max_score;
+
       if (item.type === "Summarize Spoken Text") {
          if (!hasResponse) {
            itemScore = 0;
@@ -609,7 +612,6 @@ export default function FullMockTest() {
          }
       } else if (item.type === "Highlight Incorrect Words" || item.type === "Multiple Choice, Multiple Answers") {
          // Array comparison with partial credit
-         // Highlight Incorrect Words typically: +1 correct, -1 incorrect (min 0)
          if (!hasResponse) {
             itemScore = 0;
          } else {
@@ -617,32 +619,28 @@ export default function FullMockTest() {
             let correctSelection = [];
             
             if (Array.isArray(response)) userSelection = response;
-            else if (typeof response === 'string') userSelection = [response]; // Should be array though
+            else if (typeof response === 'string') userSelection = [response]; 
             
             if (Array.isArray(item.correctAnswer)) correctSelection = item.correctAnswer;
-            // HIW correctAnswer might be indices [1, 5, 8]
             
             // Calculate matches
             let correctCount = 0;
             let incorrectCount = 0;
             
             userSelection.forEach(val => {
-               // Loose comparison for numbers/strings
                if (correctSelection.some(c => c == val)) correctCount++;
                else incorrectCount++;
             });
             
-            // PTE Formula: Score = Correct - Incorrect (Min 0)
+            // User Rule: +1 Correct, -1 Incorrect, Min 0
+            // No normalization, raw points.
             let rawScore = Math.max(0, correctCount - incorrectCount);
+            itemScore = rawScore;
             
-            // Normalize to max_score? 
-            // Usually max_score for these items matches the number of correct options.
-            // If item.max_score is 1 (mock default), we treat it as percentage.
-            // If item.max_score is > 1 (e.g. 5), we use raw.
-            if (item.max_score === 1) {
-               itemScore = correctSelection.length > 0 ? (rawScore / correctSelection.length) : 0;
-            } else {
-               itemScore = Math.min(item.max_score, rawScore);
+            // Update Max Potential for this item to be number of correct options (if we want fair max calc)
+            // Or should it be max possible score? Usually number of correct options.
+            if (correctSelection.length > 0) {
+                currentItemMax = correctSelection.length;
             }
          }
       } else if (item.type === "R&W Fill in the Blanks" || item.type === "Reading Fill in the Blanks" || item.type === "Fill in the Blanks (Listening)") {
@@ -653,11 +651,6 @@ export default function FullMockTest() {
             let correctCount = 0;
             let totalBlanks = 0;
             
-            // Determine total blanks and correct answers
-            // We need the correct answers map. 
-            // In mock-test-data, FIB usually has 'correctAnswer' as object or array, OR embedded in text?
-            // Usually mock data has 'blanks' array with 'correctAnswer' inside each blank object.
-            
             if (item.blanks) {
                totalBlanks = item.blanks.length;
                item.blanks.forEach((blank, idx) => {
@@ -667,7 +660,6 @@ export default function FullMockTest() {
                   }
                });
             } else if (typeof item.correctAnswer === 'object') {
-               // Fallback if defined as simple object
                const correctMap = item.correctAnswer as Record<string, string>;
                totalBlanks = Object.keys(correctMap).length;
                Object.keys(correctMap).forEach(key => {
@@ -675,13 +667,12 @@ export default function FullMockTest() {
                });
             }
             
-            // 1 point per blank
-            if (item.max_score === 1) {
-               itemScore = totalBlanks > 0 ? (correctCount / totalBlanks) : 0;
-            } else {
-               // If max_score reflects number of blanks (ideal), use raw
-               // If max_score is fixed (e.g. 10), scale it
-               itemScore = Math.round((correctCount / totalBlanks) * item.max_score);
+            // User Rule: 1 point per correct answer.
+            itemScore = correctCount;
+            
+            // Update Max Potential
+            if (totalBlanks > 0) {
+                currentItemMax = totalBlanks;
             }
          }
       } else if (item.type === "Summarize Written Text") {
@@ -774,9 +765,13 @@ export default function FullMockTest() {
                }
 
                // Score is number of correct pairs
+               // User Rule: one point for a pair of sentences matched correctly
                itemScore = foundPairs;
-               // Cap at max_score just in case
-               if (item.max_score > 0) itemScore = Math.min(itemScore, item.max_score);
+               
+               // Update Max Potential to max possible pairs
+               if (item.paragraphs && item.paragraphs.length > 1) {
+                   currentItemMax = item.paragraphs.length - 1;
+               }
             }
          }
       } else if (item.type === "Highlight Correct Summary" || item.type === "Select Missing Word" || item.type === "Multiple Choice (Single)" || item.type === "Multiple Choice, Single Answer") {
@@ -827,9 +822,13 @@ export default function FullMockTest() {
                }
 
                // Score is number of correct pairs
+               // User Rule: one point for a pair of sentences matched correctly
                itemScore = foundPairs;
-               // Cap at max_score just in case
-               if (item.max_score > 0) itemScore = Math.min(itemScore, item.max_score);
+               
+               // Update Max Potential to max possible pairs
+               if (item.paragraphs && item.paragraphs.length > 1) {
+                   currentItemMax = item.paragraphs.length - 1;
+               }
             }
          }
       } else if (item.type === "Highlight Correct Summary" || item.type === "Select Missing Word" || item.type === "Multiple Choice (Single)" || item.type === "Multiple Choice, Single Answer") {
@@ -894,30 +893,30 @@ export default function FullMockTest() {
           details.push({ question_id: item.id, score: 0, max: item.max_score, type: item.type, answered: false });
         }
         speakingScoreTotal += itemScore; 
-        speakingMax += item.max_score; 
+        speakingMax += currentItemMax; 
       } else {
         // Normal handling for other sections
-        details.push({ question_id: item.id, score: itemScore, max: item.max_score, type: item.type, answered: hasResponse });
+        details.push({ question_id: item.id, score: itemScore, max: currentItemMax, type: item.type, answered: hasResponse });
       }
 
       if (item.section === "Writing") { 
         writingScore += itemScore; 
-        writingMax += item.max_score;
+        writingMax += currentItemMax;
         if (hasResponse) writingAnswered++;
       }
       if (item.section === "Reading") { 
         readingScore += itemScore; 
-        readingMax += item.max_score;
+        readingMax += currentItemMax;
         if (hasResponse) readingAnswered++;
       }
       if (item.section === "Listening") { 
         listeningScore += itemScore; 
-        listeningMax += item.max_score;
+        listeningMax += currentItemMax;
         if (hasResponse) listeningAnswered++;
       }
 
       totalPoints += itemScore;
-      maxPoints += item.max_score;
+      maxPoints += currentItemMax;
     }
 
     // PTE Academic scoring: Scale raw scores to 10-90 range
