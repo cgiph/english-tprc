@@ -1814,37 +1814,126 @@ export default function FullMockTest() {
   // Helper to get answer summary for a question
   const getAnswerSummary = (q: MockQuestion) => {
     const userAnswer = responses[q.id];
-    const correctAnswer = q.correctAnswer || (q.options?.find(o => o.includes("(correct)"))?.replace(" (correct)", ""));
-    
-    // For speaking/writing, check if recording exists
+    let correctAnswer = q.correctAnswer;
+    let isCorrect: boolean | null = false;
+    let displayUser = userAnswer;
+    let displayCorrect = correctAnswer;
+
+    // 1. Speaking
     if (q.section === "Speaking") {
       const hasRecording = responses[q.id + "_audio"];
       return {
         userAnswer: hasRecording ? "Audio recorded" : "No response",
         correctAnswer: q.audioScript || q.content || "Spoken response required",
-        isCorrect: hasRecording ? null : false, // null means subjective scoring
+        isCorrect: hasRecording ? null : false, 
         type: "speaking"
       };
     }
     
+    // 2. Writing
     if (q.section === "Writing") {
       return {
         userAnswer: userAnswer || "No response",
-        correctAnswer: "Written response required",
+        correctAnswer: "Written response required (Evaluated on length, grammar, and content)",
         isCorrect: userAnswer ? null : false,
         type: "writing"
       };
     }
+
+    // 3. Reorder Paragraphs
+    if (q.type === "Reorder Paragraphs") {
+       // Correct Answer: Array of IDs in correct order
+       const correctOrderIds = q.paragraphs 
+          ? [...q.paragraphs].sort((a,b) => a.correctOrder - b.correctOrder).map(p => p.id)
+          : [];
+       
+       // User Answer: Array of IDs
+       const userOrderIds = Array.isArray(userAnswer) ? userAnswer : [];
+       
+       isCorrect = JSON.stringify(userOrderIds) === JSON.stringify(correctOrderIds);
+       
+       // Map to text for display
+       const getSnippet = (id: string) => {
+          const p = q.paragraphs?.find(x => x.id === id);
+          return p ? `[${p.text.substring(0, 30)}...]` : id;
+       };
+
+       displayUser = userOrderIds.map(getSnippet).join(" → ");
+       displayCorrect = correctOrderIds.map(getSnippet).join(" → ");
+    }
     
-    // For objective questions
-    const isCorrect = userAnswer && correctAnswer && 
-      (userAnswer.toLowerCase?.() === correctAnswer.toLowerCase?.() || 
-       (Array.isArray(userAnswer) && Array.isArray(correctAnswer) && 
-        JSON.stringify(userAnswer.sort()) === JSON.stringify(correctAnswer.sort())));
+    // 4. Fill in the Blanks (Reading / Listening / R&W)
+    else if (q.type.includes("Fill in the Blanks")) {
+       // Correct: Object {0: "word", 1: "word"} or Array
+       // User: Object {0: "word"}
+       
+       // Normalize Correct Answer to Map
+       const correctMap: Record<string, string> = {};
+       if (q.blanks) {
+          q.blanks.forEach((b, i) => correctMap[i] = b.correct);
+       } else if (typeof q.correctAnswer === 'object') {
+          Object.assign(correctMap, q.correctAnswer);
+       }
+
+       // Check correctness (all blanks match)
+       let allCorrect = true;
+       if (!userAnswer) allCorrect = false;
+       else {
+          Object.keys(correctMap).forEach(k => {
+             if ((userAnswer[k] || "").toLowerCase() !== correctMap[k].toLowerCase()) allCorrect = false;
+          });
+       }
+       isCorrect = allCorrect;
+
+       // Format Display
+       displayUser = userAnswer ? Object.entries(userAnswer).map(([k,v]) => `${Number(k)+1}: ${v}`).join(", ") : "No response";
+       displayCorrect = Object.entries(correctMap).map(([k,v]) => `${Number(k)+1}: ${v}`).join(", ");
+    }
+
+    // 5. Highlight Incorrect Words
+    else if (q.type === "Highlight Incorrect Words") {
+       // User: Array of indices [1, 5]
+       // Correct: Array of indices [1, 5, 8] OR Array of words ["word", "word"]?
+       // In mock data HIW uses indices or words? 
+       // Based on `renderQuestion`, HIW uses indices `selected.includes(i)`.
+       // `q.correctAnswer` should be indices.
+       
+       const userIndices = (Array.isArray(userAnswer) ? userAnswer : []).sort();
+       const correctIndices = (Array.isArray(q.correctAnswer) ? q.correctAnswer : []).sort();
+       
+       isCorrect = JSON.stringify(userIndices) === JSON.stringify(correctIndices);
+       
+       // Display words
+       const words = q.displayTranscript ? q.displayTranscript.split(/\s+/) : [];
+       displayUser = userIndices.map((i: number) => words[i]).join(", ");
+       displayCorrect = correctIndices.map((i: number) => words[i]).join(", ");
+    }
     
+    // 6. Multiple Choice (Multiple)
+    else if (q.type.includes("Multiple Choice") && q.type.includes("Multiple")) {
+        // Sort arrays before comparing
+        const userArr = Array.isArray(userAnswer) ? [...userAnswer].sort() : [];
+        const correctArr = Array.isArray(q.correctAnswer) ? [...q.correctAnswer].sort() : [];
+        
+        isCorrect = JSON.stringify(userArr) === JSON.stringify(correctArr);
+        displayUser = userArr.join(", ");
+        displayCorrect = correctArr.join(", ");
+    }
+
+    // 7. Default Objective (Single Choice, etc.)
+    else {
+       // Fallback for standard text/string comparison
+       const userStr = String(userAnswer || "").trim().toLowerCase();
+       const correctStr = String(q.correctAnswer || "").trim().toLowerCase();
+       isCorrect = userAnswer && (userStr === correctStr);
+       
+       displayUser = userAnswer || "No response";
+       displayCorrect = q.correctAnswer;
+    }
+
     return {
-      userAnswer: userAnswer || "No response",
-      correctAnswer: correctAnswer || "N/A",
+      userAnswer: displayUser || "No response",
+      correctAnswer: displayCorrect || "N/A",
       isCorrect,
       type: "objective"
     };
