@@ -1915,21 +1915,23 @@ export default function FullMockTest() {
 
     // 5. Highlight Incorrect Words
     else if (q.type === "Highlight Incorrect Words") {
-       // User: Array of indices [1, 5]
-       // Correct: Array of indices [1, 5, 8] OR Array of words ["word", "word"]?
-       // In mock data HIW uses indices or words? 
-       // Based on `renderQuestion`, HIW uses indices `selected.includes(i)`.
-       // `q.correctAnswer` should be indices.
-       
        const userIndices = (Array.isArray(userAnswer) ? userAnswer : []).sort();
        const correctIndices = (Array.isArray(q.correctAnswer) ? q.correctAnswer : []).sort();
        
        isCorrect = JSON.stringify(userIndices) === JSON.stringify(correctIndices);
        
        // Display words
-       const words = q.displayTranscript ? q.displayTranscript.split(/\s+/) : [];
-       displayUser = userIndices.map((i: number) => words[i]).join(", ");
-       displayCorrect = correctIndices.map((i: number) => words[i]).join(", ");
+       // Fallback to stimulus or content if displayTranscript is missing
+       const textSource = q.displayTranscript || q.stimulus || q.text || q.content || "";
+       const words = textSource.split(/\s+/);
+       
+       displayUser = userIndices.map((i: number) => words[i] || `Index ${i}`).join(", ");
+       displayCorrect = correctIndices.map((i: number) => words[i] || `Index ${i}`).join(", ");
+       
+       // Ensure displayCorrect is not empty for UI
+       if (!displayCorrect && correctIndices.length > 0) {
+           displayCorrect = `Indices: ${correctIndices.join(", ")}`;
+       }
     }
     
     // 6. Multiple Choice (Multiple)
@@ -1944,7 +1946,8 @@ export default function FullMockTest() {
     }
 
     // 7. Summarize Spoken Text (SST) & Write From Dictation (WFD) Handling
-    else if (q.type === "Summarize Spoken Text") {
+    // Check for both full name and code
+    else if (q.type === "Summarize Spoken Text" || q.type === "SST") {
        return {
           userAnswer: userAnswer || "No response",
           // Show keywords or model guidance instead of N/A
@@ -1953,7 +1956,7 @@ export default function FullMockTest() {
           type: "writing"
        };
     }
-    else if (q.type === "Write From Dictation") {
+    else if (q.type === "Write From Dictation" || q.type === "WFD") {
        // WFD: Show Diff if possible, otherwise simple comparison
        const correctText = q.audioScript || q.correctAnswer || "";
        
@@ -1961,16 +1964,26 @@ export default function FullMockTest() {
        const userClean = String(userAnswer || "").trim().toLowerCase().replace(/[.,!?;]/g, "");
        const correctClean = String(correctText).trim().toLowerCase().replace(/[.,!?;]/g, "");
        
+       // Perfect match check
        isCorrect = userClean === correctClean;
        
-       // If almost correct (high match rate), mark as true or partial? 
-       // WFD is typically scoring per word.
-       // Let's rely on the visual difference which is better handled by showing both.
+       // Partial credit heuristic for UI color
+       if (!isCorrect && userAnswer) {
+           const userWords = userClean.split(" ");
+           const correctWords = correctClean.split(" ");
+           const matchCount = userWords.filter((w: string) => correctWords.includes(w)).length;
+           // If > 50% match, show as Partial (Yellow/Null), else Incorrect (False)
+           if (matchCount > (correctWords.length * 0.5)) {
+               isCorrect = null; 
+           } else {
+               isCorrect = false;
+           }
+       }
        
        return {
           userAnswer: userAnswer || "No response",
           correctAnswer: correctText,
-          isCorrect: isCorrect ? true : (userAnswer ? null : false), // null for partial/check manually
+          isCorrect: isCorrect, 
           type: "objective"
        };
     }
