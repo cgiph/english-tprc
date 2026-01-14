@@ -100,16 +100,24 @@ export default function FullMockTest() {
         const url = URL.createObjectURL(blob);
         setQuestionAudioURL(url);
         
-        // Force update responses for immediate state reflection
-        setResponses(prev => {
-           // Use the captured targetQId to ensure we save to the correct question
-           // even if currentIndex has moved on.
-           const qId = targetQId; 
-           if (!qId) return prev; // Should not happen if logic is correct
-           
-           console.log(`Recording saved for ${qId}:`, url, "Blob size:", blob.size);
-           return { ...prev, [qId + "_audio"]: url, [qId + "_audio_blob"]: blob }; 
-        });
+        // FIX 2: Estimate Fluency from Audio Length
+        const audio = new Audio(url);
+        audio.onloadedmetadata = () => {
+          setResponses(prev => {
+             // Use the captured targetQId to ensure we save to the correct question
+             // even if currentIndex has moved on.
+             const qId = targetQId; 
+             if (!qId) return prev; // Should not happen if logic is correct
+             
+             console.log(`Recording saved for ${qId}:`, url, "Blob size:", blob.size, "Duration:", audio.duration);
+             return { 
+               ...prev, 
+               [qId + "_audio"]: url, 
+               [qId + "_audio_blob"]: blob,
+               [qId + "_duration"]: audio.duration 
+             }; 
+          });
+        };
       };
 
       recorder.start(1000); // Timeslice to ensure data
@@ -806,16 +814,47 @@ export default function FullMockTest() {
 
       // Aggregate Skills
       if (item.section === "Speaking") { 
-        // Only score speaking if there was an actual response/recording
-        if (hasResponse) {
-          // Enhanced Scoring for Speaking
-          const speakingScoreCalc = calculateSpeakingScore(item.type as any, 20);
-          const ratio = speakingScoreCalc.overall / 90;
-          itemScore = Math.round(item.max_score * ratio);
+        const audioBlob = responses[item.id + "_audio_blob"];
+        const duration = responses[item.id + "_duration"] || 0;
+        
+        // FIX 1: Enforce Minimum Speaking Duration (MANDATORY)
+        if (!audioBlob || audioBlob.size < 8000) {
+          itemScore = 0;
+          autoZero = true;
+          // Not answered/invalid - zero score
+          details.push({ question_id: item.id, score: 0, max: item.max_score, type: item.type, answered: false, note: "Audio too short or empty" });
+        } else {
+          // FIX 2: Estimate Fluency from Audio Length (Cheap + Effective)
+          let fluency = 0;
+          if (duration >= 30) fluency = 5;
+          else if (duration >= 20) fluency = 4;
+          else if (duration >= 10) fluency = 3;
+          else if (duration >= 5) fluency = 2;
+          else fluency = 0;
+
+          // FIX 3: Content Keywords (Even Without Speech-to-Text)
+          let content = 0;
+          if (item.keywords?.length) {
+            content = Math.min(
+              item.keywords.length,
+              Math.floor(duration / 3)
+            );
+          } else {
+            // Fallback content score based on duration
+             content = Math.min(5, Math.floor(duration / 5));
+          }
+
+          // FIX 4: Speaking Score Formula (Use This)
+          const pronunciation = fluency >= 3 ? fluency - 1 : fluency;
+          const speakingRaw = fluency + pronunciation + content;
+
+          itemScore = Math.round(
+            (speakingRaw / 15) * item.max_score
+          );
           
-          // Accumulate subscores for skills breakdown
-          totalFluency += speakingScoreCalc.fluency;
-          totalPronunciation += speakingScoreCalc.pronunciation;
+          // FIX 5: Actually Populate Speaking Skill Buckets
+          totalFluency += fluency;
+          totalPronunciation += pronunciation;
           speakingSubCount++;
           
           details.push({
@@ -825,17 +864,14 @@ export default function FullMockTest() {
              type: item.type,
              answered: true,
              subscores: {
-               fluency: speakingScoreCalc.fluency,
-               pronunciation: speakingScoreCalc.pronunciation,
-               content: speakingScoreCalc.content
+               fluency,
+               pronunciation,
+               content
              }
           });
           speakingAnswered++;
-        } else {
-          // Not answered - zero score
-          itemScore = 0;
-          details.push({ question_id: item.id, score: 0, max: item.max_score, type: item.type, answered: false });
         }
+        
         speakingScoreTotal += itemScore; 
         speakingMax += currentItemMax; 
       } else {
@@ -956,12 +992,12 @@ export default function FullMockTest() {
         listening: listeningScaled
       },
       skills: { 
-        grammar: grammarScore,
-        fluency: fluencyScore,
-        pronunciation: pronunciationScore,
-        spelling: spellingScore,
-        vocabulary: vocabularyScore,
-        discourse: discourseScore
+        fluency: speakingSubCount > 0 ? Math.round(totalFluency / speakingSubCount) : 0,
+        pronunciation: speakingSubCount > 0 ? Math.round(totalPronunciation / speakingSubCount) : 0,
+        grammar: writingAnswered > 0 ? (writingScore / writingAnswered) * 10 : 0, // Normalized roughly
+        vocabulary: writingAnswered > 0 ? (writingScore / writingAnswered) * 10 : 0,
+        discourse: speakingAnswered > 0 ? (speakingScoreTotal / speakingAnswered) * 10 : 0, // Normalized
+        spelling: spellingScore
       },
       details
     };
