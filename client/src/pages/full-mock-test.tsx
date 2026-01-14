@@ -134,14 +134,13 @@ export default function FullMockTest() {
       mediaRecorder.stop();
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
     } else {
-      // Simulation fallback
-      const fakeUrl = "https://actions.google.com/sounds/v1/alarms/beep_short.ogg";
-      setQuestionAudioURL(fakeUrl);
-      setResponses(prev => {
-         if (!currentTest) return prev;
-         const qId = currentTest.items[currentIndex].id;
-         return { ...prev, [qId + "_audio"]: fakeUrl }; 
+      // UX FIX: Prevent Fake Audio Scoring
+      toast({
+        variant: "destructive",
+        title: "No response detected",
+        description: "No speaking response was recorded for this item."
       });
+      // Do not set fake URL or response
     }
   };
   
