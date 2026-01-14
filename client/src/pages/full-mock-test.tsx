@@ -784,63 +784,6 @@ export default function FullMockTest() {
          } else {
             itemScore = 0;
          }
-      } else if (item.type === "Reorder Paragraphs") {
-         if (!hasResponse) {
-            itemScore = 0;
-         } else {
-            // Reorder Paragraphs Scoring: Adjacent Pairs
-            // Response is expected to be array of paragraph IDs in user's order
-            let userOrder: string[] = [];
-            if (Array.isArray(response)) {
-               // Check if it's array of objects or strings
-               if (typeof response[0] === 'object') userOrder = response.map((p: any) => p.id);
-               else userOrder = response;
-            } else {
-               // Fallback if something weird
-               itemScore = 0;
-            }
-
-            if (userOrder.length > 0 && item.paragraphs) {
-               // 1. Get correct order map
-               const correctOrderedIds = [...item.paragraphs]
-                  .sort((a, b) => a.correctOrder - b.correctOrder)
-                  .map(p => p.id);
-               
-               // 2. Identify correct pairs
-               // Correct pairs are (Index 0, Index 1), (Index 1, Index 2), etc.
-               const correctPairs = new Set<string>();
-               for (let i = 0; i < correctOrderedIds.length - 1; i++) {
-                  correctPairs.add(`${correctOrderedIds[i]}|${correctOrderedIds[i+1]}`);
-               }
-
-               // 3. Check user pairs
-               let foundPairs = 0;
-               for (let i = 0; i < userOrder.length - 1; i++) {
-                  const pair = `${userOrder[i]}|${userOrder[i+1]}`;
-                  if (correctPairs.has(pair)) {
-                     foundPairs++;
-                  }
-               }
-
-               // Score is number of correct pairs
-               // User Rule: one point for a pair of sentences matched correctly
-               itemScore = foundPairs;
-               
-               // Update Max Potential to max possible pairs
-               if (item.paragraphs && item.paragraphs.length > 1) {
-                   currentItemMax = item.paragraphs.length - 1;
-               }
-            }
-         }
-      } else if (item.type === "Highlight Correct Summary" || item.type === "Select Missing Word" || item.type === "Multiple Choice (Single)" || item.type === "Multiple Choice, Single Answer") {
-         // Explicit handling for MC-SA types
-         if (!hasResponse) {
-            itemScore = 0;
-         } else if (response === item.correctAnswer) {
-            itemScore = item.max_score;
-         } else {
-            itemScore = 0;
-         }
       } else if (item.correctAnswer && hasResponse) {
          if (Array.isArray(item.correctAnswer) && Array.isArray(response)) {
             const correct = item.correctAnswer.sort().join();
@@ -1438,7 +1381,7 @@ export default function FullMockTest() {
                <p className="text-sm text-muted-foreground">Listen to the audio and click on the words that differ from what you hear</p>
                <div className="leading-loose text-lg bg-muted/10 p-4 rounded border">
                  {(() => {
-                   const words = q.displayTranscript!.split(/\s+/);
+                   const words = (q.displayTranscript || "").split(/\s+/);
                    const selected = (currentVal as number[]) || [];
                    return words.map((word, i) => (
                      <span
