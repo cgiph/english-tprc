@@ -9,7 +9,8 @@ export function scoreSpeakingItem(item: MockQuestion, meta: SpeakingMeta): Score
     maxScore: item.max_score,
     skills: {
       fluency: 0,
-      pronunciation: 0
+      pronunciation: 0,
+      content: 0
     },
     autoZero: false
   };
@@ -48,7 +49,8 @@ export function scoreSpeakingItem(item: MockQuestion, meta: SpeakingMeta): Score
   
   result.skills = {
     fluency,
-    pronunciation
+    pronunciation,
+    content
   };
 
   return result;

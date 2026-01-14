@@ -15,6 +15,8 @@ import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
+import { scoreItem, aggregateScores, ScoreResult } from "@/lib/scoring";
+
 export default function FullMockTest() {
   const [testState, setTestState] = useState<"intro" | "candidate-info" | "tech-check" | "intro-recording" | "test-intro" | "active" | "finished">("intro");
   const [currentTest, setCurrentTest] = useState<{ test_id: string; items: MockQuestion[]; start_time: number } | null>(null);
@@ -522,481 +524,81 @@ export default function FullMockTest() {
   const finishTest = () => {
     if (!currentTest) return;
     
-    let totalPoints = 0;
-    let maxPoints = 0;
-    
-    // Communicative Skills Buckets - track answered and max separately
-    let speakingScoreTotal = 0, speakingMax = 0, speakingAnswered = 0;
-    let writingScore = 0, writingMax = 0, writingAnswered = 0;
-    let readingScore = 0, readingMax = 0, readingAnswered = 0;
-    let listeningScore = 0, listeningMax = 0, listeningAnswered = 0;
-    
-    // Track accumulated speaking subscores for skills breakdown
-    let totalFluency = 0, totalPronunciation = 0, speakingSubCount = 0;
-
-    const details = [];
-
-    for (const item of currentTest.items) {
-      // Check for speaking audio responses (stored with _audio suffix)
-      const response = item.section === "Speaking" 
-        ? responses[item.id + "_audio"] || responses[item.id]
-        : responses[item.id];
-      let itemScore = 0;
-      let autoZero = false;
-      const hasResponse = response !== undefined && response !== null && response !== "" && 
-        !(Array.isArray(response) && response.length === 0) &&
-        !(typeof response === 'object' && Object.keys(response).length === 0);
-
-      // Logic for specific constraints
-      // Capture current max score potential (dynamically updated for some types)
-      let currentItemMax = item.max_score;
-
-      if (item.type === "Summarize Spoken Text") {
-         if (!hasResponse) {
-           itemScore = 0;
-         } else {
-            const wordCount = response.trim().split(/\s+/).length;
-            
-            // Form: 50-70 words
-            let formScore = 2; // Max 2
-            if (wordCount < 40 || wordCount > 100) formScore = 0;
-            else if (wordCount < 50 || wordCount > 70) formScore = 1;
-            
-            // Content: Keyword matching (if keywords exist in mock data, else simple length proxy)
-            let contentScore = 2; // Max 2
-            if (item.keywords && Array.isArray(item.keywords)) {
-               const matches = item.keywords.filter(k => response.toLowerCase().includes(k.toLowerCase())).length;
-               const ratio = matches / item.keywords.length;
-               if (ratio > 0.8) contentScore = 2;
-               else if (ratio > 0.4) contentScore = 1;
-               else contentScore = 0;
-            } else {
-               // Fallback: length proxy
-               contentScore = wordCount > 40 ? 2 : 1;
-            }
-
-            // Grammar/Spelling (Mock)
-            let grammarScore = 2; // Max 2
-            let vocabScore = 2;   // Max 2
-            // Simple check for sentence starters/connectors
-            const connectors = ["however", "furthermore", "moreover", "in addition", "consequently", "therefore", "although", "but", "and", "so"];
-            const hasConnectors = connectors.some(c => response.toLowerCase().includes(c));
-            if (!hasConnectors) vocabScore = 1;
-
-            // Spelling check (simulated based on length/complexity)
-            if (response.length < 100) grammarScore = 1;
-
-            itemScore = formScore + contentScore + grammarScore + vocabScore;
-            // Scale to max score (usually 10)
-            itemScore = Math.round((itemScore / 8) * item.max_score);
-         }
-      } else if (item.type === "Write From Dictation") {
-         if (!hasResponse) {
-            itemScore = 0;
-         } else {
-            // WFD: 1 point per correct word
-            const userWords = response.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"").split(/\s+/);
-            const correctText = item.correctAnswer || item.audioScript || "";
-            const correctWords = correctText.toLowerCase().replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"").split(/\s+/);
-            
-            let matchCount = 0;
-            // Naive matching (should ideally handle sequence, but bag-of-words is often close enough for PTE WFD partial)
-            const userWordSet = [...userWords]; // copy
-            
-            correctWords.forEach((word: string) => {
-               const idx = userWordSet.indexOf(word);
-               if (idx !== -1) {
-                  matchCount++;
-                  userWordSet.splice(idx, 1); // Remove matched to avoid double counting
-               }
-            });
-            
-            // Score is typically 1 point per word. Max score set in mock data is 10 (normalized).
-            // We'll calculate raw correct words, then normalize to item.max_score
-            // Real PTE WFD is basically raw points = max points (e.g. 12 words = 12 pts).
-            // Here we normalize to keep scores consistent.
-            itemScore = Math.min(item.max_score, Math.round((matchCount / correctWords.length) * item.max_score));
-         }
-      } else if (item.type === "Highlight Incorrect Words" || item.type === "Multiple Choice, Multiple Answers") {
-         // Array comparison with partial credit
-         if (!hasResponse) {
-            itemScore = 0;
-         } else {
-            let userSelection = [];
-            let correctSelection: any[] = [];
-            
-            if (Array.isArray(response)) userSelection = response;
-            else if (typeof response === 'string') userSelection = [response]; 
-            
-            if (Array.isArray(item.correctAnswer)) correctSelection = item.correctAnswer;
-            else if (item.wrongWords) correctSelection = item.wrongWords;
-            
-            // Calculate matches
-            let correctCount = 0;
-            let incorrectCount = 0;
-            
-            userSelection.forEach(val => {
-               if (correctSelection.some(c => c == val)) correctCount++;
-               else incorrectCount++;
-            });
-            
-            // User Rule: +1 Correct, -1 Incorrect, Min 0
-            // No normalization, raw points.
-            let rawScore = Math.max(0, correctCount - incorrectCount);
-            itemScore = rawScore;
-            
-            // Update Max Potential for this item to be number of correct options (if we want fair max calc)
-            // Or should it be max possible score? Usually number of correct options.
-            if (correctSelection.length > 0) {
-                currentItemMax = correctSelection.length;
-            }
-         }
-      } else if (item.type === "R&W Fill in the Blanks" || item.type === "Reading Fill in the Blanks" || item.type === "Fill in the Blanks (Listening)") {
-         // Object comparison {0: "word", 1: "word"}
-         if (!hasResponse || typeof response !== 'object') {
-            itemScore = 0;
-         } else {
-            let correctCount = 0;
-            let totalBlanks = 0;
-            
-            if (item.blanks) {
-               totalBlanks = item.blanks.length;
-               item.blanks.forEach((blank, idx) => {
-                  const userVal = response[idx];
-                  if (userVal && userVal.toLowerCase() === blank.correct?.toLowerCase()) {
-                     correctCount++;
-                  }
-               });
-            } else if (typeof item.correctAnswer === 'object') {
-               const correctMap = item.correctAnswer as Record<string, string>;
-               totalBlanks = Object.keys(correctMap).length;
-               Object.keys(correctMap).forEach(key => {
-                  if (response[key] == correctMap[key]) correctCount++;
-               });
-            }
-            
-            // User Rule: 1 point per correct answer.
-            itemScore = correctCount;
-            
-            // Update Max Potential
-            if (totalBlanks > 0) {
-                currentItemMax = totalBlanks;
-            }
-         }
-      } else if (item.type === "Summarize Written Text") {
-         if (!hasResponse) {
-           itemScore = 0;
-         } else {
-            const wordCount = response.trim().split(/\s+/).length;
-            const sentenceCount = response.split(/[.!?]+/).filter((s: string) => s.trim().length > 0).length;
-            
-            // Constraint: 5-75 words, single sentence
-            // Strict constraint as this is key for SWT
-            if (wordCount < 5 || wordCount > 75 || sentenceCount > 1) {
-               // In demo, if they wrote >1 sentence, give partial credit instead of 0?
-               // No, SWT strict 1-sentence rule is famous. Keep it but maybe add a "Format Error" note in details?
-               // For demo safety, we'll give 1 point if content is good but 2 sentences.
-               if (sentenceCount > 1 && sentenceCount < 3) itemScore = 1;
-               else {
-                   autoZero = true;
-                   itemScore = 0;
-               }
-            } else {
-               // Mock score if valid
-               itemScore = Math.floor(item.max_score * 0.9); // High score for valid format
-            }
-         }
-      } else if (item.type === "Write Essay") {
-         if (!hasResponse) {
-           itemScore = 0;
-         } else {
-           const wordCount = response.trim().split(/\s+/).length;
-           // Constraint: 200-300 words
-           // Relaxed logic for Demo: Allow 100-400 words
-           if (wordCount < 100 || wordCount > 400) {
-             // Hard penalty only for extreme violations in demo
-             if (wordCount < 50) {
-                autoZero = true;
-                itemScore = 0;
-             } else {
-                itemScore = Math.floor(item.max_score * 0.5); // 50% score for length violation
-             }
-           } else {
-             // Mock Grammar Check (Simulated 10% failure rate)
-             // Reduced failure rate for Demo (1% chance of failure if valid length)
-             const hasGrammarErrors = Math.random() > 0.99; 
-             if (hasGrammarErrors) {
-               itemScore = Math.floor(item.max_score * 0.5); // Penalty, not zero
-             } else {
-               // High score for demo: 85-100%
-               const variation = Math.random() * 0.15;
-               itemScore = Math.floor(item.max_score * (0.85 + variation));
-             }
-           }
-         }
-      } else if (item.type === "Reorder Paragraphs") {
-         if (!hasResponse) {
-            itemScore = 0;
-         } else {
-            // Reorder Paragraphs Scoring: Adjacent Pairs
-            // Response is expected to be array of paragraph IDs in user's order
-            let userOrder: string[] = [];
-            if (Array.isArray(response)) {
-               // Check if it's array of objects or strings
-               if (typeof response[0] === 'object') userOrder = response.map((p: any) => p.id);
-               else userOrder = response;
-            } else {
-               // Fallback if something weird
-               itemScore = 0;
-            }
-
-            if (userOrder.length > 0 && item.paragraphs) {
-               // 1. Get correct order map
-               const correctOrderedIds = [...item.paragraphs]
-                  .sort((a, b) => a.correctOrder - b.correctOrder)
-                  .map(p => p.id);
-               
-               // 2. Identify correct pairs
-               // Correct pairs are (Index 0, Index 1), (Index 1, Index 2), etc.
-               const correctPairs = new Set<string>();
-               for (let i = 0; i < correctOrderedIds.length - 1; i++) {
-                  correctPairs.add(`${correctOrderedIds[i]}|${correctOrderedIds[i+1]}`);
-               }
-
-               // 3. Check user pairs
-               let foundPairs = 0;
-               for (let i = 0; i < userOrder.length - 1; i++) {
-                  const pair = `${userOrder[i]}|${userOrder[i+1]}`;
-                  if (correctPairs.has(pair)) {
-                     foundPairs++;
-                  }
-               }
-
-               // Score is number of correct pairs
-               // User Rule: one point for a pair of sentences matched correctly
-               itemScore = foundPairs;
-               
-               // Update Max Potential to max possible pairs
-               if (item.paragraphs && item.paragraphs.length > 1) {
-                   currentItemMax = item.paragraphs.length - 1;
-               }
-            }
-         }
-      } else if (item.type === "Highlight Correct Summary" || item.type === "Select Missing Word" || item.type === "Multiple Choice (Single)" || item.type === "Multiple Choice, Single Answer") {
-         // Explicit handling for MC-SA types
-         if (!hasResponse) {
-            itemScore = 0;
-         } else if (response === item.correctAnswer) {
-            itemScore = item.max_score;
-         } else {
-            itemScore = 0;
-         }
-      } else if (item.correctAnswer && hasResponse) {
-         if (Array.isArray(item.correctAnswer) && Array.isArray(response)) {
-            const correct = item.correctAnswer.sort().join();
-            const user = response.sort().join();
-            if (correct === user) itemScore = item.max_score;
-         } else if (response === item.correctAnswer) {
-            itemScore = item.max_score;
-         }
-      } else if (!hasResponse) {
-        // No response = no score
-        itemScore = 0;
-      } else {
-        // Open ended with response - partial credit
-        if (typeof response === 'string' && response.length > 5) {
-          itemScore = Math.floor(item.max_score * 0.75);
-        }
-      }
-
-      if (autoZero) itemScore = 0;
-
-      // Aggregate Skills
-      if (item.section === "Speaking") { 
-        const audioBlob = responses[item.id + "_audio_blob"];
-        const duration = responses[item.id + "_duration"] || 0;
-        
-        // FIX 1: Enforce Minimum Speaking Duration (MANDATORY)
-        if (!audioBlob || audioBlob.size < 8000) {
-          itemScore = 0;
-          autoZero = true;
-          // Not answered/invalid - zero score
-          details.push({ question_id: item.id, score: 0, max: item.max_score, type: item.type, answered: false, note: "Audio too short or empty" });
-        } else {
-          // FIX 2: Estimate Fluency from Audio Length (Cheap + Effective)
-          let fluency = 0;
-          if (duration >= 30) fluency = 5;
-          else if (duration >= 20) fluency = 4;
-          else if (duration >= 10) fluency = 3;
-          else if (duration >= 5) fluency = 2;
-          else fluency = 0;
-
-          // FIX 3: Content Keywords (Even Without Speech-to-Text)
-          let content = 0;
-          if (item.keywords?.length) {
-            content = Math.min(
-              item.keywords.length,
-              Math.floor(duration / 3)
-            );
-          } else {
-            // Fallback content score based on duration
-             content = Math.min(5, Math.floor(duration / 5));
-          }
-
-          // FIX 4: Speaking Score Formula (Use This)
-          const pronunciation = fluency >= 3 ? fluency - 1 : fluency;
-          const speakingRaw = fluency + pronunciation + content;
-
-          itemScore = Math.round(
-            (speakingRaw / 15) * item.max_score
-          );
-          
-          // FIX 5: Actually Populate Speaking Skill Buckets
-          totalFluency += fluency;
-          totalPronunciation += pronunciation;
-          speakingSubCount++;
-          
-          details.push({
-             question_id: item.id,
-             score: itemScore,
-             max: item.max_score,
-             type: item.type,
-             answered: true,
-             subscores: {
-               fluency,
-               pronunciation,
-               content
-             }
-          });
-          speakingAnswered++;
-        }
-        
-        speakingScoreTotal += itemScore; 
-        speakingMax += currentItemMax; 
-      } else {
-        // Normal handling for other sections
-        details.push({ question_id: item.id, score: itemScore, max: currentItemMax, type: item.type, answered: hasResponse });
-      }
-
-      if (item.section === "Writing") { 
-        writingScore += itemScore; 
-        writingMax += currentItemMax;
-        if (hasResponse) writingAnswered++;
-      }
-      if (item.section === "Reading") { 
-        readingScore += itemScore; 
-        readingMax += currentItemMax;
-        if (hasResponse) readingAnswered++;
-      }
-      if (item.section === "Listening") { 
-        listeningScore += itemScore; 
-        listeningMax += currentItemMax;
-        if (hasResponse) listeningAnswered++;
-      }
-
-      totalPoints += itemScore;
-      maxPoints += currentItemMax;
-    }
-
-    // PTE Academic scoring: Scale raw scores to 10-90 range
-    const scale = (curr: number, max: number, answered: number) => {
-      if (answered === 0) return 0;
-      if (max === 0) return 0;
-      // PTE scores range from 10-90, scale proportionally
-      const ratio = curr / max;
-      return Math.round(10 + (ratio * 80)); // Minimum 10, max 90
-    };
-
-    // Calculate average speaking subscores from actual speaking responses
-    const avgFluency = speakingSubCount > 0 ? Math.round(totalFluency / speakingSubCount) : 0;
-    const avgPronunciation = speakingSubCount > 0 ? Math.round(totalPronunciation / speakingSubCount) : 0;
-    
-    // Calculate communicative skill scores
-    const speakingScaled = speakingAnswered > 0 ? scale(speakingScoreTotal, speakingMax, speakingAnswered) : 0;
-    const writingScaled = writingAnswered > 0 ? scale(writingScore, writingMax, writingAnswered) : 0;
-    const readingScaled = readingAnswered > 0 ? scale(readingScore, readingMax, readingAnswered) : 0;
-    const listeningScaled = listeningAnswered > 0 ? scale(listeningScore, listeningMax, listeningAnswered) : 0;
-    
-    // Calculate enabling skills (clamp all to 0-90 range)
-    // Clamp helper ensures no score drifts outside PTE bounds
-    const clamp = (v: number) => Math.max(0, Math.min(90, v));
-    
-    // Grammar: Weighted from writing (60%) and reading (40%) - NO early rounding
-    const grammarScore = clamp(
-      writingAnswered > 0 || readingAnswered > 0 
-        ? (writingScaled * 0.6 + readingScaled * 0.4)
-        : 0
+    // 1. Score all items using the new dispatcher
+    const results: ScoreResult[] = currentTest.items.map(item => 
+      scoreItem(item, responses)
     );
-    
-    // Oral Fluency & Pronunciation: From actual speaking task subscores
-    const fluencyScore = clamp(avgFluency);
-    const pronunciationScore = clamp(avgPronunciation);
-    
-    // Note: Spelling & Discourse currently derived from writing performance
-    // This effectively gives writing 30% total weight (Spelling 10% + Discourse 20%)
-    // Acceptable for diagnostic purposes in prototype mode
+
+    // 2. Aggregate scores
+    const { communicative, skills } = aggregateScores(results);
+
+    // 3. Prepare legacy "details" array for UI compatibility
+    const details = results.map(res => {
+      // If score > 0, we treat it as answered correctly/partially.
+      // If autoZero is true, it's definitely not "answered" in a valid way.
+      return {
+        question_id: res.itemId,
+        score: res.score,
+        max: res.maxScore,
+        type: currentTest.items.find(i => i.id === res.itemId)?.type || "Unknown",
+        answered: !res.autoZero && res.score > 0, // Simplified assumption for UI
+        subscores: res.skills ? {
+          fluency: res.skills.fluency || 0,
+          pronunciation: res.skills.pronunciation || 0,
+          content: res.skills.content || 0
+        } : undefined,
+        note: res.autoZero ? "Audio too short or empty" : undefined
+      };
+    });
+
+    // 4. Calculate overall score (Reconstructed from enabling skills)
+    const writingScaled = communicative.writing;
+    const readingScaled = communicative.reading;
+    const listeningScaled = communicative.listening;
+
+    const clamp = (v: number) => Math.max(0, Math.min(90, v));
+
+    const grammarScore = clamp(writingScaled * 0.6 + readingScaled * 0.4);
+    const vocabularyScore = clamp(readingScaled * 0.4 + listeningScaled * 0.3 + writingScaled * 0.3);
     const spellingScore = clamp(writingScaled);
     const discourseScore = clamp(writingScaled);
     
-    // Vocabulary: Weighted from reading (40%), listening (30%), writing (30%) - NO early rounding
-    const vocabularyScore = clamp(
-      (readingAnswered > 0 || listeningAnswered > 0 || writingAnswered > 0)
-        ? (readingScaled * 0.4 + listeningScaled * 0.3 + writingScaled * 0.3)
-        : 0
-    );
-    
-    // IMPORTANT:
-    // Overall score is derived from weighted ENABLING SKILLS only.
-    // Do not average communicative skills or divide by 90.
-    // Changes here can significantly affect student results.
-    // Weights: Grammar 20%, Oral Fluency 20%, Pronunciation 15%, Vocabulary 15%, Written Discourse 20%, Spelling 10%
+    // Scale 1-5 fluency/pronunciation to 10-90
+    const scale5to90 = (v: number) => {
+        if (v === 0) return 0; 
+        return Math.min(90, Math.max(10, v * 18));
+    };
+
+    const finalFluency = scale5to90(skills.fluency || 0);
+    const finalPronunciation = scale5to90(skills.pronunciation || 0);
+
+    // Overall Score Formula
     let overallScore = 
       (grammarScore * 0.20) +
-      (fluencyScore * 0.20) +
-      (pronunciationScore * 0.15) +
+      (finalFluency * 0.20) +
+      (finalPronunciation * 0.15) +
       (vocabularyScore * 0.15) +
       (discourseScore * 0.20) +
       (spellingScore * 0.10);
-    
-    // Sanity check: Overall should never be significantly lower than strongest enabling skill
-    const strongestSkill = Math.max(grammarScore, fluencyScore, pronunciationScore, vocabularyScore, discourseScore, spellingScore);
-    const minFloor = strongestSkill * 0.6; // Overall should be at least 60% of strongest skill
+      
+    // Sanity check
+    const strongestSkill = Math.max(grammarScore, finalFluency, finalPronunciation, vocabularyScore, discourseScore, spellingScore);
+    const minFloor = strongestSkill * 0.6;
     if (overallScore < minFloor && strongestSkill > 0) {
       overallScore = minFloor;
     }
-    
-    // Round only the final overall score
     overallScore = Math.round(overallScore);
-    
-    // DEV ONLY: Log enabling skills → overall score mapping for testing
-    if (import.meta.env.DEV) {
-      console.log("PTE Scoring Debug:", {
-        grammarScore,
-        fluencyScore,
-        pronunciationScore,
-        vocabularyScore,
-        discourseScore,
-        spellingScore,
-        overallScore,
-        rawCalculation: `(${grammarScore}×0.20) + (${fluencyScore}×0.20) + (${pronunciationScore}×0.15) + (${vocabularyScore}×0.15) + (${discourseScore}×0.20) + (${spellingScore}×0.10)`
-      });
-    }
-    
+
     const finalScores = {
       overall: overallScore,
-      communicative: {
-        speaking: speakingScaled,
-        writing: writingScaled,
-        reading: readingScaled,
-        listening: listeningScaled
-      },
+      communicative,
       skills: { 
-        fluency: speakingSubCount > 0 ? Math.round(totalFluency / speakingSubCount) : 0,
-        pronunciation: speakingSubCount > 0 ? Math.round(totalPronunciation / speakingSubCount) : 0,
-        grammar: writingAnswered > 0 ? (writingScore / writingAnswered) * 10 : 0, // Normalized roughly
-        vocabulary: writingAnswered > 0 ? (writingScore / writingAnswered) * 10 : 0,
-        discourse: speakingAnswered > 0 ? (speakingScoreTotal / speakingAnswered) * 10 : 0, // Normalized
-        spelling: spellingScore
+        grammar: Math.round(grammarScore),
+        fluency: Math.round(finalFluency),
+        pronunciation: Math.round(finalPronunciation),
+        spelling: Math.round(spellingScore),
+        vocabulary: Math.round(vocabularyScore),
+        discourse: Math.round(discourseScore)
       },
       details
     };

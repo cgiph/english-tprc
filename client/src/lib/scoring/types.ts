@@ -11,6 +11,7 @@ export interface ScoreResult {
   skills?: {
     fluency?: number;
     pronunciation?: number;
+    content?: number;
   };
   autoZero?: boolean;
 }
