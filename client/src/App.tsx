@@ -40,10 +40,13 @@ function Router() {
           <Route path="/demo" component={Demo} />
           <Route path="/auth" component={AuthPage} />
           <Route path="/reviews" component={Reviews} />
-          <Route path="/resources" component={Resources} />
+          
+          {/* Resources sub-routes must come before the main /resources route */}
           <Route path="/resources/viewer" component={ResourceViewer} />
           <Route path="/resources/audio-trainer" component={AudioTrainer} />
           <Route path="/resources/full-mock-test" component={FullMockTest} />
+          <Route path="/resources/grammar-tool" component={GrammarTool} />
+          <Route path="/resources" component={Resources} />
           
           {/* Legal */}
           <Route path="/privacy-policy" component={PrivacyPolicy} />
@@ -63,7 +66,6 @@ function Router() {
           <Route path="/practice/listening" component={ListeningPractice} />
           <Route path="/practice/writing" component={WritingPractice} />
           <Route path="/practice/vocabulary" component={VocabularyTool} />
-          <Route path="/resources/grammar-tool" component={GrammarTool} />
           <Route path="/practice/typing" component={TypingPractice} />
           <Route component={NotFound} />
         </Switch>
