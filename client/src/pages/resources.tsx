@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MOCK_RESOURCES, Resource } from "@/lib/mock-data";
 import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard, Lock, BookA } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useState } from "react";
 import {
   Dialog,
@@ -32,6 +32,8 @@ export default function Resources() {
   const { toast } = useToast();
   const { user } = useUser();
 
+  const [_location, setLocation] = useLocation();
+
   const handleDownloadClick = (resource: Resource) => {
     if (resource.locked && !user) {
       setSelectedResource(resource);
@@ -40,7 +42,12 @@ export default function Resources() {
     } else {
       // Simulate download or open viewer
       if (resource.viewerUrl) {
-        window.location.href = resource.viewerUrl;
+        // Check if internal link
+        if (resource.viewerUrl.startsWith('/')) {
+          setLocation(resource.viewerUrl);
+        } else {
+          window.location.href = resource.viewerUrl;
+        }
       } else {
         window.open(resource.downloadUrl || "#", "_blank");
       }
@@ -59,7 +66,11 @@ export default function Resources() {
       
       if (selectedResource?.viewerUrl) {
         // Navigate to viewer
-        window.location.href = selectedResource.viewerUrl;
+        if (selectedResource.viewerUrl.startsWith('/')) {
+          setLocation(selectedResource.viewerUrl);
+        } else {
+          window.location.href = selectedResource.viewerUrl;
+        }
       } else {
         // Download file
         window.open(selectedResource?.downloadUrl || "#", "_blank");
