@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MOCK_RESOURCES, Resource } from "@/lib/mock-data";
 import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard, Lock, BookA } from "lucide-react";
-import { Link, useLocation } from "wouter";
+import { useHashLocation } from "wouter/use-hash-location";
 import { useState } from "react";
 import {
   Dialog,
@@ -32,7 +32,7 @@ export default function Resources() {
   const { toast } = useToast();
   const { user } = useUser();
 
-  const [_location, setLocation] = useLocation();
+  const [_location, setLocation] = useHashLocation();
 
   const handleDownloadClick = (resource: Resource) => {
     if (resource.locked && !user) {
@@ -93,7 +93,7 @@ export default function Resources() {
       </div>
       {/* Featured Tool: Typing Practice */}
       <div className="w-full max-w-4xl mx-auto grid md:grid-cols-3 gap-6">
-        <Link href="#/practice/typing">
+        <a href="#/practice/typing" className="block h-full">
           <Card className="h-full bg-gradient-to-r from-primary/5 to-secondary/5 border-2 border-primary/10 hover:border-primary/30 transition-all cursor-pointer group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500" />
             <CardContent className="p-8 flex flex-col justify-between h-full gap-6 relative z-10">
@@ -113,9 +113,9 @@ export default function Resources() {
               </Button>
             </CardContent>
           </Card>
-        </Link>
+        </a>
 
-        <Link href="#/practice/vocabulary">
+        <a href="#/practice/vocabulary" className="block h-full">
           <Card className="h-full bg-gradient-to-r from-pink-500/5 to-purple-500/5 border-2 border-pink-500/10 hover:border-pink-500/30 transition-all cursor-pointer group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-pink-500/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500" />
             <CardContent className="p-8 flex flex-col justify-between h-full gap-6 relative z-10">
@@ -134,9 +134,9 @@ export default function Resources() {
               </Button>
             </CardContent>
           </Card>
-        </Link>
+        </a>
         
-        <Link href="#/resources/grammar-tool">
+        <a href="#/resources/grammar-tool" className="block h-full">
           <Card className="h-full bg-gradient-to-r from-emerald-500/5 to-teal-500/5 border-2 border-emerald-500/10 hover:border-emerald-500/30 transition-all cursor-pointer group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500" />
             <CardContent className="p-8 flex flex-col justify-between h-full gap-6 relative z-10">
@@ -155,7 +155,7 @@ export default function Resources() {
               </Button>
             </CardContent>
           </Card>
-        </Link>
+        </a>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {MOCK_RESOURCES.map((resource) => {
