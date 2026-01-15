@@ -40,12 +40,11 @@ export default function Resources() {
       setPasswordDialogOpen(true);
       setPassword("");
     } else {
-      // Simulate download or open viewer
+      // Unlocked resources are handled by <a> tags in JSX
+      // This branch is technically fallback code
       if (resource.viewerUrl) {
-        // Force absolute hash navigation to prevent relative path resolution issues
-        const hashPath = resource.viewerUrl.replace(/^#/, '');
-        const targetUrl = `${window.location.origin}/#${hashPath}`;
-        window.location.href = targetUrl;
+         const path = resource.viewerUrl.replace(/^#/, '');
+         window.location.href = `${window.location.origin}/#${path}`;
       } else {
         window.open(resource.downloadUrl || "#", "_blank");
       }
@@ -63,8 +62,10 @@ export default function Resources() {
       setPasswordDialogOpen(false);
       
       if (selectedResource?.viewerUrl) {
-        // Simple and robust redirection to hash URL
-        window.location.href = selectedResource.viewerUrl;
+        // Force absolute hash navigation to prevent 404s
+        const path = selectedResource.viewerUrl.replace(/^#/, '');
+        const targetUrl = `${window.location.origin}/#${path}`;
+        window.location.href = targetUrl;
       } else {
         // Download file
         window.open(selectedResource?.downloadUrl || "#", "_blank");
