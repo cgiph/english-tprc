@@ -42,7 +42,11 @@ export default function Resources() {
     } else {
       // Simulate download or open viewer
       if (resource.viewerUrl) {
-        window.location.href = resource.viewerUrl;
+        // Ensure we navigate to the root with hash
+        const targetUrl = resource.viewerUrl.startsWith('#') 
+          ? `${window.location.origin}/${resource.viewerUrl}`
+          : resource.viewerUrl;
+        window.location.href = targetUrl;
       } else {
         window.open(resource.downloadUrl || "#", "_blank");
       }
@@ -60,14 +64,18 @@ export default function Resources() {
       setPasswordDialogOpen(false);
       
       if (selectedResource?.viewerUrl) {
-        // Navigate to viewer
-        window.location.href = selectedResource.viewerUrl;
+        // Navigate to viewer with robust hash handling
+        const targetUrl = selectedResource.viewerUrl.startsWith('#') 
+          ? `${window.location.origin}/${selectedResource.viewerUrl}`
+          : selectedResource.viewerUrl;
+        window.location.href = targetUrl;
       } else {
         // Download file
         window.open(selectedResource?.downloadUrl || "#", "_blank");
       }
       
       toast({
+        title: "Access Granted",
         title: "Access Granted",
         description: selectedResource?.viewerUrl ? "Opening resource..." : "Download starting...",
         variant: "default",
