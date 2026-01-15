@@ -1,4 +1,5 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router as WouterRouter } from "wouter";
+import { useHashLocation } from "wouter/use-hash-location";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -32,40 +33,42 @@ import Demo from "@/pages/demo";
 
 function Router() {
   return (
-    <Layout>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/demo" component={Demo} />
-        <Route path="/auth" component={AuthPage} />
-        <Route path="/reviews" component={Reviews} />
-        <Route path="/resources" component={Resources} />
-        <Route path="/resources/viewer" component={ResourceViewer} />
-        <Route path="/resources/audio-trainer" component={AudioTrainer} />
-        <Route path="/resources/full-mock-test" component={FullMockTest} />
-        
-        {/* Legal */}
-        <Route path="/privacy-policy" component={PrivacyPolicy} />
-        <Route path="/terms-of-service" component={TermsOfService} />
-        <Route path="/faq" component={FAQ} />
-        <Route path="/profile" component={Profile} />
+    <WouterRouter hook={useHashLocation}>
+      <Layout>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/demo" component={Demo} />
+          <Route path="/auth" component={AuthPage} />
+          <Route path="/reviews" component={Reviews} />
+          <Route path="/resources" component={Resources} />
+          <Route path="/resources/viewer" component={ResourceViewer} />
+          <Route path="/resources/audio-trainer" component={AudioTrainer} />
+          <Route path="/resources/full-mock-test" component={FullMockTest} />
+          
+          {/* Legal */}
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/terms-of-service" component={TermsOfService} />
+          <Route path="/faq" component={FAQ} />
+          <Route path="/profile" component={Profile} />
 
-        {/* Guides */}
-        <Route path="/guide/speaking" component={SpeakingGuide} />
-        <Route path="/guide/reading" component={ReadingGuide} />
-        <Route path="/guide/listening" component={ListeningGuide} />
-        <Route path="/guide/writing" component={WritingGuide} />
+          {/* Guides */}
+          <Route path="/guide/speaking" component={SpeakingGuide} />
+          <Route path="/guide/reading" component={ReadingGuide} />
+          <Route path="/guide/listening" component={ListeningGuide} />
+          <Route path="/guide/writing" component={WritingGuide} />
 
-        {/* Practice */}
-        <Route path="/practice/speaking" component={SpeakingPractice} />
-        <Route path="/practice/reading" component={ReadingPractice} />
-        <Route path="/practice/listening" component={ListeningPractice} />
-        <Route path="/practice/writing" component={WritingPractice} />
-        <Route path="/practice/vocabulary" component={VocabularyTool} />
-        <Route path="/resources/grammar-tool" component={GrammarTool} />
-        <Route path="/practice/typing" component={TypingPractice} />
-        <Route component={NotFound} />
-      </Switch>
-    </Layout>
+          {/* Practice */}
+          <Route path="/practice/speaking" component={SpeakingPractice} />
+          <Route path="/practice/reading" component={ReadingPractice} />
+          <Route path="/practice/listening" component={ListeningPractice} />
+          <Route path="/practice/writing" component={WritingPractice} />
+          <Route path="/practice/vocabulary" component={VocabularyTool} />
+          <Route path="/resources/grammar-tool" component={GrammarTool} />
+          <Route path="/practice/typing" component={TypingPractice} />
+          <Route component={NotFound} />
+        </Switch>
+      </Layout>
+    </WouterRouter>
   );
 }
 
