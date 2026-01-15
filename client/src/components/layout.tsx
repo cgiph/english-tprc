@@ -49,12 +49,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   const navItems = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/guide/speaking", label: "Speaking", icon: Mic },
-    { href: "/guide/reading", label: "Reading", icon: Book },
-    { href: "/guide/listening", label: "Listening", icon: Headphones },
-    { href: "/guide/writing", label: "Writing", icon: PenTool },
-    { href: "/resources", label: "Resources", icon: BookOpen },
+    { href: "#/", label: "Home", icon: Home },
+    { href: "#/guide/speaking", label: "Speaking", icon: Mic },
+    { href: "#/guide/reading", label: "Reading", icon: Book },
+    { href: "#/guide/listening", label: "Listening", icon: Headphones },
+    { href: "#/guide/writing", label: "Writing", icon: PenTool },
+    { href: "#/resources", label: "Resources", icon: BookOpen },
   ];
 
   return (
@@ -62,7 +62,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="flex flex-col hover:opacity-90 transition-opacity">
+          <Link href="#/" className="flex flex-col hover:opacity-90 transition-opacity">
             <span className="font-serif font-bold tracking-tight text-primary text-[20px] leading-none">
               PTE Prep<span className="text-secondary text-[20px]">PH</span>
             </span>
@@ -110,7 +110,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link href="/profile" className="cursor-pointer">
+                      <Link href="#/profile" className="cursor-pointer">
                         <User className="mr-2 h-4 w-4" />
                         <span>Profile</span>
                       </Link>
@@ -124,10 +124,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               ) : (
                 <>
                   <Button asChild variant="ghost" size="sm">
-                    <Link href="/auth?mode=login">Log in</Link>
+                    <Link href="#/auth?mode=login">Log in</Link>
                   </Button>
                   <Button asChild size="sm" className="bg-primary text-white hover:bg-primary/90">
-                    <Link href="/auth?mode=register">Get Started</Link>
+                    <Link href="#/auth?mode=register">Get Started</Link>
                   </Button>
                 </>
               )}
@@ -183,10 +183,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   ) : (
                     <>
                       <Button asChild variant="outline" className="w-full justify-start">
-                        <Link href="/auth?mode=login">Log in</Link>
+                        <Link href="#/auth?mode=login">Log in</Link>
                       </Button>
                       <Button asChild className="w-full justify-start bg-primary">
-                         <Link href="/auth?mode=register">Get Started</Link>
+                         <Link href="#/auth?mode=register">Get Started</Link>
                       </Button>
                     </>
                   )}
@@ -216,9 +216,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <h3 className="font-serif font-semibold mb-4 text-foreground">Platform</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/reviews" className="hover:text-primary transition-colors">Exam Reviews</Link></li>
-                <li><Link href="/resources" className="hover:text-primary transition-colors">Study Materials</Link></li>
-                <li><Link href="/practice/speaking" className="hover:text-primary transition-colors">Speaking Practice</Link></li>
+                <li><Link href="#/reviews" className="hover:text-primary transition-colors">Exam Reviews</Link></li>
+                <li><Link href="#/resources" className="hover:text-primary transition-colors">Study Materials</Link></li>
+                <li><Link href="#/practice/speaking" className="hover:text-primary transition-colors">Speaking Practice</Link></li>
                 <li><a href="#" className="hover:text-primary transition-colors">Success Stories</a></li>
               </ul>
             </div>
@@ -226,9 +226,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <h3 className="font-serif font-semibold mb-4 text-foreground">Support</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
+                <li><Link href="#/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
                 <li><a href="#" className="hover:text-primary transition-colors">Exam Policies</a></li>
-                <li><Link href="/faq" className="hover:text-primary transition-colors">Contact Us</Link></li>
+                <li><Link href="#/faq" className="hover:text-primary transition-colors">Contact Us</Link></li>
               </ul>
             </div>
 
@@ -250,8 +250,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
             <p>© 2025 PTE PrepPH. All rights reserved.</p>
             <div className="flex gap-6">
-              <Link href="/privacy-policy" className="hover:text-foreground">Privacy Policy</Link>
-              <Link href="/terms-of-service" className="hover:text-foreground">Terms of Service</Link>
+              <Link href="#/privacy-policy" className="hover:text-foreground">Privacy Policy</Link>
+              <Link href="#/terms-of-service" className="hover:text-foreground">Terms of Service</Link>
             </div>
           </div>
         </div>

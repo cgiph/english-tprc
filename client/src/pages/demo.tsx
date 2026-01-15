@@ -82,12 +82,12 @@ export default function DemoPage() {
             </p>
             
             <div className="flex flex-wrap gap-4 mb-8">
-              <Link href="/reviews">
+              <Link href="#/reviews">
                 <Button size="lg" className="bg-amber-500 hover:bg-amber-600 text-white gap-2 text-lg px-8">
                   Read Reviews
                 </Button>
               </Link>
-              <Link href="/resources">
+              <Link href="#/resources">
                 <Button size="lg" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-50 gap-2 text-lg px-8">
                   Explore Resources
                 </Button>
@@ -184,7 +184,7 @@ export default function DemoPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/resources/grammar-tool">
+              <Link href="#/resources/grammar-tool">
                 <Button size="lg" className="gap-2">
                   Try Grammar Checker <ChevronRight className="h-4 w-4" />
                 </Button>
@@ -334,7 +334,7 @@ export default function DemoPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/resources/audio-trainer">
+              <Link href="#/resources/audio-trainer">
                 <Button size="lg" className="gap-2 bg-green-600 hover:bg-green-700">
                   Try Audio Trainer <ChevronRight className="h-4 w-4" />
                 </Button>
@@ -432,13 +432,13 @@ export default function DemoPage() {
             Try the full PTE Academic simulation with all features enabled
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/resources/full-mock-test">
+            <Link href="#/resources/full-mock-test">
               <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 gap-2 text-lg px-8">
                 <GraduationCap className="h-5 w-5" />
                 Start Full Mock Test
               </Button>
             </Link>
-            <Link href="/resources">
+            <Link href="#/resources">
               <Button size="lg" variant="outline" className="border-white/50 text-white hover:bg-white/10 gap-2 text-lg px-8">
                 <BookOpen className="h-5 w-5" />
                 View All Resources
