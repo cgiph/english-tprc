@@ -82,7 +82,7 @@ export const MOCK_RESOURCES: Resource[] = [
     rating: 4.9,
     locked: true,
     downloadUrl: "/downloads/USEFUL_GUIDE_FOR_ESSAY_WRITING.txt",
-    viewerUrl: "#/resources/viewer?id=1"
+    viewerUrl: "/resources/viewer?id=1"
   },
   {
     id: "2",
@@ -95,7 +95,7 @@ export const MOCK_RESOURCES: Resource[] = [
     rating: 4.7,
     locked: true,
     downloadUrl: "/downloads/DESCRIBE_IMAGE_50_CHARTS.txt",
-    viewerUrl: "#/resources/viewer?id=2"
+    viewerUrl: "/resources/viewer?id=2"
   },
   {
     id: "3",
@@ -107,7 +107,7 @@ export const MOCK_RESOURCES: Resource[] = [
     downloads: 5400,
     rating: 4.5,
     locked: true,
-    viewerUrl: "#/resources/audio-trainer"
+    viewerUrl: "/resources/audio-trainer"
   },
   {
     id: "4",
@@ -119,6 +119,6 @@ export const MOCK_RESOURCES: Resource[] = [
     downloads: 3100,
     rating: 4.8,
     locked: true,
-    viewerUrl: "#/resources/full-mock-test"
+    viewerUrl: "/resources/full-mock-test"
   }
 ];
