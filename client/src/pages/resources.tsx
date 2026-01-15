@@ -76,7 +76,6 @@ export default function Resources() {
       
       toast({
         title: "Access Granted",
-        title: "Access Granted",
         description: selectedResource?.viewerUrl ? "Opening resource..." : "Download starting...",
         variant: "default",
       });
