@@ -42,7 +42,8 @@ function Router() {
           <Route path="/reviews" component={Reviews} />
           
           {/* Resources sub-routes must come before the main /resources route */}
-          <Route path="/resources/viewer" component={ResourceViewer} />
+          {/* Note: We use a wildcard to ensure query parameters (like ?id=1) don't break the route matching */}
+          <Route path="/resources/viewer" nest component={ResourceViewer} />
           <Route path="/resources/audio-trainer" component={AudioTrainer} />
           <Route path="/resources/full-mock-test" component={FullMockTest} />
           <Route path="/resources/grammar-tool" component={GrammarTool} />
