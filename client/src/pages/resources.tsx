@@ -44,7 +44,8 @@ export default function Resources() {
       if (resource.viewerUrl) {
         // Check if internal link
         if (resource.viewerUrl.startsWith('/')) {
-          setLocation(resource.viewerUrl);
+          // Explicitly use hash navigation to ensure reliability
+          window.location.hash = resource.viewerUrl;
         } else {
           window.location.href = resource.viewerUrl;
         }
@@ -67,7 +68,7 @@ export default function Resources() {
       if (selectedResource?.viewerUrl) {
         // Navigate to viewer
         if (selectedResource.viewerUrl.startsWith('/')) {
-          setLocation(selectedResource.viewerUrl);
+          window.location.hash = selectedResource.viewerUrl;
         } else {
           window.location.href = selectedResource.viewerUrl;
         }
