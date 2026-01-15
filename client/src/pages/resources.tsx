@@ -42,12 +42,10 @@ export default function Resources() {
     } else {
       // Simulate download or open viewer
       if (resource.viewerUrl) {
-        // Force hash navigation logic manually to ensure robustness
-        const targetHash = resource.viewerUrl.startsWith('#') 
-          ? resource.viewerUrl 
-          : `#/${resource.viewerUrl.replace(/^\//, '')}`;
-        
-        window.location.hash = targetHash;
+        // Force absolute hash navigation to prevent relative path resolution issues
+        const hashPath = resource.viewerUrl.replace(/^#/, '');
+        const targetUrl = `${window.location.origin}/#${hashPath}`;
+        window.location.href = targetUrl;
       } else {
         window.open(resource.downloadUrl || "#", "_blank");
       }
@@ -65,12 +63,10 @@ export default function Resources() {
       setPasswordDialogOpen(false);
       
       if (selectedResource?.viewerUrl) {
-        // Force hash navigation logic manually to ensure robustness
-        const targetHash = selectedResource.viewerUrl.startsWith('#') 
-          ? selectedResource.viewerUrl 
-          : `#/${selectedResource.viewerUrl.replace(/^\//, '')}`;
-        
-        window.location.hash = targetHash;
+        // Force absolute hash navigation to prevent relative path resolution issues
+        const hashPath = selectedResource.viewerUrl.replace(/^#/, '');
+        const targetUrl = `${window.location.origin}/#${hashPath}`;
+        window.location.href = targetUrl;
       } else {
         // Download file
         window.open(selectedResource?.downloadUrl || "#", "_blank");
