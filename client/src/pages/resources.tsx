@@ -42,12 +42,10 @@ export default function Resources() {
     } else {
       // Simulate download or open viewer
       if (resource.viewerUrl) {
-        // Force hash navigation for internal links
-        // We strip the hash if it exists to clean it, then prepend #/
-        // This handles both "/path" and "#/path" correctly
-        const cleanPath = resource.viewerUrl.replace(/^#\/?/, '');
-        const targetUrl = `${window.location.origin}/#/${cleanPath}`;
-        window.location.href = targetUrl;
+        // Use wouter's setLocation for SPA navigation
+        // This handles hash routing correctly via the hook
+        const cleanPath = resource.viewerUrl.replace(/^#/, '');
+        setLocation(cleanPath);
       } else {
         window.open(resource.downloadUrl || "#", "_blank");
       }
@@ -65,10 +63,9 @@ export default function Resources() {
       setPasswordDialogOpen(false);
       
       if (selectedResource?.viewerUrl) {
-        // Force hash navigation for internal links
-        const cleanPath = selectedResource.viewerUrl.replace(/^#\/?/, '');
-        const targetUrl = `${window.location.origin}/#/${cleanPath}`;
-        window.location.href = targetUrl;
+        // Use wouter's setLocation for SPA navigation
+        const cleanPath = selectedResource.viewerUrl.replace(/^#/, '');
+        setLocation(cleanPath);
       } else {
         // Download file
         window.open(selectedResource?.downloadUrl || "#", "_blank");
