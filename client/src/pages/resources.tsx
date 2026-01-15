@@ -63,10 +63,8 @@ export default function Resources() {
       setPasswordDialogOpen(false);
       
       if (selectedResource?.viewerUrl) {
-        // Force absolute hash navigation to prevent relative path resolution issues
-        const hashPath = selectedResource.viewerUrl.replace(/^#/, '');
-        const targetUrl = `${window.location.origin}/#${hashPath}`;
-        window.location.href = targetUrl;
+        // Simple and robust redirection to hash URL
+        window.location.href = selectedResource.viewerUrl;
       } else {
         // Download file
         window.open(selectedResource?.downloadUrl || "#", "_blank");
@@ -200,20 +198,30 @@ export default function Resources() {
                     ★ {resource.rating}
                   </span>
                 </div>
-                <Button 
-                  size="sm" 
-                  variant={isLocked ? "outline" : "ghost"}
-                  className={isLocked ? "gap-2 border-primary/20 text-primary" : "text-primary font-medium hover:bg-primary/5"}
-                  onClick={() => handleDownloadClick(resource)}
-                >
-                  {isLocked ? (
-                    <>
-                      <Lock className="h-3 w-3" /> Access
-                    </>
-                  ) : (
-                    "Access"
-                  )}
-                </Button>
+                {isLocked ? (
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    className="gap-2 border-primary/20 text-primary"
+                    onClick={() => handleDownloadClick(resource)}
+                  >
+                    <Lock className="h-3 w-3" /> Access
+                  </Button>
+                ) : (
+                  <Button 
+                    size="sm" 
+                    variant="ghost"
+                    className="text-primary font-medium hover:bg-primary/5"
+                    asChild
+                  >
+                    <a 
+                      href={resource.viewerUrl || resource.downloadUrl || "#"} 
+                      target={resource.downloadUrl ? "_blank" : undefined}
+                    >
+                      Access
+                    </a>
+                  </Button>
+                )}
               </CardFooter>
             </Card>
           );
