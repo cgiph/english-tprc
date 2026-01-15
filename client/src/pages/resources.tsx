@@ -42,13 +42,7 @@ export default function Resources() {
     } else {
       // Simulate download or open viewer
       if (resource.viewerUrl) {
-        // Check if internal link
-        if (resource.viewerUrl.startsWith('/')) {
-          // Explicitly use hash navigation to ensure reliability
-          window.location.hash = resource.viewerUrl;
-        } else {
-          window.location.href = resource.viewerUrl;
-        }
+        window.location.href = resource.viewerUrl;
       } else {
         window.open(resource.downloadUrl || "#", "_blank");
       }
@@ -67,11 +61,7 @@ export default function Resources() {
       
       if (selectedResource?.viewerUrl) {
         // Navigate to viewer
-        if (selectedResource.viewerUrl.startsWith('/')) {
-          window.location.hash = selectedResource.viewerUrl;
-        } else {
-          window.location.href = selectedResource.viewerUrl;
-        }
+        window.location.href = selectedResource.viewerUrl;
       } else {
         // Download file
         window.open(selectedResource?.downloadUrl || "#", "_blank");
