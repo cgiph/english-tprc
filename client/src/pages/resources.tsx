@@ -42,10 +42,12 @@ export default function Resources() {
     } else {
       // Simulate download or open viewer
       if (resource.viewerUrl) {
-        // Use wouter's setLocation for SPA navigation
-        // This handles hash routing correctly via the hook
-        const cleanPath = resource.viewerUrl.replace(/^#/, '');
-        setLocation(cleanPath);
+        // Force hash navigation logic manually to ensure robustness
+        const targetHash = resource.viewerUrl.startsWith('#') 
+          ? resource.viewerUrl 
+          : `#/${resource.viewerUrl.replace(/^\//, '')}`;
+        
+        window.location.hash = targetHash;
       } else {
         window.open(resource.downloadUrl || "#", "_blank");
       }
@@ -63,9 +65,12 @@ export default function Resources() {
       setPasswordDialogOpen(false);
       
       if (selectedResource?.viewerUrl) {
-        // Use wouter's setLocation for SPA navigation
-        const cleanPath = selectedResource.viewerUrl.replace(/^#/, '');
-        setLocation(cleanPath);
+        // Force hash navigation logic manually to ensure robustness
+        const targetHash = selectedResource.viewerUrl.startsWith('#') 
+          ? selectedResource.viewerUrl 
+          : `#/${selectedResource.viewerUrl.replace(/^\//, '')}`;
+        
+        window.location.hash = targetHash;
       } else {
         // Download file
         window.open(selectedResource?.downloadUrl || "#", "_blank");
