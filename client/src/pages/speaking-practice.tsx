@@ -49,6 +49,13 @@ export default function SpeakingPractice() {
   const [isScoring, setIsScoring] = useState(false);
   const [hasSpeechDetected, setHasSpeechDetected] = useState(false); // New state for VAD
   
+  // Speech Recognition State
+  const [transcript, setTranscript] = useState("");
+  const [confidence, setConfidence] = useState(0);
+  const [pauseCount, setPauseCount] = useState(0);
+  const recognitionRef = useRef<any>(null);
+  const lastSpeechTimeRef = useRef<number>(0);
+
   const silenceIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const dataArrayRef = useRef<Uint8Array | null>(null);
@@ -436,6 +443,65 @@ export default function SpeakingPractice() {
   const startRecording = () => {
     playBeep(); // Beep on start
     startRecordingAudio(); // Start actual recording
+    
+    // Start Speech Recognition
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = () => {
+        setTranscript("");
+        setPauseCount(0);
+        lastSpeechTimeRef.current = Date.now();
+      };
+
+      recognition.onresult = (event: any) => {
+        let finalTrans = "";
+        let interimTrans = "";
+        let totalConf = 0;
+        let resultCount = 0;
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTrans += event.results[i][0].transcript;
+            totalConf += event.results[i][0].confidence;
+            resultCount++;
+          } else {
+            interimTrans += event.results[i][0].transcript;
+          }
+        }
+        
+        // Simple hesitation detection: Check time since last result
+        const now = Date.now();
+        if (now - lastSpeechTimeRef.current > 2000 && lastSpeechTimeRef.current > 0) {
+           setPauseCount(prev => prev + 1);
+        }
+        lastSpeechTimeRef.current = now;
+
+        setTranscript(prev => {
+             // Avoid duplicating if we are just appending final results
+             // Actually standard way is to rebuild from event.results usually or just append
+             // For simplicity, let's just use the latest full transcript provided by API if continuous
+             const allTrans = Array.from(event.results).map((r: any) => r[0].transcript).join("");
+             return allTrans;
+        });
+        
+        if (resultCount > 0) {
+           setConfidence(prev => (prev * resultCount + totalConf) / (resultCount + 1)); // Moving average-ish
+        }
+      };
+      
+      recognition.onerror = (event: any) => {
+        console.error("Speech recognition error", event.error);
+      };
+
+      recognition.start();
+      recognitionRef.current = recognition;
+    }
+
     setStatus("recording");
     
     // Set recording time based on task type
@@ -467,6 +533,12 @@ export default function SpeakingPractice() {
     setRecordingDuration(duration);
     
     stopRecordingAudio(); // Stop actual recording
+    
+    if (recognitionRef.current) {
+        recognitionRef.current.stop();
+        recognitionRef.current = null;
+    }
+
     setStatus("completed");
     setTimeLeft(0);
     toast({
@@ -490,15 +562,26 @@ export default function SpeakingPractice() {
     setAudioProgress(0);
     setAudioTime(0);
     setAudioTotalTime(0);
+    setTranscript("");
+    setConfidence(0);
+    setPauseCount(0);
   };
 
   const handleScore = () => {
     setIsScoring(true);
     // Simulate processing delay
     setTimeout(() => {
-      // Calculate mock score based on task and duration
-      // In real app, we'd send the audio blob to backend
-      const newScore = calculateSpeakingScore(activeTab, recordingDuration, false, hasSpeechDetected);
+      // Calculate score with real data
+      const targetText = currentQuestion.content || "";
+      const newScore = calculateSpeakingScore(
+        activeTab, 
+        recordingDuration, 
+        transcript, 
+        targetText, 
+        confidence, 
+        pauseCount
+      );
+      
       setScore(newScore);
       setIsScoring(false);
       toast({
