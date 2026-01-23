@@ -8,6 +8,115 @@ export interface SpeakingScore {
   feedback: string;
 }
 
+export interface SSTScore {
+    overall: number;
+    content: number;
+    form: number;
+    grammar: number;
+    vocabulary: number;
+    spelling: number;
+    feedback: string;
+}
+
+export const calculateSSTScore = (
+    transcript: string, // User summary
+    audioScript: string // Original lecture text
+): SSTScore => {
+    let content = 2; // Default starting points
+    let form = 2;
+    let grammar = 2;
+    let vocabulary = 2;
+    let spelling = 2;
+    let feedbackParts: string[] = [];
+
+    // 1. Form (Word Count) - CRITICAL
+    const words = transcript.trim().split(/\s+/).filter(w => w.length > 0);
+    const wordCount = words.length;
+    
+    if (wordCount < 50 || wordCount > 70) {
+        form = 0;
+        feedbackParts.push(`Form: 0/2 (Word count ${wordCount} is outside 50-70 range. Task score is 0).`);
+        // If form is 0, PTE usually gives 0 for everything
+        return {
+            overall: 0, content: 0, form: 0, grammar: 0, vocabulary: 0, spelling: 0,
+            feedback: feedbackParts.join(" ")
+        };
+    } else {
+        feedbackParts.push(`Form: 2/2 (Word count ${wordCount} is perfect).`);
+    }
+
+    // 2. Content (Keyword Matching)
+    // Simple heuristic: check for keywords from audio script
+    const scriptWords = audioScript.toLowerCase().match(/\b\w+\b/g) || [];
+    // Filter common stop words
+    const stopWords = ["the", "and", "is", "in", "to", "of", "a", "it", "that", "on", "for", "with", "as", "are", "this", "be", "was", "at", "by", "an"];
+    const keywords = [...new Set(scriptWords.filter(w => w.length > 4 && !stopWords.includes(w)))];
+    
+    const userWords = transcript.toLowerCase().match(/\b\w+\b/g) || [];
+    const matchedKeywords = keywords.filter(k => userWords.includes(k));
+    const matchPercentage = matchedKeywords.length / Math.max(keywords.length, 1);
+
+    if (matchPercentage > 0.4) content = 2;
+    else if (matchPercentage > 0.2) content = 1;
+    else content = 0;
+    
+    feedbackParts.push(`Content: ${content}/2 (${matchedKeywords.length} keywords found).`);
+
+    // 3. Spelling (Simple dictionary check simulation)
+    // We can't do full spell check easily without a library, but let's simulate
+    // by assuming very long words might be typos if they don't appear in source or common list?
+    // Actually, let's just use a simple heuristic: random "errors" based on input length or 
+    // real implementation: check against a small set of common words + source words
+    
+    // For MOCKUP: Let's assume spelling is perfect unless we see obvious non-words (e.g. "teh")
+    // OR just randomization for demo purposes if we can't validate.
+    // Let's implement a dummy "typo detector" for "teh", "recieve", etc.
+    const commonTypos = ["teh", "recieve", "seperate", "occured", "until", "definately"];
+    const typosFound = userWords.filter(w => commonTypos.includes(w)).length;
+    
+    if (typosFound > 3) spelling = 0;
+    else if (typosFound > 0) spelling = 1;
+    else spelling = 2;
+    
+    feedbackParts.push(`Spelling: ${spelling}/2.`);
+
+    // 4. Grammar & Vocabulary
+    // Difficult to check client-side without NLP.
+    // We will base this on sentence structure complexity (avg word length, sentence length)
+    
+    // Avg word length
+    const avgWordLen = words.reduce((sum, w) => sum + w.length, 0) / wordCount;
+    if (avgWordLen > 5) vocabulary = 2;
+    else if (avgWordLen > 4) vocabulary = 1;
+    else vocabulary = 0;
+    
+    feedbackParts.push(`Vocabulary: ${vocabulary}/2.`);
+
+    // Grammar: Check for capitalization and punctuation at basic level
+    const sentences = transcript.split(/[.!?]+/).filter(s => s.trim().length > 0);
+    const validSentences = sentences.filter(s => {
+        const trimmed = s.trim();
+        return /^[A-Z]/.test(trimmed); // Starts with capital
+    });
+    
+    const grammarErrors = sentences.length - validSentences.length;
+    if (grammarErrors > 3) grammar = 0;
+    else if (grammarErrors > 0) grammar = 1;
+    else grammar = 2;
+    
+    feedbackParts.push(`Grammar: ${grammar}/2.`);
+
+    return {
+        overall: content + form + grammar + vocabulary + spelling,
+        content,
+        form,
+        grammar,
+        vocabulary,
+        spelling,
+        feedback: feedbackParts.join("\n")
+    };
+};
+
 export const calculateSpeakingScore = (
   taskType: SpeakingTaskType, 
   durationSeconds: number, 

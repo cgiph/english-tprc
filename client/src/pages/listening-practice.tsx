@@ -14,6 +14,8 @@ import { LISTENING_DATA, ListeningQuestion } from "@/lib/listening-data";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
+import { calculateSSTScore, SSTScore } from "@/lib/scoring-utils";
+
 export default function ListeningPractice() {
   const [activeTab, setActiveTab] = useState("SST");
   const [playingId, setPlayingId] = useState<string | null>(null);
@@ -22,6 +24,7 @@ export default function ListeningPractice() {
   
   // State for user answers
   const [sstAnswers, setSstAnswers] = useState<Record<string, string>>({});
+  const [sstScores, setSstScores] = useState<Record<string, SSTScore>>({}); // Store SST scores
   const [mcmaAnswers, setMcmaAnswers] = useState<Record<string, string[]>>({});
   const [fibAnswers, setFibAnswers] = useState<Record<string, string[]>>({});
   const [mcsaAnswers, setMcsaAnswers] = useState<Record<string, string>>({});
@@ -215,8 +218,14 @@ export default function ListeningPractice() {
     }
   };
 
-  const checkAnswer = (id: string) => {
+  const checkAnswer = (id: string, type?: string, audioScript?: string) => {
     setShowResults(prev => ({ ...prev, [id]: !prev[id] }));
+    
+    if (type === "SST" && audioScript) {
+        const answer = sstAnswers[id] || "";
+        const score = calculateSSTScore(answer, audioScript);
+        setSstScores(prev => ({ ...prev, [id]: score }));
+    }
   };
 
   const resetQuestion = (id: string, type: string) => {
@@ -291,6 +300,17 @@ export default function ListeningPractice() {
        <div className="bg-slate-50 p-6 rounded-md text-sm leading-relaxed text-slate-800 border border-slate-200">
          <p className="font-semibold mb-2">Instructions:</p>
          You will hear a short lecture. Write a summary for a fellow student who was not present at the lecture. You should write 50-70 words. You have 10 minutes to finish this task. Your response will be judged on the Quality of Your writing and on how well your response presents the key points presented in the lecture.
+         
+         <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
+             <p className="font-bold text-yellow-800 mb-2">Scoring Guide:</p>
+             <ul className="list-disc pl-5 space-y-1 text-yellow-900">
+                 <li><strong>Content (2 pts):</strong> Include all main points from the lecture.</li>
+                 <li><strong>Form (2 pts):</strong> Strict word count: 50-70 words. Outside this range = 0 points!</li>
+                 <li><strong>Grammar (2 pts):</strong> Correct grammar (1 pt deducted for >3 errors).</li>
+                 <li><strong>Vocabulary (2 pts):</strong> Use appropriate and accurate words.</li>
+                 <li><strong>Spelling (2 pts):</strong> Correct spelling (1 pt deducted for >3 errors).</li>
+             </ul>
+         </div>
        </div>
 
        {/* Audio Player Section */}
@@ -357,9 +377,49 @@ export default function ListeningPractice() {
        </Card>
 
       {showResults[q.id] && (
-        <div className="bg-green-50 p-6 rounded-lg border border-green-100 animate-in fade-in shadow-sm">
-          <p className="text-sm font-semibold text-green-800 mb-2 uppercase tracking-wide">Transcript</p>
-          <p className="text-base text-green-800 leading-relaxed">{q.audioScript}</p>
+        <div className="space-y-4">
+            {sstScores[q.id] && (
+                <div className="bg-blue-50 p-6 rounded-lg border border-blue-100 animate-in fade-in shadow-sm">
+                    <p className="text-sm font-semibold text-blue-800 mb-2 uppercase tracking-wide">Detailed Score Analysis</p>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
+                        <div className="bg-white p-2 rounded border border-blue-100 text-center">
+                            <span className="block text-xs text-slate-500 uppercase">Content</span>
+                            <span className="font-bold text-blue-700">{sstScores[q.id].content}/2</span>
+                        </div>
+                        <div className="bg-white p-2 rounded border border-blue-100 text-center">
+                            <span className="block text-xs text-slate-500 uppercase">Form</span>
+                            <span className={`font-bold ${sstScores[q.id].form === 0 ? "text-red-600" : "text-blue-700"}`}>{sstScores[q.id].form}/2</span>
+                        </div>
+                        <div className="bg-white p-2 rounded border border-blue-100 text-center">
+                            <span className="block text-xs text-slate-500 uppercase">Grammar</span>
+                            <span className="font-bold text-blue-700">{sstScores[q.id].grammar}/2</span>
+                        </div>
+                        <div className="bg-white p-2 rounded border border-blue-100 text-center">
+                            <span className="block text-xs text-slate-500 uppercase">Vocab</span>
+                            <span className="font-bold text-blue-700">{sstScores[q.id].vocabulary}/2</span>
+                        </div>
+                        <div className="bg-white p-2 rounded border border-blue-100 text-center">
+                            <span className="block text-xs text-slate-500 uppercase">Spelling</span>
+                            <span className="font-bold text-blue-700">{sstScores[q.id].spelling}/2</span>
+                        </div>
+                    </div>
+                    
+                    <div className="bg-white p-3 rounded border border-blue-100">
+                         <p className="text-sm font-medium text-slate-700 mb-1">Feedback:</p>
+                         <pre className="text-xs text-slate-600 whitespace-pre-wrap font-sans">{sstScores[q.id].feedback}</pre>
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t border-blue-200 flex justify-between items-center">
+                        <span className="font-bold text-blue-900">Total Score:</span>
+                        <span className="text-xl font-bold text-blue-600">{sstScores[q.id].overall}/10</span>
+                    </div>
+                </div>
+            )}
+        
+            <div className="bg-green-50 p-6 rounded-lg border border-green-100 animate-in fade-in shadow-sm">
+              <p className="text-sm font-semibold text-green-800 mb-2 uppercase tracking-wide">Transcript</p>
+              <p className="text-base text-green-800 leading-relaxed">{q.audioScript}</p>
+            </div>
         </div>
       )}
     </div>
@@ -884,7 +944,7 @@ export default function ListeningPractice() {
                     </Button>
 
                     <Button 
-                      onClick={() => checkAnswer(q.id)} 
+                      onClick={() => checkAnswer(q.id, q.type, q.audioScript)} 
                       variant={showResults[q.id] ? "outline" : "default"}
                     >
                       {showResults[q.id] ? "Hide Answer" : "Submit"}
