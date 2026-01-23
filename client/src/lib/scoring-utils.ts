@@ -181,7 +181,7 @@ export const calculateSWTScore = (
     
     // 2. Content
     // Keyword matching
-    const scriptWords = sourceText.toLowerCase().match(/\b\w+\b/g) || [];
+    const scriptWords: string[] = sourceText.toLowerCase().match(/\b\w+\b/g) || [];
     const stopWords = ["the", "and", "is", "in", "to", "of", "a", "it", "that", "on", "for", "with", "as", "are", "this", "be", "was", "at", "by", "an", "text", "passage"];
     const keywords = Array.from(new Set(scriptWords.filter(w => w.length > 4 && !stopWords.includes(w))));
     
@@ -196,26 +196,99 @@ export const calculateSWTScore = (
     feedbackParts.push(`Content: ${content}/2 (${matchedKeywords.length} keywords matched).`);
 
     // 3. Grammar
+    let grammarErrors = 0;
+    
     // Check for capitalization
     if (!/^[A-Z]/.test(response.trim())) {
-        grammar = Math.max(0, grammar - 1);
+        grammarErrors++;
         feedbackParts.push(`Grammar: Missing capital letter at start.`);
     }
     // Check for ending punctuation
     if (!/[.!?]$/.test(response.trim())) {
-        grammar = Math.max(0, grammar - 1);
+        grammarErrors++;
         feedbackParts.push(`Grammar: Missing punctuation at end.`);
     }
     
-    feedbackParts.push(`Grammar: ${grammar}/2.`);
-
-    // 4. Vocabulary (Avg word length)
-    const avgWordLen = words.reduce((sum, w) => sum + w.length, 0) / wordCount;
-    if (avgWordLen < 4) {
-        vocabulary = 1;
-        feedbackParts.push(`Vocabulary: 1/2 (Words are quite simple).`);
+    // Heuristic: Subject-Verb Agreement checks (very basic)
+    // "Sleeping are" -> "Sleeping is"
+    if (response.match(/\b(sleeping|reading|writing|listening|speaking)\s+are\b/i)) {
+        grammarErrors++;
+        feedbackParts.push(`Grammar: Subject-verb agreement error (Gerunds take singular verbs).`);
+    }
+    // "He/She/It have" -> "He/She/It has"
+    if (response.match(/\b(he|she|it|one)\s+have\b/i)) {
+        grammarErrors++;
+        feedbackParts.push(`Grammar: Subject-verb agreement error (Third person singular).`);
+    }
+    
+    if (grammarErrors > 3) {
+        grammar = 0;
+        feedbackParts.push(`Grammar: 0/2 (>3 grammatical errors found).`);
+    } else if (grammarErrors > 0) {
+        grammar = Math.max(0, 2 - grammarErrors); // Deduct points for errors? Or just 1?
+        // Let's follow the "correct structure" = 2, "errors but no hindrance" = 1 logic from image
+        // If errors > 0 but <= 3, give 1.
+        grammar = 1;
+        feedbackParts.push(`Grammar: 1/2 (${grammarErrors} grammatical errors).`);
     } else {
-        feedbackParts.push(`Vocabulary: 2/2 (Good vocabulary usage).`);
+        grammar = 2;
+        feedbackParts.push(`Grammar: 2/2 (No obvious grammatical errors).`);
+    }
+
+
+    // 4. Vocabulary
+    // Check for connectors
+    const connectors = ["and", "but", "so", "because", "however", "therefore", "although", "moreover", "furthermore", "nevertheless", "despite", "while", "whereas", "consequently", "thus", "hence"];
+    const foundConnectors = connectors.filter(c => response.toLowerCase().includes(c));
+    
+    // Check if vocabulary is purely copied (excluding stopwords)
+    // We already have userWords and scriptWords
+    // Get unique non-stop words from user response
+    const userUniqueWords: string[] = Array.from(new Set(userWords.filter(w => !stopWords.includes(w))));
+    // Check how many of them are NOT in the source text
+    const newWords = userUniqueWords.filter(w => !scriptWords.includes(w));
+    
+    // Logic: 
+    // - If NO connectors -> -1
+    // - If mostly copied (newWords count is very low, e.g. < 2) -> -1
+    
+    let vocabScore = 2;
+    let vocabIssues = [];
+    
+    if (foundConnectors.length === 0) {
+        vocabScore--;
+        vocabIssues.push("No transitions/connectors used");
+    }
+    
+    if (newWords.length < 2) {
+         vocabScore--;
+         vocabIssues.push("Vocabulary matches passage too closely (try using synonyms)");
+    }
+    
+    vocabulary = Math.max(0, vocabScore);
+    if (vocabulary < 2) {
+        feedbackParts.push(`Vocabulary: ${vocabulary}/2 (${vocabIssues.join(", ")}).`);
+    } else {
+        feedbackParts.push(`Vocabulary: 2/2 (Good use of connectors and original vocabulary).`);
+    }
+
+    // 5. Spelling (Simulated for copied words)
+    // If a word appears in the user text that is ALMOST a word in the passage but slightly different, mark it.
+    // Or just use the standard typo list + heuristic
+    const commonTypos = ["teh", "recieve", "seperate", "occured", "until", "definately", "its", "their", "buidling", "goverment"];
+    let spellingErrors = userWords.filter(w => commonTypos.includes(w)).length;
+    
+    // Heuristic: Check for words from script that are misspelled in user text
+    // (This is hard to distinguish from synonyms without Levenshtein distance, but let's try strict substring checks or just assume if it's not in script AND not in common words list, might be typo? Too risky for mockup).
+    // Let's stick to the commonTypos list and maybe checking length?
+    
+    if (spellingErrors > 3) {
+        // Deduct from grammar or vocab? User said "criteria for this should fall under vocabulary or grammar"
+        // But usually there is a spelling trait? Wait, SWT image shows only Content, Form, Grammar, Vocab.
+        // So Spelling errors > 3 should deduct from Vocabulary or Grammar.
+        // Let's deduct from Vocabulary as per user hint.
+        vocabulary = Math.max(0, vocabulary - 1);
+        feedbackParts.push(`Vocabulary: -1 penalty for >3 spelling errors.`);
     }
 
     return {
