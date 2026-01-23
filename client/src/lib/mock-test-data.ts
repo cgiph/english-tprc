@@ -154,10 +154,10 @@ const MOCK_RTS: MockQuestion[] = [
     max_score: 5, time_limit_seconds: 40
   },
   {
-    id: "rts-5", section: "Speaking", type: "Respond to a Situation", title: "Group Project Conflict",
+    id: "rts-5", section: "Speaking", type: "Respond to a Situation", title: "Missed Important Meeting",
     prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "/audio/RTS_5_1767941323864.mp3",
-    content: "You are working on a group assignment for your university course. Two of your group members have very different ideas about how to approach the project and have been arguing for the past 20 minutes. As the group leader, you need to step in and help resolve the conflict. What would you say to both of them?",
-    audioScript: "You are working on a group assignment for your university course. Two of your group members have very different ideas about how to approach the project and have been arguing for the past 20 minutes. As the group leader, you need to step in and help resolve the conflict. What would you say to both of them?",
+    content: "You accidentally missed an important team meeting at work yesterday because you forgot to check your calendar. Your colleague who organized the meeting is now standing in front of you. What would you say to apologize and explain the situation?",
+    audioScript: "You accidentally missed an important team meeting at work yesterday because you forgot to check your calendar. Your colleague who organized the meeting is now standing in front of you. What would you say to apologize and explain the situation?",
     max_score: 5, time_limit_seconds: 40
   },
   {
@@ -175,10 +175,10 @@ const MOCK_RTS: MockQuestion[] = [
     max_score: 5, time_limit_seconds: 40
   },
   {
-    id: "rts-7", section: "Speaking", type: "Respond to a Situation", title: "Missed Important Meeting",
+    id: "rts-7", section: "Speaking", type: "Respond to a Situation", title: "Group Project Conflict",
     prompt: "Listen to the situation and respond appropriately in 40 seconds.", stimulus: "audio_placeholder",
-    content: "You accidentally missed an important team meeting at work yesterday because you forgot to check your calendar. Your colleague who organized the meeting is now standing in front of you. What would you say to apologize and explain the situation?",
-    audioScript: "You accidentally missed an important team meeting at work yesterday because you forgot to check your calendar. Your colleague who organized the meeting is now standing in front of you. What would you say to apologize and explain the situation?",
+    content: "You are working on a group assignment for your university course. Two of your group members have very different ideas about how to approach the project and have been arguing for the past 20 minutes. As the group leader, you need to step in and help resolve the conflict. What would you say to both of them?",
+    audioScript: "You are working on a group assignment for your university course. Two of your group members have very different ideas about how to approach the project and have been arguing for the past 20 minutes. As the group leader, you need to step in and help resolve the conflict. What would you say to both of them?",
     max_score: 5, time_limit_seconds: 40
   }
 ];
