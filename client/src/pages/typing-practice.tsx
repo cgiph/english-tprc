@@ -6,16 +6,19 @@ import { RotateCcw, Keyboard, Clock, Trophy, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const WORDS = [
-  "academic", "research", "university", "student", "exam", "study", "analysis", "theory",
-  "practice", "success", "knowledge", "writing", "reading", "speaking", "listening",
-  "global", "economy", "science", "history", "future", "technology", "development",
-  "environment", "sustainable", "innovation", "creative", "method", "process", "result",
-  "conclusion", "introduction", "abstract", "reference", "citation", "library", "campus",
-  "lecture", "professor", "assignment", "deadline", "grade", "score", "achievement",
-  "challenge", "opportunity", "community", "society", "culture", "language", "communication"
+  "Academic", "research", "university", "Student's", "exam", "studies", "analysis", "Theory", "He's", "She's",
+  "I", "practice", "success", "knowledge", "writing", "reading", "speaking", "listening",
+  "Global", "Economy", "Economics", "Science", "History", "Future", "Technology", "Development",
+  "Artificial Intelligence", "Environment", "Sustainable", "Innovation", "Creative", "Method", "Process", "Result",
+  "Conclusion", "Introduction", "Abstract", "Reference", "Citations", "Library", "Campus", "Librarian", "Lecture",
+  "Lecturers", "Professor", "Assignment", "Deadline", "Grades", "Score", "Achievement", "Educational", "Learning",
+  "Challenges", "Opportunities", "Community", "Society", "Culture", "Languages", "Communication", "Association",
+  "Copywriter", "Habitat", "Buildings", "Construction", "Engineering", "They're", "Can't", "Won't", "Don't",
+  "It's", "You're", "We're", "Monday", "July", "English", "PTE", "Universities", "Children", "Women", "Men",
+  "Countries", "Companies", "Employees", "Employer's", "Government", "Policies", "Strategies"
 ];
 
-const DURATION = 60; // 1 minute in seconds
+const DURATION = 30; // 30 seconds
 
 export default function TypingPractice() {
   const [text, setText] = useState<string[]>([]);
@@ -24,6 +27,7 @@ export default function TypingPractice() {
   const [startTime, setStartTime] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState(DURATION);
   const [wpm, setWpm] = useState(0);
+  const [mistakes, setMistakes] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
   const [isFinished, setIsFinished] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -84,11 +88,11 @@ export default function TypingPractice() {
           setWpm(Math.round(wordsTyped / timeElapsed));
         }
       } else {
-        // Incorrect word attempt - strictly enforce correct typing before moving on?
-        // For this simulation, let's just clear input but keep index same (force retry)
-        // Or better: Allow moving but mark wrong?
-        // Simple version: Force correct typing of current word
-        // Just update state normally
+        // Incorrect word attempt
+        setMistakes(prev => prev + 1);
+        // Force retry by keeping input or just flashing red? 
+        // User wants to know mistakes. 
+        // Let's keep the current behavior of not advancing, but count the mistake.
         setUserInput(value); 
       }
       
@@ -106,10 +110,12 @@ export default function TypingPractice() {
 
     // Live Accuracy Calculation
     const totalChars = text.slice(0, currentIndex).join("").length + value.length;
-    // Simple accuracy: just 100 for now as we force correctness, 
-    // but could track backspaces/errors.
-    // Let's leave accuracy static 100 or random variance for simulation feel
-    // setAccuracy(Math.max(90, 100 - (value.length - currentWord.length)));
+    // Calculate accuracy based on mistakes vs total words attempted so far
+    const totalAttempts = currentIndex + mistakes + (value.length > 0 ? 1 : 0);
+    const calculatedAccuracy = totalAttempts > 0 
+      ? Math.round((currentIndex / totalAttempts) * 100) 
+      : 100;
+    setAccuracy(calculatedAccuracy);
   };
 
   const resetPractice = () => {
@@ -119,6 +125,7 @@ export default function TypingPractice() {
     setCurrentIndex(0);
     setUserInput("");
     setWpm(0);
+    setMistakes(0);
     setAccuracy(100);
     setStartTime(null);
     generateText();
@@ -241,12 +248,25 @@ export default function TypingPractice() {
           </div>
 
           {isFinished && (
-            <div className="bg-primary/5 p-6 rounded-xl text-center space-y-4 animate-in zoom-in-50 duration-300">
-              <h3 className="text-2xl font-serif font-bold text-primary">Session Complete!</h3>
+            <div className="bg-primary/5 p-6 rounded-xl text-center space-y-4 animate-in zoom-in-50 duration-300 border-2 border-primary/20">
+              <h3 className="text-3xl font-serif font-bold text-red-600 flex items-center justify-center gap-2">
+                <AlertCircle className="h-8 w-8" />
+                Time's Up!
+              </h3>
+              <div className="grid grid-cols-2 gap-4 max-w-md mx-auto py-4">
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                      <p className="text-sm text-muted-foreground uppercase font-bold">Words Typed</p>
+                      <p className="text-4xl font-bold text-primary">{currentIndex}</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                      <p className="text-sm text-muted-foreground uppercase font-bold">Mistakes</p>
+                      <p className="text-4xl font-bold text-red-500">{mistakes}</p>
+                  </div>
+              </div>
               <p className="text-muted-foreground">
-                Great job! You typed {currentIndex} words with {accuracy}% accuracy.
+                Accuracy: <span className="font-bold text-foreground">{accuracy}%</span>
               </p>
-              <Button size="lg" onClick={resetPractice} className="font-bold">
+              <Button size="lg" onClick={resetPractice} className="font-bold w-full max-w-xs">
                 Try Again
               </Button>
             </div>
