@@ -340,56 +340,133 @@ export const calculateEssayScore = (
     
     const mentionedTopicWords = importantTopicWords.filter(w => userText.includes(w));
     
-    if (importantTopicWords.length > 0 && mentionedTopicWords.length === 0) {
+    // Stricter Content logic based on word count & relevance
+    if (wordCount < 50) {
+        content = 0; // Too short to be relevant
+        feedbackParts.push(`Content: 0/3 (Response is too short to be relevant).`);
+    } else if (wordCount < 100) {
+        content = 1; // Underdeveloped
+        feedbackParts.push(`Content: 1/3 (Ideas are very limited and underdeveloped).`);
+    } else if (importantTopicWords.length > 0 && mentionedTopicWords.length === 0) {
         content = 1;
         feedbackParts.push(`Content: 1/3 (You barely mentioned the topic keywords).`);
+    } else if (wordCount < 150) {
+        content = 2; // Relevant but maybe lacks depth
+        feedbackParts.push(`Content: 2/3 (Relevant to topic, but could be more developed).`);
     } else {
-        feedbackParts.push(`Content: 3/3 (Relevant to topic).`);
+        feedbackParts.push(`Content: 3/3 (Relevant to topic and well developed).`);
     }
 
     // 3. Structure
     // Check paragraphs (newlines)
     const paragraphs = response.split(/\n\s*\n/).filter(p => p.trim().length > 0);
-    if (paragraphs.length < 3) {
+    if (paragraphs.length < 2) {
+        structure = 0;
+        feedbackParts.push(`Structure: 0/2 (No paragraph structure detected).`);
+    } else if (paragraphs.length < 3) {
         structure = 1;
-        feedbackParts.push(`Structure: 1/2 (Essay should ideally have Intro, Body, Conclusion - found only ${paragraphs.length} paragraphs).`);
+        feedbackParts.push(`Structure: 1/2 (Basic separation, but lacks clear Intro/Body/Conclusion structure).`);
     } else {
         feedbackParts.push(`Structure: 2/2 (Good paragraph structure).`);
     }
 
-    // 4. Grammar & Spelling & Vocab (Heuristics)
-    // Just some randomization mixed with heuristics for "mock" feel
-    // Typos
-    const commonTypos = ["teh", "recieve", "seperate", "occured", "until", "definately", "its", "their"];
-    const typosFound = words.filter(w => commonTypos.includes(w.toLowerCase()) && (w.length > 3 || w === 'teh')).length;
-    if (typosFound > 2) {
+    // 4. Grammar
+    let grammarErrors = 0;
+    const sentences = response.match(/[^.!?]+[.!?]+/g) || [];
+    
+    // Check capitalization for EVERY sentence
+    sentences.forEach(s => {
+        if (!/^[A-Z]/.test(s.trim())) grammarErrors++;
+    });
+
+    // Subject-verb agreement heuristics
+    if (response.match(/\b(sleeping|reading|writing|listening|speaking|technology|education)\s+are\b/i)) {
+        grammarErrors++;
+        feedbackParts.push(`Grammar: Subject-verb agreement error (Singular subject + 'are').`);
+    }
+    if (response.match(/\b(computers|schools|people|they|we)\s+is\b/i)) {
+        grammarErrors++;
+        feedbackParts.push(`Grammar: Subject-verb agreement error (Plural subject + 'is').`);
+    }
+    // "more improve" -> "more improvement" or "improve more"
+    if (response.match(/\bmore\s+improve\b/i)) {
+        grammarErrors++;
+        feedbackParts.push(`Grammar: Incorrect usage "more improve".`);
+    }
+    
+    // Article/Preposition check (very rough heuristic)
+    // "use in global world" -> "use in the global world"
+    if (response.match(/\bin\s+global\s+world\b/i)) {
+        grammarErrors++;
+        feedbackParts.push(`Grammar: Missing article "the global world".`);
+    }
+
+    if (grammarErrors > 2) {
+        grammar = 0;
+        feedbackParts.push(`Grammar: 0/2 (Multiple grammatical issues including sentence structure and capitalization).`);
+    } else if (grammarErrors > 0) {
+        grammar = 1;
+        feedbackParts.push(`Grammar: 1/2 (${grammarErrors} grammatical errors found).`);
+    } else {
+        feedbackParts.push(`Grammar: 2/2 (Good grammatical control).`);
+    }
+
+
+    // 5. Vocabulary
+    // Check for "basic" words
+    const basicWords = ["good", "bad", "thing", "stuff", "lot", "many", "computer", "use"];
+    const usedBasicWords = words.filter(w => basicWords.includes(w.toLowerCase()));
+    
+    // Check for "academic" words (simple list)
+    const academicWords = ["significantly", "furthermore", "consequently", "nevertheless", "aspect", "impact", "perspective", "analyze", "demonstrate"];
+    const usedAcademicWords = words.filter(w => academicWords.includes(w.toLowerCase()));
+
+    if (wordCount < 100) {
+        vocabulary = 1;
+        feedbackParts.push(`Vocabulary: 1/2 (Vocabulary is limited due to short length).`);
+    } else if (usedAcademicWords.length < 2 && usedBasicWords.length > 5) {
+        vocabulary = 1;
+        feedbackParts.push(`Vocabulary: 1/2 (Vocabulary is basic and repetitive. Use more academic expressions).`);
+    } else {
+        feedbackParts.push(`Vocabulary: 2/2 (Good range of vocabulary).`);
+    }
+
+    // 6. Linguistic Range (Sentence Complexity)
+    const avgSentenceLength = words.length / Math.max(sentences.length, 1);
+    const complexIndicators = ["which", "that", "although", "because", "while", "since", "however"];
+    const complexityScore = sentences.filter(s => complexIndicators.some(i => s.toLowerCase().includes(i))).length;
+    
+    if (wordCount < 100 || avgSentenceLength < 10) {
+        linguistic = 1;
+        feedbackParts.push(`Linguistic Range: 1/2 (Sentences are mostly simple/short. Use complex structures).`);
+    } else if (complexityScore < 2) {
+        linguistic = 1;
+        feedbackParts.push(`Linguistic Range: 1/2 (Limited use of complex or compound sentences).`);
+    } else {
+        feedbackParts.push(`Linguistic Range: 2/2 (Good variety of sentence structures).`);
+    }
+
+    // 7. Spelling
+    const commonTypos = ["teh", "recieve", "seperate", "occured", "until", "definately", "its", "their", "positve", "buidling", "goverment"];
+    const typosFound = words.filter(w => commonTypos.includes(w.toLowerCase())).length;
+    
+    if (typosFound > 1) {
         spelling = 0;
-        feedbackParts.push(`Spelling: 0/2 (Several spelling errors detected).`);
+        feedbackParts.push(`Spelling: 0/2 (>1 spelling errors detected).`);
     } else if (typosFound > 0) {
         spelling = 1;
-        feedbackParts.push(`Spelling: 1/2 (Minor spelling errors).`);
+        feedbackParts.push(`Spelling: 1/2 (1 spelling error detected).`);
     } else {
          feedbackParts.push(`Spelling: 2/2 (No obvious errors).`);
     }
 
-    // Avg word len for vocab
-    const avgWordLen = words.reduce((sum, w) => sum + w.length, 0) / wordCount;
-    if (avgWordLen < 4.5) {
-        vocabulary = 1;
-        linguistic = 1;
-        feedbackParts.push(`Vocabulary: 1/2 (Try using more complex words).`);
-    } else {
-        feedbackParts.push(`Vocabulary: 2/2 (Good vocabulary range).`);
-    }
-
-    // Grammar check (capitalization)
-    const badStarts = paragraphs.filter(p => !/^[A-Z]/.test(p.trim())).length;
-    if (badStarts > 0) {
-        grammar = 1;
-        feedbackParts.push(`Grammar: 1/2 (Ensure all paragraphs start with capital letters).`);
-    } else {
-        feedbackParts.push(`Grammar: 2/2 (Good grammatical control).`);
-    }
+    // Add Key Advice
+    feedbackParts.push(`\nKEY ADVICE TO IMPROVE:`);
+    feedbackParts.push(`- Always write 200–300 words.`);
+    feedbackParts.push(`- Use a clear 4-paragraph structure (Intro, Body 1, Body 2, Conclusion).`);
+    feedbackParts.push(`- Include specific examples to support your ideas.`);
+    feedbackParts.push(`- Use more academic vocabulary (e.g., "significantly" instead of "a lot").`);
+    feedbackParts.push(`- Check capital letters and sentence grammar carefully.`);
 
     return {
         overall: content + form + structure + grammar + vocabulary + spelling + linguistic,
