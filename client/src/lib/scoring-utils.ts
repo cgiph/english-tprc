@@ -50,9 +50,9 @@ export const calculateSSTScore = (
     const scriptWords = audioScript.toLowerCase().match(/\b\w+\b/g) || [];
     // Filter common stop words
     const stopWords = ["the", "and", "is", "in", "to", "of", "a", "it", "that", "on", "for", "with", "as", "are", "this", "be", "was", "at", "by", "an"];
-    const keywords = [...new Set(scriptWords.filter(w => w.length > 4 && !stopWords.includes(w)))];
+    const keywords = Array.from(new Set(scriptWords.filter(w => w.length > 4 && !stopWords.includes(w))));
     
-    const userWords = transcript.toLowerCase().match(/\b\w+\b/g) || [];
+    const userWords: string[] = transcript.toLowerCase().match(/\b\w+\b/g) || [];
     const matchedKeywords = keywords.filter(k => userWords.includes(k));
     const matchPercentage = matchedKeywords.length / Math.max(keywords.length, 1);
 

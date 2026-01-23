@@ -306,9 +306,9 @@ export default function ListeningPractice() {
              <ul className="list-disc pl-5 space-y-1 text-yellow-900">
                  <li><strong>Content (2 pts):</strong> Include all main points from the lecture.</li>
                  <li><strong>Form (2 pts):</strong> Strict word count: 50-70 words. Outside this range = 0 points!</li>
-                 <li><strong>Grammar (2 pts):</strong> Correct grammar (1 pt deducted for >3 errors).</li>
+                 <li><strong>Grammar (2 pts):</strong> Correct grammar (1 pt deducted for &gt;3 errors).</li>
                  <li><strong>Vocabulary (2 pts):</strong> Use appropriate and accurate words.</li>
-                 <li><strong>Spelling (2 pts):</strong> Correct spelling (1 pt deducted for >3 errors).</li>
+                 <li><strong>Spelling (2 pts):</strong> Correct spelling (1 pt deducted for &gt;3 errors).</li>
              </ul>
          </div>
        </div>
