@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { WRITING_QUESTIONS, WritingTaskType } from "@/lib/writing-data";
+import { calculateSWTScore, calculateEssayScore, SWTScore, EssayScore } from "@/lib/scoring-utils";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -26,6 +27,10 @@ export default function WritingPractice() {
   
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [wordCounts, setWordCounts] = useState<Record<string, number>>({});
+  const [swtScores, setSwtScores] = useState<Record<string, SWTScore>>({});
+  const [essayScores, setEssayScores] = useState<Record<string, EssayScore>>({});
+  const [showResults, setShowResults] = useState<Record<string, boolean>>({});
+
   const [timeLeft, setTimeLeft] = useState(0);
   const [isActive, setIsActive] = useState(false);
 
@@ -79,6 +84,22 @@ export default function WritingPractice() {
     setTimeLeft(currentQuestion.timeLimit);
     setResponses(prev => ({ ...prev, [currentQuestion.id]: "" }));
     setWordCounts(prev => ({ ...prev, [currentQuestion.id]: 0 }));
+    setShowResults(prev => ({ ...prev, [currentQuestion.id]: false }));
+    setSwtScores(prev => ({ ...prev, [currentQuestion.id]: undefined as any }));
+    setEssayScores(prev => ({ ...prev, [currentQuestion.id]: undefined as any }));
+  };
+
+  const handleSubmit = () => {
+    setIsActive(false);
+    setShowResults(prev => ({ ...prev, [currentQuestion.id]: true }));
+    
+    if (activeTab === "Summarize Written Text") {
+        const score = calculateSWTScore(currentResponse, currentQuestion.content);
+        setSwtScores(prev => ({ ...prev, [currentQuestion.id]: score }));
+    } else {
+        const score = calculateEssayScore(currentResponse, currentQuestion.title); // Using title as "topic" usually
+        setEssayScores(prev => ({ ...prev, [currentQuestion.id]: score }));
+    }
   };
 
   const handleTextChange = (text: string) => {
@@ -179,20 +200,47 @@ export default function WritingPractice() {
             <CardContent className="p-6 space-y-6">
               {/* Task Instructions */}
               {activeTab === "Summarize Written Text" && (
-                <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 flex gap-2">
-                  <AlertCircle className="h-5 w-5 shrink-0" />
-                  <div>
-                    <strong>Task:</strong> Read the passage below and summarize it using one sentence. Type your response in the box at the bottom of the screen. You have 10 minutes to finish this task. Your response will be judged on the quality of your writing and on how well your response presents the key points in the passage.
-                  </div>
+                <div className="space-y-4">
+                    <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 flex gap-2">
+                      <AlertCircle className="h-5 w-5 shrink-0" />
+                      <div>
+                        <strong>Task:</strong> Read the passage below and summarize it using one sentence. Type your response in the box at the bottom of the screen. You have 10 minutes to finish this task. Your response will be judged on the quality of your writing and on how well your response presents the key points in the passage.
+                      </div>
+                    </div>
+                    
+                    <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm">
+                         <p className="font-bold text-yellow-800 mb-2">Scoring Criteria:</p>
+                         <ul className="list-disc pl-5 space-y-1 text-yellow-900">
+                             <li><strong>Form (1 pt):</strong> Must be one single complete sentence (5-75 words). Capital letter to start, punctuation to end.</li>
+                             <li><strong>Content (2 pts):</strong> Provides a good summary of all relevant aspects.</li>
+                             <li><strong>Grammar (2 pts):</strong> Correct grammatical structure.</li>
+                             <li><strong>Vocabulary (2 pts):</strong> Appropriate choice of words.</li>
+                         </ul>
+                    </div>
                 </div>
               )}
 
               {activeTab === "Write Essay" && (
-                <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 flex gap-2">
-                   <AlertCircle className="h-5 w-5 shrink-0" />
-                   <div>
-                     <strong>Task:</strong> You will have 20 minutes to plan, write and revise an essay about the topic below. Your response will be judged on how well you develop a position, organize your ideas, present supporting details, and control the elements of standard written English. You should write 200-300 words.
-                   </div>
+                <div className="space-y-4">
+                    <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg text-sm text-blue-800 flex gap-2">
+                       <AlertCircle className="h-5 w-5 shrink-0" />
+                       <div>
+                         <strong>Task:</strong> You will have 20 minutes to plan, write and revise an essay about the topic below. Your response will be judged on how well you develop a position, organize your ideas, present supporting details, and control the elements of standard written English. You should write 200-300 words.
+                       </div>
+                    </div>
+                    
+                    <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm">
+                         <p className="font-bold text-yellow-800 mb-2">Scoring Criteria:</p>
+                         <ul className="list-disc pl-5 space-y-1 text-yellow-900 grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                             <li><strong>Content (3 pts):</strong> Deals adequately with the prompt.</li>
+                             <li><strong>Form (2 pts):</strong> Length 200-300 words.</li>
+                             <li><strong>Structure (2 pts):</strong> Good development and logical structure.</li>
+                             <li><strong>Grammar (2 pts):</strong> Consistent grammatical control.</li>
+                             <li><strong>Vocabulary (2 pts):</strong> Good range and precision.</li>
+                             <li><strong>Spelling (2 pts):</strong> Correct spelling.</li>
+                             <li><strong>Linguistic Range (2 pts):</strong> Effective communication of complex ideas.</li>
+                         </ul>
+                    </div>
                 </div>
               )}
 
@@ -208,7 +256,8 @@ export default function WritingPractice() {
                   className="min-h-[200px] font-serif text-lg leading-relaxed p-6 resize-y"
                   value={currentResponse}
                   onChange={(e) => handleTextChange(e.target.value)}
-                  disabled={!isActive && timeLeft > 0 && timeLeft !== currentQuestion.timeLimit} // Disabled only if time ended? No, usually editable unless submitted. Let's keep enabled but maybe visually dimmed if time up.
+                  // Enable textarea if result is not shown (allow editing before submitting)
+                  disabled={showResults[currentQuestion.id]} 
                 />
                 <div className="flex justify-between items-center text-sm text-muted-foreground">
                   <div className="flex gap-4">
@@ -234,23 +283,126 @@ export default function WritingPractice() {
                   )}
                 </div>
               </div>
+              
+              {/* Score Display */}
+              {showResults[currentQuestion.id] && (
+                <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
+                    {/* SWT Score */}
+                    {activeTab === "Summarize Written Text" && swtScores[currentQuestion.id] && (
+                        <div className="bg-green-50 p-6 rounded-lg border border-green-100 shadow-sm">
+                             <p className="text-sm font-semibold text-green-800 mb-4 uppercase tracking-wide">Score Analysis</p>
+                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                                <div className="bg-white p-3 rounded border border-green-100 text-center">
+                                    <span className="block text-xs text-slate-500 uppercase font-bold">Content</span>
+                                    <span className="font-bold text-green-700 text-xl">{swtScores[currentQuestion.id].content}/2</span>
+                                </div>
+                                <div className="bg-white p-3 rounded border border-green-100 text-center">
+                                    <span className="block text-xs text-slate-500 uppercase font-bold">Form</span>
+                                    <span className={`font-bold text-xl ${swtScores[currentQuestion.id].form === 0 ? "text-red-600" : "text-green-700"}`}>{swtScores[currentQuestion.id].form}/1</span>
+                                </div>
+                                <div className="bg-white p-3 rounded border border-green-100 text-center">
+                                    <span className="block text-xs text-slate-500 uppercase font-bold">Grammar</span>
+                                    <span className="font-bold text-green-700 text-xl">{swtScores[currentQuestion.id].grammar}/2</span>
+                                </div>
+                                <div className="bg-white p-3 rounded border border-green-100 text-center">
+                                    <span className="block text-xs text-slate-500 uppercase font-bold">Vocab</span>
+                                    <span className="font-bold text-green-700 text-xl">{swtScores[currentQuestion.id].vocabulary}/2</span>
+                                </div>
+                             </div>
+                             
+                             <div className="bg-white p-4 rounded border border-green-100 mb-4">
+                                  <p className="text-sm font-bold text-slate-700 mb-2">Detailed Feedback:</p>
+                                  <pre className="text-sm text-slate-600 whitespace-pre-wrap font-sans leading-relaxed">{swtScores[currentQuestion.id].feedback}</pre>
+                             </div>
+
+                             <div className="flex justify-between items-center pt-2 border-t border-green-200">
+                                <span className="font-bold text-green-900 text-lg">Overall Score:</span>
+                                <span className="text-3xl font-bold text-green-700">{swtScores[currentQuestion.id].overall}/7</span>
+                             </div>
+                        </div>
+                    )}
+
+                    {/* Essay Score */}
+                    {activeTab === "Write Essay" && essayScores[currentQuestion.id] && (
+                        <div className="bg-green-50 p-6 rounded-lg border border-green-100 shadow-sm">
+                             <p className="text-sm font-semibold text-green-800 mb-4 uppercase tracking-wide">Score Analysis</p>
+                             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2 mb-4">
+                                <div className="bg-white p-2 rounded border border-green-100 text-center">
+                                    <span className="block text-[10px] text-slate-500 uppercase font-bold">Content</span>
+                                    <span className="font-bold text-green-700">{essayScores[currentQuestion.id].content}/3</span>
+                                </div>
+                                <div className="bg-white p-2 rounded border border-green-100 text-center">
+                                    <span className="block text-[10px] text-slate-500 uppercase font-bold">Form</span>
+                                    <span className={`font-bold ${essayScores[currentQuestion.id].form === 0 ? "text-red-600" : "text-green-700"}`}>{essayScores[currentQuestion.id].form}/2</span>
+                                </div>
+                                <div className="bg-white p-2 rounded border border-green-100 text-center">
+                                    <span className="block text-[10px] text-slate-500 uppercase font-bold">Structure</span>
+                                    <span className="font-bold text-green-700">{essayScores[currentQuestion.id].structure}/2</span>
+                                </div>
+                                <div className="bg-white p-2 rounded border border-green-100 text-center">
+                                    <span className="block text-[10px] text-slate-500 uppercase font-bold">Grammar</span>
+                                    <span className="font-bold text-green-700">{essayScores[currentQuestion.id].grammar}/2</span>
+                                </div>
+                                <div className="bg-white p-2 rounded border border-green-100 text-center">
+                                    <span className="block text-[10px] text-slate-500 uppercase font-bold">Vocab</span>
+                                    <span className="font-bold text-green-700">{essayScores[currentQuestion.id].vocabulary}/2</span>
+                                </div>
+                                <div className="bg-white p-2 rounded border border-green-100 text-center">
+                                    <span className="block text-[10px] text-slate-500 uppercase font-bold">Spelling</span>
+                                    <span className="font-bold text-green-700">{essayScores[currentQuestion.id].spelling}/2</span>
+                                </div>
+                                <div className="bg-white p-2 rounded border border-green-100 text-center">
+                                    <span className="block text-[10px] text-slate-500 uppercase font-bold">Linguistic</span>
+                                    <span className="font-bold text-green-700">{essayScores[currentQuestion.id].linguistic}/2</span>
+                                </div>
+                             </div>
+                             
+                             <div className="bg-white p-4 rounded border border-green-100 mb-4">
+                                  <p className="text-sm font-bold text-slate-700 mb-2">Detailed Feedback:</p>
+                                  <pre className="text-sm text-slate-600 whitespace-pre-wrap font-sans leading-relaxed">{essayScores[currentQuestion.id].feedback}</pre>
+                             </div>
+
+                             <div className="flex justify-between items-center pt-2 border-t border-green-200">
+                                <span className="font-bold text-green-900 text-lg">Overall Score:</span>
+                                <span className="text-3xl font-bold text-green-700">{essayScores[currentQuestion.id].overall}/15</span>
+                             </div>
+                        </div>
+                    )}
+                </div>
+              )}
 
             </CardContent>
             
             <CardFooter className="border-t p-6 bg-muted/5 flex justify-between items-center">
-               <Button variant="ghost" onClick={handleReset}>
-                  <RotateCcw className="mr-2 h-4 w-4" /> Reset
-               </Button>
+               <div className="flex gap-2">
+                   <Button variant="ghost" onClick={handleReset}>
+                      <RotateCcw className="mr-2 h-4 w-4" /> Reset
+                   </Button>
+               </div>
 
-               {!isActive ? (
-                 <Button size="lg" onClick={handleStart} className="w-40 font-bold">
-                   Start Timer
-                 </Button>
-               ) : (
-                 <Button size="lg" variant="destructive" onClick={() => setIsActive(false)} className="w-40 font-bold">
-                   Stop Timer
-                 </Button>
-               )}
+               <div className="flex gap-2">
+                   {!isActive && timeLeft === currentQuestion.timeLimit && (
+                     <Button size="lg" onClick={handleStart} className="w-40 font-bold" disabled={showResults[currentQuestion.id]}>
+                       Start Timer
+                     </Button>
+                   )}
+                   
+                   {isActive && (
+                     <Button size="lg" variant="destructive" onClick={() => setIsActive(false)} className="w-40 font-bold">
+                       Stop Timer
+                     </Button>
+                   )}
+
+                   {/* Submit Button - visible if timer stopped or running (user can finish early) */}
+                   <Button 
+                      size="lg" 
+                      onClick={handleSubmit} 
+                      className="w-40 font-bold bg-green-600 hover:bg-green-700 text-white"
+                      disabled={showResults[currentQuestion.id] || currentResponse.length < 5}
+                   >
+                     Submit & Score
+                   </Button>
+               </div>
             </CardFooter>
           </Card>
         </div>

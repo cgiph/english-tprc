@@ -117,6 +117,220 @@ export const calculateSSTScore = (
     };
 };
 
+export interface SWTScore {
+    overall: number;
+    content: number;
+    form: number;
+    grammar: number;
+    vocabulary: number;
+    feedback: string;
+}
+
+export interface EssayScore {
+    overall: number;
+    content: number;
+    form: number;
+    structure: number;
+    grammar: number;
+    vocabulary: number;
+    spelling: number;
+    linguistic: number;
+    feedback: string;
+}
+
+export const calculateSWTScore = (
+    response: string,
+    sourceText: string
+): SWTScore => {
+    let content = 2;
+    let form = 1;
+    let grammar = 2;
+    let vocabulary = 2;
+    let feedbackParts: string[] = [];
+
+    // 1. Form: One single complete sentence, 5-75 words
+    const words = response.trim().split(/\s+/).filter(w => w.length > 0);
+    const wordCount = words.length;
+    
+    // Check sentence count (approximate by punctuation)
+    // PTE defines a sentence as ending with full stop, question mark or exclamation mark.
+    // It must start with capital letter.
+    const sentences = response.match(/[.!?]+/g);
+    const sentenceCount = sentences ? sentences.length : 0;
+    
+    // Check if written in all caps
+    const isAllCaps = response.length > 10 && response === response.toUpperCase();
+
+    if (wordCount < 5 || wordCount > 75) {
+        form = 0;
+        feedbackParts.push(`Form: 0/1 (Word count ${wordCount} is outside 5-75 range).`);
+    } else if (sentenceCount > 1) {
+        form = 0;
+        feedbackParts.push(`Form: 0/1 (Written in ${sentenceCount} sentences. Must be exactly 1).`);
+    } else if (isAllCaps) {
+        form = 0;
+        feedbackParts.push(`Form: 0/1 (Written in capital letters).`);
+    } else {
+        feedbackParts.push(`Form: 1/1 (One sentence, correct length).`);
+    }
+
+    // If form is 0, usually other scores suffer, but strict 0 is only for word count extremes sometimes.
+    // PTE rule: If form is 0, usually 0 for content too? 
+    // Image says: "0 Not written in one single...". 
+    // Let's keep other scores independent but maybe cap them?
+    
+    // 2. Content
+    // Keyword matching
+    const scriptWords = sourceText.toLowerCase().match(/\b\w+\b/g) || [];
+    const stopWords = ["the", "and", "is", "in", "to", "of", "a", "it", "that", "on", "for", "with", "as", "are", "this", "be", "was", "at", "by", "an", "text", "passage"];
+    const keywords = Array.from(new Set(scriptWords.filter(w => w.length > 4 && !stopWords.includes(w))));
+    
+    const userWords: string[] = response.toLowerCase().match(/\b\w+\b/g) || [];
+    const matchedKeywords = keywords.filter(k => userWords.includes(k));
+    const matchPercentage = matchedKeywords.length / Math.max(keywords.length, 1);
+
+    if (matchPercentage > 0.3) content = 2;
+    else if (matchPercentage > 0.1) content = 1;
+    else content = 0;
+    
+    feedbackParts.push(`Content: ${content}/2 (${matchedKeywords.length} keywords matched).`);
+
+    // 3. Grammar
+    // Check for capitalization
+    if (!/^[A-Z]/.test(response.trim())) {
+        grammar = Math.max(0, grammar - 1);
+        feedbackParts.push(`Grammar: Missing capital letter at start.`);
+    }
+    // Check for ending punctuation
+    if (!/[.!?]$/.test(response.trim())) {
+        grammar = Math.max(0, grammar - 1);
+        feedbackParts.push(`Grammar: Missing punctuation at end.`);
+    }
+    
+    feedbackParts.push(`Grammar: ${grammar}/2.`);
+
+    // 4. Vocabulary (Avg word length)
+    const avgWordLen = words.reduce((sum, w) => sum + w.length, 0) / wordCount;
+    if (avgWordLen < 4) {
+        vocabulary = 1;
+        feedbackParts.push(`Vocabulary: 1/2 (Words are quite simple).`);
+    } else {
+        feedbackParts.push(`Vocabulary: 2/2 (Good vocabulary usage).`);
+    }
+
+    return {
+        overall: content + form + grammar + vocabulary,
+        content,
+        form,
+        grammar,
+        vocabulary,
+        feedback: feedbackParts.join("\n")
+    };
+};
+
+export const calculateEssayScore = (
+    response: string,
+    topic: string
+): EssayScore => {
+    let content = 3;
+    let form = 2;
+    let structure = 2;
+    let grammar = 2;
+    let vocabulary = 2;
+    let spelling = 2;
+    let linguistic = 2;
+    let feedbackParts: string[] = [];
+
+    const words = response.trim().split(/\s+/).filter(w => w.length > 0);
+    const wordCount = words.length;
+
+    // 1. Form (Word Count)
+    // 2 pts: 200-300
+    // 1 pt: 120-199 OR 301-380
+    // 0 pts: <120 OR >380
+    if (wordCount >= 200 && wordCount <= 300) {
+        form = 2;
+        feedbackParts.push(`Form: 2/2 (Length is perfect).`);
+    } else if ((wordCount >= 120 && wordCount < 200) || (wordCount > 300 && wordCount <= 380)) {
+        form = 1;
+        feedbackParts.push(`Form: 1/2 (Length ${wordCount} is acceptable but not optimal).`);
+    } else {
+        form = 0;
+        feedbackParts.push(`Form: 0/2 (Length ${wordCount} is critically off target).`);
+    }
+
+    // 2. Content
+    // Match topic keywords
+    const topicKeywords = topic.toLowerCase().match(/\b\w+\b/g) || [];
+    const importantTopicWords = topicKeywords.filter(w => w.length > 4);
+    const userText = response.toLowerCase();
+    
+    const mentionedTopicWords = importantTopicWords.filter(w => userText.includes(w));
+    
+    if (importantTopicWords.length > 0 && mentionedTopicWords.length === 0) {
+        content = 1;
+        feedbackParts.push(`Content: 1/3 (You barely mentioned the topic keywords).`);
+    } else {
+        feedbackParts.push(`Content: 3/3 (Relevant to topic).`);
+    }
+
+    // 3. Structure
+    // Check paragraphs (newlines)
+    const paragraphs = response.split(/\n\s*\n/).filter(p => p.trim().length > 0);
+    if (paragraphs.length < 3) {
+        structure = 1;
+        feedbackParts.push(`Structure: 1/2 (Essay should ideally have Intro, Body, Conclusion - found only ${paragraphs.length} paragraphs).`);
+    } else {
+        feedbackParts.push(`Structure: 2/2 (Good paragraph structure).`);
+    }
+
+    // 4. Grammar & Spelling & Vocab (Heuristics)
+    // Just some randomization mixed with heuristics for "mock" feel
+    // Typos
+    const commonTypos = ["teh", "recieve", "seperate", "occured", "until", "definately", "its", "their"];
+    const typosFound = words.filter(w => commonTypos.includes(w.toLowerCase()) && (w.length > 3 || w === 'teh')).length;
+    if (typosFound > 2) {
+        spelling = 0;
+        feedbackParts.push(`Spelling: 0/2 (Several spelling errors detected).`);
+    } else if (typosFound > 0) {
+        spelling = 1;
+        feedbackParts.push(`Spelling: 1/2 (Minor spelling errors).`);
+    } else {
+         feedbackParts.push(`Spelling: 2/2 (No obvious errors).`);
+    }
+
+    // Avg word len for vocab
+    const avgWordLen = words.reduce((sum, w) => sum + w.length, 0) / wordCount;
+    if (avgWordLen < 4.5) {
+        vocabulary = 1;
+        linguistic = 1;
+        feedbackParts.push(`Vocabulary: 1/2 (Try using more complex words).`);
+    } else {
+        feedbackParts.push(`Vocabulary: 2/2 (Good vocabulary range).`);
+    }
+
+    // Grammar check (capitalization)
+    const badStarts = paragraphs.filter(p => !/^[A-Z]/.test(p.trim())).length;
+    if (badStarts > 0) {
+        grammar = 1;
+        feedbackParts.push(`Grammar: 1/2 (Ensure all paragraphs start with capital letters).`);
+    } else {
+        feedbackParts.push(`Grammar: 2/2 (Good grammatical control).`);
+    }
+
+    return {
+        overall: content + form + structure + grammar + vocabulary + spelling + linguistic,
+        content,
+        form,
+        structure,
+        grammar,
+        vocabulary,
+        spelling,
+        linguistic,
+        feedback: feedbackParts.join("\n")
+    };
+};
+
 export const calculateSpeakingScore = (
   taskType: SpeakingTaskType, 
   durationSeconds: number, 
