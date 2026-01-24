@@ -17,13 +17,16 @@ export default function SpeakingGuide() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-blue-600" /> Test Format
-            </CardTitle>
-            {/* Standard PTE Speaking duration */}
-            <CardDescription>Total Speaking Duration: ~27–35 minutes</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <ul className="space-y-3">
+              <Clock className="h-5 w-5 text-blue-600" />
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Clock className="h-5 w-5" /> Test Format
+          </CardTitle>
+          {/* Standard PTE Speaking duration */}
+          <CardDescription>Total Speaking Duration: ~27–35 minutes</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <ul className="space-y-3">
             <li className="flex gap-3">
               <span className="font-bold min-w-[140px]">Read Aloud:</span>
               <span className="text-muted-foreground">Read a short text aloud with correct pronunciation and intonation.</span>
@@ -55,7 +58,6 @@ export default function SpeakingGuide() {
             </li>
           </ul>
         </CardContent>
-        </Card>
 
         <Card>
           <CardHeader>
