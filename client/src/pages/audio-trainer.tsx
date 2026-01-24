@@ -4,8 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { PlayCircle, PauseCircle, RotateCcw, Eye, EyeOff, Keyboard, Ear, ArrowLeft } from "lucide-react";
+import { PlayCircle, PauseCircle, RotateCcw, Eye, EyeOff, Keyboard, Ear, ArrowLeft, Mic } from "lucide-react";
 import { Link } from "wouter";
+
+import ShadowingRecorder from "@/components/audio/shadowing-recorder";
 
 type AudioTask = {
   id: string;
@@ -178,14 +180,53 @@ export default function AudioTrainer() {
 
       <main className="container mx-auto px-4 py-8 flex-1 max-w-4xl">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="repeat-sentence" className="gap-2">
               <Ear className="h-4 w-4" /> Repeat Sentence
             </TabsTrigger>
             <TabsTrigger value="write-dictation" className="gap-2">
               <Keyboard className="h-4 w-4" /> Write From Dictation
             </TabsTrigger>
+            <TabsTrigger value="shadowing" className="gap-2">
+              <Mic className="h-4 w-4" /> Shadowing Tool
+            </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="shadowing" className="space-y-6">
+             <div className="bg-purple-50 border border-purple-100 p-6 rounded-xl mb-6">
+              <h3 className="font-bold text-purple-800 mb-2">Shadowing Practice</h3>
+              <p className="text-purple-700 text-sm">
+                Master native rhythm and intonation. Listen to the model audio, then record yourself immediately. 
+                Use the <strong>Sync Play</strong> feature to play both tracks simultaneously and spot rhythm mismatch.
+              </p>
+            </div>
+            
+            <div className="grid gap-6">
+                 {/* Only showing items with audio files for shadowing as we need the waveform */}
+                 {REPEAT_SENTENCE_ITEMS.filter(item => item.audioFile).map((item) => (
+                    <Card key={item.id} className="overflow-hidden">
+                        <CardHeader className="bg-muted/5 pb-4">
+                            <CardTitle className="text-base flex items-center justify-between">
+                                {item.title}
+                                <Badge variant="outline">{item.focus}</Badge>
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="pt-6">
+                            <ShadowingRecorder 
+                                audioUrl={item.audioFile} 
+                                transcript={item.transcript} 
+                            />
+                        </CardContent>
+                    </Card>
+                 ))}
+                 
+                 {REPEAT_SENTENCE_ITEMS.filter(item => item.audioFile).length === 0 && (
+                     <div className="text-center py-12 text-muted-foreground">
+                         No audio files available for shadowing practice yet.
+                     </div>
+                 )}
+            </div>
+          </TabsContent>
 
           <TabsContent value="repeat-sentence" className="space-y-6">
             <div className="bg-blue-50 border border-blue-100 p-6 rounded-xl mb-6">
