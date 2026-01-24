@@ -37,6 +37,9 @@ import audioRTS2 from "@assets/RTS_2_1765272963030.mp3";
 import audioRTS3 from "@assets/RTS_3_1765272963031.mp3";
 import audioRTSSample1 from "@assets/RTS_Sample_Answer_2_1765273838678.mp3";
 
+import ShadowingRecorder from "@/components/audio/shadowing-recorder";
+import SpeakNowTimer from "@/components/speaking/speak-now-timer";
+
 type ChartData = {
   id: string;
   title: string;
@@ -3657,6 +3660,12 @@ export default function ResourceViewer() {
                             <h3 className="font-serif font-bold text-xl text-primary text-center">{item.title}</h3>
                           </div>
                           <CardContent className="p-6 space-y-6">
+                            {/* Insert 3-Second Rule Trainer for the first Read Aloud item as a feature highlight */}
+                            {item.id === "ra-3" && (
+                               <div className="mb-8">
+                                 <SpeakNowTimer />
+                               </div>
+                            )}
                             <Teleprompter text={item.answer} />
                             <VoiceRecorder />
                           </CardContent>
