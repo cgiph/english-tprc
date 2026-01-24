@@ -3605,6 +3605,12 @@ export default function ResourceViewer() {
           {PTE_SECTIONS.map((category) => (
             <TabsContent key={category} value={category} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               
+              {category === "Read Aloud" && (
+                <div className="mb-8">
+                  <SpeakNowTimer />
+                </div>
+              )}
+
               {category === "Describe Image" ? (
                 <Tabs defaultValue="Bar Charts" className="w-full">
                    <TabsList className="w-full justify-start overflow-x-auto bg-transparent border-b rounded-none h-auto p-0 mb-6">
@@ -3660,12 +3666,6 @@ export default function ResourceViewer() {
                             <h3 className="font-serif font-bold text-xl text-primary text-center">{item.title}</h3>
                           </div>
                           <CardContent className="p-6 space-y-6">
-                            {/* Insert 3-Second Rule Trainer for the first Read Aloud item as a feature highlight */}
-                            {item.id === "ra-3" && (
-                               <div className="mb-8">
-                                 <SpeakNowTimer />
-                               </div>
-                            )}
                             <Teleprompter text={item.answer} />
                             <VoiceRecorder />
                           </CardContent>
