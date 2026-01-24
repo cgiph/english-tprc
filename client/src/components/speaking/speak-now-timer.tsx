@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Mic, Timer, AlertTriangle, RefreshCw, Trophy, Volume2 } from "lucide-react";
+import { Mic, Timer, AlertTriangle, RefreshCw, Trophy, Volume2, Square } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 const PROMPTS = [
@@ -21,7 +21,7 @@ const PROMPTS = [
 ];
 
 export default function SpeakNowTimer() {
-  const [status, setStatus] = useState<"idle" | "countdown" | "success" | "fail">("idle");
+  const [status, setStatus] = useState<"idle" | "countdown" | "recording" | "success" | "fail">("idle");
   const [timeLeft, setTimeLeft] = useState(3.0);
   const [prompt, setPrompt] = useState("");
   const [reactionTime, setReactionTime] = useState(0);
@@ -31,6 +31,10 @@ export default function SpeakNowTimer() {
   const analyserRef = useRef<AnalyserNode | null>(null);
   const requestRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
+  const recordingStartTimeRef = useRef<number>(0);
+  
+  // State required for the monitoring loop to know the current status without stale closures
+  const statusRef = useRef<"idle" | "countdown" | "recording" | "success" | "fail">("idle");
 
   const startChallenge = async () => {
     try {
@@ -55,7 +59,10 @@ export default function SpeakNowTimer() {
 
       // 3. Set Prompt & State
       setPrompt(PROMPTS[Math.floor(Math.random() * PROMPTS.length)]);
+      
       setStatus("countdown");
+      statusRef.current = "countdown";
+      
       setTimeLeft(3.0);
       setVolume(0);
       startTimeRef.current = Date.now();
@@ -85,26 +92,48 @@ export default function SpeakNowTimer() {
     setVolume(average); // For visual feedback
 
     // Threshold for "speaking" (adjustable)
-    const threshold = 20; 
+    const threshold = 15; 
+    const now = Date.now();
 
-    const elapsed = (Date.now() - startTimeRef.current) / 1000;
-    const remaining = Math.max(0, 3.0 - elapsed);
-    
-    setTimeLeft(remaining);
+    if (statusRef.current === "countdown") {
+      const elapsed = (now - startTimeRef.current) / 1000;
+      const remaining = Math.max(0, 3.0 - elapsed);
+      setTimeLeft(remaining);
 
-    if (average > threshold && elapsed > 0.1) { // 0.1s buffer to avoid initial click noise
-      // SUCCESS: Sound detected!
-      setStatus("success");
-      setReactionTime(elapsed);
-      stopMonitoring();
-    } else if (remaining <= 0) {
-      // FAILURE: Time up!
-      setStatus("fail");
-      stopMonitoring();
-    } else {
-      // Continue
-      requestRef.current = requestAnimationFrame(monitorAudio);
+      if (average > threshold && elapsed > 0.1) { 
+        // SUCCESS: Sound detected! Switch to RECORDING phase
+        setStatus("recording");
+        statusRef.current = "recording";
+        
+        setReactionTime(elapsed);
+        recordingStartTimeRef.current = now;
+        setTimeLeft(10.0); // Set 10s recording time
+      } else if (remaining <= 0) {
+        // FAILURE: Time up!
+        setStatus("fail");
+        statusRef.current = "fail";
+        stopMonitoring();
+      }
+    } else if (statusRef.current === "recording") {
+      const elapsedRecording = (now - recordingStartTimeRef.current) / 1000;
+      const remainingRecording = Math.max(0, 10.0 - elapsedRecording);
+      setTimeLeft(remainingRecording);
+
+      if (remainingRecording <= 0) {
+        // Recording finished successfully
+        finishRecording();
+      }
     }
+
+    if (statusRef.current !== "idle" && statusRef.current !== "success" && statusRef.current !== "fail") {
+       requestRef.current = requestAnimationFrame(monitorAudio);
+    }
+  };
+
+  const finishRecording = () => {
+    setStatus("success");
+    statusRef.current = "success";
+    stopMonitoring();
   };
 
   const stopMonitoring = () => {
@@ -122,6 +151,7 @@ export default function SpeakNowTimer() {
     <Card className={`border-2 transition-all duration-300 ${
       status === "fail" ? "border-red-500 bg-red-50" : 
       status === "success" ? "border-green-500 bg-green-50" : 
+      status === "recording" ? "border-blue-500 bg-blue-50" :
       "border-primary/20 hover:border-primary/40"
     }`}>
       <CardHeader>
@@ -130,17 +160,17 @@ export default function SpeakNowTimer() {
             <CardTitle className="flex items-center gap-2">
               <Timer className="h-5 w-5 text-primary" />
               Speak-Now Timer
-              <Badge variant={status === "countdown" ? "destructive" : "secondary"} className="ml-2 animate-in fade-in">
-                {status === "countdown" ? "MIC LIVE" : "3-Second Rule"}
+              <Badge variant={status === "countdown" ? "destructive" : status === "recording" ? "default" : "secondary"} className="ml-2 animate-in fade-in">
+                {status === "countdown" ? "MIC LIVE" : status === "recording" ? "RECORDING" : "3-Second Rule"}
               </Badge>
             </CardTitle>
             <CardDescription>
               Train your reflex! Start speaking within 3 seconds or the mic closes.
             </CardDescription>
           </div>
-          {status !== "idle" && (
+          {status !== "idle" && status !== "success" && status !== "fail" && (
             <div className="text-2xl font-bold font-mono w-20 text-right">
-              {timeLeft.toFixed(2)}s
+              {timeLeft.toFixed(1)}s
             </div>
           )}
         </div>
@@ -148,7 +178,7 @@ export default function SpeakNowTimer() {
       <CardContent className="space-y-6">
         
         {/* Main Display Area */}
-        <div className="min-h-[160px] flex flex-col items-center justify-center p-6 rounded-xl bg-white border shadow-inner text-center relative overflow-hidden">
+        <div className="min-h-[200px] flex flex-col items-center justify-center p-6 rounded-xl bg-white border shadow-inner text-center relative overflow-hidden">
           
           {status === "idle" && (
             <div className="space-y-4">
@@ -163,15 +193,31 @@ export default function SpeakNowTimer() {
             </div>
           )}
 
-          {status === "countdown" && (
+          {(status === "countdown" || status === "recording") && (
             <div className="space-y-4 relative z-10 w-full">
-              <p className="text-sm uppercase tracking-widest text-muted-foreground font-bold animate-pulse">Speak Now!</p>
-              <h3 className="text-2xl font-bold text-foreground leading-tight px-4">
+              {status === "countdown" ? (
+                 <p className="text-sm uppercase tracking-widest text-red-500 font-bold animate-pulse">Speak Now!</p>
+              ) : (
+                 <p className="text-sm uppercase tracking-widest text-blue-500 font-bold flex items-center justify-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span>
+                    Keep Speaking...
+                 </p>
+              )}
+              
+              <h3 className="text-2xl font-bold text-foreground leading-tight px-4 transition-all duration-300">
                 "{prompt}"
               </h3>
-              <div className="w-full max-w-xs mx-auto">
-                 <Progress value={(volume / 100) * 100} className="h-2" />
+              
+              <div className="w-full max-w-xs mx-auto space-y-1">
+                 <div className="flex justify-between text-xs text-muted-foreground">
+                    <span>Volume Level</span>
+                 </div>
+                 <Progress value={(volume / 100) * 100} className={`h-2 ${status === "recording" ? "bg-blue-100" : "bg-red-100"}`} />
               </div>
+
+              {status === "recording" && (
+                 <p className="text-xs text-muted-foreground">Good start! Keep going for {timeLeft.toFixed(0)}s...</p>
+              )}
             </div>
           )}
 
@@ -183,6 +229,7 @@ export default function SpeakNowTimer() {
                <div>
                  <h3 className="text-xl font-bold text-green-700">Excellent!</h3>
                  <p className="text-green-600">You started speaking in <span className="font-bold text-2xl">{reactionTime.toFixed(2)}s</span></p>
+                 <p className="text-sm text-muted-foreground mt-2">Reflex test passed.</p>
                </div>
              </div>
           )}
@@ -207,6 +254,14 @@ export default function SpeakNowTimer() {
               style={{ width: `${(timeLeft / 3) * 100}%` }}
             />
           )}
+          
+          {/* Background Progress Bar for Recording */}
+          {status === "recording" && (
+            <div 
+              className="absolute bottom-0 left-0 h-1 bg-blue-500 transition-all duration-100 ease-linear"
+              style={{ width: `${(timeLeft / 10) * 100}%` }}
+            />
+          )}
         </div>
 
         {/* Controls */}
@@ -218,15 +273,19 @@ export default function SpeakNowTimer() {
           ) : (
              <Button 
                size="lg" 
-               variant={status === "countdown" ? "ghost" : "default"} 
-               onClick={status === "countdown" ? undefined : startChallenge}
+               variant={status === "recording" ? "destructive" : status === "countdown" ? "ghost" : "default"} 
+               onClick={status === "recording" ? finishRecording : status === "countdown" ? undefined : startChallenge}
                disabled={status === "countdown"}
                className="w-full sm:w-auto min-w-[200px] gap-2"
              >
                {status === "countdown" ? (
                  <span className="flex items-center gap-2 text-red-500 font-bold animate-pulse">
-                   <div className="h-3 w-3 bg-red-500 rounded-full" /> Recording...
+                   <div className="h-3 w-3 bg-red-500 rounded-full" /> Waiting for sound...
                  </span>
+               ) : status === "recording" ? (
+                 <>
+                   <Square className="h-5 w-5 fill-current" /> Stop Recording
+                 </>
                ) : (
                  <>
                    <RefreshCw className="h-5 w-5" /> Try Another
