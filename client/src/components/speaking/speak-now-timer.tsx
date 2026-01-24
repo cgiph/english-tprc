@@ -21,7 +21,7 @@ const PROMPTS = [
 ];
 
 export default function SpeakNowTimer() {
-  const [status, setStatus] = useState<"idle" | "countdown" | "recording" | "success" | "fail">("idle");
+  const [status, setStatus] = useState<"idle" | "countdown" | "recording" | "success" | "fail" | "mid-silence-fail">("idle");
   const [timeLeft, setTimeLeft] = useState(3.0);
   const [prompt, setPrompt] = useState("");
   const [reactionTime, setReactionTime] = useState(0);
@@ -32,9 +32,10 @@ export default function SpeakNowTimer() {
   const requestRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
   const recordingStartTimeRef = useRef<number>(0);
+  const silenceStartRef = useRef<number>(0);
   
   // State required for the monitoring loop to know the current status without stale closures
-  const statusRef = useRef<"idle" | "countdown" | "recording" | "success" | "fail">("idle");
+  const statusRef = useRef<"idle" | "countdown" | "recording" | "success" | "fail" | "mid-silence-fail">("idle");
 
   const startChallenge = async () => {
     try {
@@ -66,6 +67,7 @@ export default function SpeakNowTimer() {
       setTimeLeft(3.0);
       setVolume(0);
       startTimeRef.current = Date.now();
+      silenceStartRef.current = 0; // Reset silence tracker
       
       // 4. Start Monitoring Loop
       monitorAudio();
@@ -107,6 +109,7 @@ export default function SpeakNowTimer() {
         
         setReactionTime(elapsed);
         recordingStartTimeRef.current = now;
+        silenceStartRef.current = 0; // Initialize silence tracker for recording phase
         setTimeLeft(10.0); // Set 10s recording time
       } else if (remaining <= 0) {
         // FAILURE: Time up!
@@ -119,13 +122,30 @@ export default function SpeakNowTimer() {
       const remainingRecording = Math.max(0, 10.0 - elapsedRecording);
       setTimeLeft(remainingRecording);
 
+      // Mid-speech silence detection
+      if (average < threshold) {
+        if (silenceStartRef.current === 0) {
+            silenceStartRef.current = now;
+        } else {
+            const silenceDuration = now - silenceStartRef.current;
+            if (silenceDuration > 3000) { // 3 seconds silence
+                setStatus("mid-silence-fail");
+                statusRef.current = "mid-silence-fail";
+                stopMonitoring();
+                return;
+            }
+        }
+      } else {
+        silenceStartRef.current = 0; // Reset silence if sound detected
+      }
+
       if (remainingRecording <= 0) {
         // Recording finished successfully
         finishRecording();
       }
     }
 
-    if (statusRef.current !== "idle" && statusRef.current !== "success" && statusRef.current !== "fail") {
+    if (statusRef.current !== "idle" && statusRef.current !== "success" && statusRef.current !== "fail" && statusRef.current !== "mid-silence-fail") {
        requestRef.current = requestAnimationFrame(monitorAudio);
     }
   };
@@ -149,7 +169,7 @@ export default function SpeakNowTimer() {
 
   return (
     <Card className={`border-2 transition-all duration-300 ${
-      status === "fail" ? "border-red-500 bg-red-50" : 
+      status === "fail" || status === "mid-silence-fail" ? "border-red-500 bg-red-50" : 
       status === "success" ? "border-green-500 bg-green-50" : 
       status === "recording" ? "border-blue-500 bg-blue-50" :
       "border-primary/20 hover:border-primary/40"
@@ -168,7 +188,7 @@ export default function SpeakNowTimer() {
               Train your reflex! Start speaking within 3 seconds or the mic closes.
             </CardDescription>
           </div>
-          {status !== "idle" && status !== "success" && status !== "fail" && (
+          {status !== "idle" && status !== "success" && status !== "fail" && status !== "mid-silence-fail" && (
             <div className="text-2xl font-bold font-mono w-20 text-right">
               {timeLeft.toFixed(1)}s
             </div>
@@ -242,7 +262,20 @@ export default function SpeakNowTimer() {
                <div>
                  <h3 className="text-xl font-bold text-red-700">MIC CLOSED</h3>
                  <p className="text-red-600 font-medium">Score: 0</p>
-                 <p className="text-xs text-red-500 mt-1">You waited too long!</p>
+                 <p className="text-xs text-red-500 mt-1">You waited too long to start!</p>
+               </div>
+             </div>
+          )}
+          
+          {status === "mid-silence-fail" && (
+             <div className="space-y-3 animate-in shake duration-300">
+               <div className="mx-auto w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center">
+                 <AlertTriangle className="h-8 w-8 text-orange-600" />
+               </div>
+               <div>
+                 <h3 className="text-xl font-bold text-orange-700">SILENCE DETECTED</h3>
+                 <p className="text-orange-600 font-medium">Score: 0</p>
+                 <p className="text-xs text-orange-500 mt-1">Mic closed due to &gt;3s silence mid-speech.</p>
                </div>
              </div>
           )}
