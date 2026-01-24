@@ -22,6 +22,7 @@ import AuthPage from "@/pages/auth";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsOfService from "@/pages/terms-of-service";
 import FAQ from "@/pages/faq";
+import ExamPolicies from "@/pages/exam-policies";
 import Profile from "@/pages/profile";
 
 import SpeakingGuide from "@/pages/speaking-guide";
@@ -50,6 +51,7 @@ function Router() {
           {/* Legal */}
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/terms-of-service" component={TermsOfService} />
+          <Route path="/exam-policies" component={ExamPolicies} />
           <Route path="/faq" component={FAQ} />
           <Route path="/profile" component={Profile} />
 
