@@ -197,7 +197,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
       {/* Main Content */}
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         {children}
       </main>
       {/* Footer */}

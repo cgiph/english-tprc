@@ -31,10 +31,10 @@ export default function Home() {
             <p className="text-xl text-white/90 max-w-lg leading-relaxed font-light">Join thousands of students sharing real exam experiences, strategies, and verified study resources for the PTE Academic.</p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold text-lg h-14 px-8 shadow-xl shadow-secondary/20">
-                <Link href="#/reviews">Read Reviews</Link>
+                <Link href="/reviews">Read Reviews</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 font-medium text-lg h-14 px-8">
-                <Link href="#/resources">Explore Resources</Link>
+                <Link href="/resources">Explore Resources</Link>
               </Button>
             </div>
             <div className="flex items-center gap-4 text-white/80 text-sm pt-4">
@@ -60,28 +60,28 @@ export default function Home() {
               desc: "Read Aloud, Repeat Sentence, Describe Image, and more.",
               icon: Mic,
               color: "bg-blue-50 text-blue-700",
-              href: "#/practice/speaking"
+              href: "/practice/speaking"
             },
             {
               title: "Reading",
               desc: "Fill in the blanks, Multiple Choice, Reorder Paragraphs.",
               icon: BookOpen,
               color: "bg-amber-50 text-amber-700",
-              href: "#/practice/reading"
+              href: "/practice/reading"
             },
             {
               title: "Listening",
               desc: "Summarize Spoken Text, Write from Dictation.",
               icon: Headphones,
               color: "bg-emerald-50 text-emerald-700",
-              href: "#/practice/listening"
+              href: "/practice/listening"
             },
             {
               title: "Writing",
               desc: "Summarize Written Text & Essay Writing (10 Practice Qs).",
               icon: PenTool,
               color: "bg-purple-50 text-purple-700",
-              href: "#/practice/writing"
+              href: "/practice/writing"
             }
           ].map((module, i) => (
             <Link key={i} href={module.href}>
@@ -143,7 +143,7 @@ export default function Home() {
             <p className="text-muted-foreground mt-2">Fresh insights from test-takers this week</p>
           </div>
           <Button asChild variant="ghost" className="group text-primary">
-            <Link href="#/reviews">
+            <Link href="/reviews">
               View all reviews <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </Button>
@@ -217,7 +217,7 @@ export default function Home() {
               </p>
             </div>
             <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 h-12 px-8 font-semibold shadow-lg">
-              <Link href="#/resources">Browse Library</Link>
+              <Link href="/resources">Browse Library</Link>
             </Button>
           </div>
         </div>
