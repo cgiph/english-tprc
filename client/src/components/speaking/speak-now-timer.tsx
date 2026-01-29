@@ -29,6 +29,14 @@ export default function SpeakNowTimer() {
   const [volume, setVolume] = useState(0);
   const [flashFail, setFlashFail] = useState(false);
   const [silenceMs, setSilenceMs] = useState(0);
+  const [attempt, setAttempt] = useState<{
+    startedAt: number;
+    endedAt: number;
+    prompt: string;
+    reactionTimeSec: number | null;
+    silenceWarnings: number;
+    result: "PASS" | "FAIL" | "FAIL (MID-SILENCE)" | null;
+  } | null>(null);
   
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -36,6 +44,8 @@ export default function SpeakNowTimer() {
   const startTimeRef = useRef<number>(0);
   const recordingStartTimeRef = useRef<number>(0);
   const silenceStartRef = useRef<number>(0);
+  const lastWarningBucketRef = useRef<number>(-1);
+  const attemptStartRef = useRef<number>(0);
   
   // State required for the monitoring loop to know the current status without stale closures
   const statusRef = useRef<"idle" | "countdown" | "recording" | "success" | "fail" | "mid-silence-fail">("idle");
@@ -70,8 +80,11 @@ export default function SpeakNowTimer() {
       setTimeLeft(3.0);
       setVolume(0);
       setSilenceMs(0);
-      startTimeRef.current = Date.now();
+      setAttempt(null);
+      attemptStartRef.current = Date.now();
+      startTimeRef.current = attemptStartRef.current;
       silenceStartRef.current = 0; // Reset silence tracker
+      lastWarningBucketRef.current = -1;
       
       // 4. Start Monitoring Loop
       monitorAudio();
@@ -126,6 +139,7 @@ export default function SpeakNowTimer() {
         setReactionTime(elapsed);
         recordingStartTimeRef.current = now;
         silenceStartRef.current = 0; // Initialize silence tracker for recording phase
+        lastWarningBucketRef.current = -1;
         setSilenceMs(0);
         setTimeLeft(10.0); // Set 10s recording time
       } else if (remaining <= 0) {
@@ -133,6 +147,14 @@ export default function SpeakNowTimer() {
         triggerFailUX();
         setStatus("fail");
         statusRef.current = "fail";
+        setAttempt({
+          startedAt: attemptStartRef.current,
+          endedAt: now,
+          prompt,
+          reactionTimeSec: null,
+          silenceWarnings: 0,
+          result: "FAIL",
+        });
         stopMonitoring();
       }
     } else if (statusRef.current === "recording") {
@@ -149,10 +171,24 @@ export default function SpeakNowTimer() {
         const silenceDuration = now - silenceStartRef.current;
         setSilenceMs(silenceDuration);
 
+        // Count \"silence warnings\" as you approach cutoff (every 0.5s after 1.5s)
+        const warningBucket = silenceDuration >= 1500 ? Math.floor((silenceDuration - 1500) / 500) : -1;
+        if (warningBucket > lastWarningBucketRef.current) {
+          lastWarningBucketRef.current = warningBucket;
+        }
+
         if (silenceDuration > 3000) { // 3 seconds silence
           triggerFailUX();
           setStatus("mid-silence-fail");
           statusRef.current = "mid-silence-fail";
+          setAttempt({
+            startedAt: attemptStartRef.current,
+            endedAt: now,
+            prompt,
+            reactionTimeSec: reactionTimeSecSafe(reactionTime),
+            silenceWarnings: Math.max(0, lastWarningBucketRef.current + 1),
+            result: "FAIL (MID-SILENCE)",
+          });
           stopMonitoring();
           return;
         }
@@ -173,9 +209,23 @@ export default function SpeakNowTimer() {
   };
 
   const finishRecording = () => {
+    const now = Date.now();
     setStatus("success");
     statusRef.current = "success";
+    setAttempt({
+      startedAt: attemptStartRef.current,
+      endedAt: now,
+      prompt,
+      reactionTimeSec: reactionTimeSecSafe(reactionTime),
+      silenceWarnings: Math.max(0, lastWarningBucketRef.current + 1),
+      result: "PASS",
+    });
     stopMonitoring();
+  };
+
+  const reactionTimeSecSafe = (rt: number) => {
+    if (!Number.isFinite(rt) || rt <= 0) return null;
+    return rt;
   };
 
   const stopMonitoring = () => {
@@ -304,6 +354,42 @@ export default function SpeakNowTimer() {
                  <p className="text-sm text-muted-foreground mt-2">Reflex test passed.</p>
                </div>
              </div>
+          )}
+
+          {attempt && (status === "success" || status === "fail" || status === "mid-silence-fail") && (
+            <div className="mt-6 w-full max-w-xl mx-auto rounded-xl border bg-muted/20 p-4 text-left" data-testid="card-attempt-summary">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Attempt Summary</p>
+                  <p className="mt-1 text-sm font-semibold text-foreground" data-testid="text-attempt-result">
+                    Result: <span className={attempt.result === "PASS" ? "text-green-700" : "text-red-700"}>{attempt.result}</span>
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs text-muted-foreground">Duration</p>
+                  <p className="font-mono text-sm" data-testid="text-attempt-duration">
+                    {Math.max(0, (attempt.endedAt - attempt.startedAt) / 1000).toFixed(1)}s
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="rounded-lg bg-white border p-3">
+                  <p className="text-xs text-muted-foreground">Reaction time</p>
+                  <p className="font-mono text-sm" data-testid="text-attempt-reaction">
+                    {attempt.reactionTimeSec ? `${attempt.reactionTimeSec.toFixed(2)}s` : "—"}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-white border p-3">
+                  <p className="text-xs text-muted-foreground">Silence warnings</p>
+                  <p className="font-mono text-sm" data-testid="text-attempt-warnings">{attempt.silenceWarnings}</p>
+                </div>
+                <div className="rounded-lg bg-white border p-3">
+                  <p className="text-xs text-muted-foreground">Prompt</p>
+                  <p className="text-sm font-medium leading-snug" data-testid="text-attempt-prompt">{attempt.prompt}</p>
+                </div>
+              </div>
+            </div>
           )}
 
           {status === "fail" && (
