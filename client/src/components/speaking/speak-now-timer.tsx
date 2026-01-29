@@ -28,6 +28,7 @@ export default function SpeakNowTimer() {
   const [reactionTime, setReactionTime] = useState(0);
   const [volume, setVolume] = useState(0);
   const [flashFail, setFlashFail] = useState(false);
+  const [silenceMs, setSilenceMs] = useState(0);
   
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -68,6 +69,7 @@ export default function SpeakNowTimer() {
       
       setTimeLeft(3.0);
       setVolume(0);
+      setSilenceMs(0);
       startTimeRef.current = Date.now();
       silenceStartRef.current = 0; // Reset silence tracker
       
@@ -124,6 +126,7 @@ export default function SpeakNowTimer() {
         setReactionTime(elapsed);
         recordingStartTimeRef.current = now;
         silenceStartRef.current = 0; // Initialize silence tracker for recording phase
+        setSilenceMs(0);
         setTimeLeft(10.0); // Set 10s recording time
       } else if (remaining <= 0) {
         // FAILURE: Time up!
@@ -140,19 +143,22 @@ export default function SpeakNowTimer() {
       // Mid-speech silence detection
       if (average < threshold) {
         if (silenceStartRef.current === 0) {
-            silenceStartRef.current = now;
-        } else {
-            const silenceDuration = now - silenceStartRef.current;
-            if (silenceDuration > 3000) { // 3 seconds silence
-                triggerFailUX();
-                setStatus("mid-silence-fail");
-                statusRef.current = "mid-silence-fail";
-                stopMonitoring();
-                return;
-            }
+          silenceStartRef.current = now;
+        }
+
+        const silenceDuration = now - silenceStartRef.current;
+        setSilenceMs(silenceDuration);
+
+        if (silenceDuration > 3000) { // 3 seconds silence
+          triggerFailUX();
+          setStatus("mid-silence-fail");
+          statusRef.current = "mid-silence-fail";
+          stopMonitoring();
+          return;
         }
       } else {
         silenceStartRef.current = 0; // Reset silence if sound detected
+        setSilenceMs(0);
       }
 
       if (remainingRecording <= 0) {
@@ -259,7 +265,30 @@ export default function SpeakNowTimer() {
               </div>
 
               {status === "recording" && (
-                 <p className="text-xs text-muted-foreground">Good start! Keep going for {timeLeft.toFixed(0)}s...</p>
+                <div className="space-y-2">
+                  <p className="text-xs text-muted-foreground">Good start! Keep going for {timeLeft.toFixed(0)}s...</p>
+
+                  <div className="mx-auto max-w-xs">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-muted-foreground">Silence meter</span>
+                      <span className={`font-mono ${silenceMs >= 2000 ? "text-amber-700" : "text-muted-foreground"}`}>
+                        {(silenceMs / 1000).toFixed(1)}s / 3.0s
+                      </span>
+                    </div>
+                    <div className="mt-1 h-2 rounded-full bg-muted overflow-hidden">
+                      <div
+                        className={`h-full transition-[width] duration-75 ${
+                          silenceMs >= 2500 ? "bg-red-500" : silenceMs >= 1500 ? "bg-amber-500" : "bg-emerald-500"
+                        }`}
+                        style={{ width: `${Math.min(100, (silenceMs / 3000) * 100)}%` }}
+                        data-testid="meter-silence"
+                      />
+                    </div>
+                    <p className="mt-1 text-[11px] text-muted-foreground">
+                      If you pause for <span className="font-semibold">3 seconds</span>, the mic closes.
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
           )}
