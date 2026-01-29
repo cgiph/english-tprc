@@ -8,6 +8,7 @@ import Home from "@/pages/home";
 import Reviews from "@/pages/reviews";
 import Resources from "@/pages/resources";
 import SpeakingPractice from "@/pages/speaking-practice";
+import SpeakingFluency from "@/pages/speaking-fluency";
 import ReadingPractice from "@/pages/reading-practice";
 import TypingPractice from "@/pages/typing-practice";
 import ResourceViewer from "@/pages/resource-viewer";
@@ -63,6 +64,7 @@ function Router() {
 
           {/* Practice */}
           <Route path="/practice/speaking" component={SpeakingPractice} />
+          <Route path="/practice/speaking-fluency" component={SpeakingFluency} />
           <Route path="/practice/reading" component={ReadingPractice} />
           <Route path="/practice/listening" component={ListeningPractice} />
           <Route path="/practice/writing" component={WritingPractice} />

@@ -38,7 +38,6 @@ import audioRTS3 from "@assets/RTS_3_1765272963031.mp3";
 import audioRTSSample1 from "@assets/RTS_Sample_Answer_2_1765273838678.mp3";
 
 import ShadowingRecorder from "@/components/audio/shadowing-recorder";
-import SpeakNowTimer from "@/components/speaking/speak-now-timer";
 
 type ChartData = {
   id: string;
@@ -3605,11 +3604,6 @@ export default function ResourceViewer() {
           {PTE_SECTIONS.map((category) => (
             <TabsContent key={category} value={category} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               
-              {category === "Read Aloud" && (
-                <div className="mb-8">
-                  <SpeakNowTimer />
-                </div>
-              )}
 
               {category === "Describe Image" ? (
                 <Tabs defaultValue="Bar Charts" className="w-full">
