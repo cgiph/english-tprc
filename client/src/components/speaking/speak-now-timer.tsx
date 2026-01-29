@@ -26,6 +26,7 @@ export default function SpeakNowTimer() {
   const [timeLeft, setTimeLeft] = useState(3.0);
   const [prompt, setPrompt] = useState("");
   const [reactionTime, setReactionTime] = useState(0);
+  const [difficulty, setDifficulty] = useState<"easy" | "standard" | "hard">("standard");
   const [volume, setVolume] = useState(0);
   const [flashFail, setFlashFail] = useState(false);
   const [silenceMs, setSilenceMs] = useState(0);
@@ -107,6 +108,8 @@ export default function SpeakNowTimer() {
     window.setTimeout(() => setFlashFail(false), 220);
   };
 
+  const recordingLimitSec = difficulty === "easy" ? 5 : difficulty === "hard" ? 20 : 10;
+
   const monitorAudio = () => {
     if (!analyserRef.current) return;
 
@@ -141,7 +144,7 @@ export default function SpeakNowTimer() {
         silenceStartRef.current = 0; // Initialize silence tracker for recording phase
         lastWarningBucketRef.current = -1;
         setSilenceMs(0);
-        setTimeLeft(10.0); // Set 10s recording time
+        setTimeLeft(recordingLimitSec);
       } else if (remaining <= 0) {
         // FAILURE: Time up!
         triggerFailUX();
@@ -159,7 +162,7 @@ export default function SpeakNowTimer() {
       }
     } else if (statusRef.current === "recording") {
       const elapsedRecording = (now - recordingStartTimeRef.current) / 1000;
-      const remainingRecording = Math.max(0, 10.0 - elapsedRecording);
+      const remainingRecording = Math.max(0, recordingLimitSec - elapsedRecording);
       setTimeLeft(remainingRecording);
 
       // Mid-speech silence detection
@@ -240,7 +243,7 @@ export default function SpeakNowTimer() {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative" data-testid="card-speak-now-timer">
       <div
         className={`pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-200 ${flashFail ? "opacity-100" : "opacity-0"}`}
         style={{ background: "rgba(239, 68, 68, 0.22)" }}
@@ -260,7 +263,7 @@ export default function SpeakNowTimer() {
               <Timer className="h-5 w-5 text-primary" />
               Speak-Now Timer
               <Badge variant={status === "countdown" ? "destructive" : status === "recording" ? "default" : "secondary"} className="ml-2 animate-in fade-in">
-                {status === "countdown" ? "MIC LIVE" : status === "recording" ? "RECORDING" : "3-Second Rule"}
+                {status === "countdown" ? "MIC LIVE" : status === "recording" ? `RECORDING • ${difficulty === "easy" ? "Easy 5s" : difficulty === "hard" ? "Hard 20s" : "Standard 10s"}` : "3-Second Rule"}
               </Badge>
             </CardTitle>
             <CardDescription>
@@ -281,6 +284,38 @@ export default function SpeakNowTimer() {
           
           {status === "idle" && (
             <div className="space-y-4">
+              <div className="w-full max-w-md mx-auto" data-testid="group-difficulty">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Recording difficulty</p>
+                <div className="mt-2 grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setDifficulty("easy")}
+                    className={`rounded-lg border px-3 py-2 text-sm font-medium transition-all ${difficulty === "easy" ? "bg-emerald-50 border-emerald-300 text-emerald-800 shadow-sm" : "bg-white hover:bg-muted/40"}`}
+                    data-testid="button-difficulty-easy"
+                  >
+                    Easy
+                    <span className="block text-[11px] font-normal text-muted-foreground">5s</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDifficulty("standard")}
+                    className={`rounded-lg border px-3 py-2 text-sm font-medium transition-all ${difficulty === "standard" ? "bg-blue-50 border-blue-300 text-blue-800 shadow-sm" : "bg-white hover:bg-muted/40"}`}
+                    data-testid="button-difficulty-standard"
+                  >
+                    Standard
+                    <span className="block text-[11px] font-normal text-muted-foreground">10s</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDifficulty("hard")}
+                    className={`rounded-lg border px-3 py-2 text-sm font-medium transition-all ${difficulty === "hard" ? "bg-red-50 border-red-300 text-red-800 shadow-sm" : "bg-white hover:bg-muted/40"}`}
+                    data-testid="button-difficulty-hard"
+                  >
+                    Hard
+                    <span className="block text-[11px] font-normal text-muted-foreground">20s</span>
+                  </button>
+                </div>
+              </div>
               <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
                  <Mic className="h-8 w-8 text-primary" />
               </div>
@@ -430,7 +465,7 @@ export default function SpeakNowTimer() {
           {status === "recording" && (
             <div 
               className="absolute bottom-0 left-0 h-1 bg-blue-500 transition-all duration-100 ease-linear"
-              style={{ width: `${(timeLeft / 10) * 100}%` }}
+              style={{ width: `${(timeLeft / recordingLimitSec) * 100}%` }}
             />
           )}
         </div>
