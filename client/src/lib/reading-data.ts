@@ -16,6 +16,7 @@ export type ReadingQuestion = {
   prompt?: string; // The specific question to answer
   options?: string[]; // For MCQs
   correctAnswer?: string | string[]; // For MCQs
+  explanation?: string; // Explanation shown after submit
   blanks?: { // For FIB questions
     index: number;
     correct: string;
