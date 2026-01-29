@@ -433,10 +433,10 @@ export default function SpeakingPractice() {
     }
 
     setStatus("preparing");
-    setTimeLeft(40); // 40s prep
+    setTimeLeft(25);
     toast({
       title: "Preparation Started",
-      description: "You have 40 seconds to prepare.",
+      description: "You have 25 seconds to prepare.",
     });
   };
 
@@ -733,7 +733,7 @@ export default function SpeakingPractice() {
               {activeTab === "Read Aloud" && (
                 <div className="space-y-6">
                   <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
-                    Look at the text below. In 40 seconds, you must read this text aloud as naturally and clearly as possible. You have 40 seconds to read aloud.
+                    Look at the text below. In 25 seconds, you must read this text aloud as naturally and clearly as possible. You have 40 seconds to read aloud.
                   </div>
                   <p className="text-2xl leading-relaxed font-serif text-foreground/90">
                     {currentQuestion.content}
