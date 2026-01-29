@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Mic, Timer, AlertTriangle, RefreshCw, Trophy, Volume2, Square } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { playBuzzer } from "@/components/speaking/buzzer";
 
 const PROMPTS = [
   "Describe your favorite city.",
@@ -26,6 +27,7 @@ export default function SpeakNowTimer() {
   const [prompt, setPrompt] = useState("");
   const [reactionTime, setReactionTime] = useState(0);
   const [volume, setVolume] = useState(0);
+  const [flashFail, setFlashFail] = useState(false);
   
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -78,6 +80,18 @@ export default function SpeakNowTimer() {
     }
   };
 
+  const triggerFailUX = () => {
+    // Loud buzzer + quick red flash overlay (subtle)
+    try {
+      playBuzzer({ volume: 1 });
+    } catch {
+      // ignore
+    }
+
+    setFlashFail(true);
+    window.setTimeout(() => setFlashFail(false), 220);
+  };
+
   const monitorAudio = () => {
     if (!analyserRef.current) return;
 
@@ -113,6 +127,7 @@ export default function SpeakNowTimer() {
         setTimeLeft(10.0); // Set 10s recording time
       } else if (remaining <= 0) {
         // FAILURE: Time up!
+        triggerFailUX();
         setStatus("fail");
         statusRef.current = "fail";
         stopMonitoring();
@@ -129,6 +144,7 @@ export default function SpeakNowTimer() {
         } else {
             const silenceDuration = now - silenceStartRef.current;
             if (silenceDuration > 3000) { // 3 seconds silence
+                triggerFailUX();
                 setStatus("mid-silence-fail");
                 statusRef.current = "mid-silence-fail";
                 stopMonitoring();
@@ -168,7 +184,14 @@ export default function SpeakNowTimer() {
   }, []);
 
   return (
-    <Card className={`border-2 transition-all duration-300 ${
+    <div className="relative">
+      <div
+        className={`pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-200 ${flashFail ? "opacity-100" : "opacity-0"}`}
+        style={{ background: "rgba(239, 68, 68, 0.22)" }}
+        data-testid="overlay-fail-flash"
+      />
+
+      <Card className={`border-2 transition-all duration-300 ${
       status === "fail" || status === "mid-silence-fail" ? "border-red-500 bg-red-50" : 
       status === "success" ? "border-green-500 bg-green-50" : 
       status === "recording" ? "border-blue-500 bg-blue-50" :
@@ -329,6 +352,7 @@ export default function SpeakNowTimer() {
         </div>
 
       </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 }
