@@ -254,9 +254,8 @@ export default function FullMockTest() {
         } else {
           // Other speaking types: use prep timer
           setSpeakingState("prep");
-          // Describe Image: 25s prep, then beep, then 40s recording
-          // Read Aloud and others: 40s prep
-          const prepTime = currentQ.type === "Describe Image" ? 25 : 40;
+          // Full Mock Test exam-condition prep time
+          const prepTime = 25;
           setSpeakingTimer(prepTime);
         }
       } else if (speakingState === "idle") {
@@ -289,10 +288,13 @@ export default function FullMockTest() {
                 playBeep(); // Beep on transition to recording
                 startQuestionRecording(currentQ.id); // Explicitly pass ID
                 setSpeakingState("recording");
-                // Repeat Sentence/Answer Short Question: 10s, Summarize Group Discussion: 60s, Respond to a Situation: 40s, others: 40s
-                const recordTime = (currentQ.type === "Repeat Sentence" || currentQ.type === "Answer Short Question") ? 10 
-                  : currentQ.type === "Summarize Group Discussion" ? 60 
-                  : currentQ.type === "Respond to a Situation" ? 40 : 40;
+                // Exam-condition recording windows
+                // (Prep is handled separately where applicable)
+                const recordTime = (currentQ.type === "Repeat Sentence") ? 10
+                  : (currentQ.type === "Retell Lecture") ? 40
+                  : (currentQ.type === "Summarize Group Discussion") ? 40
+                  : (currentQ.type === "Respond to a Situation") ? 40
+                  : 40;
                 return recordTime;
               } else if (speakingState === "recording") {
                 stopQuestionRecording(); // Stop recording
@@ -370,7 +372,7 @@ export default function FullMockTest() {
       const isRealAudio = q.stimulus && (q.stimulus.endsWith('.mp3') || q.stimulus.endsWith('.ogg') || q.stimulus.endsWith('.wav') || q.stimulus.startsWith('http')) && !q.stimulus.includes("placeholder");
       
       // Determine text to speak: audioScript for Listening/Retell Lecture, content for Repeat Sentence/Answer Short Question/Respond to a Situation
-      const textToSpeak = q.audioScript || ((q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Respond to a Situation") ? q.content : null);
+      const textToSpeak = q.audioScript || ((q.type === "Repeat Sentence" || q.type === "Retell Lecture" || q.type === "Summarize Group Discussion" || q.type === "Respond to a Situation") ? q.content : null);
 
       if ((q.section === "Listening" || q.section === "Speaking") && (isRealAudio || textToSpeak)) {
         // Check if this type needs beep-then-record flow
@@ -386,9 +388,12 @@ export default function FullMockTest() {
             // FIX: Pass the current Question ID explicitly to avoid race conditions
             startQuestionRecording(q.id);
             setSpeakingState("recording");
-            // Set recording timer based on type
-            const recordTime = (q.type === "Repeat Sentence" || q.type === "Answer Short Question") ? 10 
-              : q.type === "Summarize Group Discussion" ? 60 : 40;
+            // Exam-condition recording windows
+            const recordTime = (q.type === "Repeat Sentence") ? 10
+              : (q.type === "Retell Lecture") ? 40
+              : (q.type === "Summarize Group Discussion") ? 40
+              : (q.type === "Respond to a Situation") ? 40
+              : 40;
             setSpeakingTimer(recordTime);
           }, 300);
         } : needsBeepOnly ? () => {
