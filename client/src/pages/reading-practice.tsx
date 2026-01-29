@@ -77,9 +77,10 @@ export default function ReadingPractice() {
         ...prev,
         [activeTab]: prev[activeTab] + 1
       }));
-      // Keep answers hidden until the section is submitted
-      setShowResult(false);
-      setIsSubmitted(false);
+
+      const revealed = sectionSubmitted[activeTab];
+      setShowResult(revealed);
+      setIsSubmitted(revealed);
     }
   };
 
@@ -99,8 +100,10 @@ export default function ReadingPractice() {
         ...prev,
         [activeTab]: prev[activeTab] - 1
       }));
-      setShowResult(false);
-      setIsSubmitted(false);
+
+      const revealed = sectionSubmitted[activeTab];
+      setShowResult(revealed);
+      setIsSubmitted(revealed);
     }
   };
 
@@ -116,6 +119,8 @@ export default function ReadingPractice() {
 
     setTimeSpent(0);
   };
+
+  const revealAnswers = sectionSubmitted[activeTab];
 
   const renderQuestionContent = () => {
     switch (activeTab) {
@@ -136,13 +141,13 @@ export default function ReadingPractice() {
               {currentQuestion.options?.map((option) => (
                 <div key={option} className={cn(
                   "flex items-center space-x-2 p-4 rounded-lg border transition-colors",
-                  showResult && option === currentQuestion.correctAnswer ? "bg-green-50 border-green-500" : "",
-                  showResult && answers[questionId] === option && option !== currentQuestion.correctAnswer ? "bg-red-50 border-red-500" : "",
-                  !showResult && "hover:bg-accent"
+                  revealAnswers && option === currentQuestion.correctAnswer ? "bg-green-50 border-green-500" : "",
+                  revealAnswers && answers[questionId] === option && option !== currentQuestion.correctAnswer ? "bg-red-50 border-red-500" : "",
+                  !revealAnswers && "hover:bg-accent"
                 )}>
-                  <RadioGroupItem value={option} id={option} disabled={showResult} />
+                  <RadioGroupItem value={option} id={option} disabled={revealAnswers} />
                   <Label htmlFor={option} className="flex-1 cursor-pointer text-base font-medium">{option}</Label>
-                  {showResult && option === currentQuestion.correctAnswer && <Check className="h-5 w-5 text-green-600" />}
+                  {revealAnswers && option === currentQuestion.correctAnswer && <Check className="h-5 w-5 text-green-600" />}
                 </div>
               ))}
             </RadioGroup>
@@ -172,13 +177,13 @@ export default function ReadingPractice() {
                   return (
                     <div key={option} className={cn(
                       "flex items-start space-x-3 p-4 rounded-lg border transition-all cursor-pointer",
-                      showResult && isCorrect ? "bg-green-50 border-green-500 shadow-sm" : "",
-                      showResult && isSelected && !isCorrect ? "bg-red-50 border-red-500 shadow-sm" : "",
-                      !showResult && isSelected ? "bg-primary/5 border-primary shadow-sm" : "hover:bg-accent",
-                      !showResult && "hover:border-primary/50"
+                      revealAnswers && isCorrect ? "bg-green-50 border-green-500 shadow-sm" : "",
+                      revealAnswers && isSelected && !isCorrect ? "bg-red-50 border-red-500 shadow-sm" : "",
+                      !revealAnswers && isSelected ? "bg-primary/5 border-primary shadow-sm" : "hover:bg-accent",
+                      !revealAnswers && "hover:border-primary/50"
                     )}
                     onClick={() => {
-                        if (showResult) return;
+                        if (revealAnswers) return;
                         const current = answers[questionId] || [];
                         if (isSelected) {
                           setAnswers(prev => ({ ...prev, [questionId]: current.filter((i: string) => i !== option) }));
@@ -190,7 +195,7 @@ export default function ReadingPractice() {
                       <Checkbox 
                         id={option} 
                         checked={isSelected}
-                        disabled={showResult}
+                        disabled={revealAnswers}
                         className="mt-1"
                         onCheckedChange={(checked) => {
                           const current = answers[questionId] || [];
@@ -202,7 +207,7 @@ export default function ReadingPractice() {
                         }}
                       />
                       <Label htmlFor={option} className="flex-1 cursor-pointer text-base leading-relaxed pointer-events-none">{option}</Label>
-                      {showResult && isCorrect && <Check className="h-5 w-5 text-green-600 shrink-0" />}
+                      {revealAnswers && isCorrect && <Check className="h-5 w-5 text-green-600 shrink-0" />}
                     </div>
                   );
                 })}
@@ -225,7 +230,7 @@ export default function ReadingPractice() {
                   const index = parseInt(match[1]);
                   const blank = currentQuestion.blanks?.find(b => b.index === index);
                   const selected = (answers[questionId] || {})[index];
-                  const isCorrect = showResult && selected === blank?.correct;
+                  const isCorrect = revealAnswers && selected === blank?.correct;
                   
                   return (
                     <span key={i} className="inline-block mx-1 align-middle">
@@ -235,13 +240,13 @@ export default function ReadingPractice() {
                           ...prev, 
                           [questionId]: { ...(prev[questionId] || {}), [index]: val } 
                         }))}
-                        disabled={showResult}
+                        disabled={revealAnswers}
                       >
                         <SelectTrigger className={cn(
                           "w-[160px] h-9 inline-flex items-center justify-between px-3 bg-white border-input shadow-sm transition-all",
-                          showResult && isCorrect && "border-green-500 bg-green-50 text-green-700 ring-1 ring-green-500",
-                          showResult && !isCorrect && "border-red-500 bg-red-50 text-red-700 ring-1 ring-red-500",
-                          selected && !showResult && "border-primary/50 bg-primary/5 text-primary"
+                          revealAnswers && isCorrect && "border-green-500 bg-green-50 text-green-700 ring-1 ring-green-500",
+                          revealAnswers && !isCorrect && "border-red-500 bg-red-50 text-red-700 ring-1 ring-red-500",
+                          selected && !revealAnswers && "border-primary/50 bg-primary/5 text-primary"
                         )}>
                           <SelectValue placeholder="Select..." />
                         </SelectTrigger>
@@ -273,13 +278,13 @@ export default function ReadingPractice() {
                   const index = parseInt(match[1]);
                   const selected = (answers[questionId] || {})[index];
                   const blank = currentQuestion.blanks?.find(b => b.index === index);
-                  const isCorrect = showResult && selected === blank?.correct;
+                  const isCorrect = revealAnswers && selected === blank?.correct;
 
                   return (
                     <button
                       key={i}
                       onClick={() => {
-                        if (!showResult) {
+                        if (!revealAnswers) {
                            const newAns = { ...(answers[questionId] || {}) };
                            delete newAns[index];
                            setAnswers(prev => ({ ...prev, [questionId]: newAns }));
@@ -288,8 +293,8 @@ export default function ReadingPractice() {
                       className={cn(
                         "inline-block min-w-[80px] px-3 py-1 mx-1 border-b-2 text-center font-medium transition-all",
                         selected ? "border-primary text-primary bg-primary/5 rounded-t-md" : "border-muted-foreground/30 text-muted-foreground",
-                        showResult && isCorrect && "border-green-500 text-green-600 bg-green-50",
-                        showResult && selected && !isCorrect && "border-red-500 text-red-600 bg-red-50"
+                        revealAnswers && isCorrect && "border-green-500 text-green-600 bg-green-50",
+                        revealAnswers && selected && !isCorrect && "border-red-500 text-red-600 bg-red-50"
                       )}
                     >
                       {selected || "______"}
@@ -311,7 +316,7 @@ export default function ReadingPractice() {
                        "bg-background shadow-sm hover:bg-primary/5", 
                        isUsed && "opacity-50 cursor-not-allowed"
                      )}
-                     disabled={isUsed || showResult}
+                     disabled={isUsed || revealAnswers}
                      onClick={() => {
                        // Find first empty blank
                        const currentAns = answers[questionId] || {};
@@ -340,7 +345,7 @@ export default function ReadingPractice() {
         const currentOrder = answers[questionId] || currentQuestion.paragraphs;
         
         const moveItem = (index: number, direction: 'up' | 'down') => {
-          if (showResult) return;
+          if (revealAnswers) return;
           const newOrder = [...currentOrder];
           const targetIndex = direction === 'up' ? index - 1 : index + 1;
           if (targetIndex >= 0 && targetIndex < newOrder.length) {
@@ -356,8 +361,8 @@ export default function ReadingPractice() {
                 key={para.id} 
                 className={cn(
                   "flex gap-4 p-4 bg-card rounded-xl border shadow-sm transition-all",
-                  showResult && para.correctOrder === index + 1 ? "border-green-500 ring-1 ring-green-500 bg-green-50/30" : "",
-                  showResult && para.correctOrder !== index + 1 ? "border-red-500 ring-1 ring-red-500 bg-red-50/30" : ""
+                  revealAnswers && para.correctOrder === index + 1 ? "border-green-500 ring-1 ring-green-500 bg-green-50/30" : "",
+                  revealAnswers && para.correctOrder !== index + 1 ? "border-red-500 ring-1 ring-red-500 bg-red-50/30" : ""
                 )}
               >
                 <div className="flex flex-col gap-2 justify-center">
@@ -366,7 +371,7 @@ export default function ReadingPractice() {
                     variant="ghost" 
                     className="h-8 w-8" 
                     onClick={() => moveItem(index, 'up')}
-                    disabled={index === 0 || showResult}
+                    disabled={index === 0 || revealAnswers}
                   >
                     <ArrowUp className="h-4 w-4" />
                   </Button>
@@ -375,7 +380,7 @@ export default function ReadingPractice() {
                     variant="ghost" 
                     className="h-8 w-8" 
                     onClick={() => moveItem(index, 'down')}
-                    disabled={index === currentOrder.length - 1 || showResult}
+                    disabled={index === currentOrder.length - 1 || revealAnswers}
                   >
                     <ArrowDown className="h-4 w-4" />
                   </Button>
@@ -383,14 +388,14 @@ export default function ReadingPractice() {
                 <div className="flex-1 text-base leading-relaxed py-2">
                    {para.text}
                 </div>
-                {showResult && (
+                {revealAnswers && (
                    <div className="flex items-center justify-center font-bold text-muted-foreground w-8">
                      {para.correctOrder}
                    </div>
                 )}
               </div>
             ))}
-            {showResult && <p className="text-center text-sm text-muted-foreground">Numbers indicate the correct position.</p>}
+            {revealAnswers && <p className="text-center text-sm text-muted-foreground">Numbers indicate the correct position.</p>}
           </div>
         );
     }
@@ -504,7 +509,16 @@ export default function ReadingPractice() {
               <RotateCcw className="mr-2 h-4 w-4" /> Reset Question
             </Button>
 
-            <div className="flex gap-4">
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={handlePrev}
+                disabled={currentQuestionIndex === 0}
+                data-testid="button-reading-back"
+              >
+                Back
+              </Button>
+
               {currentQuestionIndex === questions.length - 1 ? (
                 <Button
                   onClick={handleSubmit}
@@ -515,7 +529,7 @@ export default function ReadingPractice() {
                 </Button>
               ) : (
                 <Button onClick={handleNext} data-testid="button-reading-next">
-                  Next Question
+                  Next
                 </Button>
               )}
             </div>
