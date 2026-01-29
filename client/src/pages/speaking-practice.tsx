@@ -744,17 +744,39 @@ export default function SpeakingPractice() {
               {activeTab === "Repeat Sentence" && (
                 <div className="space-y-6">
                   <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
-                    You will hear a sentence. Repeat the sentence exactly as you hear it. You will hear the sentence only once.
+                    You will hear a sentence. Repeat it exactly. The sentence will stay hidden until you finish your attempt.
                   </div>
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto animate-pulse cursor-pointer hover:bg-primary/20 transition-colors" onClick={() => speakText(currentQuestion.content)}>
+
+                  <div
+                    className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto animate-pulse cursor-pointer hover:bg-primary/20 transition-colors"
+                    onClick={() => speakText(currentQuestion.content)}
+                    data-testid="button-repeat-sentence-play"
+                  >
                     <Volume2 className="h-8 w-8 text-primary" />
                   </div>
-                  <p className="text-sm text-muted-foreground">Click Start or the icon above to listen, then repeat.</p>
-                  <Button variant="secondary" onClick={() => setShowTranscript(!showTranscript)}>
+
+                  <p className="text-sm text-muted-foreground">
+                    Click Start (or the icon above) to listen, then repeat. After you finish, you can reveal the sentence.
+                  </p>
+
+                  <Button
+                    variant="secondary"
+                    onClick={() => setShowTranscript(!showTranscript)}
+                    disabled={status !== "completed"}
+                    data-testid="button-repeat-sentence-toggle"
+                  >
                     {showTranscript ? "Hide Sentence" : "Show Sentence"}
                   </Button>
-                  {showTranscript && (
-                    <p className="text-lg font-medium animate-in fade-in slide-in-from-bottom-2">
+
+                  {status !== "completed" && (
+                    <div className="rounded-lg border bg-white p-4 text-center" data-testid="card-repeat-sentence-hidden">
+                      <p className="text-sm font-medium text-foreground">Sentence hidden</p>
+                      <p className="mt-1 text-xs text-muted-foreground">Finish your attempt to reveal it.</p>
+                    </div>
+                  )}
+
+                  {status === "completed" && showTranscript && (
+                    <p className="text-lg font-medium animate-in fade-in slide-in-from-bottom-2" data-testid="text-repeat-sentence">
                       {currentQuestion.content}
                     </p>
                   )}
