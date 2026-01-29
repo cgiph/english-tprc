@@ -25,6 +25,13 @@ export default function ReadingPractice() {
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [showResult, setShowResult] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [sectionSubmitted, setSectionSubmitted] = useState<Record<ReadingTaskType, boolean>>({
+    "Multiple Choice (Single)": false,
+    "Multiple Choice (Multiple)": false,
+    "R&W Fill in the Blanks": false,
+    "Reading Fill in the Blanks": false,
+    "Reorder Paragraphs": false,
+  });
   const [timeSpent, setTimeSpent] = useState(0);
   const { toast } = useToast();
 
@@ -70,17 +77,19 @@ export default function ReadingPractice() {
         ...prev,
         [activeTab]: prev[activeTab] + 1
       }));
+      // Keep answers hidden until the section is submitted
       setShowResult(false);
       setIsSubmitted(false);
     }
   };
 
   const handleSubmit = () => {
+    setSectionSubmitted(prev => ({ ...prev, [activeTab]: true }));
     setShowResult(true);
     setIsSubmitted(true);
     toast({
       title: "Submitted",
-      description: "Answers revealed with explanations.",
+      description: "Answer key revealed for this section.",
     });
   };
 
@@ -99,8 +108,12 @@ export default function ReadingPractice() {
     const newAnswers = { ...answers };
     delete newAnswers[questionId];
     setAnswers(newAnswers);
-    setShowResult(false);
-    setIsSubmitted(false);
+
+    // If the section answer key is already revealed, keep result view on.
+    const revealed = sectionSubmitted[activeTab];
+    setShowResult(revealed);
+    setIsSubmitted(revealed);
+
     setTimeSpent(0);
   };
 
@@ -393,9 +406,12 @@ export default function ReadingPractice() {
       </div>
 
       <Tabs value={activeTab} onValueChange={(val) => {
-        setActiveTab(val as ReadingTaskType);
-        setShowResult(false);
-        setIsSubmitted(false);
+        const nextTab = val as ReadingTaskType;
+        setActiveTab(nextTab);
+
+        const revealed = sectionSubmitted[nextTab];
+        setShowResult(revealed);
+        setIsSubmitted(revealed);
       }} className="space-y-8">
         <div className="overflow-x-auto pb-2">
           <TabsList className="w-full justify-start md:justify-center bg-muted/50 p-1 h-auto flex-wrap">
@@ -463,7 +479,7 @@ export default function ReadingPractice() {
           <CardContent className="flex-1 p-8">
             {renderQuestionContent()}
 
-            {showResult && (currentQuestion.explanation || currentQuestion.correctAnswer) && (
+            {sectionSubmitted[activeTab] && (currentQuestion.explanation || currentQuestion.correctAnswer) && (
               <div className="mt-8 rounded-xl border bg-muted/10 p-5" data-testid="card-reading-explanation">
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   <p className="text-sm font-semibold text-foreground" data-testid="text-reading-explanation-title">Explanation</p>
@@ -492,10 +508,10 @@ export default function ReadingPractice() {
               {currentQuestionIndex === questions.length - 1 ? (
                 <Button
                   onClick={handleSubmit}
-                  disabled={isSubmitted}
+                  disabled={sectionSubmitted[activeTab]}
                   data-testid="button-reading-submit"
                 >
-                  {isSubmitted ? "Submitted" : "Submit"}
+                  {sectionSubmitted[activeTab] ? "Submitted" : "Submit"}
                 </Button>
               ) : (
                 <Button onClick={handleNext} data-testid="button-reading-next">
