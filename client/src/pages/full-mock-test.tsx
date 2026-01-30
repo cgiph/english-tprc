@@ -243,8 +243,8 @@ export default function FullMockTest() {
       const limit = currentQ.time_limit_seconds || 120; 
       
       // Initialize Speaking Logic
-      // Types that have beep-then-record flow (handled by audio onend callback) skip normal prep
-      const audioThenBeepTypes = ["Repeat Sentence", "Answer Short Question", "Retell Lecture", "Summarize Group Discussion", "Respond to a Situation"];
+      // Types that have audio, then beep, then (maybe) prep, then recording
+      const audioThenBeepTypes = ["Repeat Sentence", "Retell Lecture", "Summarize Group Discussion", "Respond to a Situation"];
       const skipPrepForAudio = audioThenBeepTypes.includes(currentQ.type);
       
       if (currentQ.section === "Speaking" && speakingState === "idle") {
@@ -285,14 +285,19 @@ export default function FullMockTest() {
           setSpeakingTimer(prev => {
             if (prev <= 1) {
               if (speakingState === "prep") {
-                playBeep(); // Beep on transition to recording
-                startQuestionRecording(currentQ.id); // Explicitly pass ID
+                // If we arrived here from an after-audio prep phase, do NOT beep again.
+                // For classic (Read Aloud / Describe Image) prep, we beep to begin recording.
+                const alreadyBeeped = (currentQ.type === "Summarize Group Discussion" || currentQ.type === "Respond to a Situation");
+                if (!alreadyBeeped) {
+                  playBeep();
+                }
+
+                startQuestionRecording(currentQ.id);
                 setSpeakingState("recording");
-                // Exam-condition recording windows
-                // (Prep is handled separately where applicable)
+
                 const recordTime = (currentQ.type === "Repeat Sentence") ? 10
                   : (currentQ.type === "Retell Lecture") ? 40
-                  : (currentQ.type === "Summarize Group Discussion") ? 40
+                  : (currentQ.type === "Summarize Group Discussion") ? 120
                   : (currentQ.type === "Respond to a Situation") ? 40
                   : 40;
                 return recordTime;
@@ -361,8 +366,8 @@ export default function FullMockTest() {
     });
   }, [stopAllAudio, speakText, currentTest, currentIndex]);
 
-  // Types that need beep immediately after audio, then start recording
-  const audioThenBeepTypes = ["Repeat Sentence", "Answer Short Question", "Retell Lecture", "Summarize Group Discussion", "Respond to a Situation"];
+  // Types that need beep at end of audio
+  const audioThenBeepTypes = ["Repeat Sentence", "Retell Lecture", "Summarize Group Discussion", "Respond to a Situation"];
 
   // Effect to play audio for Listening/Speaking questions automatically
   useEffect(() => {
@@ -381,8 +386,16 @@ export default function FullMockTest() {
         const needsBeepOnly = q.type === "Select Missing Word";
         
         const onAudioEnd = needsBeepAfterAudio ? () => {
-          // Play beep immediately after audio ends
+          // Beep plays immediately when audio ends
           playBeep();
+
+          const prepSeconds = (q.type === "Summarize Group Discussion" || q.type === "Respond to a Situation") ? 10 : 0;
+          if (prepSeconds > 0) {
+            setSpeakingState("prep");
+            setSpeakingTimer(prepSeconds);
+            return;
+          }
+
           // Start recording after a brief moment for beep
           setTimeout(() => {
             // FIX: Pass the current Question ID explicitly to avoid race conditions
@@ -391,7 +404,7 @@ export default function FullMockTest() {
             // Exam-condition recording windows
             const recordTime = (q.type === "Repeat Sentence") ? 10
               : (q.type === "Retell Lecture") ? 40
-              : (q.type === "Summarize Group Discussion") ? 40
+              : (q.type === "Summarize Group Discussion") ? 120
               : (q.type === "Respond to a Situation") ? 40
               : 40;
             setSpeakingTimer(recordTime);
@@ -734,7 +747,7 @@ export default function FullMockTest() {
                        q.type === "Respond to a Situation" ? "Audio finished. Get ready to respond" : "Prepare your answer"}
                     </p>
                     <div className="text-4xl font-mono font-bold">{speakingTimer}s</div>
-                    {(q.type === "Repeat Sentence" || q.type === "Answer Short Question" || q.type === "Summarize Group Discussion" || q.type === "Respond to a Situation") && (
+                    {(q.type === "Repeat Sentence" || q.type === "Summarize Group Discussion" || q.type === "Respond to a Situation") && (
                       <p className="text-sm text-muted-foreground mt-2">Recording will begin automatically</p>
                     )}
                   </div>
@@ -746,13 +759,12 @@ export default function FullMockTest() {
                        <svg className="absolute inset-0 w-full h-full -rotate-90">
                          <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-muted" />
                          <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-red-500 transition-all duration-1000" 
-                           strokeDasharray={276} strokeDashoffset={276 * (1 - speakingTimer/((q.type === "Repeat Sentence" || q.type === "Answer Short Question") ? 10 : q.type === "Summarize Group Discussion" ? 60 : 40))} />
+                           strokeDasharray={276} strokeDashoffset={276 * (1 - speakingTimer/((q.type === "Repeat Sentence") ? 10 : (q.type === "Summarize Group Discussion") ? 120 : 40))} />
                        </svg>
                        <Mic className="h-10 w-10 text-red-500 animate-pulse" />
                     </div>
                     <p className="font-medium mb-4 text-red-600">
                       {q.type === "Repeat Sentence" ? "Repeat the sentence now..." : 
-                       q.type === "Answer Short Question" ? "Answer now..." : 
                        q.type === "Summarize Group Discussion" ? "Summarize the discussion now..." : 
                        q.type === "Respond to a Situation" ? "Respond to the situation now..." : "Recording..."}
                     </p>
