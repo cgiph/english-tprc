@@ -285,17 +285,21 @@ export default function FullMockTest() {
           setSpeakingTimer(prev => {
             if (prev <= 1) {
               if (speakingState === "prep") {
-                // If we arrived here from an after-audio prep phase, do NOT beep again.
-                // For classic (Read Aloud / Describe Image) prep, we beep to begin recording.
-                const alreadyBeeped = (currentQ.type === "Summarize Group Discussion" || currentQ.type === "Respond to a Situation");
-                if (!alreadyBeeped) {
+                // If we arrived here from an after-audio prep phase (Retell Lecture, SGD, RTS),
+                // we NOW play the beep and start recording.
+                const wasPrepPhase = (currentQ.type === "Retell Lecture" || currentQ.type === "Summarize Group Discussion" || currentQ.type === "Respond to a Situation");
+                
+                if (wasPrepPhase) {
+                  playBeep();
+                } else {
+                  // For standard Read Aloud / Describe Image, we also beep when prep ends
                   playBeep();
                 }
 
                 startQuestionRecording(currentQ.id);
                 setSpeakingState("recording");
 
-                const recordTime = (currentQ.type === "Repeat Sentence") ? 10
+                const recordTime = (currentQ.type === "Repeat Sentence") ? 15
                   : (currentQ.type === "Retell Lecture") ? 40
                   : (currentQ.type === "Summarize Group Discussion") ? 120
                   : (currentQ.type === "Respond to a Situation") ? 40
@@ -386,29 +390,29 @@ export default function FullMockTest() {
         const needsBeepOnly = q.type === "Select Missing Word";
         
         const onAudioEnd = needsBeepAfterAudio ? () => {
-          // Beep plays immediately when audio ends
-          playBeep();
-
-          const prepSeconds = (q.type === "Summarize Group Discussion" || q.type === "Respond to a Situation") ? 10 : 0;
-          if (prepSeconds > 0) {
+          // Determine which types need a PREP timer BEFORE the beep/record
+          // User request: Retell Lecture & SGD & Respond to a Situation need 10s prep FIRST.
+          // Repeat Sentence goes straight to beep -> record.
+          
+          const needsPrepFirst = (q.type === "Retell Lecture" || q.type === "Summarize Group Discussion" || q.type === "Respond to a Situation");
+          
+          if (needsPrepFirst) {
+            // Start 10s prep timer immediately after audio
             setSpeakingState("prep");
-            setSpeakingTimer(prepSeconds);
+            setSpeakingTimer(10);
             return;
           }
 
-          // Start recording after a brief moment for beep
+          // Default flow (Repeat Sentence): Beep -> Record immediately
+          playBeep();
           setTimeout(() => {
-            // FIX: Pass the current Question ID explicitly to avoid race conditions
             startQuestionRecording(q.id);
             setSpeakingState("recording");
-            // Exam-condition recording windows
-            const recordTime = (q.type === "Repeat Sentence") ? 10
-              : (q.type === "Retell Lecture") ? 40
-              : (q.type === "Summarize Group Discussion") ? 120
-              : (q.type === "Respond to a Situation") ? 40
-              : 40;
+            
+            const recordTime = (q.type === "Repeat Sentence") ? 15 : 40; // Giving a bit more time for RS just in case, but usually 15s max
             setSpeakingTimer(recordTime);
           }, 300);
+
         } : needsBeepOnly ? () => {
           playBeep();
         } : undefined;
@@ -759,7 +763,7 @@ export default function FullMockTest() {
                        <svg className="absolute inset-0 w-full h-full -rotate-90">
                          <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-muted" />
                          <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-red-500 transition-all duration-1000" 
-                           strokeDasharray={276} strokeDashoffset={276 * (1 - speakingTimer/((q.type === "Repeat Sentence") ? 10 : (q.type === "Summarize Group Discussion") ? 120 : 40))} />
+                           strokeDasharray={276} strokeDashoffset={276 * (1 - speakingTimer/((q.type === "Repeat Sentence") ? 15 : (q.type === "Summarize Group Discussion") ? 120 : 40))} />
                        </svg>
                        <Mic className="h-10 w-10 text-red-500 animate-pulse" />
                     </div>
