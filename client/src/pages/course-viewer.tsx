@@ -47,7 +47,7 @@ export default function CourseViewer() {
         status: userModule ? userModule.status : (index === 0 ? "unlocked" : "locked"),
         lessons: m.lessons.map(l => ({
           ...l,
-          isCompleted: userModule?.completedLessons.includes(l.id) || false
+          isCompleted: userModule?.completedLessons?.includes(l.id) || false
         }))
       };
     }),
