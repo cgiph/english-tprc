@@ -262,6 +262,8 @@ export const COURSES: Course[] = [
               </div>
             `
           },
+          { id: "l3-bonus", title: "Practice: Noun Identification", type: "assignment", duration: "10 min", isCompleted: false },
+          { id: "l3-vid", title: "Video: Sentence Examples", type: "video", duration: "5 min", isCompleted: false },
           { id: "l3", title: "Module Quiz", type: "quiz", duration: "15 min", isCompleted: false }
         ]
       },
@@ -273,7 +275,9 @@ export const COURSES: Course[] = [
         progress: 0,
         lessons: [
           { id: "l4", title: "Action Verbs", type: "video", duration: "8 min", isCompleted: false },
+          { id: "l4-read", title: "Verb List: Top 50 Common Verbs", type: "reading", duration: "15 min", isCompleted: false },
           { id: "l5", title: "Present Simple Practice", type: "assignment", duration: "20 min", isCompleted: false },
+          { id: "l5-vid", title: "Past Tense Introduction", type: "video", duration: "10 min", isCompleted: false },
           { id: "l6", title: "Module Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
       },
@@ -333,7 +337,9 @@ export const COURSES: Course[] = [
             videoUrl: "https://www.youtube.com/embed/KzVvjX_2u_A",
             content: "<h3>Safety Essentials</h3><ul><li>Wear a Level 10 Shade Helmet</li><li>Leather gloves are mandatory</li></ul>"
           },
+          { id: "tw1-l1-check", title: "Knowledge Check: PPE", type: "assignment", duration: "10 min", isCompleted: false },
           { id: "tw1-l2", title: "Hazard Identification", type: "reading", duration: "15 min", isCompleted: false },
+          { id: "tw1-l2-vid", title: "Video: Recognizing Hazards", type: "video", duration: "8 min", isCompleted: false },
           { id: "tw1-l3", title: "Safety Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
       },
