@@ -124,7 +124,9 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
           overallScore,
           breakdown,
           date: new Date().toISOString(),
-          verified: true // In a real app, this would come from backend verification
+          verified: true,
+          // Source of Truth Logic: Hard Tier + Score >= 79 = Deployment Ready
+          isDeploymentReady: difficulty === "Hard" && overallScore >= 79
         }
       ]
     }));

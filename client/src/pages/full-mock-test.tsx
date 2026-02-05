@@ -10,15 +10,19 @@ import { Textarea } from "@/components/ui/textarea";
 import DisclaimerModal from "@/components/disclaimer-modal";
 import { generateMockTest, MockQuestion } from "@/lib/mock-test-data";
 import { calculateSpeakingScore, SpeakingScore } from "@/lib/scoring-utils";
-import { CheckCircle2, Clock, PlayCircle, AlertCircle, ChevronRight, ChevronUp, ChevronDown, Mic, Volume2, UserCircle, Square, Play, RotateCcw, GripVertical } from "lucide-react";
+import { CheckCircle2, Clock, PlayCircle, AlertCircle, ChevronRight, ChevronUp, ChevronDown, Mic, Volume2, UserCircle, Square, Play, RotateCcw, GripVertical, ShieldCheck, Gauge } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useLMS } from "@/hooks/use-lms";
+import { DifficultyLevel } from "@/lib/lms-db-schema";
 
 import { scoreItem, aggregateScores, ScoreResult } from "@/lib/scoring";
 
 export default function FullMockTest() {
+  const { saveMockResult } = useLMS();
   const [testState, setTestState] = useState<"intro" | "candidate-info" | "tech-check" | "intro-recording" | "test-intro" | "active" | "finished">("intro");
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>("Medium");
   const [currentTest, setCurrentTest] = useState<{ test_id: string; items: MockQuestion[]; start_time: number } | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [responses, setResponses] = useState<Record<string, any>>({});
@@ -240,7 +244,11 @@ export default function FullMockTest() {
     let interval: NodeJS.Timeout;
     if (testState === "active" && currentTest) {
       const currentQ = currentTest.items[currentIndex];
-      const limit = currentQ.time_limit_seconds || 120; 
+      
+      // Timer Multiplier Logic
+      const baseLimit = currentQ.time_limit_seconds || 120;
+      const multiplier = difficulty === "Easy" ? 1.5 : difficulty === "Hard" ? 0.9 : 1.0;
+      const limit = Math.round(baseLimit * multiplier);
       
       // Initialize Speaking Logic
       // Types that have audio, then beep, then (maybe) prep, then recording
@@ -626,6 +634,20 @@ export default function FullMockTest() {
     };
 
     setScore(finalScores);
+    
+    // Save Result to LMS with Source of Truth check
+    saveMockResult(
+      "mock-full-" + Date.now(),
+      difficulty,
+      overallScore,
+      {
+        speaking: Math.round(communicative.speaking),
+        writing: Math.round(communicative.writing),
+        reading: Math.round(communicative.reading),
+        listening: Math.round(communicative.listening)
+      }
+    );
+
     setTestState("finished");
   };
 
@@ -1088,30 +1110,120 @@ export default function FullMockTest() {
   // 1. Intro Screen
   if (testState === "intro") {
     return (
-      <div className="container mx-auto px-4 py-12 max-w-3xl">
+      <div className="container mx-auto px-4 py-8 max-w-5xl">
         <DisclaimerModal
           isOpen={showDisclaimer}
           onAccept={handleAcceptDisclaimer}
         />
-        <Card className="border-2 border-primary/10 shadow-lg">
-          <CardHeader className="text-center space-y-4 pb-6 pt-10">
-            <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-2">
-              <Clock className="h-8 w-8 text-primary" />
-            </div>
-            <CardTitle className="text-3xl font-serif font-bold">Full Mock Test - PTE Academic</CardTitle>
-            <CardDescription className="text-lg max-w-lg mx-auto">A complete simulation of the PTE Academic exam.</CardDescription>
-          </CardHeader>
-          <CardContent className="pt-0 pb-6">
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800 leading-relaxed">
+        
+        <div className="space-y-8 animate-in fade-in zoom-in duration-500">
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl font-serif font-bold text-primary">PTE Academic Full Mock Test</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Experience the real exam format with our 3-Tiered Mock Test Engine. 
+              Select your difficulty level to begin your assessment.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card 
+              className={cn(
+                "cursor-pointer transition-all border-2 hover:border-primary/50 relative overflow-hidden",
+                difficulty === "Easy" ? "border-primary bg-primary/5 shadow-md" : "border-muted"
+              )}
+              onClick={() => setDifficulty("Easy")}
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-green-500" />
+              <CardHeader>
+                <div className="flex justify-between items-center mb-2">
+                  <Badge variant="secondary" className="bg-green-100 text-green-700">Easy Tier</Badge>
+                  {difficulty === "Easy" && <CheckCircle2 className="h-5 w-5 text-primary" />}
+                </div>
+                <CardTitle className="text-lg">Foundational</CardTitle>
+                <CardDescription>Build confidence & basics</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  <span>1.5x Generous Timer</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <UserCircle className="h-4 w-4" />
+                  <span>A1/A2 Level Focus</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card 
+              className={cn(
+                "cursor-pointer transition-all border-2 hover:border-primary/50 relative overflow-hidden",
+                difficulty === "Medium" ? "border-primary bg-primary/5 shadow-md" : "border-muted"
+              )}
+              onClick={() => setDifficulty("Medium")}
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-blue-500" />
+              <CardHeader>
+                <div className="flex justify-between items-center mb-2">
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-700">Medium Tier</Badge>
+                  {difficulty === "Medium" && <CheckCircle2 className="h-5 w-5 text-primary" />}
+                </div>
+                <CardTitle className="text-lg">Standard</CardTitle>
+                <CardDescription>Selection Ready Assessment</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  <span>Standard Exam Timer</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Gauge className="h-4 w-4" />
+                  <span>Real Exam Simulation</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card 
+              className={cn(
+                "cursor-pointer transition-all border-2 hover:border-primary/50 relative overflow-hidden",
+                difficulty === "Hard" ? "border-primary bg-primary/5 shadow-md" : "border-muted"
+              )}
+              onClick={() => setDifficulty("Hard")}
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-red-500" />
+              <CardHeader>
+                <div className="flex justify-between items-center mb-2">
+                  <Badge variant="secondary" className="bg-red-100 text-red-700">Hard Tier</Badge>
+                  {difficulty === "Hard" && <CheckCircle2 className="h-5 w-5 text-primary" />}
+                </div>
+                <CardTitle className="text-lg">Deployment Gate</CardTitle>
+                <CardDescription>Source of Truth</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-red-500" />
+                  <span className="font-medium text-red-600">0.9x Strict Timer</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="h-4 w-4 text-primary" />
+                  <span>Verified Deployment Data</span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <CardContent className="pt-0 pb-6 px-0 mt-6">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800 leading-relaxed max-w-3xl mx-auto">
               <p>This is not an official PTE Academic test and does not replicate the test format. Results from the test do not predict official scores. For skills assessment, visa, or migration purposes, candidates must take an official IELTS or PTE Academic test at an authorized test centre.</p>
             </div>
           </CardContent>
-          <CardFooter className="pb-10 justify-center">
-            <Button size="lg" className="w-full max-w-xs text-lg font-bold h-12" onClick={startCandidateInfo}>
-              Start Assessment
+
+          <div className="flex justify-center pt-2 pb-10">
+            <Button size="lg" className="px-12 text-lg h-14 font-bold" onClick={startCandidateInfo}>
+              Start {difficulty} Assessment
+              <ChevronRight className="ml-2 h-5 w-5" />
             </Button>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   }
