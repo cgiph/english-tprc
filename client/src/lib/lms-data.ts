@@ -184,7 +184,15 @@ export const COURSES: Course[] = [
         status: "unlocked",
         progress: 0,
         lessons: [
-          { id: "tw1-l1", title: "PPE Standards & Usage", type: "video", duration: "12 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/3F18a-p5QEQ" },
+          { 
+            id: "tw1-l1", 
+            title: "PPE Standards & Usage", 
+            type: "video", 
+            duration: "12 min", 
+            isCompleted: false, 
+            videoUrl: "https://www.youtube.com/embed/KzVvjX_2u_A",
+            content: "<h3>Safety Essentials</h3><ul><li>Wear a Level 10 Shade Helmet</li><li>Leather gloves are mandatory</li></ul>"
+          },
           { id: "tw1-l2", title: "Hazard Identification", type: "reading", duration: "15 min", isCompleted: false },
           { id: "tw1-l3", title: "Safety Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
@@ -230,7 +238,7 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-          { id: "tmec1-l1", title: "Four-Stroke Cycle", type: "video", duration: "10 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/ZLwUx8w5MMQ" },
+          { id: "tmec1-l1", title: "Four-Stroke Cycle", type: "video", duration: "10 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/OGj8OneMjek" },
           { id: "tmec1-l2", title: "Engine Components", type: "reading", duration: "15 min", isCompleted: false },
           { id: "tmec1-l3", title: "Engine Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
