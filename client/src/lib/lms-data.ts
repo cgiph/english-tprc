@@ -3,16 +3,38 @@ import { CheckCircle2, Lock, PlayCircle, BookOpen, PenTool, Mic, Headphones } fr
 
 export type ModuleStatus = "locked" | "unlocked" | "in-progress" | "completed";
 
-export interface Lesson {
+export type LessonType = "video" | "reading" | "quiz" | "assignment";
+
+export interface LessonBase {
   id: string;
   title: string;
-  type: "video" | "reading" | "quiz" | "assignment";
   duration: string; // e.g. "10 min"
   isCompleted: boolean;
-  videoUrl?: string; // Optional YouTube embed URL
-  content?: string; // Optional rich text content for reading lessons
   resources?: { title: string; type: "pdf" | "doc" | "link" }[];
 }
+
+export interface VideoLesson extends LessonBase {
+  type: "video";
+  videoUrl?: string; // Optional YouTube embed URL
+  content?: string; // Optional rich text content for reading lessons
+}
+
+export interface ReadingLesson extends LessonBase {
+  type: "reading";
+  content?: string; // Optional rich text content for reading lessons
+}
+
+export interface QuizLesson extends LessonBase {
+  type: "quiz";
+  content?: string;
+}
+
+export interface AssignmentLesson extends LessonBase {
+  type: "assignment";
+  content?: string;
+}
+
+export type Lesson = VideoLesson | ReadingLesson | QuizLesson | AssignmentLesson;
 
 export interface Module {
   id: string;
@@ -28,7 +50,7 @@ export interface Course {
   title: string;
   category: "English" | "Technical" | "Mock Test";
   level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | "Easy" | "Medium" | "Hard"; // For English & Mock Tests
-  silo?: "Mechanics" | "Welders" | "Healthcare" | "General"; // For Technical
+  silo?: "Mechanics" | "Welders" | "Healthcare" | "General" | "Carpenters"; // For Technical
   description: string;
   thumbnail: string;
   totalModules: number;
