@@ -6,13 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle } from "lucide-react";
+import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
 import { useState, useEffect } from "react";
 import { useLMS } from "@/hooks/use-lms";
 import { ModuleQuiz } from "@/components/lms/module-quiz";
 import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function CourseViewer() {
   const { id } = useParams();
@@ -26,6 +27,9 @@ export default function CourseViewer() {
 
   // Active Lesson State (for Player)
   const [activeLesson, setActiveLesson] = useState<{id: string, title: string, type: string, moduleId: string} | null>(null);
+
+  // Trainer Support State
+  const [supportQuestion, setSupportQuestion] = useState("");
 
   if (!rawCourse) return <NotFound />;
 
@@ -111,6 +115,17 @@ export default function CourseViewer() {
             });
         }
     }
+  };
+
+  const handleSupportSubmit = () => {
+    if (!supportQuestion.trim()) return;
+    
+    toast({
+      title: "Message Sent",
+      description: "Your message has been sent to the Cirrus Training Team.",
+      className: "bg-blue-50 border-blue-200"
+    });
+    setSupportQuestion("");
   };
 
   const handleQuizComplete = (score: number) => {
@@ -247,6 +262,36 @@ export default function CourseViewer() {
                    <ChevronRight className="ml-2 h-5 w-5" />
                  </Button>
               </div>
+           </div>
+
+           {/* Trainer Support Section */}
+           <div className="max-w-4xl mx-auto mt-8 pt-8 border-t border-slate-800">
+             <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
+               <h3 className="text-lg font-bold mb-2 flex items-center gap-2 text-white">
+                 <MessageSquare className="h-5 w-5 text-blue-400" /> 
+                 Trainer Support
+               </h3>
+               <p className="text-sm text-slate-400 mb-4">Stuck on this lesson? Send a question directly to our training team.</p>
+               
+               <div className="space-y-3">
+                 <Textarea 
+                   placeholder="Type your question here..." 
+                   className="bg-slate-900 border-slate-700 text-slate-200 min-h-[100px] resize-none focus:border-blue-500"
+                   value={supportQuestion}
+                   onChange={(e) => setSupportQuestion(e.target.value)}
+                 />
+                 <div className="flex justify-end">
+                   <Button 
+                     variant="secondary" 
+                     onClick={handleSupportSubmit}
+                     disabled={!supportQuestion.trim()}
+                     className="bg-slate-700 hover:bg-slate-600 text-slate-200"
+                   >
+                     Submit Question
+                   </Button>
+                 </div>
+               </div>
+             </div>
            </div>
         </div>
       </div>
