@@ -327,21 +327,10 @@ export default function FullMockTest() {
     return () => clearInterval(interval);
   }, [currentIndex, testState, currentTest, speakingState]);
 
-  // Audio Playback Logic
-  const speakText = useCallback((text: string, onEndCallback?: () => void) => {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-GB'; 
-    utterance.rate = 0.9;
-    if (onEndCallback) {
-      utterance.onend = onEndCallback;
-    }
-    window.speechSynthesis.speak(utterance);
-  }, []);
-
   const stopAudio = () => window.speechSynthesis.cancel();
   
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   
   const stopAllAudio = useCallback(() => {
     window.speechSynthesis.cancel();
@@ -349,6 +338,31 @@ export default function FullMockTest() {
       audioElementRef.current.pause();
       audioElementRef.current = null;
     }
+    if (utteranceRef.current) {
+      utteranceRef.current = null;
+    }
+  }, []);
+
+  // Audio Playback Logic
+  const speakText = useCallback((text: string, onEndCallback?: () => void) => {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    // Store in ref to prevent garbage collection interrupting playback
+    utteranceRef.current = utterance;
+    
+    utterance.lang = 'en-GB'; 
+    utterance.rate = 0.9;
+    if (onEndCallback) {
+      utterance.onend = () => {
+        utteranceRef.current = null; // Cleanup
+        onEndCallback();
+      };
+    } else {
+      utterance.onend = () => {
+        utteranceRef.current = null;
+      };
+    }
+    window.speechSynthesis.speak(utterance);
   }, []);
 
   const playAudioFile = useCallback((url: string, onEndCallback?: () => void) => {
