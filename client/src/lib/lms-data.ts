@@ -415,8 +415,50 @@ export const COURSES: Course[] = [
             content: "<h3>Safety Essentials</h3><ul><li>Wear a Level 10 Shade Helmet</li><li>Leather gloves are mandatory</li></ul>"
           },
           { id: "tw1-l1-check", title: "Knowledge Check: PPE", type: "assignment", duration: "10 min", isCompleted: false },
-          { id: "tw1-l2", title: "Hazard Identification", type: "reading", duration: "15 min", isCompleted: false },
-          { id: "tw1-l2-vid", title: "Video: Recognizing Hazards", type: "video", duration: "8 min", isCompleted: false },
+          { 
+            id: "tw1-l2", 
+            title: "Hazard Identification", 
+            type: "reading", 
+            duration: "15 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg">
+                  <h3 class="text-xl font-bold text-red-700 mb-2">CRITICAL: The Big Three Hazards</h3>
+                  <ul class="list-disc pl-5 space-y-2 text-slate-700">
+                    <li><strong>Arc Flash:</strong> UV radiation that can burn eyes and skin in seconds.</li>
+                    <li><strong>Fumes:</strong> Toxic gases from welding galvanized steel or exotic alloys.</li>
+                    <li><strong>Fire/Explosion:</strong> Sparks can travel up to 35 feet.</li>
+                  </ul>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                    <h4 class="text-lg font-bold text-blue-400 mb-4">Fume Control</h4>
+                    <p class="text-slate-300 text-sm mb-4">Always position the fume extractor <strong>6-12 inches</strong> from the weld zone.</p>
+                    <div class="bg-slate-900 p-3 rounded text-center text-xs text-slate-500">
+                      Diagram: Extractor positioning
+                    </div>
+                  </div>
+                  <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                    <h4 class="text-lg font-bold text-orange-400 mb-4">Electrical Safety</h4>
+                    <p class="text-slate-300 text-sm mb-4">Never weld in wet conditions. Ensure ground clamp has metal-to-metal contact.</p>
+                    <div class="bg-slate-900 p-3 rounded text-center text-xs text-slate-500">
+                      Diagram: Grounding circuit
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `
+          },
+          { 
+            id: "tw1-l2-vid", 
+            title: "Video: Recognizing Hazards", 
+            type: "video", 
+            duration: "8 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/9l7J0i7_WAg" 
+          },
           { id: "tw1-l3", title: "Safety Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
       },
@@ -427,8 +469,86 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-          { id: "tw2-l1", title: "Arc Welding Basics", type: "video", duration: "15 min", isCompleted: false },
-          { id: "tw2-l2", title: "Electrode Classification", type: "reading", duration: "20 min", isCompleted: false },
+          { 
+            id: "tw2-l1", 
+            title: "Arc Welding Basics", 
+            type: "video", 
+            duration: "15 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/TeB2eWdK6aU" 
+          },
+          { 
+            id: "tw2-l2", 
+            title: "Electrode Classification", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div>
+                  <h3 class="text-2xl font-bold mb-4 text-primary">Decoding the Numbers</h3>
+                  <p class="text-lg text-slate-600 mb-6">Understanding the AWS classification system (e.g., E7018) is critical for selecting the right rod.</p>
+                  
+                  <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <div class="text-center mb-8">
+                      <span class="text-6xl font-black text-slate-900 tracking-widest">E-70-1-8</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-4 gap-2 text-center text-sm">
+                      <div class="space-y-2">
+                        <div class="font-bold text-blue-600">E</div>
+                        <div class="text-slate-500">Electrode</div>
+                      </div>
+                      <div class="space-y-2">
+                        <div class="font-bold text-green-600">70</div>
+                        <div class="text-slate-500">70,000 PSI<br/>Tensile Strength</div>
+                      </div>
+                      <div class="space-y-2">
+                        <div class="font-bold text-purple-600">1</div>
+                        <div class="text-slate-500">Position<br/>(1 = All Positions)</div>
+                      </div>
+                      <div class="space-y-2">
+                        <div class="font-bold text-orange-600">8</div>
+                        <div class="text-slate-500">Coating/Current<br/>(Low Hydrogen, AC/DCEP)</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-lg mb-4">Common Electrodes</h4>
+                  <div class="overflow-hidden rounded-lg border border-slate-200">
+                    <table class="w-full text-left text-sm">
+                      <thead class="bg-slate-100">
+                        <tr>
+                          <th class="p-3 font-bold">Rod</th>
+                          <th class="p-3 font-bold">Nickname</th>
+                          <th class="p-3 font-bold">Characteristics</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-mono font-bold">E6010</td>
+                          <td class="p-3">"60-10"</td>
+                          <td class="p-3">Deep penetration, works on dirty/rusty metal.</td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-mono font-bold">E7018</td>
+                          <td class="p-3">"Lo-Hy"</td>
+                          <td class="p-3">Strong, smooth welds. Must be kept dry.</td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-mono font-bold">E6013</td>
+                          <td class="p-3">"Farmers Rod"</td>
+                          <td class="p-3">Easy to run, shallow penetration. Good for sheet metal.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            `
+          },
           { id: "tw2-l3", title: "Process Quiz", type: "quiz", duration: "15 min", isCompleted: false }
         ]
       },
@@ -462,7 +582,62 @@ export const COURSES: Course[] = [
         progress: 0,
         lessons: [
           { id: "tmec1-l1", title: "Four-Stroke Cycle", type: "video", duration: "10 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/OGj8OneMjek" },
-          { id: "tmec1-l2", title: "Engine Components", type: "reading", duration: "15 min", isCompleted: false },
+          { 
+            id: "tmec1-l2", 
+            title: "Engine Components", 
+            type: "reading", 
+            duration: "15 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                   <div>
+                      <h3 class="text-2xl font-bold mb-4 text-slate-800">The Heart of the Car</h3>
+                      <p class="text-slate-600 mb-4">The internal combustion engine converts chemical energy (fuel) into mechanical energy (motion). This happens inside a sealed cylinder.</p>
+                      <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                           <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs mt-0.5">1</div>
+                           <div>
+                              <strong class="block text-slate-800">Cylinder Block</strong>
+                              <span class="text-sm text-slate-500">The main structure that houses the cylinders.</span>
+                           </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                           <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs mt-0.5">2</div>
+                           <div>
+                              <strong class="block text-slate-800">Cylinder Head</strong>
+                              <span class="text-sm text-slate-500">Sits on top, contains valves and spark plugs.</span>
+                           </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                           <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs mt-0.5">3</div>
+                           <div>
+                              <strong class="block text-slate-800">Piston</strong>
+                              <span class="text-sm text-slate-500">Moves up and down to compress fuel/air.</span>
+                           </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                           <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs mt-0.5">4</div>
+                           <div>
+                              <strong class="block text-slate-800">Crankshaft</strong>
+                              <span class="text-sm text-slate-500">Converts up/down motion into rotation.</span>
+                           </div>
+                        </li>
+                      </ul>
+                   </div>
+                   <div class="bg-slate-100 rounded-xl p-8 flex items-center justify-center border border-slate-200">
+                      <div class="text-center">
+                         <div class="w-32 h-48 border-x-4 border-slate-400 mx-auto relative bg-white">
+                            <div class="absolute bottom-0 w-full h-24 bg-slate-300 animate-pulse"></div>
+                            <div class="absolute top-2 left-2 w-4 h-4 rounded-full bg-orange-500"></div>
+                         </div>
+                         <p class="mt-4 text-xs font-mono text-slate-500">SIMPLIFIED PISTON DIAGRAM</p>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            `
+          },
           { id: "tmec1-l3", title: "Engine Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
       },
@@ -473,8 +648,48 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tmec2-l1", title: "Hydraulic Principles", type: "video", duration: "12 min", isCompleted: false },
-            { id: "tmec2-l2", title: "Disc vs Drum Brakes", type: "reading", duration: "20 min", isCompleted: false },
+            { 
+                id: "tmec2-l1", 
+                title: "Hydraulic Principles", 
+                type: "video", 
+                duration: "12 min", 
+                isCompleted: false,
+                videoUrl: "https://www.youtube.com/embed/Zz95_VvTxZM" 
+            },
+            { 
+                id: "tmec2-l2", 
+                title: "Disc vs Drum Brakes", 
+                type: "reading", 
+                duration: "20 min", 
+                isCompleted: false,
+                content: `
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold">Braking Systems Compared</h3>
+                        <p class="text-slate-600">Most modern vehicles use Disc brakes on the front and either Disc or Drum brakes on the rear.</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
+                                <h4 class="font-bold text-lg mb-2 text-blue-600">Disc Brakes</h4>
+                                <ul class="list-disc pl-5 text-sm space-y-1 text-slate-600">
+                                    <li>Uses a <strong>caliper</strong> to squeeze pads against a <strong>rotor</strong>.</li>
+                                    <li>Better heat dissipation (less fade).</li>
+                                    <li>Self-cleaning (water/dust spins off).</li>
+                                    <li>Standard on front wheels.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
+                                <h4 class="font-bold text-lg mb-2 text-orange-600">Drum Brakes</h4>
+                                <ul class="list-disc pl-5 text-sm space-y-1 text-slate-600">
+                                    <li>Uses <strong>shoes</strong> that press outward against a <strong>drum</strong>.</li>
+                                    <li>Self-energizing effect (requires less pedal force).</li>
+                                    <li>Cheaper to manufacture.</li>
+                                    <li>Harder to service.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
             { id: "tmec2-l3", title: "Brake Systems Quiz", type: "quiz", duration: "15 min", isCompleted: false }
         ]
       },
@@ -508,7 +723,68 @@ export const COURSES: Course[] = [
         progress: 0,
         lessons: [
             { id: "tcarp1-l1", title: "Power Tool Safety", type: "video", duration: "15 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/AtpZ4OQZ-c4" },
-            { id: "tcarp1-l2", title: "Wood Types & Grades", type: "reading", duration: "20 min", isCompleted: false },
+            { 
+                id: "tcarp1-l2", 
+                title: "Wood Types & Grades", 
+                type: "reading", 
+                duration: "20 min", 
+                isCompleted: false,
+                content: `
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4 text-amber-800">Understanding Wood</h3>
+                            <p class="text-slate-600 mb-6">Lumber is divided into two main categories: Hardwood and Softwood. This refers to the tree's reproduction (seeds), not necessarily physical hardness.</p>
+                            
+                            <div class="grid grid-cols-2 gap-0 border rounded-xl overflow-hidden">
+                                <div class="bg-amber-50 p-6 border-r border-amber-100">
+                                    <h4 class="font-bold text-lg text-amber-900 mb-2">Softwood</h4>
+                                    <p class="text-xs text-amber-700 uppercase font-bold tracking-wider mb-4">Conifers (Needles/Cones)</p>
+                                    <ul class="text-sm space-y-2 text-amber-900/80">
+                                        <li>• Pine</li>
+                                        <li>• Fir</li>
+                                        <li>• Spruce</li>
+                                        <li>• Cedar</li>
+                                    </ul>
+                                    <p class="mt-4 text-xs italic text-amber-600">Used for: Framing, construction, outdoor decks.</p>
+                                </div>
+                                <div class="bg-stone-50 p-6">
+                                    <h4 class="font-bold text-lg text-stone-900 mb-2">Hardwood</h4>
+                                    <p class="text-xs text-stone-700 uppercase font-bold tracking-wider mb-4">Deciduous (Leaves)</p>
+                                    <ul class="text-sm space-y-2 text-stone-900/80">
+                                        <li>• Oak</li>
+                                        <li>• Maple</li>
+                                        <li>• Cherry</li>
+                                        <li>• Walnut</li>
+                                    </ul>
+                                    <p class="mt-4 text-xs italic text-stone-600">Used for: Furniture, flooring, fine cabinetry.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-lg mb-2">Common Lumber Defects</h4>
+                            <div class="flex gap-4 overflow-x-auto pb-4">
+                                <div class="min-w-[120px] bg-white border p-3 rounded text-center">
+                                    <div class="font-bold text-slate-800">Knot</div>
+                                    <div class="text-xs text-slate-500">Branch base</div>
+                                </div>
+                                <div class="min-w-[120px] bg-white border p-3 rounded text-center">
+                                    <div class="font-bold text-slate-800">Check</div>
+                                    <div class="text-xs text-slate-500">Crack along grain</div>
+                                </div>
+                                <div class="min-w-[120px] bg-white border p-3 rounded text-center">
+                                    <div class="font-bold text-slate-800">Wane</div>
+                                    <div class="text-xs text-slate-500">Missing wood/bark edge</div>
+                                </div>
+                                <div class="min-w-[120px] bg-white border p-3 rounded text-center">
+                                    <div class="font-bold text-slate-800">Cup</div>
+                                    <div class="text-xs text-slate-500">Curve across width</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
             { id: "tcarp1-l3", title: "Tools Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
       },
@@ -519,8 +795,79 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tcarp2-l1", title: "Wall Framing", type: "video", duration: "20 min", isCompleted: false },
-            { id: "tcarp2-l2", title: "Roof Systems", type: "reading", duration: "25 min", isCompleted: false },
+            { 
+                id: "tcarp2-l1", 
+                title: "Wall Framing", 
+                type: "video", 
+                duration: "20 min", 
+                isCompleted: false,
+                videoUrl: "https://www.youtube.com/embed/3ogM2q_bLhM" 
+            },
+            { 
+                id: "tcarp2-l2", 
+                title: "Roof Systems", 
+                type: "reading", 
+                duration: "25 min", 
+                isCompleted: false,
+                content: `
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold">Roof Framing Fundamentals</h3>
+                        <p class="text-slate-600">The roof structure supports the covering (shingles/metal) and transfers loads to the walls.</p>
+                        
+                        <div class="bg-slate-900 text-white p-6 rounded-xl">
+                            <h4 class="font-bold text-lg mb-4 text-blue-300">Key Terminology</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+                                <div>
+                                    <strong class="block text-yellow-400">Span</strong>
+                                    <span class="text-sm text-slate-400">The distance between the outside edges of the supporting walls.</span>
+                                </div>
+                                <div>
+                                    <strong class="block text-yellow-400">Run</strong>
+                                    <span class="text-sm text-slate-400">Half the span (for a standard gable roof).</span>
+                                </div>
+                                <div>
+                                    <strong class="block text-yellow-400">Rise</strong>
+                                    <span class="text-sm text-slate-400">The vertical height of the roof from the wall plate to the ridge.</span>
+                                </div>
+                                <div>
+                                    <strong class="block text-yellow-400">Pitch (Slope)</strong>
+                                    <span class="text-sm text-slate-400">Ratio of Rise over Run (e.g., 4/12 pitch means 4" rise for every 12" run).</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold mb-2">Rafters vs. Trusses</h4>
+                            <table class="w-full text-sm">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th class="p-2 text-left">Feature</th>
+                                        <th class="p-2 text-left">Stick Framing (Rafters)</th>
+                                        <th class="p-2 text-left">Trusses</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="p-2 font-medium">Space Use</td>
+                                        <td class="p-2">Open (good for attics)</td>
+                                        <td class="p-2">Webbed (hard to use for storage)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 font-medium">Speed</td>
+                                        <td class="p-2">Slower, more skill required</td>
+                                        <td class="p-2">Fast, crane installation</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 font-medium">Cost</td>
+                                        <td class="p-2">More labor, less material</td>
+                                        <td class="p-2">Less labor, engineered cost</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `
+            },
             { id: "tcarp2-l3", title: "Framing Quiz", type: "quiz", duration: "15 min", isCompleted: false }
         ]
       },
