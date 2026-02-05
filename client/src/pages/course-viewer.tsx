@@ -36,12 +36,12 @@ export default function CourseViewer() {
   // Merge static course data with user progress state
   const course = {
     ...rawCourse,
-    modules: rawCourse.modules.map(m => {
+    modules: rawCourse.modules.map((m, index) => {
       const userModule = state.modules[m.id];
       return {
         ...m,
         // If state exists use it, otherwise fallback to Locked (unless it's the very first one which is default unlocked)
-        status: userModule ? userModule.status : (m.id === "m1" || m.id === "tw1" || m.id === "tmec1" || m.id === "tcarp1" ? "unlocked" : "locked"),
+        status: userModule ? userModule.status : (index === 0 ? "unlocked" : "locked"),
         lessons: m.lessons.map(l => ({
           ...l,
           isCompleted: userModule?.completedLessons.includes(l.id) || false
