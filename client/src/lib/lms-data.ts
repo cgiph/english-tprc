@@ -949,23 +949,144 @@ export const COURSES: Course[] = [
     ]
   },
   {
-    id: "mock-easy",
-    title: "PTE Mock Test: Easy",
-    category: "Mock Test",
-    level: "Easy",
-    description: "Beginner-friendly mock test to get familiar with the exam format without time pressure.",
+    id: "pte-crash-course",
+    title: "PTE Academic Crash Course",
+    category: "English",
+    level: "B2",
+    description: "Intensive preparation for the PTE Academic exam. Master Speaking, Reading, Writing, and Listening strategies with targeted practice and a final mock test.",
     thumbnail: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80",
-    totalModules: 1,
+    totalModules: 4,
     completedModules: 0,
     modules: [
       {
-        id: "mock1",
-        title: "Full Assessment",
-        description: "Complete test covering all 4 skills.",
+        id: "pte-m1",
+        title: "Module 1: Speaking Mastery",
+        description: "Master oral fluency and pronunciation for Read Aloud, Repeat Sentence, Describe Image, and Retell Lecture.",
         status: "unlocked",
         progress: 0,
         lessons: [
-          { id: "mt1", title: "Start Test", type: "quiz", duration: "2 hrs", isCompleted: false }
+          { 
+            id: "pte-m1-l1", 
+            title: "Strategy: Read Aloud", 
+            type: "video", 
+            duration: "20 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/H3tZj_y8y6E",
+            content: "<h3>Read Aloud Tips</h3><ul><li>Speak at a natural pace.</li><li>Do not correct yourself if you make a mistake; keep going.</li><li>Pause slightly at punctuation marks.</li></ul>"
+          },
+          { 
+            id: "pte-m1-l2", 
+            title: "Technique: Repeat Sentence", 
+            type: "reading", 
+            duration: "25 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <h3 class="text-2xl font-bold text-blue-800">Repeat Sentence Strategy</h3>
+                <p class="text-slate-700">You will hear a sentence. Please repeat the sentence exactly as you hear it. You will hear the sentence only once.</p>
+                
+                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                   <h4 class="font-bold text-blue-900 mb-2">Key Tactics</h4>
+                   <ul class="list-disc pl-5 space-y-2 text-slate-700">
+                      <li><strong>Listen for Phrases:</strong> Don't try to memorize individual words. Group them into meaningful phrases.</li>
+                      <li><strong>Mimic Intonation:</strong> Copy the speaker's stress and rising/falling tone.</li>
+                      <li><strong>Don't Pause:</strong> If you forget a word, skip it and continue. Fluency is more important than 100% content accuracy.</li>
+                   </ul>
+                </div>
+              </div>
+            `
+          },
+          { 
+             id: "pte-m1-l3", 
+             title: "Template: Describe Image", 
+             type: "reading", 
+             duration: "30 min", 
+             isCompleted: false,
+             content: `
+                <div class="space-y-6">
+                   <h3 class="text-2xl font-bold text-slate-900">The Universal Template</h3>
+                   <div class="bg-slate-900 text-slate-100 p-8 rounded-xl font-mono text-sm leading-relaxed shadow-2xl">
+                      <p class="mb-4"><span class="text-blue-400">Introduction:</span> "The image describes [Title/Topic]. It provides several interesting details and figures."</p>
+                      <p class="mb-4"><span class="text-green-400">Body:</span> "From the image, I can see [Highest Value/Key Feature] which is approximately [Number/Color]. I can also see [Lowest Value/Another Feature]."</p>
+                      <p class="mb-4"><span class="text-yellow-400">Trend:</span> "On the contrary, there is a significant difference between [Item A] and [Item B]."</p>
+                      <p><span class="text-purple-400">Conclusion:</span> "In conclusion, the image is very informative."</p>
+                   </div>
+                   <p class="text-slate-600 italic text-center">Memorize this structure to ensure you always have something to say, regardless of the image complexity.</p>
+                </div>
+             `
+          },
+          { id: "pte-m1-quiz", title: "Speaking Assessment", type: "quiz", duration: "30 min", isCompleted: false }
+        ]
+      },
+      {
+        id: "pte-m2",
+        title: "Module 2: Reading Strategies",
+        description: "Tactics for Multiple Choice, Re-order Paragraphs, and Fill in the Blanks.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+           { 
+             id: "pte-m2-l1", 
+             title: "Multiple Choice Strategies", 
+             type: "video", 
+             duration: "25 min", 
+             isCompleted: false,
+             videoUrl: "https://www.youtube.com/embed/7Y4J8k5q6w0" 
+           },
+           { 
+             id: "pte-m2-l2", 
+             title: "Fill in the Blanks (Reading & Writing)", 
+             type: "reading", 
+             duration: "30 min", 
+             isCompleted: false,
+             content: `
+               <div class="space-y-6">
+                 <h3 class="text-2xl font-bold text-slate-800">Collocations are King</h3>
+                 <p class="text-slate-600">The PTE algorithm loves collocations—words that naturally go together.</p>
+                 <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white p-4 border rounded shadow-sm">
+                       <div class="font-bold text-green-600">Correct</div>
+                       <div class="text-slate-700">"Academic <u>performance</u>"</div>
+                    </div>
+                    <div class="bg-white p-4 border rounded shadow-sm">
+                       <div class="font-bold text-red-600">Incorrect</div>
+                       <div class="text-slate-700">"Academic <u>working</u>"</div>
+                    </div>
+                    <div class="bg-white p-4 border rounded shadow-sm">
+                       <div class="font-bold text-green-600">Correct</div>
+                       <div class="text-slate-700">"Rapid <u>growth</u>"</div>
+                    </div>
+                    <div class="bg-white p-4 border rounded shadow-sm">
+                       <div class="font-bold text-red-600">Incorrect</div>
+                       <div class="text-slate-700">"Fast <u>enlargement</u>"</div>
+                    </div>
+                 </div>
+               </div>
+             `
+           },
+           { id: "pte-m2-quiz", title: "Reading Assessment", type: "quiz", duration: "30 min", isCompleted: false }
+        ]
+      },
+      {
+        id: "pte-m3",
+        title: "Module 3: Writing & Listening",
+        description: "Essay writing templates and Summarize Spoken Text techniques.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+           { id: "pte-m3-l1", title: "Essay Templates", type: "reading", duration: "30 min", isCompleted: false },
+           { id: "pte-m3-l2", title: "Summarize Spoken Text", type: "video", duration: "25 min", isCompleted: false },
+           { id: "pte-m3-quiz", title: "Writing & Listening Quiz", type: "quiz", duration: "30 min", isCompleted: false }
+        ]
+      },
+      {
+        id: "pte-m4",
+        title: "Module 4: PTE Mock Exam",
+        description: "Full-length simulation of the PTE Academic exam.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          { id: "pte-final", title: "Full Mock Test", type: "quiz", duration: "60 min", isCompleted: false }
         ]
       }
     ]
