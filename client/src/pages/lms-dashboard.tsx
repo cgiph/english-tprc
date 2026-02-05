@@ -31,7 +31,7 @@ export default function LMSDashboard() {
         <TabsList className="bg-muted/50 p-1">
           <TabsTrigger value="all" className="px-6">All Courses</TabsTrigger>
           <TabsTrigger value="english" className="px-6">English Levels</TabsTrigger>
-          <TabsTrigger value="technical" className="px-6 data-[state=active]:bg-orange-600 data-[state=active]:text-white">Technical Tracks</TabsTrigger>
+          <TabsTrigger value="technical" className="px-6 data-[state=active]:bg-orange-600 data-[state=active]:text-white">Trade Prep (TSA/TRA)</TabsTrigger>
           <TabsTrigger value="mock test" className="px-6">Mock Tests</TabsTrigger>
         </TabsList>
 

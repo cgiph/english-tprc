@@ -46,6 +46,38 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       options: ["childs", "children", "childrens", "childes"],
       correctAnswer: 1
     }
+  ],
+  "tw1": [
+    {
+      id: "wq1",
+      text: "What is the primary purpose of a welding helmet's auto-darkening lens?",
+      options: ["To look cool", "To protect eyes from UV/IR radiation", "To see in the dark", "To magnify the weld"],
+      correctAnswer: 1
+    },
+    {
+      id: "wq2",
+      text: "Which shade of filter lens is generally recommended for most arc welding?",
+      options: ["Shade 3-5", "Shade 5-8", "Shade 10-12", "Shade 14+"],
+      correctAnswer: 2
+    },
+    {
+      id: "wq3",
+      text: "Why must welding gloves be kept dry?",
+      options: ["To keep hands warm", "To prevent electric shock", "To avoid shrinking", "To maintain grip"],
+      correctAnswer: 1
+    },
+    {
+      id: "wq4",
+      text: "What type of clothing material is safest for welding?",
+      options: ["Synthetic / Polyester", "100% Cotton or Leather", "Nylon", "Rayon"],
+      correctAnswer: 1
+    },
+    {
+      id: "wq5",
+      text: "Before welding on a container, what is the most critical safety step?",
+      options: ["Paint it first", "Fill it with water", "Ensure it is cleaned of all flammable vapors", "Heat it up"],
+      correctAnswer: 2
+    }
   ]
 };
 
