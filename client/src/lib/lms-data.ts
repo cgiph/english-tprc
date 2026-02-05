@@ -10,6 +10,7 @@ export interface Lesson {
   duration: string; // e.g. "10 min"
   isCompleted: boolean;
   videoUrl?: string; // Optional YouTube embed URL
+  content?: string; // Optional rich text content for reading lessons
 }
 
 export interface Module {
@@ -53,8 +54,74 @@ export const COURSES: Course[] = [
         status: "unlocked",
         progress: 0,
         lessons: [
-          { id: "l1", title: "Sentence Basics", type: "video", duration: "5 min", isCompleted: false },
-          { id: "l2", title: "Common Nouns vs Proper Nouns", type: "reading", duration: "10 min", isCompleted: false },
+          { id: "l1", title: "Sentence Basics", type: "video", duration: "5 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/01X9m5N0v_A" },
+          { 
+            id: "l2", 
+            title: "Common Nouns vs Proper Nouns", 
+            type: "reading", 
+            duration: "10 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div>
+                  <h3 class="text-2xl font-bold mb-4 text-primary">Part 1: Parts of Speech</h3>
+                  <div class="grid gap-4 md:grid-cols-3">
+                    <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                      <h4 class="font-bold text-lg text-blue-400 mb-2">Nouns</h4>
+                      <p class="text-slate-300 mb-2">Names of people, places, or things.</p>
+                      <div class="text-sm bg-slate-900 p-2 rounded text-slate-400">
+                        Examples: <span class="text-white">Welder, Australia, Helmet</span>
+                      </div>
+                    </div>
+                    <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                      <h4 class="font-bold text-lg text-green-400 mb-2">Verbs</h4>
+                      <p class="text-slate-300 mb-2">Action words.</p>
+                      <div class="text-sm bg-slate-900 p-2 rounded text-slate-400">
+                        Examples: <span class="text-white">Fix, Build, Speak</span>
+                      </div>
+                    </div>
+                    <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                      <h4 class="font-bold text-lg text-purple-400 mb-2">Adjectives</h4>
+                      <p class="text-slate-300 mb-2">Describing words.</p>
+                      <div class="text-sm bg-slate-900 p-2 rounded text-slate-400">
+                        Examples: <span class="text-white">Heavy, Strong, Clear</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="text-2xl font-bold mb-4 text-primary">Part 2: Common vs. Proper Nouns</h3>
+                  <div class="overflow-hidden rounded-lg border border-slate-700">
+                    <table class="w-full text-left text-sm">
+                      <thead class="bg-slate-800 text-slate-200">
+                        <tr>
+                          <th class="p-4 font-bold">Type</th>
+                          <th class="p-4 font-bold">Definition</th>
+                          <th class="p-4 font-bold">Rule</th>
+                          <th class="p-4 font-bold">Examples</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-700 bg-slate-900/50">
+                        <tr>
+                          <td class="p-4 font-medium text-blue-400">Common Nouns</td>
+                          <td class="p-4 text-slate-300">General items</td>
+                          <td class="p-4 text-slate-400">Not capitalized</td>
+                          <td class="p-4 text-slate-200">car, mechanic, city</td>
+                        </tr>
+                        <tr>
+                          <td class="p-4 font-medium text-green-400">Proper Nouns</td>
+                          <td class="p-4 text-slate-300">Specific names</td>
+                          <td class="p-4 text-slate-400">Always capitalized</td>
+                          <td class="p-4 text-slate-200">Toyota, John, Sydney</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            `
+          },
           { id: "l3", title: "Module Quiz", type: "quiz", duration: "15 min", isCompleted: false }
         ]
       },

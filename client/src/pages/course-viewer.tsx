@@ -26,7 +26,7 @@ export default function CourseViewer() {
   const { toast } = useToast();
 
   // Active Lesson State (for Player)
-  const [activeLesson, setActiveLesson] = useState<{id: string, title: string, type: string, moduleId: string, videoUrl?: string} | null>(null);
+  const [activeLesson, setActiveLesson] = useState<{id: string, title: string, type: string, moduleId: string, videoUrl?: string, content?: string} | null>(null);
   
   // Expanded Modules State
   const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({});
@@ -76,7 +76,8 @@ export default function CourseViewer() {
           title: targetLesson.title,
           type: targetLesson.type,
           moduleId: firstUnlocked.id,
-          videoUrl: (targetLesson as any).videoUrl
+          videoUrl: (targetLesson as any).videoUrl,
+          content: (targetLesson as any).content
         });
         
         // Expand the active module by default
@@ -106,7 +107,8 @@ export default function CourseViewer() {
             title: lesson.title,
             type: lesson.type,
             moduleId: moduleId,
-            videoUrl: (lesson as any).videoUrl
+            videoUrl: (lesson as any).videoUrl,
+            content: (lesson as any).content
         });
     }
 
@@ -237,12 +239,18 @@ export default function CourseViewer() {
                        <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white w-full" onClick={() => handleLessonStart(activeLesson.moduleId, activeLesson.id, "quiz")}>Start Quiz</Button>
                     </div>
                  ) : (
-                    <div className="text-center space-y-4 max-w-2xl px-8">
-                       <FileText className="h-20 w-20 text-slate-600 mx-auto" />
-                       <h3 className="text-2xl font-bold">{activeLesson.title}</h3>
-                       <p className="text-slate-400 text-lg leading-relaxed">
-                         Reading content for this lesson would appear here. This is a mockup for the reading interface.
-                       </p>
+                    <div className="w-full h-full overflow-y-auto">
+                       {activeLesson.content ? (
+                         <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: activeLesson.content }} />
+                       ) : (
+                         <div className="flex flex-col items-center justify-center h-full text-center space-y-4 max-w-2xl px-8 mx-auto">
+                            <FileText className="h-20 w-20 text-slate-600 mx-auto" />
+                            <h3 className="text-2xl font-bold">{activeLesson.title}</h3>
+                            <p className="text-slate-400 text-lg leading-relaxed">
+                              Reading content for this lesson would appear here. This is a mockup for the reading interface.
+                            </p>
+                         </div>
+                       )}
                     </div>
                  )}
               </div>
