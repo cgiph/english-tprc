@@ -150,7 +150,12 @@ export function ModuleQuiz({ moduleId, moduleTitle, isOpen, onClose, onComplete 
         {!submitted ? (
           <div className="py-4">
             <h3 className="text-lg font-medium mb-4">{questions[currentQuestion].text}</h3>
-            <RadioGroup value={answers[questions[currentQuestion].id]?.toString()} onValueChange={handleSelect}>
+            {/* Key added to force re-render when question changes, clearing selection state visually */}
+            <RadioGroup 
+              key={currentQuestion}
+              value={answers[questions[currentQuestion].id]?.toString() ?? ""} 
+              onValueChange={handleSelect}
+            >
               {questions[currentQuestion].options.map((option, idx) => (
                 <div key={idx} className="flex items-center space-x-2 mb-2 p-2 rounded hover:bg-muted/50">
                   <RadioGroupItem value={idx.toString()} id={`opt-${idx}`} />
