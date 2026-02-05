@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video } from "lucide-react";
+import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
 import { useState, useEffect } from "react";
@@ -18,12 +18,14 @@ export default function CourseViewer() {
   const { id } = useParams();
   const rawCourse = getCourseById(id || "");
   const { state, completeLesson, unlockModule, submitQuizScore } = useLMS();
-  const [activeModule, setActiveModule] = useState<string | null>(null);
   
   // Quiz State
   const [quizOpen, setQuizOpen] = useState(false);
   const [activeQuizModule, setActiveQuizModule] = useState<{id: string, title: string} | null>(null);
   const { toast } = useToast();
+
+  // Active Lesson State (for Player)
+  const [activeLesson, setActiveLesson] = useState<{id: string, title: string, type: string, moduleId: string} | null>(null);
 
   if (!rawCourse) return <NotFound />;
 
@@ -35,7 +37,7 @@ export default function CourseViewer() {
       return {
         ...m,
         // If state exists use it, otherwise fallback to Locked (unless it's the very first one which is default unlocked)
-        status: userModule ? userModule.status : (m.id === "m1" ? "unlocked" : "locked"),
+        status: userModule ? userModule.status : (m.id === "m1" || m.id === "tw1" || m.id === "tmec1" || m.id === "tcarp1" ? "unlocked" : "locked"),
         lessons: m.lessons.map(l => ({
           ...l,
           isCompleted: userModule?.completedLessons.includes(l.id) || false
@@ -46,23 +48,68 @@ export default function CourseViewer() {
     completedModules: rawCourse.modules.filter(m => state.modules[m.id]?.status === "completed").length
   };
 
-  // Find the first active/in-progress module to open by default
-  const defaultOpen = course.modules.find(m => m.status === "in-progress" || m.status === "unlocked")?.id || course.modules[0].id;
+  // Calculate total course progress percentage
+  const totalLessons = course.modules.reduce((acc, m) => acc + m.lessons.length, 0);
+  const completedLessonsCount = course.modules.reduce((acc, m) => acc + m.lessons.filter(l => l.isCompleted).length, 0);
+  const courseProgressPercent = totalLessons > 0 ? Math.round((completedLessonsCount / totalLessons) * 100) : 0;
+
+  // Initialize active lesson if none selected (find first incomplete unlocked lesson or just first lesson)
+  useEffect(() => {
+    if (!activeLesson && course.modules.length > 0) {
+      // Find first unlocked module
+      const firstUnlocked = course.modules.find(m => m.status === "unlocked" || m.status === "in-progress" || m.status === "completed");
+      if (firstUnlocked && firstUnlocked.lessons.length > 0) {
+        // Find first incomplete lesson in this module
+        const firstIncomplete = firstUnlocked.lessons.find(l => !l.isCompleted);
+        const targetLesson = firstIncomplete || firstUnlocked.lessons[0];
+        setActiveLesson({
+          id: targetLesson.id,
+          title: targetLesson.title,
+          type: targetLesson.type,
+          moduleId: firstUnlocked.id
+        });
+      }
+    }
+  }, [course, activeLesson]);
+
 
   const handleLessonStart = (moduleId: string, lessonId: string, type: string) => {
+    const module = course.modules.find(m => m.id === moduleId);
+    const lesson = module?.lessons.find(l => l.id === lessonId);
+    
+    if (lesson) {
+        setActiveLesson({
+            id: lesson.id,
+            title: lesson.title,
+            type: lesson.type,
+            moduleId: moduleId
+        });
+    }
+
     if (type === "quiz") {
-      const module = course.modules.find(m => m.id === moduleId);
       if (module) {
         setActiveQuizModule({ id: module.id, title: module.title });
         setQuizOpen(true);
       }
-    } else {
-      // For video/reading, just mark complete for demo purposes
-      completeLesson(moduleId, lessonId);
-      toast({
-        title: "Lesson Completed",
-        description: "Progress saved."
-      });
+    }
+  };
+
+  const handleMarkComplete = () => {
+    if (activeLesson) {
+        if (activeLesson.type === "quiz") {
+            // Re-open quiz modal if it's a quiz type
+            const module = course.modules.find(m => m.id === activeLesson.moduleId);
+            if (module) {
+                setActiveQuizModule({ id: module.id, title: module.title });
+                setQuizOpen(true);
+            }
+        } else {
+            completeLesson(activeLesson.moduleId, activeLesson.id);
+            toast({
+                title: "Lesson Completed",
+                description: "Progress saved."
+            });
+        }
     }
   };
 
@@ -101,7 +148,7 @@ export default function CourseViewer() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-background">
       {/* Quiz Modal */}
       {activeQuizModule && (
         <ModuleQuiz 
@@ -113,148 +160,162 @@ export default function CourseViewer() {
         />
       )}
 
-      {/* Header */}
-      <div className="mb-8">
-        <Link href="/lms" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-4 transition-colors">
-          <ChevronLeft className="h-4 w-4 mr-1" /> Back to Dashboard
-        </Link>
-        
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-          <div className="space-y-4 max-w-3xl">
-            <div className="flex gap-2">
-              <Badge>{course.category}</Badge>
-              {course.level && <Badge variant="outline">{course.level}</Badge>}
-              {course.silo && <Badge variant="outline">{course.silo}</Badge>}
-            </div>
-            <h1 className="text-4xl font-serif font-bold text-foreground">{course.title}</h1>
-            <p className="text-lg text-muted-foreground">{course.description}</p>
-          </div>
-          
-          <Card className="w-full md:w-80 shrink-0 bg-muted/30 border-none shadow-none">
-            <CardContent className="p-6 space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between font-medium">
-                  <span>Course Progress</span>
-                  <span>{Math.round((course.completedModules / course.totalModules) * 100)}%</span>
-                </div>
-                <Progress value={(course.completedModules / course.totalModules) * 100} />
+      {/* Main Content Area - Video Player Style */}
+      <div className="flex-1 flex flex-col overflow-y-auto bg-slate-950 text-slate-100">
+        {/* Header Overlay */}
+        <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+           <div>
+             <Link href="/lms" className="text-sm text-slate-400 hover:text-white flex items-center mb-1">
+               <ChevronLeft className="h-4 w-4 mr-1" /> Back to Dashboard
+             </Link>
+             <h1 className="text-xl font-bold text-white">{activeLesson?.title || course.title}</h1>
+           </div>
+           <Badge variant="outline" className="text-slate-300 border-slate-700">{course.title}</Badge>
+        </div>
+
+        {/* Cinema Mode Player */}
+        <div className="flex-1 flex items-center justify-center p-8 bg-black/40 min-h-[500px]">
+           {activeLesson ? (
+              <div className="w-full max-w-4xl aspect-video bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-800 flex items-center justify-center relative group">
+                 {activeLesson.type === "video" ? (
+                    <div className="text-center space-y-4">
+                       <PlayCircle className="h-24 w-24 text-slate-700 group-hover:text-primary transition-colors cursor-pointer" />
+                       <p className="text-slate-500 font-medium">Video Placeholder: {activeLesson.title}</p>
+                    </div>
+                 ) : activeLesson.type === "quiz" ? (
+                    <div className="text-center space-y-6 max-w-md p-8">
+                       <HelpCircle className="h-20 w-20 text-orange-500 mx-auto" />
+                       <h3 className="text-2xl font-bold">Module Assessment</h3>
+                       <p className="text-slate-400">Pass this quiz with 80% or higher to unlock the next module.</p>
+                       <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white w-full" onClick={() => handleLessonStart(activeLesson.moduleId, activeLesson.id, "quiz")}>Start Quiz</Button>
+                    </div>
+                 ) : (
+                    <div className="text-center space-y-4 max-w-2xl px-8">
+                       <FileText className="h-20 w-20 text-slate-600 mx-auto" />
+                       <h3 className="text-2xl font-bold">{activeLesson.title}</h3>
+                       <p className="text-slate-400 text-lg leading-relaxed">
+                         Reading content for this lesson would appear here. This is a mockup for the reading interface.
+                       </p>
+                    </div>
+                 )}
               </div>
-              <div className="flex gap-4 text-sm text-muted-foreground">
-                 <div className="flex items-center gap-1">
-                   <CheckCircle2 className="h-4 w-4 text-green-500" />
-                   {course.completedModules} Completed
-                 </div>
-                 <div className="flex items-center gap-1">
-                   <Lock className="h-4 w-4" />
-                   {course.totalModules - course.completedModules} Remaining
+           ) : (
+              <p className="text-slate-500">Select a lesson to begin</p>
+           )}
+        </div>
+
+        {/* Lesson Controls & Resources */}
+        <div className="bg-slate-900 p-8 border-t border-slate-800">
+           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+              <div>
+                 <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                   <Download className="h-5 w-5 text-primary" /> Lesson Resources
+                 </h3>
+                 <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors cursor-pointer group">
+                       <div className="flex items-center gap-3">
+                          <FileText className="h-5 w-5 text-slate-400 group-hover:text-primary" />
+                          <span className="text-sm font-medium text-slate-300">Lesson Slides (PDF)</span>
+                       </div>
+                       <Download className="h-4 w-4 text-slate-500" />
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors cursor-pointer group">
+                       <div className="flex items-center gap-3">
+                          <FileText className="h-5 w-5 text-slate-400 group-hover:text-primary" />
+                          <span className="text-sm font-medium text-slate-300">Reference Sheet</span>
+                       </div>
+                       <Download className="h-4 w-4 text-slate-500" />
+                    </div>
                  </div>
               </div>
-            </CardContent>
-          </Card>
+
+              <div className="flex flex-col justify-center items-end space-y-4">
+                 <p className="text-slate-400 text-sm">
+                   {activeLesson?.type === "quiz" 
+                     ? "Complete the quiz to proceed." 
+                     : "Review the materials above before continuing."}
+                 </p>
+                 <Button 
+                   size="lg" 
+                   className={cn(
+                     "w-full md:w-auto px-8 py-6 text-lg font-bold transition-all",
+                     activeLesson?.type === "quiz" ? "bg-orange-600 hover:bg-orange-700" : "bg-primary hover:bg-primary/90"
+                   )}
+                   onClick={handleMarkComplete}
+                 >
+                   {activeLesson?.type === "quiz" ? "Take Quiz" : "Mark as Complete"}
+                   <ChevronRight className="ml-2 h-5 w-5" />
+                 </Button>
+              </div>
+           </div>
         </div>
       </div>
 
-      {/* Modules List */}
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold">Course Modules</h2>
+      {/* Sidebar - Course Syllabus */}
+      <div className="w-96 bg-background border-l border-border flex flex-col h-full overflow-hidden shrink-0 hidden lg:flex">
+        <div className="p-6 border-b border-border">
+           <h2 className="font-bold text-lg mb-2">Course Syllabus</h2>
+           <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">{courseProgressPercent}% Complete</span>
+                <span className="font-medium text-primary">{completedLessonsCount}/{totalLessons} Lessons</span>
+              </div>
+              <Progress value={courseProgressPercent} className="h-2" />
+           </div>
+        </div>
         
-        <Accordion type="single" collapsible defaultValue={defaultOpen} className="w-full space-y-4">
-          {course.modules.map((module, index) => (
-            <ModuleItem 
-              key={module.id} 
-              module={module as any} 
-              index={index} 
-              onStartLesson={(lessonId, type) => handleLessonStart(module.id, lessonId, type)}
-            />
-          ))}
-        </Accordion>
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+           {course.modules.map((module, mIdx) => {
+             const isLocked = module.status === "locked";
+             
+             return (
+               <div key={module.id} className={cn("rounded-lg border", isLocked ? "opacity-60 bg-muted/50" : "bg-card")}>
+                  <div className="p-3 border-b bg-muted/30 flex items-center gap-3">
+                     {module.status === "completed" ? <CheckCircle2 className="h-5 w-5 text-green-500" /> :
+                      module.status === "locked" ? <Lock className="h-5 w-5 text-muted-foreground" /> :
+                      <div className="h-5 w-5 rounded-full border-2 border-primary flex items-center justify-center text-[10px] font-bold text-primary">{mIdx + 1}</div>}
+                     <div>
+                       <h3 className="font-semibold text-sm line-clamp-1">{module.title}</h3>
+                     </div>
+                  </div>
+                  
+                  {!isLocked && (
+                    <div className="divide-y">
+                       {module.lessons.map((lesson) => {
+                         const isActive = activeLesson?.id === lesson.id;
+                         return (
+                           <div 
+                             key={lesson.id} 
+                             className={cn(
+                               "p-3 flex items-start gap-3 hover:bg-muted/50 cursor-pointer transition-colors text-sm",
+                               isActive && "bg-primary/5 border-l-2 border-primary"
+                             )}
+                             onClick={() => handleLessonStart(module.id, lesson.id, lesson.type)}
+                           >
+                             <div className="mt-0.5">
+                               {lesson.isCompleted ? <CheckCircle2 className="h-4 w-4 text-green-500" /> :
+                                isActive ? <PlayCircle className="h-4 w-4 text-primary fill-primary/10" /> :
+                                <Circle className="h-4 w-4 text-muted-foreground" />}
+                             </div>
+                             <div>
+                               <p className={cn("font-medium", lesson.isCompleted && "text-muted-foreground")}>{lesson.title}</p>
+                               <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
+                                 {lesson.type === "video" && <Video className="h-3 w-3" />}
+                                 {lesson.type === "quiz" && <HelpCircle className="h-3 w-3" />}
+                                 {lesson.type === "reading" && <FileText className="h-3 w-3" />}
+                                 {lesson.duration}
+                               </p>
+                             </div>
+                           </div>
+                         );
+                       })}
+                    </div>
+                  )}
+               </div>
+             );
+           })}
+        </div>
       </div>
     </div>
-  );
-}
-
-function ModuleItem({ module, index, onStartLesson }: { module: Module, index: number, onStartLesson: (id: string, type: string) => void }) {
-  const isLocked = module.status === "locked";
-  
-  return (
-    <AccordionItem value={module.id} className="border rounded-xl bg-card px-4" disabled={isLocked}>
-      <AccordionTrigger className={cn(
-        "hover:no-underline py-4",
-        isLocked && "opacity-70 cursor-not-allowed"
-      )}>
-        <div className="flex items-center gap-4 w-full text-left">
-          <div className={cn(
-            "flex items-center justify-center w-10 h-10 rounded-full shrink-0",
-            module.status === "completed" ? "bg-green-100 text-green-600" :
-            module.status === "in-progress" ? "bg-primary/10 text-primary" :
-            module.status === "unlocked" ? "bg-secondary text-secondary-foreground" :
-            "bg-muted text-muted-foreground"
-          )}>
-            {module.status === "completed" ? <CheckCircle2 className="h-5 w-5" /> :
-             module.status === "locked" ? <Lock className="h-5 w-5" /> :
-             <span className="font-bold text-sm">{index + 1}</span>}
-          </div>
-          
-          <div className="flex-1 space-y-1">
-            <h3 className="font-semibold text-lg flex items-center gap-2">
-              {module.title}
-              {module.status === "in-progress" && <Badge variant="secondary" className="text-xs">In Progress</Badge>}
-              {module.status === "locked" && <Badge variant="outline" className="text-xs bg-muted text-muted-foreground border-none">Locked</Badge>}
-            </h3>
-            <p className="text-sm text-muted-foreground">{module.description}</p>
-          </div>
-          
-          <div className="text-sm text-muted-foreground mr-4 hidden md:block">
-            {module.lessons.length} Lessons
-          </div>
-        </div>
-      </AccordionTrigger>
-      
-      <AccordionContent className="pb-4 pt-2 pl-[3.5rem] pr-4">
-        <div className="space-y-3 border-l-2 border-muted pl-6 ml-5">
-          {module.lessons.map((lesson) => (
-            <div key={lesson.id} className="flex items-center justify-between group p-3 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer border border-transparent hover:border-muted-foreground/10">
-              <div className="flex items-center gap-3">
-                <div className={cn(
-                  "p-2 rounded-md",
-                  lesson.isCompleted ? "bg-green-50 text-green-600" : "bg-primary/5 text-primary"
-                )}>
-                  {lesson.type === "video" ? <Video className="h-4 w-4" /> :
-                   lesson.type === "quiz" ? <HelpCircle className="h-4 w-4" /> :
-                   <FileText className="h-4 w-4" />}
-                </div>
-                <div>
-                  <p className={cn("font-medium", lesson.isCompleted && "text-muted-foreground line-through decoration-border")}>
-                    {lesson.title}
-                  </p>
-                  <p className="text-xs text-muted-foreground capitalize">{lesson.type} • {lesson.duration}</p>
-                </div>
-              </div>
-              
-              <Button 
-                size="sm" 
-                variant={lesson.isCompleted ? "ghost" : "secondary"} 
-                className="gap-2"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onStartLesson(lesson.id, lesson.type);
-                }}
-              >
-                {lesson.isCompleted ? (
-                  <>Completed <CheckCircle2 className="h-3 w-3" /></>
-                ) : (
-                  <>Start <PlayCircle className="h-3 w-3" /></>
-                )}
-              </Button>
-            </div>
-          ))}
-          {module.lessons.length === 0 && (
-             <div className="p-4 text-center text-muted-foreground italic border-2 border-dashed rounded-lg bg-muted/20">
-               Content is locked until previous modules are completed.
-             </div>
-          )}
-        </div>
-      </AccordionContent>
-    </AccordionItem>
   );
 }
