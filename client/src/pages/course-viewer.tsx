@@ -26,7 +26,7 @@ export default function CourseViewer() {
   const { toast } = useToast();
 
   // Active Lesson State (for Player)
-  const [activeLesson, setActiveLesson] = useState<{id: string, title: string, type: string, moduleId: string} | null>(null);
+  const [activeLesson, setActiveLesson] = useState<{id: string, title: string, type: string, moduleId: string, videoUrl?: string} | null>(null);
   
   // Expanded Modules State
   const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({});
@@ -75,7 +75,8 @@ export default function CourseViewer() {
           id: targetLesson.id,
           title: targetLesson.title,
           type: targetLesson.type,
-          moduleId: firstUnlocked.id
+          moduleId: firstUnlocked.id,
+          videoUrl: (targetLesson as any).videoUrl
         });
         
         // Expand the active module by default
@@ -104,7 +105,8 @@ export default function CourseViewer() {
             id: lesson.id,
             title: lesson.title,
             type: lesson.type,
-            moduleId: moduleId
+            moduleId: moduleId,
+            videoUrl: (lesson as any).videoUrl
         });
     }
 
@@ -211,10 +213,22 @@ export default function CourseViewer() {
            {activeLesson ? (
               <div className="w-full max-w-4xl aspect-video bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-800 flex items-center justify-center relative group">
                  {activeLesson.type === "video" ? (
-                    <div className="text-center space-y-4">
-                       <PlayCircle className="h-24 w-24 text-slate-700 group-hover:text-primary transition-colors cursor-pointer" />
-                       <p className="text-slate-500 font-medium">Video Placeholder: {activeLesson.title}</p>
-                    </div>
+                    activeLesson.videoUrl ? (
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src={activeLesson.videoUrl} 
+                        title={activeLesson.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowFullScreen
+                        className="w-full h-full"
+                      ></iframe>
+                    ) : (
+                      <div className="text-center space-y-4">
+                        <PlayCircle className="h-24 w-24 text-slate-700 group-hover:text-primary transition-colors cursor-pointer" />
+                        <p className="text-slate-500 font-medium">Video Placeholder: {activeLesson.title}</p>
+                      </div>
+                    )
                  ) : activeLesson.type === "quiz" ? (
                     <div className="text-center space-y-6 max-w-md p-8">
                        <HelpCircle className="h-20 w-20 text-orange-500 mx-auto" />

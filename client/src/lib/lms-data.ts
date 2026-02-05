@@ -9,6 +9,7 @@ export interface Lesson {
   type: "video" | "reading" | "quiz" | "assignment";
   duration: string; // e.g. "10 min"
   isCompleted: boolean;
+  videoUrl?: string; // Optional YouTube embed URL
 }
 
 export interface Module {
@@ -116,7 +117,7 @@ export const COURSES: Course[] = [
         status: "unlocked",
         progress: 0,
         lessons: [
-          { id: "tw1-l1", title: "PPE Standards & Usage", type: "video", duration: "12 min", isCompleted: false },
+          { id: "tw1-l1", title: "PPE Standards & Usage", type: "video", duration: "12 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/uW8a2zE7ySE" },
           { id: "tw1-l2", title: "Hazard Identification", type: "reading", duration: "15 min", isCompleted: false },
           { id: "tw1-l3", title: "Safety Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
@@ -162,9 +163,9 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tmec1-l1", title: "Four-Stroke Cycle", type: "video", duration: "10 min", isCompleted: false },
-            { id: "tmec1-l2", title: "Engine Components", type: "reading", duration: "15 min", isCompleted: false },
-            { id: "tmec1-l3", title: "Engine Quiz", type: "quiz", duration: "10 min", isCompleted: false }
+          { id: "tmec1-l1", title: "Four-Stroke Cycle", type: "video", duration: "10 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/OGj8OneMjek" },
+          { id: "tmec1-l2", title: "Engine Components", type: "reading", duration: "15 min", isCompleted: false },
+          { id: "tmec1-l3", title: "Engine Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
       },
       {
@@ -208,7 +209,7 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tcarp1-l1", title: "Power Tool Safety", type: "video", duration: "15 min", isCompleted: false },
+            { id: "tcarp1-l1", title: "Power Tool Safety", type: "video", duration: "15 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/H-3b9e_Qc4c" },
             { id: "tcarp1-l2", title: "Wood Types & Grades", type: "reading", duration: "20 min", isCompleted: false },
             { id: "tcarp1-l3", title: "Tools Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]

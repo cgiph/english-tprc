@@ -78,6 +78,38 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       options: ["Paint it first", "Fill it with water", "Ensure it is cleaned of all flammable vapors", "Heat it up"],
       correctAnswer: 2
     }
+  ],
+  "tmec3": [
+    {
+      id: "mq1",
+      text: "What are the four strokes of a four-cycle engine?",
+      options: ["Intake, Compression, Power, Exhaust", "Intake, Ignition, Power, Exhaust", "Intake, Compression, Combustion, Outlet", "Suction, Squeeze, Bang, Blow"],
+      correctAnswer: 0
+    },
+    {
+      id: "mq2",
+      text: "Which component connects the piston to the crankshaft?",
+      options: ["Camshaft", "Connecting Rod", "Push Rod", "Valve Spring"],
+      correctAnswer: 1
+    },
+    {
+      id: "mq3",
+      text: "What is the function of the camshaft?",
+      options: ["To cool the engine", "To open and close valves", "To ignite the fuel", "To lubricate the piston"],
+      correctAnswer: 1
+    },
+    {
+      id: "mq4",
+      text: "If an engine runs rich, what does that mean?",
+      options: ["Too much air, not enough fuel", "Too much fuel, not enough air", "Perfect mixture", "Low oil pressure"],
+      correctAnswer: 1
+    },
+    {
+      id: "mq5",
+      text: "Which tool is used to measure cylinder bore diameter?",
+      options: ["Micrometer", "Dial Bore Gauge", "Feeler Gauge", "Torque Wrench"],
+      correctAnswer: 1
+    }
   ]
 };
 
