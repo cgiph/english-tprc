@@ -56,7 +56,7 @@ export const COURSES: Course[] = [
         lessons: [
           { 
             id: "l1", 
-            title: "Guide to Pronunciation", 
+            title: "Basic Sentence Structures", 
             type: "reading", 
             duration: "10 min", 
             isCompleted: false, 
@@ -64,72 +64,132 @@ export const COURSES: Course[] = [
               <div class="space-y-12 max-w-3xl mx-auto">
                 <div class="bg-white text-slate-900 aspect-video rounded-xl shadow-2xl overflow-hidden flex flex-col border-4 border-slate-200">
                   <div class="bg-blue-600 p-8 flex-1 flex flex-col justify-center items-center text-center text-white">
-                    <h1 class="text-5xl font-bold mb-4 tracking-tight">Guide to Pronunciation</h1>
+                    <h1 class="text-5xl font-bold mb-4 tracking-tight">Basic Sentence Structure</h1>
                     <p class="text-xl opacity-90">Foundational English • Module 1</p>
                   </div>
                   <div class="bg-slate-50 p-4 text-xs text-slate-500 flex justify-between">
                     <span>Cirrus LMS</span>
-                    <span>Slide 1 of 4</span>
+                    <span>Slide 1 of 5</span>
                   </div>
                 </div>
 
                 <div class="bg-white text-slate-900 aspect-video rounded-xl shadow-2xl overflow-hidden flex flex-col border-4 border-slate-200">
                   <div class="p-12 flex-1 flex flex-col justify-center">
-                    <h2 class="text-3xl font-bold text-blue-700 mb-8 border-b-2 border-blue-100 pb-4">The 4 Key Sounds</h2>
-                    <div class="grid grid-cols-2 gap-8">
-                      <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
-                        <span class="text-4xl mb-2 block">🅰️</span>
-                        <h3 class="font-bold text-lg mb-2">Vowels</h3>
-                        <p class="text-slate-600">A, E, I, O, U - The core of every syllable.</p>
+                    <h2 class="text-3xl font-bold text-blue-700 mb-8 border-b-2 border-blue-100 pb-4">The Golden Rule: S-V-O</h2>
+                    <div class="flex items-center gap-4 text-center">
+                      <div class="bg-blue-50 p-6 rounded-lg border border-blue-100 flex-1">
+                        <span class="text-4xl mb-2 block font-bold text-blue-600">S</span>
+                        <h3 class="font-bold text-lg mb-2">Subject</h3>
+                        <p class="text-slate-600 text-sm">Who?</p>
                       </div>
-                      <div class="bg-green-50 p-6 rounded-lg border border-green-100">
-                        <span class="text-4xl mb-2 block">🤐</span>
-                        <h3 class="font-bold text-lg mb-2">Consonants</h3>
-                        <p class="text-slate-600">Hard sounds like T, K, P, B that shape words.</p>
+                      <div class="text-slate-400 text-2xl font-bold">+</div>
+                      <div class="bg-green-50 p-6 rounded-lg border border-green-100 flex-1">
+                        <span class="text-4xl mb-2 block font-bold text-green-600">V</span>
+                        <h3 class="font-bold text-lg mb-2">Verb</h3>
+                        <p class="text-slate-600 text-sm">Action?</p>
                       </div>
+                      <div class="text-slate-400 text-2xl font-bold">+</div>
+                      <div class="bg-purple-50 p-6 rounded-lg border border-purple-100 flex-1">
+                        <span class="text-4xl mb-2 block font-bold text-purple-600">O</span>
+                        <h3 class="font-bold text-lg mb-2">Object</h3>
+                        <p class="text-slate-600 text-sm">What?</p>
+                      </div>
+                    </div>
+                    <div class="mt-8 bg-slate-100 p-4 rounded text-center text-xl font-medium text-slate-700">
+                      "John <span class="text-green-600">(S)</span> eats <span class="text-blue-600">(V)</span> an apple <span class="text-purple-600">(O)</span>."
                     </div>
                   </div>
                   <div class="bg-slate-50 p-4 text-xs text-slate-500 flex justify-between">
                     <span>Cirrus LMS</span>
-                    <span>Slide 2 of 4</span>
+                    <span>Slide 2 of 5</span>
                   </div>
                 </div>
 
                 <div class="bg-white text-slate-900 aspect-video rounded-xl shadow-2xl overflow-hidden flex flex-col border-4 border-slate-200">
                   <div class="p-12 flex-1 flex flex-col justify-center">
-                    <h2 class="text-3xl font-bold text-blue-700 mb-6">Tongue Placement</h2>
-                    <ul class="space-y-4 text-lg">
-                      <li class="flex items-center gap-4">
-                        <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">1</span>
-                        <span><strong>TH Sound:</strong> Tip of tongue between teeth (e.g., "Think")</span>
+                    <h2 class="text-3xl font-bold text-blue-700 mb-6">Capitalization Rules</h2>
+                    <ul class="space-y-6 text-lg">
+                      <li class="flex items-start gap-4">
+                        <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">1</span>
+                        <div>
+                            <strong class="block text-slate-900">Start of a Sentence</strong>
+                            <span class="text-slate-600">Always start with a big letter.</span>
+                            <div class="text-sm bg-slate-100 px-2 py-1 rounded mt-1 text-slate-500 w-fit">✅ <u>T</u>he cat is black.</div>
+                        </div>
                       </li>
-                      <li class="flex items-center gap-4">
-                        <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">2</span>
-                        <span><strong>L Sound:</strong> Tip of tongue behind top teeth (e.g., "Light")</span>
+                      <li class="flex items-start gap-4">
+                        <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">2</span>
+                         <div>
+                            <strong class="block text-slate-900">Proper Nouns (Names)</strong>
+                            <span class="text-slate-600">Names of people, cities, and countries.</span>
+                            <div class="text-sm bg-slate-100 px-2 py-1 rounded mt-1 text-slate-500 w-fit">✅ I live in <u>P</u>aris with <u>S</u>am.</div>
+                        </div>
                       </li>
-                      <li class="flex items-center gap-4">
-                        <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">3</span>
-                        <span><strong>R Sound:</strong> Tongue pulls back, doesn't touch roof (e.g., "Right")</span>
+                       <li class="flex items-start gap-4">
+                        <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">3</span>
+                         <div>
+                            <strong class="block text-slate-900">The Pronoun "I"</strong>
+                            <span class="text-slate-600">Always capitalized, even in the middle.</span>
+                            <div class="text-sm bg-slate-100 px-2 py-1 rounded mt-1 text-slate-500 w-fit">✅ She and <u>I</u> are friends.</div>
+                        </div>
                       </li>
                     </ul>
                   </div>
                   <div class="bg-slate-50 p-4 text-xs text-slate-500 flex justify-between">
                     <span>Cirrus LMS</span>
-                    <span>Slide 3 of 4</span>
+                    <span>Slide 3 of 5</span>
+                  </div>
+                </div>
+
+                 <div class="bg-white text-slate-900 aspect-video rounded-xl shadow-2xl overflow-hidden flex flex-col border-4 border-slate-200">
+                  <div class="p-12 flex-1 flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold text-blue-700 mb-6">Punctuation Basics</h2>
+                     <div class="space-y-6">
+                        <div class="flex gap-6 items-center">
+                            <div class="w-16 h-16 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-4xl font-bold">.</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900">The Period (Full Stop)</h3>
+                                <p class="text-slate-600">Use at the end of a statement.</p>
+                                <p class="text-sm text-slate-500 mt-1">"My name is John."</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-center">
+                            <div class="w-16 h-16 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center text-4xl font-bold">?</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900">The Question Mark</h3>
+                                <p class="text-slate-600">Use at the end of a question.</p>
+                                <p class="text-sm text-slate-500 mt-1">"Where are you from?"</p>
+                            </div>
+                        </div>
+                         <div class="flex gap-6 items-center">
+                            <div class="w-16 h-16 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center text-4xl font-bold">,</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900">The Comma</h3>
+                                <p class="text-slate-600">Use to pause or list items.</p>
+                                <p class="text-sm text-slate-500 mt-1">"I like apples, bananas, and oranges."</p>
+                            </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="bg-slate-50 p-4 text-xs text-slate-500 flex justify-between">
+                    <span>Cirrus LMS</span>
+                    <span>Slide 4 of 5</span>
                   </div>
                 </div>
 
                 <div class="bg-white text-slate-900 aspect-video rounded-xl shadow-2xl overflow-hidden flex flex-col border-4 border-slate-200">
                   <div class="bg-slate-900 p-12 flex-1 flex flex-col justify-center items-center text-center text-white">
                     <h2 class="text-3xl font-bold mb-6 text-blue-400">Practice Time!</h2>
-                    <p class="text-xl mb-8 leading-relaxed max-w-lg">Stand in front of a mirror and watch your mouth shape as you say these words:</p>
-                    <div class="bg-white/10 p-6 rounded-xl border border-white/20">
-                      <p class="text-2xl font-mono tracking-widest">THOUGHT • THROUGH • TOUGH</p>
+                    <p class="text-xl mb-8 leading-relaxed max-w-lg">Identify the error in this sentence:</p>
+                    <div class="bg-white/10 p-6 rounded-xl border border-white/20 mb-8">
+                      <p class="text-2xl font-mono tracking-widest line-through decoration-red-500 decoration-4">i am happy to see John.</p>
+                      <p class="text-2xl font-mono tracking-widest text-green-400 mt-4">I am happy to see John.</p>
                     </div>
+                     <p class="text-slate-400">Remember: Always capitalize "I"!</p>
                   </div>
                   <div class="bg-slate-50 p-4 text-xs text-slate-500 flex justify-between">
                     <span>Cirrus LMS</span>
-                    <span>Slide 4 of 4</span>
+                    <span>Slide 5 of 5</span>
                   </div>
                 </div>
               </div>
