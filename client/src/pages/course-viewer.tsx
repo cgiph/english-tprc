@@ -1,7 +1,13 @@
 
 import { useParams, Link } from "wouter";
 import { getCourseById, Module } from "@/lib/lms-data";
+import type { Lesson } from "@/lib/lms-data";
 import { Button } from "@/components/ui/button";
+
+type ActiveLesson = {
+  lesson: Lesson;
+  moduleId: string;
+};
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -27,7 +33,7 @@ export default function CourseViewer() {
   const { toast } = useToast();
 
   // Active Lesson State (for Player)
-  const [activeLesson, setActiveLesson] = useState<{id: string, title: string, type: string, moduleId: string, videoUrl?: string, content?: string, resources?: { title: string; type: "pdf" | "doc" | "link" }[]} | null>(null);
+  const [activeLesson, setActiveLesson] = useState<ActiveLesson | null>(null);
   
   // Expanded Modules State
   const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({});
@@ -73,13 +79,8 @@ export default function CourseViewer() {
         const firstIncomplete = firstUnlocked.lessons.find(l => !l.isCompleted);
         const targetLesson = firstIncomplete || firstUnlocked.lessons[0];
         setActiveLesson({
-          id: targetLesson.id,
-          title: targetLesson.title,
-          type: targetLesson.type,
-          moduleId: firstUnlocked.id,
-          videoUrl: (targetLesson as any).videoUrl,
-          content: (targetLesson as any).content,
-          resources: (targetLesson as any).resources
+          lesson: targetLesson,
+          moduleId: firstUnlocked.id
         });
         
         // Expand the active module by default
@@ -105,13 +106,8 @@ export default function CourseViewer() {
     
     if (lesson) {
         setActiveLesson({
-            id: lesson.id,
-            title: lesson.title,
-            type: lesson.type,
-            moduleId: moduleId,
-            videoUrl: (lesson as any).videoUrl,
-            content: (lesson as any).content,
-            resources: (lesson as any).resources
+            lesson,
+            moduleId
         });
     }
 
@@ -125,7 +121,7 @@ export default function CourseViewer() {
 
   const handleMarkComplete = () => {
     if (activeLesson) {
-        if (activeLesson.type === "quiz") {
+        if (activeLesson.lesson.type === "quiz") {
             // Re-open quiz modal if it's a quiz type
             const module = course.modules.find(m => m.id === activeLesson.moduleId);
             if (module) {
@@ -133,7 +129,7 @@ export default function CourseViewer() {
                 setQuizOpen(true);
             }
         } else {
-            completeLesson(activeLesson.moduleId, activeLesson.id);
+            completeLesson(activeLesson.moduleId, activeLesson.lesson.id);
             toast({
                 title: "Lesson Completed",
                 description: "Progress saved."
@@ -208,7 +204,7 @@ export default function CourseViewer() {
              <Link href="/lms" className="text-sm text-slate-400 hover:text-white flex items-center mb-1">
                <ChevronLeft className="h-4 w-4 mr-1" /> Back to Dashboard
              </Link>
-             <h1 className="text-xl font-bold text-white">{activeLesson?.title || course.title}</h1>
+             <h1 className="text-xl font-bold text-white">{activeLesson?.lesson.title || course.title}</h1>
            </div>
            <Badge variant="outline" className="text-slate-300 border-slate-700">{course.title}</Badge>
         </div>
@@ -217,13 +213,13 @@ export default function CourseViewer() {
         <div className="flex-1 flex items-center justify-center p-8 bg-black/40 min-h-[500px]">
            {activeLesson ? (
               <div className="w-full max-w-4xl aspect-video bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-800 flex items-center justify-center relative group">
-                 {activeLesson.type === "video" ? (
-                    activeLesson.videoUrl ? (
+                 {activeLesson.lesson.type === "video" ? (
+                    activeLesson.lesson.videoUrl ? (
                       <iframe 
                         width="100%" 
                         height="100%" 
-                        src={activeLesson.videoUrl} 
-                        title={activeLesson.title}
+                        src={activeLesson.lesson.videoUrl} 
+                        title={activeLesson.lesson.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowFullScreen
                         className="w-full h-full"
@@ -231,26 +227,26 @@ export default function CourseViewer() {
                     ) : (
                       <div className="text-center space-y-4">
                         <PlayCircle className="h-24 w-24 text-slate-700 group-hover:text-primary transition-colors cursor-pointer" />
-                        <p className="text-slate-500 font-medium">Video Placeholder: {activeLesson.title}</p>
+                        <p className="text-slate-500 font-medium">Video Placeholder: {activeLesson.lesson.title}</p>
                       </div>
                     )
-                 ) : activeLesson.type === "quiz" ? (
+                 ) : activeLesson.lesson.type === "quiz" ? (
                     <div className="text-center space-y-6 max-w-md p-8">
                        <HelpCircle className="h-20 w-20 text-orange-500 mx-auto" />
                        <h3 className="text-2xl font-bold">Module Assessment</h3>
                        <p className="text-slate-400">Pass this quiz with 80% or higher to unlock the next module.</p>
-                       <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white w-full" onClick={() => handleLessonStart(activeLesson.moduleId, activeLesson.id, "quiz")}>Start Quiz</Button>
+                       <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white w-full" onClick={() => handleLessonStart(activeLesson.moduleId, activeLesson.lesson.id, "quiz")}>Start Quiz</Button>
                     </div>
-                 ) : activeLesson.id === "l3-bonus" ? (
+                 ) : activeLesson.lesson.id === "l3-bonus" ? (
                     <NounPractice onComplete={handleMarkComplete} />
                  ) : (
                     <div className="w-full h-full overflow-y-auto">
-                       {activeLesson.content ? (
-                         <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: activeLesson.content }} />
+                       {activeLesson.lesson.type === "reading" && activeLesson.lesson.content ? (
+                         <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: activeLesson.lesson.content }} />
                        ) : (
                          <div className="flex flex-col items-center justify-center h-full text-center space-y-4 max-w-2xl px-8 mx-auto">
                             <FileText className="h-20 w-20 text-slate-600 mx-auto" />
-                            <h3 className="text-2xl font-bold">{activeLesson.title}</h3>
+                            <h3 className="text-2xl font-bold">{activeLesson.lesson.title}</h3>
                             <p className="text-slate-400 text-lg leading-relaxed">
                               Reading content for this lesson would appear here. This is a mockup for the reading interface.
                             </p>
@@ -272,8 +268,8 @@ export default function CourseViewer() {
                    <Download className="h-5 w-5 text-primary" /> Lesson Resources
                  </h3>
                  <div className="space-y-3">
-                    {activeLesson?.resources && activeLesson.resources.length > 0 ? (
-                      activeLesson.resources.map((resource, idx) => (
+                    {activeLesson?.lesson.resources && activeLesson.lesson.resources.length > 0 ? (
+                      activeLesson.lesson.resources.map((resource, idx) => (
                         <div key={idx} className="flex items-center justify-between p-3 bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors cursor-pointer group">
                            <div className="flex items-center gap-3">
                               <FileText className="h-5 w-5 text-slate-400 group-hover:text-primary" />
@@ -292,7 +288,7 @@ export default function CourseViewer() {
 
               <div className="flex flex-col justify-center items-end space-y-4">
                  <p className="text-slate-400 text-sm">
-                   {activeLesson?.type === "quiz" 
+                   {activeLesson?.lesson.type === "quiz" 
                      ? "Complete the quiz to proceed." 
                      : "Review the materials above before continuing."}
                  </p>
@@ -300,11 +296,11 @@ export default function CourseViewer() {
                    size="lg" 
                    className={cn(
                      "w-full md:w-auto px-8 py-6 text-lg font-bold transition-all",
-                     activeLesson?.type === "quiz" ? "bg-orange-600 hover:bg-orange-700" : "bg-primary hover:bg-primary/90"
+                     activeLesson?.lesson.type === "quiz" ? "bg-orange-600 hover:bg-orange-700" : "bg-primary hover:bg-primary/90"
                    )}
                    onClick={handleMarkComplete}
                  >
-                   {activeLesson?.type === "quiz" ? "Take Quiz" : "Mark as Complete"}
+                   {activeLesson?.lesson.type === "quiz" ? "Take Quiz" : "Mark as Complete"}
                    <ChevronRight className="ml-2 h-5 w-5" />
                  </Button>
               </div>
@@ -391,7 +387,7 @@ export default function CourseViewer() {
                   {!isLocked && isExpanded && (
                     <div className="divide-y">
                        {module.lessons.map((lesson) => {
-                         const isActive = activeLesson?.id === lesson.id;
+                         const isActive = activeLesson?.lesson.id === lesson.id;
                          return (
                            <div 
                              key={lesson.id} 
