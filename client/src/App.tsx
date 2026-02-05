@@ -18,6 +18,8 @@ import WritingPractice from "@/pages/writing-practice";
 import VocabularyTool from "@/pages/vocabulary-tool";
 import GrammarTool from "@/pages/grammar-tool";
 import FullMockTest from "@/pages/full-mock-test";
+import LMSDashboard from "@/pages/lms-dashboard";
+import CourseViewer from "@/pages/course-viewer";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth";
 import PrivacyPolicy from "@/pages/privacy-policy";
@@ -46,6 +48,11 @@ function Router() {
           <Route path="/resources/viewer" component={ResourceViewer} />
           <Route path="/resources/audio-trainer" component={AudioTrainer} />
           <Route path="/resources/full-mock-test" component={FullMockTest} />
+          
+          {/* LMS Routes */}
+          <Route path="/lms" component={LMSDashboard} />
+          <Route path="/lms/course/:id" component={CourseViewer} />
+
           <Route path="/resources/grammar-tool" component={GrammarTool} />
           <Route path="/resources" component={Resources} />
           

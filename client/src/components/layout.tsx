@@ -8,7 +8,7 @@ import {
   navigationMenuTriggerStyle 
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { BookOpen, MessageSquare, Home, Menu, X, Mic, Book, Headphones, User, LogOut, PenTool } from "lucide-react";
+import { BookOpen, MessageSquare, Home, Menu, X, Mic, Book, Headphones, User, LogOut, PenTool, GraduationCap } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useUser } from "@/hooks/use-user";
@@ -50,6 +50,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { href: "/", label: "Home", icon: Home },
+    { href: "/lms", label: "Courses", icon: GraduationCap },
     { href: "/guide/speaking", label: "Speaking", icon: Mic },
     { href: "/guide/reading", label: "Reading", icon: Book },
     { href: "/guide/listening", label: "Listening", icon: Headphones },
