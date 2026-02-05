@@ -79,6 +79,72 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 2
     }
   ],
+  "pte-m1": [
+    {
+       id: "pm1-q1",
+       text: "In the 'Read Aloud' task, what should you do if you make a mistake?",
+       options: ["Stop and correct yourself immediately", "Keep speaking naturally without stopping", "Restart the sentence", "Say 'sorry' and continue"],
+       correctAnswer: 1
+    },
+    {
+       id: "pm1-q2",
+       text: "For 'Repeat Sentence', which strategy is most effective?",
+       options: ["Memorize every single word", "Write down the whole sentence", "Focus on phrases and mimic intonation", "Close your eyes"],
+       correctAnswer: 2
+    },
+    {
+       id: "pm1-q3",
+       text: "In 'Describe Image', what is the recommended structure?",
+       options: ["Introduction, Body, Conclusion", "Just list numbers", "Read the title only", "Give your personal opinion"],
+       correctAnswer: 0
+    },
+    {
+       id: "pm1-q4",
+       text: "How long is the preparation time for 'Describe Image'?",
+       options: ["10 seconds", "25 seconds", "40 seconds", "1 minute"],
+       correctAnswer: 1
+    },
+    {
+       id: "pm1-q5",
+       text: "What affects your Oral Fluency score the most?",
+       options: ["Using big words", "Speaking very fast", "Smooth rhythm and phrasing without hesitations", "Having a British accent"],
+       correctAnswer: 2
+    }
+  ],
+  "pte-m2": [
+     {
+        id: "pm2-q1",
+        text: "What is a 'collocation'?",
+        options: ["A grammatical error", "Words that naturally go together (e.g., 'heavy rain')", "A type of punctuation", "A spelling mistake"],
+        correctAnswer: 1
+     },
+     {
+        id: "pm2-q2",
+        text: "In Multiple Choice questions, what should you do first?",
+        options: ["Read the whole text in detail", "Read the question stem to know what to look for", "Guess the answer", "Read the options first"],
+        correctAnswer: 1
+     },
+     {
+        id: "pm2-q3",
+        text: "For 'Fill in the Blanks', how can grammar help?",
+        options: ["It doesn't help", "It helps identify if a noun, verb, or adjective is needed", "It tells you the topic", "It makes reading slower"],
+        correctAnswer: 1
+     }
+  ],
+  "pte-m3": [
+     {
+        id: "pm3-q1",
+        text: "What is the word limit for 'Summarize Spoken Text'?",
+        options: ["20-30 words", "50-70 words", "100-200 words", "No limit"],
+        correctAnswer: 1
+     },
+     {
+        id: "pm3-q2",
+        text: "In the Essay task, how many paragraphs are recommended?",
+        options: ["1 long paragraph", "2 paragraphs", "4 paragraphs (Intro, Body 1, Body 2, Conclusion)", "10 bullet points"],
+        correctAnswer: 2
+     }
+  ],
   "tmec3": [
     {
       id: "mq1",
