@@ -101,45 +101,116 @@ export const COURSES: Course[] = [
   },
   {
     id: "tech-welder",
-    title: "English for Welders",
+    title: "Industrial Welding Specialist",
     category: "Technical",
     silo: "Welders",
-    description: "Specialized technical English for welding professionals, focusing on safety and equipment terminology.",
+    description: "Specialized technical training for welding professionals. Includes safety, MIG/TIG/Arc welding techniques, and blueprint reading.",
     thumbnail: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80",
-    totalModules: 4,
+    totalModules: 3,
     completedModules: 0,
     modules: [
       {
-        id: "tm1",
-        title: "Safety Terminology",
-        description: "PPE, Hazards, and Workshop Safety",
+        id: "tw1",
+        title: "Module 1: Workshop Safety & PPE",
+        description: "Essential safety protocols, hazard identification, and Personal Protective Equipment standards.",
         status: "unlocked",
         progress: 0,
         lessons: [
-          { id: "tl1", title: "PPE Vocabulary", type: "video", duration: "10 min", isCompleted: false },
-          { id: "tl2", title: "Hazard Signs", type: "quiz", duration: "5 min", isCompleted: false }
+          { id: "tw1-l1", title: "PPE Standards & Usage", type: "video", duration: "12 min", isCompleted: false },
+          { id: "tw1-l2", title: "Hazard Identification", type: "reading", duration: "15 min", isCompleted: false },
+          { id: "tw1-l3", title: "Safety Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
       },
       {
-        id: "tm2",
-        title: "Welding Equipment",
-        description: "Names and functions of tools.",
+        id: "tw2",
+        title: "Module 2: Arc Welding Fundamentals",
+        description: "Core principles of Shielded Metal Arc Welding (SMAW), electrode selection, and current settings.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          { id: "tw2-l1", title: "Arc Welding Basics", type: "video", duration: "15 min", isCompleted: false },
+          { id: "tw2-l2", title: "Electrode Classification", type: "reading", duration: "20 min", isCompleted: false },
+          { id: "tw2-l3", title: "Process Quiz", type: "quiz", duration: "15 min", isCompleted: false }
+        ]
+      },
+      {
+        id: "tw3",
+        title: "Technical Exam (Hard Tier)",
+        description: "Comprehensive assessment of welding knowledge. Pass at 80%+ to verify technical skills.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          { id: "tw3-final", title: "Final Technical Assessment", type: "quiz", duration: "60 min", isCompleted: false }
+        ]
+      }
+    ]
+  },
+  {
+    id: "tech-mechanic",
+    title: "Automotive Mechanics",
+    category: "Technical",
+    silo: "Mechanics",
+    description: "Diagnostic and repair training for automotive systems. Covers engine performance, braking systems, and electrical diagnostics.",
+    thumbnail: "https://images.unsplash.com/photo-1486262715619-72a604e3d7a9?w=800&q=80",
+    totalModules: 3,
+    completedModules: 0,
+    modules: [
+      {
+        id: "tmec1",
+        title: "Module 1: Engine Fundamentals",
+        description: "Internal combustion engine operation and components.",
         status: "locked",
         progress: 0,
         lessons: []
       },
       {
-        id: "tm3",
-        title: "Process Descriptions",
-        description: "Explaining welding procedures.",
+        id: "tmec2",
+        title: "Module 2: Brake Systems",
+        description: "Hydraulic braking principles and maintenance.",
         status: "locked",
         progress: 0,
         lessons: []
       },
       {
-        id: "tm4",
-        title: "Workplace Communication",
-        description: "Reporting issues and progress.",
+        id: "tmec3",
+        title: "Technical Exam (Hard Tier)",
+        description: "Final verification of mechanical aptitude.",
+        status: "locked",
+        progress: 0,
+        lessons: []
+      }
+    ]
+  },
+  {
+    id: "tech-carpenter",
+    title: "Master Carpentry",
+    category: "Technical",
+    silo: "Carpenters",
+    description: "Professional carpentry skills from framing to finish work. Includes blueprint reading and structural integrity.",
+    thumbnail: "https://images.unsplash.com/photo-1616627547584-bf28cee262db?w=800&q=80",
+    totalModules: 3,
+    completedModules: 0,
+    modules: [
+      {
+        id: "tcarp1",
+        title: "Module 1: Tools & Materials",
+        description: "Proper use of power tools and wood selection.",
+        status: "locked",
+        progress: 0,
+        lessons: []
+      },
+      {
+        id: "tcarp2",
+        title: "Module 2: Framing Basics",
+        description: "Structural framing for walls and roofs.",
+        status: "locked",
+        progress: 0,
+        lessons: []
+      },
+      {
+        id: "tcarp3",
+        title: "Technical Exam (Hard Tier)",
+        description: "Final verification of carpentry skills.",
         status: "locked",
         progress: 0,
         lessons: []

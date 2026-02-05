@@ -31,7 +31,7 @@ export default function LMSDashboard() {
         <TabsList className="bg-muted/50 p-1">
           <TabsTrigger value="all" className="px-6">All Courses</TabsTrigger>
           <TabsTrigger value="english" className="px-6">English Levels</TabsTrigger>
-          <TabsTrigger value="technical" className="px-6">Technical Tracks</TabsTrigger>
+          <TabsTrigger value="technical" className="px-6 data-[state=active]:bg-orange-600 data-[state=active]:text-white">Technical Tracks</TabsTrigger>
           <TabsTrigger value="mock test" className="px-6">Mock Tests</TabsTrigger>
         </TabsList>
 
@@ -57,16 +57,27 @@ function CourseCard({ course }: { course: Course }) {
     }
   };
 
+  const isTechnical = course.category === "Technical";
+
   return (
-    <Card className="flex flex-col overflow-hidden hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20 group">
+    <Card className={cn(
+      "flex flex-col overflow-hidden hover:shadow-lg transition-all duration-300 group border-2",
+      isTechnical ? "border-orange-200 hover:border-orange-500/50" : "hover:border-primary/20"
+    )}>
       <div className="relative h-48 overflow-hidden">
         <img 
           src={course.thumbnail} 
           alt={course.title} 
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        <Badge className="absolute top-4 right-4 bg-white/90 text-primary hover:bg-white">
+        <div className={cn(
+          "absolute inset-0 bg-gradient-to-t to-transparent",
+          isTechnical ? "from-orange-950/80" : "from-black/60"
+        )} />
+        <Badge className={cn(
+          "absolute top-4 right-4 text-primary hover:bg-white",
+          isTechnical ? "bg-orange-50 text-orange-700" : "bg-white/90"
+        )}>
           {course.category}
         </Badge>
         {course.level && (
@@ -75,15 +86,18 @@ function CourseCard({ course }: { course: Course }) {
           </Badge>
         )}
         {course.silo && (
-          <Badge variant="secondary" className="absolute bottom-4 left-4">
-            Track: {course.silo}
+          <Badge className="absolute bottom-4 left-4 bg-orange-600 hover:bg-orange-700 text-white border-none">
+            {course.silo} Track
           </Badge>
         )}
       </div>
 
       <CardHeader className="space-y-2 pb-4">
         <div className="flex justify-between items-start">
-          <CardTitle className="text-xl font-bold line-clamp-1 group-hover:text-primary transition-colors">
+          <CardTitle className={cn(
+            "text-xl font-bold line-clamp-1 transition-colors",
+            isTechnical ? "group-hover:text-orange-600" : "group-hover:text-primary"
+          )}>
             {course.title}
           </CardTitle>
           <div className="text-muted-foreground">
@@ -99,9 +113,9 @@ function CourseCard({ course }: { course: Course }) {
         <div className="space-y-2">
           <div className="flex justify-between text-sm font-medium">
             <span className="text-muted-foreground">Progress</span>
-            <span>{progressPercent}%</span>
+            <span className={cn(isTechnical && "text-orange-600")}>{progressPercent}%</span>
           </div>
-          <Progress value={progressPercent} className="h-2" />
+          <Progress value={progressPercent} className={cn("h-2", isTechnical && "[&>div]:bg-orange-600")} />
           <p className="text-xs text-muted-foreground pt-1">
             {course.completedModules} of {course.totalModules} modules completed
           </p>
@@ -109,7 +123,7 @@ function CourseCard({ course }: { course: Course }) {
       </CardContent>
 
       <CardFooter className="pt-0">
-        <Button className="w-full group/btn" asChild>
+        <Button className={cn("w-full group/btn", isTechnical && "bg-slate-800 hover:bg-slate-900")} asChild>
           <Link href={`/lms/course/${course.id}`}>
             {progressPercent === 0 ? "Start Course" : "Continue Learning"}
             <PlayCircle className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />

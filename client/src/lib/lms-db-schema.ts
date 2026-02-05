@@ -54,6 +54,7 @@ export interface UserLMSState {
     date: string; // ISO timestamp
     verified: boolean; // Integrity check flag
     isDeploymentReady?: boolean; // Flag for Hard Tier success (Source of Truth)
+    isTechnicalVerified?: boolean; // Flag for Technical Hard Tier success
     proctorLogId?: string; // Reference to proctoring session log
   }[];
 }

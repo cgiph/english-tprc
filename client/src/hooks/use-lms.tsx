@@ -6,13 +6,24 @@ import { useUser } from "@/hooks/use-user";
 // Default empty state
 const defaultState: UserLMSState = {
   userId: "guest",
-  enrolledCourses: ["eng-a1", "tech-welder", "mock-easy"], // Default enrollments for demo
+  enrolledCourses: ["eng-a1", "tech-welder", "tech-mechanic", "tech-carpenter", "mock-easy"], // Default enrollments for demo
   modules: {
     // Default unlocked first modules for demo courses
     "m1": { status: "unlocked", completedLessons: [] },
     "m2": { status: "locked", completedLessons: [] },
     "m3": { status: "locked", completedLessons: [] },
-    "tm1": { status: "unlocked", completedLessons: [] },
+    
+    // Tech Welder
+    "tw1": { status: "unlocked", completedLessons: [] },
+    "tw2": { status: "locked", completedLessons: [] },
+    "tw3": { status: "locked", completedLessons: [] },
+
+    // Tech Mechanic
+    "tmec1": { status: "unlocked", completedLessons: [] },
+    
+    // Tech Carpenter
+    "tcarp1": { status: "unlocked", completedLessons: [] },
+
     "mock1": { status: "unlocked", completedLessons: [] }
   },
   quizHistory: [],
@@ -126,7 +137,9 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
           date: new Date().toISOString(),
           verified: true,
           // Source of Truth Logic: Hard Tier + Score >= 79 = Deployment Ready
-          isDeploymentReady: difficulty === "Hard" && overallScore >= 79
+          // Also set isTechnicalVerified if testId indicates technical exam
+          isDeploymentReady: difficulty === "Hard" && overallScore >= 79,
+          isTechnicalVerified: difficulty === "Hard" && overallScore >= 79 && testId.startsWith("tech-")
         }
       ]
     }));
