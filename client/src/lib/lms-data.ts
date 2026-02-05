@@ -161,7 +161,11 @@ export const COURSES: Course[] = [
         description: "Internal combustion engine operation and components.",
         status: "locked",
         progress: 0,
-        lessons: []
+        lessons: [
+            { id: "tmec1-l1", title: "Four-Stroke Cycle", type: "video", duration: "10 min", isCompleted: false },
+            { id: "tmec1-l2", title: "Engine Components", type: "reading", duration: "15 min", isCompleted: false },
+            { id: "tmec1-l3", title: "Engine Quiz", type: "quiz", duration: "10 min", isCompleted: false }
+        ]
       },
       {
         id: "tmec2",
@@ -169,7 +173,11 @@ export const COURSES: Course[] = [
         description: "Hydraulic braking principles and maintenance.",
         status: "locked",
         progress: 0,
-        lessons: []
+        lessons: [
+            { id: "tmec2-l1", title: "Hydraulic Principles", type: "video", duration: "12 min", isCompleted: false },
+            { id: "tmec2-l2", title: "Disc vs Drum Brakes", type: "reading", duration: "20 min", isCompleted: false },
+            { id: "tmec2-l3", title: "Brake Systems Quiz", type: "quiz", duration: "15 min", isCompleted: false }
+        ]
       },
       {
         id: "tmec3",
@@ -177,7 +185,9 @@ export const COURSES: Course[] = [
         description: "Final verification of mechanical aptitude.",
         status: "locked",
         progress: 0,
-        lessons: []
+        lessons: [
+            { id: "tmec3-final", title: "Final Mechanics Assessment", type: "quiz", duration: "60 min", isCompleted: false }
+        ]
       }
     ]
   },
@@ -197,7 +207,11 @@ export const COURSES: Course[] = [
         description: "Proper use of power tools and wood selection.",
         status: "locked",
         progress: 0,
-        lessons: []
+        lessons: [
+            { id: "tcarp1-l1", title: "Power Tool Safety", type: "video", duration: "15 min", isCompleted: false },
+            { id: "tcarp1-l2", title: "Wood Types & Grades", type: "reading", duration: "20 min", isCompleted: false },
+            { id: "tcarp1-l3", title: "Tools Quiz", type: "quiz", duration: "10 min", isCompleted: false }
+        ]
       },
       {
         id: "tcarp2",
@@ -205,7 +219,11 @@ export const COURSES: Course[] = [
         description: "Structural framing for walls and roofs.",
         status: "locked",
         progress: 0,
-        lessons: []
+        lessons: [
+            { id: "tcarp2-l1", title: "Wall Framing", type: "video", duration: "20 min", isCompleted: false },
+            { id: "tcarp2-l2", title: "Roof Systems", type: "reading", duration: "25 min", isCompleted: false },
+            { id: "tcarp2-l3", title: "Framing Quiz", type: "quiz", duration: "15 min", isCompleted: false }
+        ]
       },
       {
         id: "tcarp3",
@@ -213,7 +231,9 @@ export const COURSES: Course[] = [
         description: "Final verification of carpentry skills.",
         status: "locked",
         progress: 0,
-        lessons: []
+        lessons: [
+            { id: "tcarp3-final", title: "Final Carpentry Assessment", type: "quiz", duration: "60 min", isCompleted: false }
+        ]
       }
     ]
   },

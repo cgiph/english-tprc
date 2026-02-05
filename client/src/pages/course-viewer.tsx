@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare } from "lucide-react";
+import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
 import { useState, useEffect } from "react";
@@ -27,6 +27,9 @@ export default function CourseViewer() {
 
   // Active Lesson State (for Player)
   const [activeLesson, setActiveLesson] = useState<{id: string, title: string, type: string, moduleId: string} | null>(null);
+  
+  // Expanded Modules State
+  const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({});
 
   // Trainer Support State
   const [supportQuestion, setSupportQuestion] = useState("");
@@ -58,7 +61,9 @@ export default function CourseViewer() {
   const courseProgressPercent = totalLessons > 0 ? Math.round((completedLessonsCount / totalLessons) * 100) : 0;
 
   // Initialize active lesson if none selected (find first incomplete unlocked lesson or just first lesson)
+  // Also initialize expanded state for modules
   useEffect(() => {
+    // Only initialize if we haven't already selected a lesson
     if (!activeLesson && course.modules.length > 0) {
       // Find first unlocked module
       const firstUnlocked = course.modules.find(m => m.status === "unlocked" || m.status === "in-progress" || m.status === "completed");
@@ -72,9 +77,22 @@ export default function CourseViewer() {
           type: targetLesson.type,
           moduleId: firstUnlocked.id
         });
+        
+        // Expand the active module by default
+        setExpandedModules(prev => ({
+          ...prev,
+          [firstUnlocked.id]: true
+        }));
       }
     }
-  }, [course, activeLesson]);
+  }, [course.modules, activeLesson]); // Depend on course.modules to re-run when data loads/changes
+
+  const toggleModule = (moduleId: string) => {
+    setExpandedModules(prev => ({
+      ...prev,
+      [moduleId]: !prev[moduleId]
+    }));
+  };
 
 
   const handleLessonStart = (moduleId: string, lessonId: string, type: string) => {
@@ -312,19 +330,29 @@ export default function CourseViewer() {
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
            {course.modules.map((module, mIdx) => {
              const isLocked = module.status === "locked";
+             const isExpanded = expandedModules[module.id];
              
              return (
                <div key={module.id} className={cn("rounded-lg border", isLocked ? "opacity-60 bg-muted/50" : "bg-card")}>
-                  <div className="p-3 border-b bg-muted/30 flex items-center gap-3">
+                  <div 
+                    className={cn(
+                        "p-3 border-b bg-muted/30 flex items-center gap-3 cursor-pointer select-none", 
+                        !isLocked && "hover:bg-muted/50"
+                    )}
+                    onClick={() => !isLocked && toggleModule(module.id)}
+                  >
                      {module.status === "completed" ? <CheckCircle2 className="h-5 w-5 text-green-500" /> :
                       module.status === "locked" ? <Lock className="h-5 w-5 text-muted-foreground" /> :
                       <div className="h-5 w-5 rounded-full border-2 border-primary flex items-center justify-center text-[10px] font-bold text-primary">{mIdx + 1}</div>}
-                     <div>
+                     <div className="flex-1">
                        <h3 className="font-semibold text-sm line-clamp-1">{module.title}</h3>
                      </div>
+                     {!isLocked && (
+                        isExpanded ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                     )}
                   </div>
                   
-                  {!isLocked && (
+                  {!isLocked && isExpanded && (
                     <div className="divide-y">
                        {module.lessons.map((lesson) => {
                          const isActive = activeLesson?.id === lesson.id;
