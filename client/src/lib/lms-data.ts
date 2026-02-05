@@ -81,7 +81,7 @@ export const COURSES: Course[] = [
             id: "l1", 
             title: "Grammar Overview: Structure & Tenses", 
             type: "reading", 
-            duration: "15 min", 
+            duration: "30 min", 
             isCompleted: false, 
             content: `
               <div class="space-y-12 max-w-3xl mx-auto">
@@ -264,7 +264,7 @@ export const COURSES: Course[] = [
             id: "l2", 
             title: "Common Nouns vs Proper Nouns", 
             type: "reading", 
-            duration: "10 min", 
+            duration: "20 min", 
             isCompleted: false,
             content: `
               <div class="space-y-8">
@@ -327,12 +327,29 @@ export const COURSES: Course[] = [
               </div>
             `
           },
-          { id: "l3-bonus", title: "Practice: Noun Identification", type: "assignment", duration: "10 min", isCompleted: false },
+          { 
+            id: "l3-bonus", 
+            title: "Practice: Noun Identification", 
+            type: "assignment", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                 <div class="bg-indigo-50 p-8 rounded-xl border border-indigo-100 text-center">
+                    <h3 class="text-2xl font-bold text-indigo-900 mb-4">Interactive Exercise</h3>
+                    <p class="text-lg text-indigo-700 mb-6">Drag and drop the words into the correct category: <strong>Person</strong>, <strong>Place</strong>, or <strong>Thing</strong>.</p>
+                    <div class="inline-block px-6 py-3 bg-white rounded-lg shadow-sm border border-indigo-200 text-indigo-600 font-medium">
+                       Interactive component loaded below...
+                    </div>
+                 </div>
+              </div>
+            `
+          },
           { 
             id: "l3-vid", 
             title: "Video: Sentence Examples", 
             type: "video", 
-            duration: "5 min", 
+            duration: "15 min", 
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/54jIMyeq744",
             resources: [
@@ -341,7 +358,7 @@ export const COURSES: Course[] = [
               { title: "Extra Practice Worksheet.docx", type: "doc" }
             ]
           },
-          { id: "l3", title: "Module Quiz", type: "quiz", duration: "15 min", isCompleted: false }
+          { id: "l3", title: "Module Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
       {
@@ -414,12 +431,60 @@ export const COURSES: Course[] = [
             videoUrl: "https://www.youtube.com/embed/KzVvjX_2u_A",
             content: "<h3>Safety Essentials</h3><ul><li>Wear a Level 10 Shade Helmet</li><li>Leather gloves are mandatory</li></ul>"
           },
-          { id: "tw1-l1-check", title: "Knowledge Check: PPE", type: "assignment", duration: "10 min", isCompleted: false },
+          { 
+            id: "tw1-l1-check", 
+            title: "Knowledge Check: PPE Inspection", 
+            type: "assignment", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                   <h3 class="text-xl font-bold text-blue-800 mb-4">Pre-Shift Inspection Checklist</h3>
+                   <p class="text-slate-700 mb-4">Before striking an arc, verify the integrity of your personal protective equipment.</p>
+                   
+                   <div class="grid gap-4">
+                      <div class="flex items-start gap-3 bg-white p-3 rounded shadow-sm">
+                         <div class="mt-1 bg-blue-100 text-blue-600 w-6 h-6 rounded flex items-center justify-center text-xs font-bold">1</div>
+                         <div>
+                            <strong class="block text-slate-800">Welding Helmet</strong>
+                            <span class="text-sm text-slate-500">Check for cracks in the shell. Ensure auto-darkening lens has fresh batteries. Verify shade setting is at minimum #10 for amperage > 80A.</span>
+                         </div>
+                      </div>
+                      <div class="flex items-start gap-3 bg-white p-3 rounded shadow-sm">
+                         <div class="mt-1 bg-blue-100 text-blue-600 w-6 h-6 rounded flex items-center justify-center text-xs font-bold">2</div>
+                         <div>
+                            <strong class="block text-slate-800">Protective Clothing</strong>
+                            <span class="text-sm text-slate-500">Must be 100% cotton or wool. NO POLYESTER (it melts into skin). Sleeves rolled down. Pockets buttoned shut to prevent catching sparks.</span>
+                         </div>
+                      </div>
+                      <div class="flex items-start gap-3 bg-white p-3 rounded shadow-sm">
+                         <div class="mt-1 bg-blue-100 text-blue-600 w-6 h-6 rounded flex items-center justify-center text-xs font-bold">3</div>
+                         <div>
+                            <strong class="block text-slate-800">Gloves & Boots</strong>
+                            <span class="text-sm text-slate-500">Gauntlet-style leather gloves required. Boots must be leather, steel-toed, with metatarsal guards preferred.</span>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+
+                <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
+                   <h4 class="font-bold text-yellow-800 mb-2">Scenario Analysis</h4>
+                   <p class="text-sm text-slate-700 italic mb-4">"A welder is wearing a cotton t-shirt with a polyester vest on top. He is welding in a damp area."</p>
+                   <p class="font-bold text-slate-900">Identify the 2 major violations:</p>
+                   <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-800">
+                      <li>Synthetic material (polyester vest) presents a melting hazard.</li>
+                      <li>Damp environment increases electrical shock risk.</li>
+                   </ul>
+                </div>
+              </div>
+            `
+          },
           { 
             id: "tw1-l2", 
             title: "Hazard Identification", 
             type: "reading", 
-            duration: "15 min", 
+            duration: "20 min", 
             isCompleted: false,
             content: `
               <div class="space-y-8">
@@ -459,7 +524,7 @@ export const COURSES: Course[] = [
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/9l7J0i7_WAg" 
           },
-          { id: "tw1-l3", title: "Safety Quiz", type: "quiz", duration: "10 min", isCompleted: false }
+          { id: "tw1-l3", title: "Safety Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
       {
@@ -473,7 +538,7 @@ export const COURSES: Course[] = [
             id: "tw2-l1", 
             title: "Arc Welding Basics", 
             type: "video", 
-            duration: "15 min", 
+            duration: "20 min", 
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/TeB2eWdK6aU" 
           },
@@ -481,7 +546,7 @@ export const COURSES: Course[] = [
             id: "tw2-l2", 
             title: "Electrode Classification", 
             type: "reading", 
-            duration: "20 min", 
+            duration: "30 min", 
             isCompleted: false,
             content: `
               <div class="space-y-8">
@@ -549,7 +614,7 @@ export const COURSES: Course[] = [
               </div>
             `
           },
-          { id: "tw2-l3", title: "Process Quiz", type: "quiz", duration: "15 min", isCompleted: false }
+          { id: "tw2-l3", title: "Process Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
       {
@@ -559,7 +624,7 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-          { id: "tw3-final", title: "Final Technical Assessment", type: "quiz", duration: "60 min", isCompleted: false }
+          { id: "tw3-final", title: "Final Technical Assessment", type: "quiz", duration: "90 min", isCompleted: false }
         ]
       }
     ]
@@ -581,12 +646,12 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-          { id: "tmec1-l1", title: "Four-Stroke Cycle", type: "video", duration: "10 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/OGj8OneMjek" },
+          { id: "tmec1-l1", title: "Four-Stroke Cycle", type: "video", duration: "20 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/OGj8OneMjek" },
           { 
             id: "tmec1-l2", 
             title: "Engine Components", 
             type: "reading", 
-            duration: "15 min", 
+            duration: "30 min", 
             isCompleted: false,
             content: `
               <div class="space-y-8">
@@ -638,7 +703,7 @@ export const COURSES: Course[] = [
               </div>
             `
           },
-          { id: "tmec1-l3", title: "Engine Quiz", type: "quiz", duration: "10 min", isCompleted: false }
+          { id: "tmec1-l3", title: "Engine Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
       {
@@ -652,7 +717,7 @@ export const COURSES: Course[] = [
                 id: "tmec2-l1", 
                 title: "Hydraulic Principles", 
                 type: "video", 
-                duration: "12 min", 
+                duration: "20 min", 
                 isCompleted: false,
                 videoUrl: "https://www.youtube.com/embed/Zz95_VvTxZM" 
             },
@@ -660,7 +725,7 @@ export const COURSES: Course[] = [
                 id: "tmec2-l2", 
                 title: "Disc vs Drum Brakes", 
                 type: "reading", 
-                duration: "20 min", 
+                duration: "30 min", 
                 isCompleted: false,
                 content: `
                     <div class="space-y-6">
@@ -690,7 +755,7 @@ export const COURSES: Course[] = [
                     </div>
                 `
             },
-            { id: "tmec2-l3", title: "Brake Systems Quiz", type: "quiz", duration: "15 min", isCompleted: false }
+            { id: "tmec2-l3", title: "Brake Systems Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
       {
@@ -700,7 +765,7 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tmec3-final", title: "Final Mechanics Assessment", type: "quiz", duration: "60 min", isCompleted: false }
+            { id: "tmec3-final", title: "Final Mechanics Assessment", type: "quiz", duration: "90 min", isCompleted: false }
         ]
       }
     ]
@@ -722,12 +787,12 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tcarp1-l1", title: "Power Tool Safety", type: "video", duration: "15 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/AtpZ4OQZ-c4" },
+            { id: "tcarp1-l1", title: "Power Tool Safety", type: "video", duration: "20 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/AtpZ4OQZ-c4" },
             { 
                 id: "tcarp1-l2", 
                 title: "Wood Types & Grades", 
                 type: "reading", 
-                duration: "20 min", 
+                duration: "30 min", 
                 isCompleted: false,
                 content: `
                     <div class="space-y-8">
@@ -785,7 +850,7 @@ export const COURSES: Course[] = [
                     </div>
                 `
             },
-            { id: "tcarp1-l3", title: "Tools Quiz", type: "quiz", duration: "10 min", isCompleted: false }
+            { id: "tcarp1-l3", title: "Tools Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
       {
@@ -799,7 +864,7 @@ export const COURSES: Course[] = [
                 id: "tcarp2-l1", 
                 title: "Wall Framing", 
                 type: "video", 
-                duration: "20 min", 
+                duration: "25 min", 
                 isCompleted: false,
                 videoUrl: "https://www.youtube.com/embed/3ogM2q_bLhM" 
             },
@@ -807,7 +872,7 @@ export const COURSES: Course[] = [
                 id: "tcarp2-l2", 
                 title: "Roof Systems", 
                 type: "reading", 
-                duration: "25 min", 
+                duration: "30 min", 
                 isCompleted: false,
                 content: `
                     <div class="space-y-6">
@@ -868,7 +933,7 @@ export const COURSES: Course[] = [
                     </div>
                 `
             },
-            { id: "tcarp2-l3", title: "Framing Quiz", type: "quiz", duration: "15 min", isCompleted: false }
+            { id: "tcarp2-l3", title: "Framing Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
       {
@@ -878,7 +943,7 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tcarp3-final", title: "Final Carpentry Assessment", type: "quiz", duration: "60 min", isCompleted: false }
+            { id: "tcarp3-final", title: "Final Carpentry Assessment", type: "quiz", duration: "90 min", isCompleted: false }
         ]
       }
     ]
