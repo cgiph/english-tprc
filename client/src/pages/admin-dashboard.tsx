@@ -151,7 +151,7 @@ export default function AdminDashboard() {
             <div className="ml-2">
                <h1 className="text-xl font-bold text-white flex items-center gap-2">
                  <Briefcase className="h-6 w-6 text-orange-500" />
-                 Recruiter Admin
+                 Trainer Dashboard
                </h1>
             </div>
           </div>

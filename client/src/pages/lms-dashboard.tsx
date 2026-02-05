@@ -30,7 +30,7 @@ export default function LMSDashboard() {
         <Link href="/lms/admin">
           <Button variant="outline" className="gap-2 border-orange-200 text-orange-700 hover:bg-orange-50 hover:text-orange-800">
             <Briefcase className="h-4 w-4" />
-            Recruiter Admin
+            Trainer Dashboard
           </Button>
         </Link>
       </div>
