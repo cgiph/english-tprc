@@ -212,6 +212,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Empowering our candidates to achieve their dreams through a comprehensive PTE Academic preparation, resources, and community support.
               </p>
+              <div className="pt-4 border-t border-border/50">
+                <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground mb-2">Data Retention & Integrity</h4>
+                <p className="text-[10px] leading-tight text-muted-foreground/80">
+                  All assessment scores, module progression logs, and proctoring metadata are permanently verified and stored as a "Source of Truth" for recruitment validation, visa processing, and deployment auditing purposes. Unauthorized tampering is strictly prohibited.
+                </p>
+              </div>
             </div>
             
             <div>

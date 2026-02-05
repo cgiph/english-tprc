@@ -84,13 +84,17 @@ function Router() {
   );
 }
 
+import { LMSProvider } from "@/hooks/use-lms";
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
+      <LMSProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </LMSProvider>
     </QueryClientProvider>
   );
 }
