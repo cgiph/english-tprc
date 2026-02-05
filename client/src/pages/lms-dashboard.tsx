@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText } from "lucide-react";
+import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function LMSDashboard() {
@@ -19,12 +19,20 @@ export default function LMSDashboard() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-10 space-y-4">
-        <h1 className="text-4xl font-serif font-bold text-primary">Learning Hub</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl">
-          Access your modular courses, technical training tracks, and mock assessments. 
-          Complete modules to unlock the next stage of your journey.
-        </p>
+      <div className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-serif font-bold text-primary">Learning Hub</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl">
+            Access your modular courses, technical training tracks, and mock assessments. 
+            Complete modules to unlock the next stage of your journey.
+          </p>
+        </div>
+        <Link href="/lms/admin">
+          <Button variant="outline" className="gap-2 border-orange-200 text-orange-700 hover:bg-orange-50 hover:text-orange-800">
+            <Briefcase className="h-4 w-4" />
+            Recruiter Admin
+          </Button>
+        </Link>
       </div>
 
       <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="space-y-8">

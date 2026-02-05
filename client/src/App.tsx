@@ -19,6 +19,7 @@ import VocabularyTool from "@/pages/vocabulary-tool";
 import GrammarTool from "@/pages/grammar-tool";
 import FullMockTest from "@/pages/full-mock-test";
 import LMSDashboard from "@/pages/lms-dashboard";
+import AdminDashboard from "@/pages/admin-dashboard";
 import CourseViewer from "@/pages/course-viewer";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth";
@@ -51,6 +52,7 @@ function Router() {
           
           {/* LMS Routes */}
           <Route path="/lms" component={LMSDashboard} />
+          <Route path="/lms/admin" component={AdminDashboard} />
           <Route path="/lms/course/:id" component={CourseViewer} />
 
           <Route path="/resources/grammar-tool" component={GrammarTool} />
