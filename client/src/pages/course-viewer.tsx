@@ -14,6 +14,7 @@ import { useLMS } from "@/hooks/use-lms";
 import { ModuleQuiz } from "@/components/lms/module-quiz";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
+import { NounPractice } from "@/components/lms/noun-practice";
 
 export default function CourseViewer() {
   const { id } = useParams();
@@ -238,6 +239,8 @@ export default function CourseViewer() {
                        <p className="text-slate-400">Pass this quiz with 80% or higher to unlock the next module.</p>
                        <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white w-full" onClick={() => handleLessonStart(activeLesson.moduleId, activeLesson.id, "quiz")}>Start Quiz</Button>
                     </div>
+                 ) : activeLesson.id === "l3-bonus" ? (
+                    <NounPractice onComplete={handleMarkComplete} />
                  ) : (
                     <div className="w-full h-full overflow-y-auto">
                        {activeLesson.content ? (
