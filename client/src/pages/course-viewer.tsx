@@ -9,20 +9,110 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLMS } from "@/hooks/use-lms";
+import { ModuleQuiz } from "@/components/lms/module-quiz";
+import { useToast } from "@/hooks/use-toast";
 
 export default function CourseViewer() {
   const { id } = useParams();
-  const course = getCourseById(id || "");
+  const rawCourse = getCourseById(id || "");
+  const { state, completeLesson, unlockModule, submitQuizScore } = useLMS();
   const [activeModule, setActiveModule] = useState<string | null>(null);
+  
+  // Quiz State
+  const [quizOpen, setQuizOpen] = useState(false);
+  const [activeQuizModule, setActiveQuizModule] = useState<{id: string, title: string} | null>(null);
+  const { toast } = useToast();
 
-  if (!course) return <NotFound />;
+  if (!rawCourse) return <NotFound />;
+
+  // Merge static course data with user progress state
+  const course = {
+    ...rawCourse,
+    modules: rawCourse.modules.map(m => {
+      const userModule = state.modules[m.id];
+      return {
+        ...m,
+        // If state exists use it, otherwise fallback to Locked (unless it's the very first one which is default unlocked)
+        status: userModule ? userModule.status : (m.id === "m1" ? "unlocked" : "locked"),
+        lessons: m.lessons.map(l => ({
+          ...l,
+          isCompleted: userModule?.completedLessons.includes(l.id) || false
+        }))
+      };
+    }),
+    // Recalculate course progress based on user state
+    completedModules: rawCourse.modules.filter(m => state.modules[m.id]?.status === "completed").length
+  };
 
   // Find the first active/in-progress module to open by default
   const defaultOpen = course.modules.find(m => m.status === "in-progress" || m.status === "unlocked")?.id || course.modules[0].id;
 
+  const handleLessonStart = (moduleId: string, lessonId: string, type: string) => {
+    if (type === "quiz") {
+      const module = course.modules.find(m => m.id === moduleId);
+      if (module) {
+        setActiveQuizModule({ id: module.id, title: module.title });
+        setQuizOpen(true);
+      }
+    } else {
+      // For video/reading, just mark complete for demo purposes
+      completeLesson(moduleId, lessonId);
+      toast({
+        title: "Lesson Completed",
+        description: "Progress saved."
+      });
+    }
+  };
+
+  const handleQuizComplete = (score: number) => {
+    if (activeQuizModule) {
+       submitQuizScore(activeQuizModule.id, score);
+       
+       if (score >= 80) {
+         // Mark lesson complete
+         // In real app we'd find the quiz lesson ID, here we assume it's the last one or pass it
+         const module = course.modules.find(m => m.id === activeQuizModule.id);
+         const quizLesson = module?.lessons.find(l => l.type === "quiz");
+         if (quizLesson) {
+            completeLesson(activeQuizModule.id, quizLesson.id);
+         }
+
+         // Unlock NEXT module logic
+         const currentIndex = course.modules.findIndex(m => m.id === activeQuizModule.id);
+         if (currentIndex >= 0 && currentIndex < course.modules.length - 1) {
+           const nextModule = course.modules[currentIndex + 1];
+           unlockModule(nextModule.id);
+           toast({
+             title: "Next Module Unlocked!",
+             description: `You passed with ${score}%. ${nextModule.title} is now available.`,
+             className: "bg-green-50 border-green-200"
+           });
+         }
+       } else {
+         toast({
+            variant: "destructive",
+            title: "Quiz Failed",
+            description: `You scored ${score}%. You need 80% to proceed.`
+         });
+       }
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
+      {/* Quiz Modal */}
+      {activeQuizModule && (
+        <ModuleQuiz 
+          isOpen={quizOpen} 
+          onClose={() => setQuizOpen(false)} 
+          moduleId={activeQuizModule.id}
+          moduleTitle={activeQuizModule.title}
+          onComplete={handleQuizComplete}
+        />
+      )}
+
       {/* Header */}
       <div className="mb-8">
         <Link href="/lms" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-4 transition-colors">
@@ -70,7 +160,12 @@ export default function CourseViewer() {
         
         <Accordion type="single" collapsible defaultValue={defaultOpen} className="w-full space-y-4">
           {course.modules.map((module, index) => (
-            <ModuleItem key={module.id} module={module} index={index} />
+            <ModuleItem 
+              key={module.id} 
+              module={module as any} 
+              index={index} 
+              onStartLesson={(lessonId, type) => handleLessonStart(module.id, lessonId, type)}
+            />
           ))}
         </Accordion>
       </div>
@@ -78,7 +173,7 @@ export default function CourseViewer() {
   );
 }
 
-function ModuleItem({ module, index }: { module: Module, index: number }) {
+function ModuleItem({ module, index, onStartLesson }: { module: Module, index: number, onStartLesson: (id: string, type: string) => void }) {
   const isLocked = module.status === "locked";
   
   return (
@@ -104,6 +199,7 @@ function ModuleItem({ module, index }: { module: Module, index: number }) {
             <h3 className="font-semibold text-lg flex items-center gap-2">
               {module.title}
               {module.status === "in-progress" && <Badge variant="secondary" className="text-xs">In Progress</Badge>}
+              {module.status === "locked" && <Badge variant="outline" className="text-xs bg-muted text-muted-foreground border-none">Locked</Badge>}
             </h3>
             <p className="text-sm text-muted-foreground">{module.description}</p>
           </div>
@@ -135,7 +231,15 @@ function ModuleItem({ module, index }: { module: Module, index: number }) {
                 </div>
               </div>
               
-              <Button size="sm" variant={lesson.isCompleted ? "ghost" : "secondary"} className="gap-2">
+              <Button 
+                size="sm" 
+                variant={lesson.isCompleted ? "ghost" : "secondary"} 
+                className="gap-2"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onStartLesson(lesson.id, lesson.type);
+                }}
+              >
                 {lesson.isCompleted ? (
                   <>Completed <CheckCircle2 className="h-3 w-3" /></>
                 ) : (

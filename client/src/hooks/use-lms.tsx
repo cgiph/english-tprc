@@ -10,6 +10,8 @@ const defaultState: UserLMSState = {
   modules: {
     // Default unlocked first modules for demo courses
     "m1": { status: "unlocked", completedLessons: [] },
+    "m2": { status: "locked", completedLessons: [] },
+    "m3": { status: "locked", completedLessons: [] },
     "tm1": { status: "unlocked", completedLessons: [] },
     "mock1": { status: "unlocked", completedLessons: [] }
   },

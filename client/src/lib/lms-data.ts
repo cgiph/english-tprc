@@ -47,35 +47,39 @@ export const COURSES: Course[] = [
     modules: [
       {
         id: "m1",
-        title: "Module 1: Basic Grammar",
-        description: "Nouns, Verbs, and Simple Sentences",
-        status: "completed",
-        progress: 100,
+        title: "Module 1: Basic Sentence Structure & Nouns",
+        description: "Understanding subject-verb-object order and noun types.",
+        status: "unlocked",
+        progress: 0,
         lessons: [
-          { id: "l1", title: "Introduction to Nouns", type: "video", duration: "5 min", isCompleted: true },
-          { id: "l2", title: "Common Verbs", type: "reading", duration: "10 min", isCompleted: true },
-          { id: "l3", title: "Module Quiz", type: "quiz", duration: "15 min", isCompleted: true }
+          { id: "l1", title: "Sentence Basics", type: "video", duration: "5 min", isCompleted: false },
+          { id: "l2", title: "Common Nouns vs Proper Nouns", type: "reading", duration: "10 min", isCompleted: false },
+          { id: "l3", title: "Module Quiz", type: "quiz", duration: "15 min", isCompleted: false }
         ]
       },
       {
         id: "m2",
-        title: "Module 2: Daily Conversations",
-        description: "Greetings, Introductions, and Small Talk",
-        status: "in-progress",
-        progress: 30,
+        title: "Module 2: Essential Verbs & Tenses",
+        description: "Mastering common verbs and present/past simple tenses.",
+        status: "locked",
+        progress: 0,
         lessons: [
-          { id: "l4", title: "Formal vs Informal Greetings", type: "video", duration: "8 min", isCompleted: true },
-          { id: "l5", title: "Self Introductions", type: "assignment", duration: "20 min", isCompleted: false },
-          { id: "l6", title: "Roleplay: At the Cafe", type: "quiz", duration: "10 min", isCompleted: false }
+          { id: "l4", title: "Action Verbs", type: "video", duration: "8 min", isCompleted: false },
+          { id: "l5", title: "Present Simple Practice", type: "assignment", duration: "20 min", isCompleted: false },
+          { id: "l6", title: "Module Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
       },
       {
         id: "m3",
-        title: "Module 3: Listening Basics",
-        description: "Understanding clear, slow speech.",
+        title: "Module 3: Daily Communication & Greetings",
+        description: "Formal and informal ways to greet and introduce yourself.",
         status: "locked",
         progress: 0,
-        lessons: []
+        lessons: [
+          { id: "l7", title: "Greetings & Farewells", type: "video", duration: "6 min", isCompleted: false },
+          { id: "l8", title: "Introduction Scripts", type: "reading", duration: "15 min", isCompleted: false },
+          { id: "l9", title: "Module Quiz", type: "quiz", duration: "10 min", isCompleted: false }
+        ]
       },
       {
         id: "m4",
