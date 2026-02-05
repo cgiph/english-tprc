@@ -74,27 +74,27 @@ export const COURSES: Course[] = [
                 </div>
 
                 <div class="bg-white text-slate-900 aspect-video rounded-xl shadow-2xl overflow-hidden flex flex-col border-4 border-slate-200">
-                  <div class="p-12 flex-1 flex flex-col justify-center">
-                    <h2 class="text-3xl font-bold text-blue-700 mb-8 border-b-2 border-blue-100 pb-4">Subject-Verb Agreement</h2>
-                    <div class="grid grid-cols-2 gap-8">
-                      <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
-                        <h3 class="font-bold text-lg mb-2 text-blue-800">Singular Rule</h3>
-                        <p class="text-slate-600 mb-2">Singular Nouns take Singular Verbs.</p>
-                        <div class="bg-white p-2 rounded border border-blue-200 text-sm">
+                  <div class="p-8 flex-1 flex flex-col justify-center">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-6 border-b-2 border-blue-100 pb-2">Subject-Verb Agreement</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                        <h3 class="font-bold text-base mb-1 text-blue-800">Singular Rule</h3>
+                        <p class="text-slate-600 text-sm mb-2">Singular Nouns take Singular Verbs.</p>
+                        <div class="bg-white p-2 rounded border border-blue-200 text-xs">
                           <span class="text-green-600">✅</span> The <strong>dog</strong> <u>barks</u>.
                         </div>
                       </div>
-                      <div class="bg-green-50 p-6 rounded-lg border border-green-100">
-                        <h3 class="font-bold text-lg mb-2 text-green-800">Plural Rule</h3>
-                        <p class="text-slate-600 mb-2">Plural Nouns take Plural Verbs.</p>
-                        <div class="bg-white p-2 rounded border border-green-200 text-sm">
+                      <div class="bg-green-50 p-4 rounded-lg border border-green-100">
+                        <h3 class="font-bold text-base mb-1 text-green-800">Plural Rule</h3>
+                        <p class="text-slate-600 text-sm mb-2">Plural Nouns take Plural Verbs.</p>
+                        <div class="bg-white p-2 rounded border border-green-200 text-xs">
                           <span class="text-green-600">✅</span> The <strong>dogs</strong> <u>bark</u>.
                         </div>
                       </div>
-                      <div class="col-span-2 bg-purple-50 p-6 rounded-lg border border-purple-100">
-                         <h3 class="font-bold text-lg mb-2 text-purple-800">Compound Rule</h3>
-                         <p class="text-slate-600 mb-2">Compound Nouns (joined by "and") generally take Plural Verbs.</p>
-                         <div class="bg-white p-2 rounded border border-purple-200 text-sm">
+                      <div class="col-span-2 bg-purple-50 p-4 rounded-lg border border-purple-100">
+                         <h3 class="font-bold text-base mb-1 text-purple-800">Compound Rule</h3>
+                         <p class="text-slate-600 text-sm mb-2">Compound Nouns (joined by "and") generally take Plural Verbs.</p>
+                         <div class="bg-white p-2 rounded border border-purple-200 text-xs">
                           <span class="text-green-600">✅</span> <strong>Bob and Tom</strong> <u>are</u> going to the gym.
                         </div>
                       </div>
