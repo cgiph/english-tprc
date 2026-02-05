@@ -27,7 +27,7 @@ export default function CourseViewer() {
   const { toast } = useToast();
 
   // Active Lesson State (for Player)
-  const [activeLesson, setActiveLesson] = useState<{id: string, title: string, type: string, moduleId: string, videoUrl?: string, content?: string} | null>(null);
+  const [activeLesson, setActiveLesson] = useState<{id: string, title: string, type: string, moduleId: string, videoUrl?: string, content?: string, resources?: { title: string; type: "pdf" | "doc" | "link" }[]} | null>(null);
   
   // Expanded Modules State
   const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({});
@@ -78,7 +78,8 @@ export default function CourseViewer() {
           type: targetLesson.type,
           moduleId: firstUnlocked.id,
           videoUrl: (targetLesson as any).videoUrl,
-          content: (targetLesson as any).content
+          content: (targetLesson as any).content,
+          resources: (targetLesson as any).resources
         });
         
         // Expand the active module by default
@@ -109,7 +110,8 @@ export default function CourseViewer() {
             type: lesson.type,
             moduleId: moduleId,
             videoUrl: (lesson as any).videoUrl,
-            content: (lesson as any).content
+            content: (lesson as any).content,
+            resources: (lesson as any).resources
         });
     }
 
@@ -270,20 +272,21 @@ export default function CourseViewer() {
                    <Download className="h-5 w-5 text-primary" /> Lesson Resources
                  </h3>
                  <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors cursor-pointer group">
-                       <div className="flex items-center gap-3">
-                          <FileText className="h-5 w-5 text-slate-400 group-hover:text-primary" />
-                          <span className="text-sm font-medium text-slate-300">Lesson Slides (PDF)</span>
+                    {activeLesson?.resources && activeLesson.resources.length > 0 ? (
+                      activeLesson.resources.map((resource, idx) => (
+                        <div key={idx} className="flex items-center justify-between p-3 bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors cursor-pointer group">
+                           <div className="flex items-center gap-3">
+                              <FileText className="h-5 w-5 text-slate-400 group-hover:text-primary" />
+                              <span className="text-sm font-medium text-slate-300">{resource.title}</span>
+                           </div>
+                           <Download className="h-4 w-4 text-slate-500 group-hover:text-white" />
+                        </div>
+                      ))
+                    ) : (
+                       <div className="p-4 rounded-lg border border-dashed border-slate-800 text-slate-500 text-sm text-center">
+                          No downloadable resources for this lesson.
                        </div>
-                       <Download className="h-4 w-4 text-slate-500" />
-                    </div>
-                    <div className="flex items-center justify-between p-3 bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors cursor-pointer group">
-                       <div className="flex items-center gap-3">
-                          <FileText className="h-5 w-5 text-slate-400 group-hover:text-primary" />
-                          <span className="text-sm font-medium text-slate-300">Reference Sheet</span>
-                       </div>
-                       <Download className="h-4 w-4 text-slate-500" />
-                    </div>
+                    )}
                  </div>
               </div>
 
@@ -310,11 +313,19 @@ export default function CourseViewer() {
            {/* Trainer Support Section */}
            <div className="max-w-4xl mx-auto mt-8 pt-8 border-t border-slate-800">
              <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
-               <h3 className="text-lg font-bold mb-2 flex items-center gap-2 text-white">
-                 <MessageSquare className="h-5 w-5 text-blue-400" /> 
-                 Trainer Support
-               </h3>
-               <p className="text-sm text-slate-400 mb-4">Stuck on this lesson? Send a question directly to our training team.</p>
+               <div className="flex justify-between items-start mb-4">
+                 <div>
+                    <h3 className="text-lg font-bold flex items-center gap-2 text-white">
+                        <MessageSquare className="h-5 w-5 text-blue-400" /> 
+                        Trainer Support
+                    </h3>
+                    <p className="text-sm text-slate-400 mt-1">Stuck on this lesson? Send a question directly to our training team.</p>
+                 </div>
+                 <div className="flex items-center gap-2 bg-green-900/30 px-3 py-1 rounded-full border border-green-800/50">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-xs font-medium text-green-400">Trainers Online</span>
+                 </div>
+               </div>
                
                <div className="space-y-3">
                  <Textarea 

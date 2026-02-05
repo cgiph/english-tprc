@@ -11,6 +11,7 @@ export interface Lesson {
   isCompleted: boolean;
   videoUrl?: string; // Optional YouTube embed URL
   content?: string; // Optional rich text content for reading lessons
+  resources?: { title: string; type: "pdf" | "doc" | "link" }[];
 }
 
 export interface Module {
@@ -305,7 +306,19 @@ export const COURSES: Course[] = [
             `
           },
           { id: "l3-bonus", title: "Practice: Noun Identification", type: "assignment", duration: "10 min", isCompleted: false },
-          { id: "l3-vid", title: "Video: Sentence Examples", type: "video", duration: "5 min", isCompleted: false },
+          { 
+            id: "l3-vid", 
+            title: "Video: Sentence Examples", 
+            type: "video", 
+            duration: "5 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/54jIMyeq744",
+            resources: [
+              { title: "Sentence Structure Cheat Sheet.pdf", type: "pdf" },
+              { title: "50 Common English Sentences.pdf", type: "pdf" },
+              { title: "Extra Practice Worksheet.docx", type: "doc" }
+            ]
+          },
           { id: "l3", title: "Module Quiz", type: "quiz", duration: "15 min", isCompleted: false }
         ]
       },
