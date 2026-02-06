@@ -322,6 +322,14 @@ export const COURSES: Course[] = [
               <div class="space-y-8">
                 <div>
                   <h3 class="text-2xl font-bold mb-4 text-primary">Common vs. Proper Nouns</h3>
+                  
+                  <div class="mb-8 space-y-4 text-slate-700 leading-relaxed">
+                    <p><strong>What are common nouns in English grammar?</strong></p>
+                    <p>A noun is a part of the sentence that refers to a person, place or thing.</p>
+                    <p>A <strong>common noun</strong> specifies that person, place or thing without fully defining it and is <em>not capitalized</em>. Common nouns can refer to places, things and people all over the world.</p>
+                    <p>A <strong>proper noun</strong> defines the person, place or thing and is <em>almost always capitalized</em>.</p>
+                  </div>
+
                   <div class="overflow-hidden rounded-lg border border-slate-700">
                     <table class="w-full text-left text-sm">
                       <thead class="bg-slate-800 text-slate-200">
