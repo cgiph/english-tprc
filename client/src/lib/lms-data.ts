@@ -422,10 +422,93 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-          { id: "l4", title: "Action Verbs", type: "video", duration: "8 min", isCompleted: false },
-          { id: "l4-read", title: "Verb List: Top 50 Common Verbs", type: "reading", duration: "15 min", isCompleted: false },
-          { id: "l5", title: "Present Simple Practice", type: "assignment", duration: "20 min", isCompleted: false },
-          { id: "l5-vid", title: "Past Tense Introduction", type: "video", duration: "10 min", isCompleted: false },
+          { 
+            id: "l4", 
+            title: "Action Verbs", 
+            type: "video", 
+            duration: "8 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/t6Qn27k1_bs", 
+            content: "<h3>Action Verbs</h3><p>Verbs that express physical or mental action. Essential for describing work tasks.</p>"
+          },
+          { 
+            id: "l4-read", 
+            title: "Verb List: Top 50 Common Verbs", 
+            type: "reading", 
+            duration: "15 min", 
+            isCompleted: false,
+            content: `
+            <div class="space-y-6">
+              <h3 class="text-2xl font-bold text-slate-800">Top 50 Essential Verbs</h3>
+              <p class="text-slate-600">These are the most frequent verbs you will use in daily workplace communication.</p>
+              
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="bg-white p-3 rounded border shadow-sm">
+                  <div class="font-bold text-indigo-600">To Be</div>
+                  <div class="text-xs text-slate-500">I am, You are, He is</div>
+                </div>
+                <div class="bg-white p-3 rounded border shadow-sm">
+                  <div class="font-bold text-indigo-600">To Have</div>
+                  <div class="text-xs text-slate-500">I have, She has</div>
+                </div>
+                <div class="bg-white p-3 rounded border shadow-sm">
+                  <div class="font-bold text-indigo-600">To Do</div>
+                  <div class="text-xs text-slate-500">I do, He does</div>
+                </div>
+                 <div class="bg-white p-3 rounded border shadow-sm">
+                  <div class="font-bold text-indigo-600">To Make</div>
+                  <div class="text-xs text-slate-500">Create / Build</div>
+                </div>
+                <div class="bg-white p-3 rounded border shadow-sm">
+                  <div class="font-bold text-indigo-600">To Go</div>
+                  <div class="text-xs text-slate-500">Movement</div>
+                </div>
+                <div class="bg-white p-3 rounded border shadow-sm">
+                  <div class="font-bold text-indigo-600">To Take</div>
+                  <div class="text-xs text-slate-500">Grab / Receive</div>
+                </div>
+              </div>
+
+              <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h4 class="font-bold text-blue-900 mb-2">Workplace Verbs</h4>
+                <ul class="list-disc ml-5 space-y-1 text-blue-800">
+                  <li><strong>Operate:</strong> Use a machine.</li>
+                  <li><strong>Inspect:</strong> Check for quality.</li>
+                  <li><strong>Repair:</strong> Fix something broken.</li>
+                  <li><strong>Assemble:</strong> Put parts together.</li>
+                </ul>
+              </div>
+            </div>
+            `
+          },
+          { 
+            id: "l5", 
+            title: "Present Simple Practice", 
+            type: "assignment", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                 <div class="bg-green-50 p-6 rounded-xl border border-green-100">
+                    <h3 class="text-xl font-bold text-green-900 mb-3">Assignment: Daily Routine</h3>
+                    <p class="text-green-800 mb-4">Write 5 sentences describing what you do every day at work using the <strong>Present Simple</strong> tense.</p>
+                    <div class="bg-white p-4 rounded border border-green-200 font-mono text-sm text-slate-600">
+                      Example: "I <strong>start</strong> work at 8:00 AM. I <strong>check</strong> the machines."
+                    </div>
+                    <textarea class="w-full mt-4 p-3 border rounded-md focus:ring-2 focus:ring-green-500 outline-none" rows="4" placeholder="Type your sentences here..."></textarea>
+                 </div>
+              </div>
+            `
+          },
+          { 
+            id: "l5-vid", 
+            title: "Past Tense Introduction", 
+            type: "video", 
+            duration: "10 min", 
+            isCompleted: false,
+             videoUrl: "https://www.youtube.com/embed/qq4Vlq5f9uM",
+             content: "<h3>Past Simple Tense</h3><p>Learn how to talk about finished actions. Regular verbs end in -ed (walked, worked), irregular verbs change (go -> went).</p>"
+          },
           { id: "l6", title: "Module Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
       },
