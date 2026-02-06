@@ -312,49 +312,70 @@ export const COURSES: Course[] = [
               </div>
             `
           },
-          { 
-            id: "l2", 
-            title: "Common Nouns vs Proper Nouns", 
-            type: "reading", 
-            duration: "20 min", 
+          
+          {
+            id: "l2",
+            title: "Common Nouns vs Proper Nouns",
+            type: "reading",
+            duration: "30 min", // Increased to reflect deeper content
             isCompleted: false,
             content: `
-              <div class="space-y-8">
+              <div class="space-y-8 bg-white p-8 rounded-xl shadow-sm border border-slate-200">
                 <div>
-                  <h3 class="text-2xl font-bold mb-4 text-primary">Common vs. Proper Nouns</h3>
-                  
-                  <div class="mb-8 space-y-4 text-slate-700 leading-relaxed">
-                    <p><strong>What are common nouns in English grammar?</strong></p>
-                    <p>A noun is a part of the sentence that refers to a person, place or thing.</p>
-                    <p>A <strong>common noun</strong> specifies that person, place or thing without fully defining it and is <em>not capitalized</em>. Common nouns can refer to places, things and people all over the world.</p>
-                    <p>A <strong>proper noun</strong> defines the person, place or thing and is <em>almost always capitalized</em>.</p>
+                  <h3 class="text-3xl font-extrabold mb-6 text-indigo-900 border-b pb-2">Technical Grammar: Common vs. Proper Nouns</h3>
+
+                  <div class="mb-8 space-y-6 text-slate-800 leading-relaxed text-lg">
+                    <p>In a professional environment, the distinction between common and proper nouns is not just about grammar—it is about <strong>specificity and authority</strong>. Miscapitalizing a common noun looks unprofessional, but failing to capitalize a proper noun (like a brand or a client name) can be seen as a lack of attention to detail.</p>
+
+                    <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+                      <h4 class="font-bold text-blue-900 mb-2">The Golden Rule</h4>
+                      <p>A <strong>common noun</strong> is a generic label for a category. A <strong>proper noun</strong> is a specific entity's "legal" name.</p>
+                    </div>
                   </div>
 
-                  <div class="overflow-hidden rounded-lg border border-slate-700">
-                    <table class="w-full text-left text-sm">
-                      <thead class="bg-slate-800 text-slate-200">
+                  <div class="overflow-hidden rounded-xl border border-slate-300 shadow-md">
+                    <table class="w-full text-left">
+                      <thead class="bg-slate-100 text-slate-900">
                         <tr>
-                          <th class="p-4 font-bold">Type</th>
-                          <th class="p-4 font-bold">Definition</th>
-                          <th class="p-4 font-bold">Rule</th>
-                          <th class="p-4 font-bold">Examples</th>
+                          <th class="p-5 font-bold">Category</th>
+                          <th class="p-5 font-bold">Common Noun (General)</th>
+                          <th class="p-5 font-bold">Proper Noun (Specific)</th>
                         </tr>
                       </thead>
-                      <tbody class="divide-y divide-slate-700 bg-slate-900/50">
+                      <tbody class="divide-y divide-slate-200 bg-white">
                         <tr>
-                          <td class="p-4 font-medium text-blue-400">Common Nouns</td>
-                          <td class="p-4 text-slate-300">General items</td>
-                          <td class="p-4 text-slate-400">Not capitalized</td>
-                          <td class="p-4 text-slate-200">car, mechanic, city</td>
+                          <td class="p-5 font-semibold text-indigo-700">Technology</td>
+                          <td class="p-5 text-slate-600 italic text-sm">"The company issued a new smartphone."</td>
+                          <td class="p-5 text-slate-900 font-medium">"The company issued an iPhone."</td>
                         </tr>
                         <tr>
-                          <td class="p-4 font-medium text-green-400">Proper Nouns</td>
-                          <td class="p-4 text-slate-300">Specific names</td>
-                          <td class="p-4 text-slate-400">Always capitalized</td>
-                          <td class="p-4 text-slate-200">Toyota, John, Sydney</td>
+                          <td class="p-5 font-semibold text-indigo-700">Professional Roles</td>
+                          <td class="p-5 text-slate-600 italic text-sm">"Contact the manager for approval."</td>
+                          <td class="p-5 text-slate-900 font-medium">"Contact Manager Sarah Jenkins."</td>
+                        </tr>
+                        <tr>
+                          <td class="p-5 font-semibold text-indigo-700">Locations</td>
+                          <td class="p-5 text-slate-600 italic text-sm">"The ship arrived at the port."</td>
+                          <td class="p-5 text-slate-900 font-medium">"The ship arrived at Port Singapore."</td>
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+
+                  <div class="mt-10 space-y-6">
+                    <h4 class="text-xl font-bold text-slate-900">Advanced Usage: The "Job Title" Trap</h4>
+                    <p class="text-slate-700">Candidates often struggle with job titles. This is a primary focus for professional deployment:</p>
+                    <ul class="list-disc ml-6 space-y-3 text-slate-700">
+                      <li><strong>Lowercase:</strong> "He is a <em>doctor</em> at the local clinic." (General role)</li>
+                      <li><strong>Uppercase:</strong> "I am meeting with <em>Doctor Smith</em>." (Title as part of a name)</li>
+                      <li><strong>Lowercase:</strong> "The <em>president</em> of the company is away." (Common noun)</li>
+                      <li><strong>Uppercase:</strong> "We welcome <em>President Biden</em> to the summit." (Proper noun)</li>
+                    </ul>
+                  </div>
+
+                  <div class="mt-8 p-6 bg-amber-50 rounded-lg border border-amber-200">
+                    <h4 class="font-bold text-amber-900 mb-2">⏱️ Reading Exercise (10 Mins)</h4>
+                    <p class="text-amber-800 text-sm italic">Analyze the last three emails you sent. Highlight every noun. Identify which ones you capitalized and justify if they were truly proper nouns or if you were "Emphasis Capitalizing" (a common mistake).</p>
                   </div>
                 </div>
               </div>
@@ -986,7 +1007,7 @@ export const COURSES: Course[] = [
     title: "PTE Academic Crash Course",
     category: "English",
     level: "B2",
-    description: "Intensive preparation for the PTE Academic exam. Master Speaking, Reading, Writing, and Listening strategies with targeted practice and a final mock test.",
+    description: "Preparation for the PTE Academic exam. Master Speaking, Reading, Writing, and Listening strategies with targeted practice and a final mock test.",
     thumbnail: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80",
     totalModules: 5,
     completedModules: 0,
@@ -1122,7 +1143,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "20 min", 
             isCompleted: false,
-            videoUrl: "https://www.youtube.com/embed/H3tZj_y8y6E",
+            videoUrl: "https://youtu.be/giyQUb23JzU?si=ujAtwNkXZ7VoiPL2",
             content: "<h3>Read Aloud Tips</h3><ul><li>Speak at a natural pace.</li><li>Do not correct yourself if you make a mistake; keep going.</li><li>Pause slightly at punctuation marks.</li></ul>"
           },
           { 
@@ -1225,7 +1246,26 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-           { id: "pte-m3-l1", title: "Essay Templates", type: "reading", duration: "30 min", isCompleted: false },
+           { 
+            id: "pte-m3-l1", 
+            title: "Essay Templates", 
+            type: "reading", 
+            duration: "30 min", 
+            isCompleted: false,
+            content: `
+<div class="space-y-6">
+  <h3 class="text-2xl font-bold text-slate-800">The "One-Size-Fits-All" Essay Template</h3>
+  <p class="text-slate-600">Use this structure for any "Agree/Disagree" or "Pros/Cons" prompt to ensure perfect structure scores.</p>
+  
+  <div class="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-500 font-serif">
+    <p class="mb-4"><strong>Introduction:</strong> "The issue of [Topic] has become a matter of intense debate. While some argue that [Side A], others believe [Side B]. This essay will examine both views before reaching a conclusion."</p>
+    <p class="mb-4"><strong>Body Paragraph 1:</strong> "On the one hand, there are several reasons why [Point 1]. For instance, recent studies suggest that [Example]. Consequently, it is clear that [Result]."</p>
+    <p class="mb-4"><strong>Body Paragraph 2:</strong> "On the other hand, another crucial aspect is [Point 2]. A primary example of this is [Example]. This further illustrates the importance of [Topic]."</p>
+    <p><strong>Conclusion:</strong> "In conclusion, although [Side A] has its merits, I believe that [Side B] is more effective because [Reason]. Ultimately, a balanced approach is necessary."</p>
+  </div>
+</div>
+`
+          },
            { id: "pte-m3-l2", title: "Summarize Spoken Text", type: "video", duration: "25 min", isCompleted: false },
            { id: "pte-m3-quiz", title: "Writing & Listening Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
