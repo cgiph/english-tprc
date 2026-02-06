@@ -111,6 +111,38 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 2
     }
   ],
+  "m4": [
+    {
+      id: "m4q1",
+      text: "What does a RED circle with a diagonal line usually mean?",
+      options: ["Information", "Mandatory (Must do)", "Prohibition (Do NOT do)", "Safe condition"],
+      correctAnswer: 2
+    },
+    {
+      id: "m4q2",
+      text: "According to the schedule, John is OFF on which day?",
+      options: ["Monday", "Wednesday", "Friday", "Sunday"],
+      correctAnswer: 1
+    },
+    {
+      id: "m4q3",
+      text: "What does 'Shift' mean in a workplace?",
+      options: ["To move a box", "The scheduled time period you work", "To change clothes", "Lunch break"],
+      correctAnswer: 1
+    },
+    {
+      id: "m4q4",
+      text: "If a sign is YELLOW with a black triangle, it is a:",
+      options: ["Warning sign", "Fire exit sign", "First aid sign", "Traffic light"],
+      correctAnswer: 0
+    },
+    {
+      id: "m4q5",
+      text: "Which phrase means 'working extra hours'?",
+      options: ["Part-time", "Overtime", "Full-time", "Half-time"],
+      correctAnswer: 1
+    }
+  ],
   "tw1": [
     {
       id: "wq1",

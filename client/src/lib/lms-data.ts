@@ -573,7 +573,74 @@ export const COURSES: Course[] = [
         description: "Signs, posters, and simple catalogs.",
         status: "locked",
         progress: 0,
-        lessons: []
+        lessons: [
+          { 
+            id: "l10", 
+            title: "Understanding Safety Signs", 
+            type: "video", 
+            duration: "8 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/RD_8Y79gO3I",
+            content: "<h3>Safety First</h3><p>Learn to identify common workplace safety signs. Red means prohibition (STOP), Yellow means warning (CAUTION), Green means safety (GO).</p>"
+          },
+          { 
+            id: "l11", 
+            title: "Reading Work Schedules", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+            <div class="space-y-6">
+              <h3 class="text-2xl font-bold text-slate-800">Weekly Work Schedule</h3>
+              <p class="text-slate-600">Understand how to read a shift roster.</p>
+              
+              <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-slate-200 rounded-lg overflow-hidden">
+                  <thead class="bg-slate-100">
+                    <tr>
+                      <th class="py-3 px-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Employee</th>
+                      <th class="py-3 px-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Monday</th>
+                      <th class="py-3 px-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Tuesday</th>
+                      <th class="py-3 px-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Wednesday</th>
+                      <th class="py-3 px-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Thursday</th>
+                      <th class="py-3 px-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Friday</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200">
+                    <tr>
+                      <td class="py-3 px-4 font-medium text-slate-900">John Smith</td>
+                      <td class="py-3 px-4 text-sm text-slate-600">08:00 - 16:00</td>
+                      <td class="py-3 px-4 text-sm text-slate-600">08:00 - 16:00</td>
+                      <td class="py-3 px-4 text-sm text-slate-600">OFF</td>
+                      <td class="py-3 px-4 text-sm text-slate-600">08:00 - 16:00</td>
+                      <td class="py-3 px-4 text-sm text-slate-600">08:00 - 16:00</td>
+                    </tr>
+                    <tr class="bg-slate-50">
+                      <td class="py-3 px-4 font-medium text-slate-900">Sarah Jones</td>
+                      <td class="py-3 px-4 text-sm text-slate-600">16:00 - 00:00</td>
+                      <td class="py-3 px-4 text-sm text-slate-600">16:00 - 00:00</td>
+                      <td class="py-3 px-4 text-sm text-slate-600">16:00 - 00:00</td>
+                      <td class="py-3 px-4 text-sm text-slate-600">16:00 - 00:00</td>
+                      <td class="py-3 px-4 text-sm text-slate-600">OFF</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                <h4 class="font-bold text-blue-900 mb-2">Key Vocabulary</h4>
+                <ul class="list-disc pl-5 space-y-1 text-blue-800 text-sm">
+                   <li><strong>Shift:</strong> The time period you work (e.g., Morning Shift, Night Shift).</li>
+                   <li><strong>Roster:</strong> The list of people and their work times.</li>
+                   <li><strong>Day Off:</strong> A day when you do not work.</li>
+                   <li><strong>Overtime:</strong> Working extra hours.</li>
+                </ul>
+              </div>
+            </div>
+            `
+          },
+          { id: "l12", title: "Module Quiz", type: "quiz", duration: "10 min", isCompleted: false }
+        ]
       },
       {
         id: "m5",
