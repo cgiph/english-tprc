@@ -1,0 +1,47 @@
+const FINAL_TECHNICAL_EXAM = {
+  id: "final-mock-tech-01",
+  title: "Final Technical Certification Mock",
+  passingScore: 80,
+  questions: [
+    {
+      id: "q1",
+      question: "You are reading a maintenance log: 'The spindle must be lubricated BI-WEEKLY.' How often should you perform this task?",
+      options: ["Twice a week", "Every two weeks", "Twice a month", "Both B and C"],
+      correctAnswer: "Both B and C",
+      rationale: "In technical English, 'bi-weekly' can mean twice a week or every two weeks, but in maintenance logs, it usually refers to every two weeks (semi-monthly)."
+    },
+    {
+      id: "q2",
+      question: "Identify the correct sequence for equipment shutdown based on safety protocols:",
+      options: [
+        "Clean tools, Isolate power, Disconnect air",
+        "Isolate power, Ensure stationary, Disconnect air",
+        "Disconnect air, Clean area, Isolate power",
+        "Inform supervisor, Leave station, Shut down"
+      ],
+      correctAnswer: "Isolate power, Ensure stationary, Disconnect air",
+      rationale: "Safety sequences always prioritize 'Isolating' the power source first and ensuring moving parts have stopped before disconnecting secondary lines."
+    },
+    {
+      id: "q3",
+      question: "Which measurement is most critical when checking for 'Tolerance' in a precision engine part?",
+      options: ["Weight", "Color", "Dimensions (using Micrometer)", "Surface Temperature"],
+      correctAnswer: "Dimensions (using Micrometer)",
+      rationale: "Tolerance refers to the allowable limit of variation in a physical dimension."
+    },
+    {
+      id: "q4",
+      question: "During a noisy briefing, you hear: '...DO NOT... valve... red...' What is the most likely instruction?",
+      options: ["Open the red valve immediately", "The red valve is for water", "Do not turn the red valve", "The red valve needs painting"],
+      correctAnswer: "Do not turn the red valve",
+      rationale: "In 'Selective Listening,' the negative command (DO NOT) combined with the object (valve) and color (red) indicates a prohibited action."
+    },
+    {
+      id: "q5",
+      question: "What does the term 'Beveling' refer to in a welding preparation context?",
+      options: ["Polishing the final weld", "Angling the edge of a plate", "Cooling the metal in water", "Measuring the gas flow"],
+      correctAnswer: "Angling the edge of a plate",
+      rationale: "Beveling is the process of shaping the edge of the material to allow for better weld penetration."
+    }
+  ]
+};
