@@ -1421,6 +1421,60 @@ export const COURSES: Course[] = [
           },
           { id: "tech-m1-quiz", title: "Technical Vocabulary Quiz", type: "quiz", duration: "20 min", isCompleted: false }
         ]
+      },
+      {
+        id: "tech-m2",
+        title: "Module 2: Technical Listening",
+        description: "Filtering noise and identifying key technical instructions.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          { 
+            id: "tech-m2-l1", 
+            title: "Listening for Technical Briefings", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+<div class="space-y-6">
+  <h3 class="text-2xl font-bold text-slate-800">Listening in High-Noise Environments</h3>
+  <p class="text-slate-600">Workshops are noisy. To pass the PTE Listening or follow a site briefing, you must filter out ambient noise and focus on <strong>Signpost Words</strong>.</p>
+
+  <div class="bg-red-50 border-l-4 border-red-500 p-4">
+    <h4 class="font-bold text-red-900">Priority 1: Safety & Emergency Cues</h4>
+    <p class="text-sm text-red-800 italic mb-2">If you hear these, stop everything else:</p>
+    <div class="grid grid-cols-2 gap-2 text-xs font-bold uppercase">
+      <div class="bg-white p-2 rounded border">"Isolate"</div>
+      <div class="bg-white p-2 rounded border">"Shut Down"</div>
+      <div class="bg-white p-2 rounded border">"Evacuate"</div>
+      <div class="bg-white p-2 rounded border">"Hazard"</div>
+    </div>
+  </div>
+
+  <div class="space-y-4">
+    <h4 class="font-bold text-slate-800">The "Three-Point" Listening Strategy</h4>
+    <div class="flex items-start gap-3">
+      <div class="bg-indigo-600 text-white rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0 text-xs">1</div>
+      <p class="text-sm"><span class="font-bold">Identify the Object:</span> What machine or tool is the speaker referring to? (e.g., "The lathe," "The MIG welder").</p>
+    </div>
+    <div class="flex items-start gap-3">
+      <div class="bg-indigo-600 text-white rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0 text-xs">2</div>
+      <p class="text-sm"><span class="font-bold">Capture the Value:</span> Listen for numbers. Is it a temperature, a pressure, or a measurement?</p>
+    </div>
+    <div class="flex items-start gap-3">
+      <div class="bg-indigo-600 text-white rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0 text-xs">3</div>
+      <p class="text-sm"><span class="font-bold">Confirm the State:</span> Is the object being turned ON, OFF, or ADJUSTED?</p>
+    </div>
+  </div>
+
+  <div class="p-4 bg-slate-100 rounded-lg">
+    <p class="text-xs text-slate-500"><strong>PTE Tip:</strong> In 'Write from Dictation', if background noise in the audio makes a word unclear, use grammar rules to guess. If you hear "The welder ____ the metal," and the middle is fuzzy, it is likely a past-tense verb like 'joined' or 'fixed'.</p>
+  </div>
+</div>
+`
+          },
+          { id: "tech-m2-quiz", title: "Listening Assessment", type: "quiz", duration: "15 min", isCompleted: false }
+        ]
       }
     ]
   }
