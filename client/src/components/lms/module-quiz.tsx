@@ -208,6 +208,38 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       options: ["Micrometer", "Dial Bore Gauge", "Feeler Gauge", "Torque Wrench"],
       correctAnswer: 1
     }
+  ],
+  "tech-m1": [
+    {
+      id: "tq1",
+      text: "Which of the following precision measurement tools is specifically designed to measure the gap width between two mechanical parts?",
+      options: ["Vernier Caliper", "Micrometer", "Feeler Gauge", "Torque Wrench"],
+      correctAnswer: 2
+    },
+    {
+      id: "tq2",
+      text: "In a technical manual, 'Prior to igniting the torch, ensure the regulator pressure does not exceed 15 psi' means:",
+      options: ["Pressure must be exactly 15 psi", "Pressure must be 15 psi or lower", "Pressure should be higher than 15 psi", "Check pressure after ignition"],
+      correctAnswer: 1
+    },
+    {
+      id: "tq3",
+      text: "Which piece of PPE protects a welder from 'flash burn'?",
+      options: ["Respirator", "Insulated Gloves", "Auto-darkening Helmet", "Steel-toed Boots"],
+      correctAnswer: 2
+    },
+    {
+      id: "tq4",
+      text: "Which word indicates a 'sequencing' step in a manual?",
+      options: ["Subsequently", "Approximately", "Simultaneously", "Durable"],
+      correctAnswer: 0
+    },
+    {
+      id: "tq5",
+      text: "What is 'Tacking' in a mechanical/welding context?",
+      options: ["A permanent finish", "Measuring thickness", "Small, temporary welds", "Grinding surface rust"],
+      correctAnswer: 2
+    }
   ]
 };
 

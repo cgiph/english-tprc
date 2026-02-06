@@ -1,0 +1,69 @@
+assessment: {
+
+  title: "Technical Tools & Reading Assessment",
+
+  questions: [
+
+    {
+
+      question: "Which of the following precision measurement tools is specifically designed to measure the gap width between two mechanical parts?",
+
+      options: ["Vernier Caliper", "Micrometer", "Feeler Gauge", "Torque Wrench"],
+
+      correctAnswer: "Feeler Gauge",
+
+      rationale: "A Feeler Gauge consists of thin metal blades of varying thicknesses used specifically to measure clearance."
+
+    },
+
+    {
+
+      question: "In a technical manual, 'Prior to igniting the torch, ensure the regulator pressure does not exceed 15 psi' means:",
+
+      options: ["Pressure must be exactly 15 psi", "Pressure must be 15 psi or lower", "Pressure should be higher than 15 psi", "Check pressure after ignition"],
+
+      correctAnswer: "Pressure must be 15 psi or lower",
+
+      rationale: "'Does not exceed' sets a maximum limit, and 'Prior' means before the action."
+
+    },
+
+    {
+
+      question: "Which piece of PPE protects a welder from 'flash burn'?",
+
+      options: ["Respirator", "Insulated Gloves", "Auto-darkening Helmet", "Steel-toed Boots"],
+
+      correctAnswer: "Auto-darkening Helmet",
+
+      rationale: "This helmet specifically filters harmful UV/Infrared light that causes flash burn."
+
+    },
+
+    {
+
+      question: "Which word indicates a 'sequencing' step in a manual?",
+
+      options: ["Subsequently", "Approximately", "Simultaneously", "Durable"],
+
+      correctAnswer: "Subsequently",
+
+      rationale: "'Subsequently' indicates an action that follows another in a specific order."
+
+    },
+
+    {
+
+      question: "What is 'Tacking' in a mechanical/welding context?",
+
+      options: ["A permanent finish", "Measuring thickness", "Small, temporary welds", "Grinding surface rust"],
+
+      correctAnswer: "Small, temporary welds",
+
+      rationale: "Tack welds are used to hold alignment before the final weld is performed."
+
+    }
+
+  ]
+
+}
