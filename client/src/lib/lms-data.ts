@@ -1382,7 +1382,43 @@ export const COURSES: Course[] = [
 </div>
 `
           },
-          { id: "tech-m1-l2", title: "Reading: Technical Manuals", type: "reading", duration: "25 min", isCompleted: false },
+          { 
+            id: "tech-m1-l2", 
+            title: "Reading: Technical Manuals", 
+            type: "reading", 
+            duration: "25 min", 
+            isCompleted: false,
+            content: `
+<div class="space-y-6">
+  <h3 class="text-2xl font-bold text-slate-800">Reading Technical Manuals & Logs</h3>
+  <p class="text-slate-600">In technical exams, you aren't reading for "feeling"—you are reading for <strong>specifications</strong> and <strong>sequence</strong>.</p>
+
+  <div class="bg-amber-50 border-l-4 border-amber-400 p-4">
+    <h4 class="font-bold text-amber-900">The "Spec-Scan" Technique</h4>
+    <p class="text-sm text-amber-800">When faced with a technical paragraph, ignore the adjectives. Scan immediately for:</p>
+    <ul class="list-disc ml-5 mt-2 text-sm text-amber-900">
+      <li><strong>Measurements:</strong> (e.g., 5mm, 200°C, 50 psi)</li>
+      <li><strong>Conditions:</strong> (e.g., "If", "Unless", "Prior to")</li>
+      <li><strong>Sequencing:</strong> (e.g., "Simultaneously", "Subsequently", "Following")</li>
+    </ul>
+  </div>
+
+  <div class="border rounded-lg overflow-hidden">
+    <div class="bg-slate-100 p-2 text-xs font-bold uppercase text-slate-500">Practice Text Fragment</div>
+    <div class="p-4 text-sm font-mono bg-white">
+      "Prior to <strong>igniting</strong> the torch, ensure the <strong>regulator</strong> pressure does not exceed <strong>15 psi</strong>. Subsequently, open the oxygen valve slowly to avoid a backfire."
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4">
+    <div class="bg-white border p-4 rounded-lg shadow-sm">
+      <h4 class="font-bold text-slate-800 mb-2 italic">Common PTE Technical Distractors:</h4>
+      <p class="text-sm text-slate-600 italic">Watch out for "Opposite Conditions." If the manual says "not exceeding 15 psi," the question might try to trick you with "at least 15 psi."</p>
+    </div>
+  </div>
+</div>
+`
+          },
           { id: "tech-m1-quiz", title: "Technical Vocabulary Quiz", type: "quiz", duration: "20 min", isCompleted: false }
         ]
       }
