@@ -506,7 +506,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "10 min", 
             isCompleted: false,
-             videoUrl: "https://www.youtube.com/embed/qq4Vlq5f9uM",
+             videoUrl: "https://www.youtube.com/embed/SQJOaa23lSI",
              content: "<h3>Past Simple Tense</h3><p>Learn how to talk about finished actions. Regular verbs end in -ed (walked, worked), irregular verbs change (go -> went).</p>"
           },
           { id: "l6", title: "Module Quiz", type: "quiz", duration: "10 min", isCompleted: false }

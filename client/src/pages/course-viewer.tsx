@@ -242,7 +242,7 @@ export default function CourseViewer() {
                     <NounPractice onComplete={handleMarkComplete} />
                  ) : (
                     <div className="w-full h-full overflow-y-auto">
-                       {activeLesson.lesson.type === "reading" && activeLesson.lesson.content ? (
+                       {(activeLesson.lesson.type === "reading" || activeLesson.lesson.type === "assignment") && activeLesson.lesson.content ? (
                          <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: activeLesson.lesson.content }} />
                        ) : (
                          <div className="flex flex-col items-center justify-center h-full text-center space-y-4 max-w-2xl px-8 mx-auto">
