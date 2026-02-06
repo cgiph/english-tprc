@@ -1313,6 +1313,80 @@ export const COURSES: Course[] = [
         ]
       }
     ]
+  },
+  {
+    id: "tech-english",
+    title: "Technical English Bridge",
+    category: "English",
+    level: "B1",
+    description: "Essential vocabulary and reading skills for technical trades.",
+    thumbnail: "https://images.unsplash.com/photo-1581092921461-eab62e97a782?w=800&q=80",
+    totalModules: 3,
+    completedModules: 0,
+    modules: [
+      {
+        id: "tech-m1",
+        title: "Module 1: Safety & Tools",
+        description: "Essential vocabulary for workplace safety and tool identification.",
+        status: "unlocked",
+        progress: 0,
+        lessons: [
+          { 
+            id: "tech-m1-l1", 
+            title: "Essential Tools & Safety", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+<div class="space-y-6">
+  <h3 class="text-2xl font-bold text-slate-800">Technical Vocabulary: Tools & Safety</h3>
+  <p class="text-slate-600">Mastering these terms is essential for both the PTE Reading exam and your workplace safety certifications.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="p-4 border border-orange-200 bg-orange-50 rounded-lg">
+      <h4 class="font-bold text-orange-800 mb-2">PPE (Personal Protective Equipment)</h4>
+      <ul class="list-disc ml-5 text-sm space-y-1 text-slate-700">
+        <li><strong>Auto-darkening Helmet:</strong> Protects eyes from flash burn.</li>
+        <li><strong>Respirator:</strong> Filters hazardous fumes/particulates.</li>
+        <li><strong>Insulated Gloves:</strong> Prevents electrical shock and burns.</li>
+      </ul>
+    </div>
+
+    <div class="p-4 border border-blue-200 bg-blue-50 rounded-lg">
+      <h4 class="font-bold text-blue-800 mb-2">Precision Measurement</h4>
+      <ul class="list-disc ml-5 text-sm space-y-1 text-slate-700">
+        <li><strong>Vernier Caliper:</strong> Measures internal/external dimensions precisely.</li>
+        <li><strong>Feeler Gauge:</strong> Measures gap widths between parts.</li>
+        <li><strong>Micrometer:</strong> Used for extremely fine thickness measurements.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bg-slate-800 text-white p-6 rounded-xl shadow-lg">
+    <h4 class="text-lg font-semibold mb-3 border-b border-slate-600 pb-2">Common Action Verbs</h4>
+    <div class="grid grid-cols-2 gap-4 text-sm">
+      <div>
+        <p class="text-slate-400">Welding Context:</p>
+        <p><strong>Beveling:</strong> Shaping the edge of a joint.</p>
+        <p><strong>Tacking:</strong> Making temporary small welds.</p>
+      </div>
+      <div>
+        <p class="text-slate-400">Mechanical Context:</p>
+        <p><strong>Torquing:</strong> Applying specific rotational force.</p>
+        <p><strong>Fastening:</strong> Securing two parts together.</p>
+      </div>
+    </div>
+  </div>
+  
+  <p class="text-xs text-slate-400 italic">Pro-tip: In PTE 'Fill in the Blanks', look for collocations like "measure the gap" or "apply the torque."</p>
+</div>
+`
+          },
+          { id: "tech-m1-l2", title: "Reading: Technical Manuals", type: "reading", duration: "25 min", isCompleted: false },
+          { id: "tech-m1-quiz", title: "Technical Vocabulary Quiz", type: "quiz", duration: "20 min", isCompleted: false }
+        ]
+      }
+    ]
   }
 ];
 
