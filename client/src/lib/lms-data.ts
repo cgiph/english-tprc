@@ -1266,7 +1266,39 @@ export const COURSES: Course[] = [
 </div>
 `
           },
-           { id: "pte-m3-l2", title: "Summarize Spoken Text", type: "video", duration: "25 min", isCompleted: false },
+          { 
+            id: "pte-m3-l2", 
+            title: "Summarize Spoken Text", 
+            type: "reading", 
+            duration: "25 min", 
+            isCompleted: false,
+            content: `
+<div class="space-y-6">
+  <h3 class="text-2xl font-bold text-slate-800">Summarize Spoken Text: Keyword Strategy</h3>
+  <p class="text-slate-600">The goal is to capture 5-8 key nouns/phrases and fit them into a grammatically perfect structure.</p>
+  
+  <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
+    <h4 class="font-bold text-indigo-900 mb-4">The SST Template</h4>
+    <div class="bg-white p-4 rounded border font-mono text-sm shadow-inner">
+      "The lecture provided important information about <strong>[Topic]</strong>. 
+      Firstly, the speaker mentioned <strong>[Keyword 1]</strong> and <strong>[Keyword 2]</strong>. 
+      Furthermore, it was emphasized that <strong>[Keyword 3]</strong> plays a vital role in <strong>[Keyword 4]</strong>. 
+      In addition, the researcher highlighted the significance of <strong>[Keyword 5]</strong>. 
+      Overall, the presentation concluded that <strong>[Keyword 6]</strong> is essential for future development."
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 text-sm">
+    <div class="p-3 bg-green-50 rounded border border-green-200">
+      <strong>Word Count:</strong> Aim for 50-70 words exactly.
+    </div>
+    <div class="p-3 bg-blue-50 rounded border border-blue-200">
+      <strong>Strategy:</strong> Don't try to write full sentences while listening. Just note down nouns!
+    </div>
+  </div>
+</div>
+`
+          },
            { id: "pte-m3-quiz", title: "Writing & Listening Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
