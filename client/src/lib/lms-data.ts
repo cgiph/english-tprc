@@ -519,8 +519,51 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-          { id: "l7", title: "Greetings & Farewells", type: "video", duration: "6 min", isCompleted: false },
-          { id: "l8", title: "Introduction Scripts", type: "reading", duration: "15 min", isCompleted: false },
+          { 
+            id: "l7", 
+            title: "Greetings & Farewells", 
+            type: "video", 
+            duration: "6 min", 
+            isCompleted: false, 
+            videoUrl: "https://www.youtube.com/embed/FwBdX5u1nTU",
+            content: "<h3>Greetings & Introductions</h3><p>Learn the difference between formal and informal greetings in English. Start every conversation with confidence.</p>"
+          },
+          { 
+            id: "l8", 
+            title: "Introduction Scripts", 
+            type: "reading", 
+            duration: "15 min", 
+            isCompleted: false,
+            content: `
+            <div class="space-y-6">
+              <h3 class="text-2xl font-bold text-slate-800">Self-Introduction Templates</h3>
+              <p class="text-slate-600">Use these scripts to introduce yourself in different situations.</p>
+              
+              <div class="grid md:grid-cols-2 gap-6">
+                 <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-full mb-3">FORMAL</div>
+                    <h4 class="font-bold text-lg mb-2">Job Interview / Official Meeting</h4>
+                    <div class="bg-slate-50 p-4 rounded border-l-4 border-indigo-500 text-slate-700 italic">
+                      "Good morning. My name is [Name]. I am a [Profession] with [Number] years of experience. I specialize in [Skill 1] and [Skill 2]. I am pleased to meet you."
+                    </div>
+                 </div>
+
+                 <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full mb-3">INFORMAL</div>
+                    <h4 class="font-bold text-lg mb-2">New Coworker / Social</h4>
+                    <div class="bg-slate-50 p-4 rounded border-l-4 border-green-500 text-slate-700 italic">
+                      "Hi, I'm [Name]. I just started in the [Department] team. Nice to meet you! How long have you worked here?"
+                    </div>
+                 </div>
+              </div>
+
+              <div class="bg-amber-50 p-6 rounded-lg border border-amber-200">
+                <h4 class="font-bold text-amber-900 mb-2">Culture Tip: Handshakes</h4>
+                <p class="text-amber-800 text-sm">In many Western countries, a firm handshake and direct eye contact during an introduction show confidence and respect.</p>
+              </div>
+            </div>
+            `
+          },
           { id: "l9", title: "Module Quiz", type: "quiz", duration: "10 min", isCompleted: false }
         ]
       },
