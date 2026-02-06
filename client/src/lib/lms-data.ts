@@ -162,6 +162,54 @@ export const COURSES: Course[] = [
                          <p>✅ The <strong>big</strong> book (Article + Adj + Noun)</p>
                       </div>
                    </div>
+
+                   <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">7</div>
+                         <h3 class="font-bold text-lg">Subject-Verb Agreement</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">Singular Subject = Singular Verb (with 's'). Plural Subject = Plural Verb (no 's').</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-indigo-500">
+                         <p class="mb-1">✅ The student <strong>writes</strong>.</p>
+                         <p>✅ The students <strong>write</strong>.</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center font-bold">8</div>
+                         <h3 class="font-bold text-lg">Passive Voice</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">Forms of 'Be' (is, am, are, was, were, be, been, being) + <strong>V3</strong>.</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-yellow-500">
+                         <p class="mb-1">✅ The report was <strong>written</strong> by him.</p>
+                         <p>❌ The report was <strong>write</strong> by him.</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold">9</div>
+                         <h3 class="font-bold text-lg">One of the + Plural Noun</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">After 'One of the', the noun is always <strong>Plural</strong>.</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-cyan-500">
+                         <p class="mb-1">✅ One of the <strong>problems</strong> is...</p>
+                         <p>❌ One of the <strong>problem</strong> is...</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center font-bold">10</div>
+                         <h3 class="font-bold text-lg">Despite / In spite of</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">Followed by a Noun or V-ing. 'Despite' never takes 'of'.</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-fuchsia-500">
+                         <p class="mb-1">✅ <strong>Despite</strong> the rain...</p>
+                         <p>❌ <strong>Despite of</strong> the rain...</p>
+                      </div>
+                   </div>
                 </div>
               </div>
             `
