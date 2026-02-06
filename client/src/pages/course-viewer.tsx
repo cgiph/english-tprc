@@ -188,6 +188,7 @@ export default function CourseViewer() {
       {/* Quiz Modal */}
       {activeQuizModule && (
         <ModuleQuiz 
+          key={activeQuizModule.id}
           isOpen={quizOpen} 
           onClose={() => setQuizOpen(false)} 
           moduleId={activeQuizModule.id}

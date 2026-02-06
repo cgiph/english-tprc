@@ -47,6 +47,38 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 1
     }
   ],
+  "m2": [
+    {
+      id: "m2q1",
+      text: "Which of these is an Action Verb?",
+      options: ["Happy", "Run", "Slowly", "Table"],
+      correctAnswer: 1
+    },
+    {
+      id: "m2q2",
+      text: "Choose the correct Past Simple form of 'Go':",
+      options: ["Goed", "Gone", "Went", "Going"],
+      correctAnswer: 2
+    },
+    {
+      id: "m2q3",
+      text: "Which sentence uses the Present Simple correctly?",
+      options: ["I works every day.", "He work every day.", "He works every day.", "I working every day."],
+      correctAnswer: 2
+    },
+    {
+      id: "m2q4",
+      text: "What is the past tense of 'Make'?",
+      options: ["Maked", "Made", "Make", "Making"],
+      correctAnswer: 1
+    },
+    {
+      id: "m2q5",
+      text: "Complete: 'I ______ (to be) a welder.'",
+      options: ["is", "am", "are", "be"],
+      correctAnswer: 1
+    }
+  ],
   "tw1": [
     {
       id: "wq1",
