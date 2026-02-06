@@ -321,34 +321,7 @@ export const COURSES: Course[] = [
             content: `
               <div class="space-y-8">
                 <div>
-                  <h3 class="text-2xl font-bold mb-4 text-primary">Part 1: Parts of Speech</h3>
-                  <div class="grid gap-4 md:grid-cols-3">
-                    <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                      <h4 class="font-bold text-lg text-blue-400 mb-2">Nouns</h4>
-                      <p class="text-slate-300 mb-2">Names of people, places, or things.</p>
-                      <div class="text-sm bg-slate-900 p-2 rounded text-slate-400">
-                        Examples: <span class="text-white">Welder, Australia, Helmet</span>
-                      </div>
-                    </div>
-                    <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                      <h4 class="font-bold text-lg text-green-400 mb-2">Verbs</h4>
-                      <p class="text-slate-300 mb-2">Action words.</p>
-                      <div class="text-sm bg-slate-900 p-2 rounded text-slate-400">
-                        Examples: <span class="text-white">Fix, Build, Speak</span>
-                      </div>
-                    </div>
-                    <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                      <h4 class="font-bold text-lg text-purple-400 mb-2">Adjectives</h4>
-                      <p class="text-slate-300 mb-2">Describing words.</p>
-                      <div class="text-sm bg-slate-900 p-2 rounded text-slate-400">
-                        Examples: <span class="text-white">Heavy, Strong, Clear</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 class="text-2xl font-bold mb-4 text-primary">Part 2: Common vs. Proper Nouns</h3>
+                  <h3 class="text-2xl font-bold mb-4 text-primary">Common vs. Proper Nouns</h3>
                   <div class="overflow-hidden rounded-lg border border-slate-700">
                     <table class="w-full text-left text-sm">
                       <thead class="bg-slate-800 text-slate-200">
