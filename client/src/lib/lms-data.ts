@@ -94,10 +94,10 @@ export const COURSES: Course[] = [
                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">1</div>
-                         <h3 class="font-bold text-lg">Have / Has / Had + V3</h3>
+                         <h3 class="font-bold text-lg text-slate-900">Have / Has / Had + V3</h3>
                       </div>
                       <p class="text-slate-600 mb-3">These words are always followed by the <strong>Past Participle</strong> (3rd form) of the verb.</p>
-                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-blue-500">
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-blue-500 text-slate-700">
                          <p class="mb-1">✅ She has <strong>completed</strong> her work.</p>
                          <p>❌ She has <strong>complete</strong> her work.</p>
                       </div>
@@ -106,10 +106,10 @@ export const COURSES: Course[] = [
                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold">2</div>
-                         <h3 class="font-bold text-lg">To + V1</h3>
+                         <h3 class="font-bold text-lg text-slate-900">To + V1</h3>
                       </div>
                       <p class="text-slate-600 mb-3">The preposition 'to' is followed by the <strong>Base Form</strong> (1st form) of the verb.</p>
-                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-green-500">
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-green-500 text-slate-700">
                          <p class="mb-1">✅ He decided to <strong>take</strong> a leave.</p>
                          <p>❌ He decided to <strong>took</strong> a leave.</p>
                       </div>
@@ -118,10 +118,10 @@ export const COURSES: Course[] = [
                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold">3</div>
-                         <h3 class="font-bold text-lg">Modals + V1</h3>
+                         <h3 class="font-bold text-lg text-slate-900">Modals + V1</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Can, could, may, might, should, will, would are followed by the <strong>Base Form</strong>.</p>
-                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-purple-500">
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-purple-500 text-slate-700">
                          <p class="mb-1">✅ You should <strong>speak</strong> English.</p>
                          <p>❌ You should <strong>speaking</strong> English.</p>
                       </div>
@@ -130,10 +130,10 @@ export const COURSES: Course[] = [
                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">4</div>
-                         <h3 class="font-bold text-lg">Prepositions + V-ing</h3>
+                         <h3 class="font-bold text-lg text-slate-900">Prepositions + V-ing</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Prepositions like 'of', 'for', 'with', 'in' (except 'to') are followed by the <strong>-ing form</strong>.</p>
-                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-orange-500">
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-orange-500 text-slate-700">
                          <p class="mb-1">✅ Thanks for <strong>giving</strong> me this chance.</p>
                          <p>❌ Thanks for <strong>give</strong> me this chance.</p>
                       </div>
@@ -142,10 +142,10 @@ export const COURSES: Course[] = [
                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold">5</div>
-                         <h3 class="font-bold text-lg">Many + Plural Noun</h3>
+                         <h3 class="font-bold text-lg text-slate-900">Many + Plural Noun</h3>
                       </div>
                       <p class="text-slate-600 mb-3">'Many' indicates multiple items, so the noun must be <strong>Plural</strong>.</p>
-                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-teal-500">
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-teal-500 text-slate-700">
                          <p class="mb-1">✅ Many <strong>languages</strong> are spoken here.</p>
                          <p>❌ Many <strong>language</strong> are spoken here.</p>
                       </div>
@@ -154,10 +154,10 @@ export const COURSES: Course[] = [
                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold">6</div>
-                         <h3 class="font-bold text-lg">Article + (Adj) + Noun</h3>
+                         <h3 class="font-bold text-lg text-slate-900">Article + (Adj) + Noun</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Articles (a, an, the) are followed by a Noun. If there's a word in between, it's an Adjective.</p>
-                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-rose-500">
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-rose-500 text-slate-700">
                          <p class="mb-1">✅ The <strong>book</strong> (Article + Noun)</p>
                          <p>✅ The <strong>big</strong> book (Article + Adj + Noun)</p>
                       </div>
@@ -166,10 +166,10 @@ export const COURSES: Course[] = [
                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">7</div>
-                         <h3 class="font-bold text-lg">Subject-Verb Agreement</h3>
+                         <h3 class="font-bold text-lg text-slate-900">Subject-Verb Agreement</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Singular Subject = Singular Verb (with 's'). Plural Subject = Plural Verb (no 's').</p>
-                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-indigo-500">
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-indigo-500 text-slate-700">
                          <p class="mb-1">✅ The student <strong>writes</strong>.</p>
                          <p>✅ The students <strong>write</strong>.</p>
                       </div>
@@ -178,10 +178,10 @@ export const COURSES: Course[] = [
                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center font-bold">8</div>
-                         <h3 class="font-bold text-lg">Passive Voice</h3>
+                         <h3 class="font-bold text-lg text-slate-900">Passive Voice</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Forms of 'Be' (is, am, are, was, were, be, been, being) + <strong>V3</strong>.</p>
-                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-yellow-500">
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-yellow-500 text-slate-700">
                          <p class="mb-1">✅ The report was <strong>written</strong> by him.</p>
                          <p>❌ The report was <strong>write</strong> by him.</p>
                       </div>
@@ -190,10 +190,10 @@ export const COURSES: Course[] = [
                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold">9</div>
-                         <h3 class="font-bold text-lg">One of the + Plural Noun</h3>
+                         <h3 class="font-bold text-lg text-slate-900">One of the + Plural Noun</h3>
                       </div>
                       <p class="text-slate-600 mb-3">After 'One of the', the noun is always <strong>Plural</strong>.</p>
-                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-cyan-500">
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-cyan-500 text-slate-700">
                          <p class="mb-1">✅ One of the <strong>problems</strong> is...</p>
                          <p>❌ One of the <strong>problem</strong> is...</p>
                       </div>
@@ -202,10 +202,10 @@ export const COURSES: Course[] = [
                    <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center font-bold">10</div>
-                         <h3 class="font-bold text-lg">Despite / In spite of</h3>
+                         <h3 class="font-bold text-lg text-slate-900">Despite / In spite of</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Followed by a Noun or V-ing. 'Despite' never takes 'of'.</p>
-                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-fuchsia-500">
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-fuchsia-500 text-slate-700">
                          <p class="mb-1">✅ <strong>Despite</strong> the rain...</p>
                          <p>❌ <strong>Despite of</strong> the rain...</p>
                       </div>
