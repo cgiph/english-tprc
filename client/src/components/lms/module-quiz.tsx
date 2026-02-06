@@ -79,6 +79,38 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 1
     }
   ],
+  "m3": [
+    {
+      id: "m3q1",
+      text: "Which greeting is most appropriate for a job interview?",
+      options: ["What's up?", "Hi there.", "Good morning. I am pleased to meet you.", "Hey boss!"],
+      correctAnswer: 2
+    },
+    {
+      id: "m3q2",
+      text: "In Western culture, a firm handshake usually indicates:",
+      options: ["Aggression", "Confidence and respect", "Disrespect", "Nervousness"],
+      correctAnswer: 1
+    },
+    {
+      id: "m3q3",
+      text: "Choose the correct informal introduction:",
+      options: ["Allow me to introduce myself, I am Mr. Smith.", "Hi, I'm John. Nice to meet you.", "My name is Sir John Smith.", "I hereby introduce myself as John."],
+      correctAnswer: 1
+    },
+    {
+      id: "m3q4",
+      text: "When should you use 'Good evening'?",
+      options: ["At 8:00 AM", "At 12:00 PM", "At 3:00 PM", "After 6:00 PM"],
+      correctAnswer: 3
+    },
+    {
+      id: "m3q5",
+      text: "What is a polite way to end a conversation?",
+      options: ["I'm leaving now.", "Stop talking.", "It was nice talking to you. Have a great day!", "Bye."],
+      correctAnswer: 2
+    }
+  ],
   "tw1": [
     {
       id: "wq1",
