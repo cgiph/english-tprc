@@ -955,14 +955,132 @@ export const COURSES: Course[] = [
     level: "B2",
     description: "Intensive preparation for the PTE Academic exam. Master Speaking, Reading, Writing, and Listening strategies with targeted practice and a final mock test.",
     thumbnail: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80",
-    totalModules: 4,
+    totalModules: 5,
     completedModules: 0,
     modules: [
       {
-        id: "pte-m1",
-        title: "Module 1: Speaking Mastery",
-        description: "Master oral fluency and pronunciation for Read Aloud, Repeat Sentence, Describe Image, and Retell Lecture.",
+        id: "pte-grammar",
+        title: "Module 1: Basic Grammar Rules",
+        description: "Top 10 Grammar Rules essential for PTE Reading Fill in the Blanks.",
         status: "unlocked",
+        progress: 0,
+        lessons: [
+          { 
+            id: "pte-gram-l1", 
+            title: "Rule #1-5: Verbs & Prepositions", 
+            type: "reading", 
+            duration: "30 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-indigo-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">Grammar for PTE Reading</h1>
+                   <p class="text-indigo-200 text-lg">Mastering these 10 rules will significantly improve your scores in "Fill in the Blanks".</p>
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-2">
+                   <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">1</div>
+                         <h3 class="font-bold text-lg">Have / Has / Had + V3</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">These words are always followed by the <strong>Past Participle</strong> (3rd form) of the verb.</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-blue-500">
+                         <p class="mb-1">✅ She has <strong>completed</strong> her work.</p>
+                         <p>❌ She has <strong>complete</strong> her work.</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold">2</div>
+                         <h3 class="font-bold text-lg">To + V1</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">The preposition 'to' is followed by the <strong>Base Form</strong> (1st form) of the verb.</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-green-500">
+                         <p class="mb-1">✅ He decided to <strong>take</strong> a leave.</p>
+                         <p>❌ He decided to <strong>took</strong> a leave.</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold">3</div>
+                         <h3 class="font-bold text-lg">Modals + V1</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">Can, could, may, might, should, will, would are followed by the <strong>Base Form</strong>.</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-purple-500">
+                         <p class="mb-1">✅ You should <strong>speak</strong> English.</p>
+                         <p>❌ You should <strong>speaking</strong> English.</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">4</div>
+                         <h3 class="font-bold text-lg">Prepositions + V-ing</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">Prepositions like 'of', 'for', 'with', 'in' (except 'to') are followed by the <strong>-ing form</strong>.</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-orange-500">
+                         <p class="mb-1">✅ Thanks for <strong>giving</strong> me this chance.</p>
+                         <p>❌ Thanks for <strong>give</strong> me this chance.</p>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            `
+          },
+          { 
+            id: "pte-gram-l2", 
+            title: "Rule #6-10: Nouns & Articles", 
+            type: "reading", 
+            duration: "30 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                 <div class="grid gap-6 md:grid-cols-2">
+                   <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold">5</div>
+                         <h3 class="font-bold text-lg">Many + Plural Noun</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">'Many' indicates multiple items, so the noun must be <strong>Plural</strong>.</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-teal-500">
+                         <p class="mb-1">✅ Many <strong>languages</strong> are spoken here.</p>
+                         <p>❌ Many <strong>language</strong> are spoken here.</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold">6</div>
+                         <h3 class="font-bold text-lg">Article + (Adj) + Noun</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">Articles (a, an, the) are followed by a Noun. If there's a word in between, it's an Adjective.</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-rose-500">
+                         <p class="mb-1">✅ The <strong>book</strong> (Article + Noun)</p>
+                         <p>✅ The <strong>big</strong> book (Article + Adj + Noun)</p>
+                      </div>
+                   </div>
+                 </div>
+
+                 <div class="bg-yellow-50 p-6 rounded-xl border border-yellow-200">
+                    <h3 class="text-xl font-bold text-yellow-800 mb-4">Pro Tip: Passive Voice</h3>
+                    <p class="text-slate-800 mb-2"><strong>Was / Were / Be / Been / Being + V3</strong></p>
+                    <p class="text-slate-600">This structure creates the Passive Voice. If you see these helping verbs, look for a Past Participle.</p>
+                    <p class="mt-4 font-mono text-sm bg-white p-2 rounded inline-block border border-yellow-300">"The work is being <strong>carried</strong> out."</p>
+                 </div>
+              </div>
+            `
+          },
+          { id: "pte-grammar-quiz", title: "Grammar Rules Assessment", type: "quiz", duration: "30 min", isCompleted: false }
+        ]
+      },
+      {
+        id: "pte-speaking",
+        title: "Module 2: Speaking Mastery",
+        description: "Master oral fluency and pronunciation for Read Aloud, Repeat Sentence, Describe Image, and Retell Lecture.",
+        status: "locked",
         progress: 0,
         lessons: [
           { 
@@ -1019,8 +1137,8 @@ export const COURSES: Course[] = [
         ]
       },
       {
-        id: "pte-m2",
-        title: "Module 2: Reading Strategies",
+        id: "pte-reading",
+        title: "Module 3: Reading Strategies",
         description: "Tactics for Multiple Choice, Re-order Paragraphs, and Fill in the Blanks.",
         status: "locked",
         progress: 0,
@@ -1068,8 +1186,8 @@ export const COURSES: Course[] = [
         ]
       },
       {
-        id: "pte-m3",
-        title: "Module 3: Writing & Listening",
+        id: "pte-writing",
+        title: "Module 4: Writing & Listening",
         description: "Essay writing templates and Summarize Spoken Text techniques.",
         status: "locked",
         progress: 0,
@@ -1080,8 +1198,8 @@ export const COURSES: Course[] = [
         ]
       },
       {
-        id: "pte-m4",
-        title: "Module 4: PTE Mock Exam",
+        id: "pte-mock",
+        title: "Module 5: PTE Mock Exam",
         description: "Full-length simulation of the PTE Academic exam.",
         status: "locked",
         progress: 0,

@@ -79,7 +79,39 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 2
     }
   ],
-  "pte-m1": [
+  "pte-grammar": [
+    {
+       id: "pg-q1",
+       text: "Complete the sentence: 'She has ______ the report.'",
+       options: ["finish", "finished", "finishing", "finishes"],
+       correctAnswer: 1
+    },
+    {
+       id: "pg-q2",
+       text: "Which is correct?",
+       options: ["I decided to going", "I decided to go", "I decided to went", "I decided to goes"],
+       correctAnswer: 1
+    },
+    {
+       id: "pg-q3",
+       text: "Choose the correct phrase:",
+       options: ["Many problem", "Many problems", "Much problem", "Problems many"],
+       correctAnswer: 1
+    },
+    {
+       id: "pg-q4",
+       text: "Complete: 'Thank you for ______ me.'",
+       options: ["help", "helped", "helping", "to help"],
+       correctAnswer: 2
+    },
+    {
+       id: "pg-q5",
+       text: "Identify the Adjective: 'A beautiful day'",
+       options: ["A", "beautiful", "day", "None"],
+       correctAnswer: 1
+    }
+  ],
+  "pte-speaking": [
     {
        id: "pm1-q1",
        text: "In the 'Read Aloud' task, what should you do if you make a mistake?",
@@ -111,7 +143,7 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
        correctAnswer: 2
     }
   ],
-  "pte-m2": [
+  "pte-reading": [
      {
         id: "pm2-q1",
         text: "What is a 'collocation'?",
@@ -131,7 +163,7 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
         correctAnswer: 1
      }
   ],
-  "pte-m3": [
+  "pte-writing": [
      {
         id: "pm3-q1",
         text: "What is the word limit for 'Summarize Spoken Text'?",
