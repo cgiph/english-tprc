@@ -22,6 +22,74 @@ import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { NounPractice } from "@/components/lms/noun-practice";
 
+function SpeakingPractice({ content }: { content: string }) {
+  const [isMemorizeMode, setIsMemorizeMode] = useState(false);
+  
+  // Basic check to see if we should render the interactive mode
+  // This is a simple heuristic based on the presence of specific keywords or structure
+  // In a real app, this would be a specific lesson type or metadata
+  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules");
+
+  if (!isTemplateLesson) {
+    return <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
+  }
+
+  // Parse content to extract the main parts if needed, or just render the specialized view directly
+  // For this mockup, we'll replace the static HTML with the interactive React component
+  // based on which lesson it looks like (Retell Lecture vs AI Auditor)
+  
+  if (content.includes("Template Teleprompter")) {
+    return (
+      <div className="max-w-4xl mx-auto p-8 text-left space-y-6">
+        <div className="bg-amber-50 border-l-4 border-amber-400 p-4">
+          <p className="text-amber-900 text-sm"><strong>The 80/20 Rule:</strong> 80% of your score comes from the notes you take; 20% comes from using this template smoothly.</p>
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <div className="bg-slate-800 px-3 py-1 text-white font-bold text-center uppercase tracking-widest text-xs rounded-t-lg inline-block">
+              Template Teleprompter
+            </div>
+            <button 
+              onClick={() => setIsMemorizeMode(!isMemorizeMode)}
+              className="text-xs font-bold px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors"
+            >
+              {isMemorizeMode ? "👁️ Show Full Template" : "🧠 Practice Recall Mode"}
+            </button>
+          </div>
+
+          <div className={`p-8 rounded-xl border-2 transition-all duration-500 shadow-sm ${isMemorizeMode ? 'bg-slate-900 border-indigo-500' : 'bg-white border-slate-200'}`}>
+            <div className={`text-xl font-serif leading-relaxed ${isMemorizeMode ? 'text-slate-400 italic' : 'text-slate-800'}`}>
+              {isMemorizeMode ? (
+                <>
+                  "The speaker was... <span className="text-indigo-400 font-bold underline decoration-indigo-500/50">[Topic]</span>. 
+                  He mentioned... <span className="text-indigo-400 font-bold underline decoration-indigo-500/50">[Keyword 1]</span>, 
+                  <span className="text-indigo-400 font-bold underline decoration-indigo-500/50">[Keyword 2]</span>, and 
+                  <span className="text-indigo-400 font-bold underline decoration-indigo-500/50">[Keyword 3]</span>... 
+                  Furthermore... <span className="text-indigo-400 font-bold underline decoration-indigo-500/50">[Keyword 4]</span>. 
+                  In conclusion... <span className="text-indigo-400 font-bold underline decoration-indigo-500/50">[Keyword 5]</span>..."
+                </>
+              ) : (
+                <>
+                  "The speaker was discussing <span className="bg-yellow-200 px-1 rounded text-black font-bold">[Topic]</span>. 
+                  He mentioned <span className="text-indigo-600 font-bold underline">[Keyword 1]</span>, 
+                  <span className="text-indigo-600 font-bold underline">[Keyword 2]</span>, and 
+                  <span className="text-indigo-600 font-bold underline">[Keyword 3]</span>. 
+                  Furthermore, the lecture highlighted <span className="text-indigo-600 font-bold underline">[Keyword 4]</span>. 
+                  In conclusion, the speaker suggested that <span className="text-indigo-600 font-bold underline">[Keyword 5]</span> is vital."
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Fallback for AI Auditor or other lessons
+  return <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
+}
+
 export default function CourseViewer() {
   const { id } = useParams();
   const rawCourse = getCourseById(id || "");
@@ -243,7 +311,7 @@ export default function CourseViewer() {
                  ) : (
                     <div className="w-full h-full overflow-y-auto">
                        {(activeLesson.lesson.type === "reading" || activeLesson.lesson.type === "assignment") && activeLesson.lesson.content ? (
-                         <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: activeLesson.lesson.content }} />
+                         <SpeakingPractice content={activeLesson.lesson.content} />
                        ) : (
                          <div className="flex flex-col items-center justify-center h-full text-center space-y-4 max-w-2xl px-8 mx-auto">
                             <FileText className="h-20 w-20 text-slate-600 mx-auto" />
