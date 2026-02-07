@@ -1363,22 +1363,46 @@ export const COURSES: Course[] = [
           },
           { 
              id: "pte-m1-l3", 
-             title: "Template: Describe Image", 
+             title: "Describe Image: The Fluency First Strategy", 
              type: "reading", 
              duration: "30 min", 
              isCompleted: false,
              content: `
-                <div class="space-y-6">
-                   <h3 class="text-2xl font-bold text-slate-900">The Universal Template</h3>
-                   <div class="bg-slate-900 text-slate-100 p-8 rounded-xl font-mono text-sm leading-relaxed shadow-2xl">
-                      <p class="mb-4"><span class="text-blue-400">Introduction:</span> "The image describes [Title/Topic]. It provides several interesting details and figures."</p>
-                      <p class="mb-4"><span class="text-green-400">Body:</span> "From the image, I can see [Highest Value/Key Feature] which is approximately [Number/Color]. I can also see [Lowest Value/Another Feature]."</p>
-                      <p class="mb-4"><span class="text-yellow-400">Trend:</span> "On the contrary, there is a significant difference between [Item A] and [Item B]."</p>
-                      <p><span class="text-purple-400">Conclusion:</span> "In conclusion, the image is very informative."</p>
-                   </div>
-                   <p class="text-slate-600 italic text-center">Memorize this structure to ensure you always have something to say, regardless of the image complexity.</p>
-                </div>
-             `
+<div class="space-y-6">
+  <h3 class="text-2xl font-bold text-slate-800">Describe Image: The Fluency First Strategy</h3>
+  <p class="text-slate-600">The computer doesn't care if you understand the data; it cares that you speak <strong>without hesitation</strong> for 40 seconds.</p>
+
+  <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+    <h4 class="font-bold text-blue-900 mb-2">The "Universal" DI Template</h4>
+    <div class="bg-white p-4 rounded font-serif text-slate-700 shadow-inner">
+      "The supplied <strong class="text-slate-900">[Bar/Line/Pie]</strong> chart provides information about <strong class="text-slate-900">[Topic]</strong>. 
+      It is clear from the image that the highest value is <strong class="text-slate-900">[Max Value]</strong>, 
+      while the lowest value can be seen in <strong class="text-slate-900">[Min Value]</strong>. 
+      Additionally, there are some fluctuations in <strong class="text-slate-900">[Trend/Category]</strong>. 
+      In conclusion, this image is very informative for understanding <strong class="text-slate-900">[Topic]</strong>."
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="p-4 bg-slate-50 rounded-lg border">
+      <h5 class="font-bold text-slate-800">Do:</h5>
+      <ul class="text-sm list-disc ml-5 space-y-1 text-slate-600">
+        <li>Speak at a steady, moderate pace.</li>
+        <li>Keep talking even if you make a mistake.</li>
+        <li>Focus on Nouns and Numbers.</li>
+      </ul>
+    </div>
+    <div class="p-4 bg-red-50 rounded-lg border border-red-100">
+      <h5 class="font-bold text-red-800">Don't:</h5>
+      <ul class="text-sm list-disc ml-5 space-y-1 text-red-700">
+        <li>Pause to think about the data logic.</li>
+        <li>Stay silent for more than 3 seconds.</li>
+        <li>Try to be 100% accurate with complex trends.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+`
           },
           { id: "pte-m1-quiz", title: "Speaking Assessment", type: "quiz", duration: "30 min", isCompleted: false }
         ]
