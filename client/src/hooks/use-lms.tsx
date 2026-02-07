@@ -78,6 +78,7 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
       modules: {
         ...prev.modules,
         [moduleId]: {
+          completedLessons: [], // Default to empty array if new
           ...prev.modules[moduleId],
           status: "unlocked",
           unlockedAt: new Date().toISOString()
@@ -89,15 +90,17 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
   const completeLesson = (moduleId: ModuleId, lessonId: LessonId) => {
     setState(prev => {
       const currentModule = prev.modules[moduleId] || { status: "locked", completedLessons: [] };
-      const completedLessons = currentModule.completedLessons.includes(lessonId) 
-        ? currentModule.completedLessons 
-        : [...currentModule.completedLessons, lessonId];
+      const currentCompletedLessons = currentModule.completedLessons || [];
+      const completedLessons = currentCompletedLessons.includes(lessonId) 
+        ? currentCompletedLessons 
+        : [...currentCompletedLessons, lessonId];
       
       return {
         ...prev,
         modules: {
           ...prev.modules,
           [moduleId]: {
+            completedLessons: [], // Ensure property exists
             ...currentModule,
             completedLessons,
             status: "in-progress" // Auto set to in-progress if a lesson is done

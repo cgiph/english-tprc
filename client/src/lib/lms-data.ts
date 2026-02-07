@@ -405,7 +405,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "15 min", 
             isCompleted: false,
-            videoUrl: "https://www.youtube.com/embed/54jIMyeq744",
+            videoUrl: "https://www.youtube.com/embed/v9fCKTwytJA",
             resources: [
               { title: "Sentence Structure Cheat Sheet.pdf", type: "pdf" },
               { title: "50 Common English Sentences.pdf", type: "pdf" },
@@ -428,7 +428,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "8 min", 
             isCompleted: false,
-            videoUrl: "https://www.youtube.com/embed/t6Qn27k1_bs", 
+            videoUrl: "https://www.youtube.com/embed/ZYPjmjff0Zo", 
             content: "<h3>Action Verbs</h3><p>Verbs that express physical or mental action. Essential for describing work tasks.</p>"
           },
           { 
@@ -506,7 +506,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "10 min", 
             isCompleted: false,
-             videoUrl: "https://www.youtube.com/embed/SQJOaa23lSI",
+             videoUrl: "https://www.youtube.com/embed/ZFZqiurLmBs",
              content: "<h3>Past Simple Tense</h3><p>Learn how to talk about finished actions. Regular verbs end in -ed (walked, worked), irregular verbs change (go -> went).</p>"
           },
           { id: "l6", title: "Module Quiz", type: "quiz", duration: "10 min", isCompleted: false }
@@ -525,7 +525,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "6 min", 
             isCompleted: false, 
-            videoUrl: "https://www.youtube.com/embed/FwBdX5u1nTU",
+            videoUrl: "https://www.youtube.com/embed/bdX1D6HNnyw",
             content: "<h3>Greetings & Introductions</h3><p>Learn the difference between formal and informal greetings in English. Start every conversation with confidence.</p>"
           },
           { 
@@ -580,7 +580,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "8 min", 
             isCompleted: false,
-            videoUrl: "https://www.youtube.com/embed/RD_8Y79gO3I",
+            videoUrl: "https://www.youtube.com/embed/3buO9MfzKuI",
             content: "<h3>Safety First</h3><p>Learn to identify common workplace safety signs. Red means prohibition (STOP), Yellow means warning (CAUTION), Green means safety (GO).</p>"
           },
           { 
