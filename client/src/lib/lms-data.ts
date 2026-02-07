@@ -1492,33 +1492,29 @@ export const COURSES: Course[] = [
           },
           { 
             id: "pte-m3-l2", 
-            title: "Summarize Spoken Text", 
+            title: "Summarize Spoken Text & Retell Lecture", 
             type: "reading", 
             duration: "25 min", 
             isCompleted: false,
             content: `
 <div class="space-y-6">
-  <h3 class="text-2xl font-bold text-slate-100">Summarize Spoken Text: Keyword Strategy</h3>
-  <p class="text-slate-300">The goal is to capture 5-8 key nouns/phrases and fit them into a grammatically perfect structure.</p>
-  
-  <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
-    <h4 class="font-bold text-indigo-900 mb-4">The SST Template</h4>
-    <div class="bg-white p-4 rounded border font-mono text-sm shadow-inner text-slate-900" style="color: #0f172a">
-      "The lecture provided important information about <strong class="text-black">[Topic]</strong>. 
-      Firstly, the speaker mentioned <strong class="text-black">[Keyword 1]</strong> and <strong class="text-black">[Keyword 2]</strong>. 
-      Furthermore, it was emphasized that <strong class="text-black">[Keyword 3]</strong> plays a vital role in <strong class="text-black">[Keyword 4]</strong>. 
-      In addition, the researcher highlighted the significance of <strong class="text-black">[Keyword 5]</strong>. 
-      Overall, the presentation concluded that <strong class="text-black">[Keyword 6]</strong> is essential for future development."
+  <h3 class="text-2xl font-bold text-slate-800">Retell Lecture: The Note-Taking Hack</h3>
+  <p class="text-slate-600">You have 40 seconds to summarize a 90-second lecture. Success is 80% notes, 20% template.</p>
+
+  <div class="bg-indigo-900 text-white p-6 rounded-xl shadow-lg">
+    <h4 class="text-lg font-semibold mb-3">Note-Taking Frame</h4>
+    <p class="text-sm text-indigo-200 mb-4">Focus on capturing 10-12 'Big' nouns while listening. Avoid verbs and filler words.</p>
+    <div class="grid grid-cols-2 gap-4 font-mono text-xs">
+      <div class="border border-indigo-700 p-2">Example: "Global Warming"</div>
+      <div class="border border-indigo-700 p-2">Example: "Carbon Dioxide"</div>
+      <div class="border border-indigo-700 p-2">Example: "Ice Caps"</div>
+      <div class="border border-indigo-700 p-2">Example: "Industrialization"</div>
     </div>
   </div>
 
-  <div class="grid grid-cols-2 gap-4 text-sm">
-    <div class="p-3 bg-green-50 rounded border border-green-200 text-green-900">
-      <strong>Word Count:</strong> Aim for 50-70 words exactly.
-    </div>
-    <div class="p-3 bg-blue-50 rounded border border-blue-200 text-blue-900">
-      <strong>Strategy:</strong> Don't try to write full sentences while listening. Just note down nouns!
-    </div>
+  <div class="p-4 border-2 border-dashed border-slate-300 rounded-lg">
+    <h4 class="font-bold text-slate-800 mb-2 underline">The Speaking Frame:</h4>
+    <p class="text-sm italic text-slate-700">"The speaker was discussing [Topic]. He/She mentioned [Keyword 1], [Keyword 2], and [Keyword 3]. Furthermore, the lecture highlighted [Keyword 4] and [Keyword 5]. Finally, the speaker suggested that [Keyword 6] is important. Overall, the lecture was about [Topic]."</p>
   </div>
 </div>
 `
