@@ -1499,22 +1499,32 @@ export const COURSES: Course[] = [
             content: `
 <div class="space-y-6">
   <h3 class="text-2xl font-bold text-slate-800">Retell Lecture: The Note-Taking Hack</h3>
-  <p class="text-slate-600">You have 40 seconds to summarize a 90-second lecture. Success is 80% notes, 20% template.</p>
+  <p class="text-slate-600">Success is 80% notes, 20% template. 40 seconds to shine.</p>
 
-  <div class="bg-indigo-900 text-white p-6 rounded-xl shadow-lg">
-    <h4 class="text-lg font-semibold mb-3">Note-Taking Frame</h4>
-    <p class="text-sm text-indigo-200 mb-4">Focus on capturing 10-12 'Big' nouns while listening. Avoid verbs and filler words.</p>
-    <div class="grid grid-cols-2 gap-4 font-mono text-xs">
-      <div class="border border-indigo-700 p-2">Example: "Global Warming"</div>
-      <div class="border border-indigo-700 p-2">Example: "Carbon Dioxide"</div>
-      <div class="border border-indigo-700 p-2">Example: "Ice Caps"</div>
-      <div class="border border-indigo-700 p-2">Example: "Industrialization"</div>
+  <div class="bg-indigo-50 border border-indigo-100 p-6 rounded-xl shadow-sm">
+    <h4 class="text-indigo-900 font-bold mb-3 flex items-center gap-2">
+      <span class="bg-indigo-600 text-white text-xs px-2 py-1 rounded">STEP 1</span>
+      Note-Taking Frame
+    </h4>
+    <p class="text-sm text-indigo-800 mb-4 font-medium">Capture 10-12 'Big' nouns. Avoid verbs.</p>
+    <div class="grid grid-cols-2 gap-3">
+      <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Global Warming</div>
+      <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Carbon Dioxide</div>
+      <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Ice Caps</div>
+      <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Industrialization</div>
     </div>
   </div>
 
-  <div class="p-4 border-2 border-dashed border-slate-300 rounded-lg">
-    <h4 class="font-bold text-slate-800 mb-2 underline">The Speaking Frame:</h4>
-    <p class="text-sm italic text-slate-700">"The speaker was discussing [Topic]. He/She mentioned [Keyword 1], [Keyword 2], and [Keyword 3]. Furthermore, the lecture highlighted [Keyword 4] and [Keyword 5]. Finally, the speaker suggested that [Keyword 6] is important. Overall, the lecture was about [Topic]."</p>
+  <div class="bg-slate-900 p-6 rounded-xl shadow-2xl border-t-4 border-indigo-500">
+    <h4 class="text-indigo-400 font-bold mb-3 uppercase tracking-widest text-xs">The Speaking Frame (Memorize This)</h4>
+    <div class="text-slate-200 leading-relaxed font-serif text-lg italic">
+      "The speaker was discussing <span class="text-indigo-400 font-bold">[Topic]</span>. 
+      He mentioned <span class="text-indigo-400 font-bold">[Keyword 1]</span>, 
+      <span class="text-indigo-400 font-bold">[Keyword 2]</span>, and 
+      <span class="text-indigo-400 font-bold">[Keyword 3]</span>. 
+      Furthermore, the lecture highlighted <span class="text-indigo-400 font-bold">[Keyword 4]</span>. 
+      In conclusion, the speaker suggested that <span class="text-indigo-400 font-bold">[Keyword 5]</span> is vital."
+    </div>
   </div>
 </div>
 `
