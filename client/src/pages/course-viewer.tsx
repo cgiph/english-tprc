@@ -371,7 +371,7 @@ export default function CourseViewer() {
 
         {/* Lesson Controls & Resources */}
         <div className="bg-slate-900 p-8 border-t border-slate-800">
-           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+           <div className="w-full mx-auto grid md:grid-cols-2 gap-8">
               <div>
                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                    <Download className="h-5 w-5 text-primary" /> Lesson Resources
@@ -422,7 +422,7 @@ export default function CourseViewer() {
            </div>
 
            {/* Trainer Support Section */}
-           <div className="max-w-4xl mx-auto mt-8 pt-8 border-t border-slate-800">
+           <div className="w-full mx-auto mt-8 pt-8 border-t border-slate-800">
              <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
                <div className="flex justify-between items-start mb-4">
                  <div>
