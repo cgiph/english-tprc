@@ -97,7 +97,7 @@ export default function CourseViewer() {
   
   // Quiz State
   const [quizOpen, setQuizOpen] = useState(false);
-  const [activeQuizModule, setActiveQuizModule] = useState<{id: string, title: string} | null>(null);
+  const [activeQuizModule, setActiveQuizModule] = useState<{id: string, title: string, quizId?: string} | null>(null);
   const { toast } = useToast();
 
   // Active Lesson State (for Player)
@@ -181,7 +181,8 @@ export default function CourseViewer() {
 
     if (type === "quiz") {
       if (module) {
-        setActiveQuizModule({ id: module.id, title: module.title });
+        // Pass the lessonId as the specific quizId (e.g., "pte-m2-quiz-ai")
+        setActiveQuizModule({ id: module.id, title: module.title, quizId: lessonId });
         setQuizOpen(true);
       }
     }
@@ -256,11 +257,12 @@ export default function CourseViewer() {
       {/* Quiz Modal */}
       {activeQuizModule && (
         <ModuleQuiz 
-          key={activeQuizModule.id}
+          key={activeQuizModule.id + (activeQuizModule.quizId || "")}
           isOpen={quizOpen} 
           onClose={() => setQuizOpen(false)} 
           moduleId={activeQuizModule.id}
           moduleTitle={activeQuizModule.title}
+          quizId={activeQuizModule.quizId}
           onComplete={handleQuizComplete}
         />
       )}

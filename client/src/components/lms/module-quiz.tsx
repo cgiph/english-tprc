@@ -499,18 +499,21 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
 interface ModuleQuizProps {
   moduleId: string;
   moduleTitle: string;
+  quizId?: string;
   isOpen: boolean;
   onClose: () => void;
   onComplete: (score: number) => void;
 }
 
-export function ModuleQuiz({ moduleId, moduleTitle, isOpen, onClose, onComplete }: ModuleQuizProps) {
+export function ModuleQuiz({ moduleId, moduleTitle, quizId, isOpen, onClose, onComplete }: ModuleQuizProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number | string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
-  const questions = MOCK_QUIZZES[moduleId] || MOCK_QUIZZES["m1"]; // Fallback to m1 if not found
+  // Look up by specific quizId first, then fallback to moduleId
+  const questions = (quizId && MOCK_QUIZZES[quizId]) || MOCK_QUIZZES[moduleId] || MOCK_QUIZZES["m1"]; // Fallback to m1 if not found
+
 
   const handleSelect = (value: string) => {
     // For diagnostic questions, the value is the text segment clicked
