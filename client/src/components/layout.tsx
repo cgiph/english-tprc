@@ -57,9 +57,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { href: "/resources", label: "Resources", icon: BookOpen },
   ];
 
+  const isCourseViewer = location.startsWith("/lms/course/");
+
   return (
     <div className="min-h-screen flex flex-col bg-background font-sans text-foreground">
       {/* Header */}
+      {!isCourseViewer && (
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex flex-col hover:opacity-90 transition-opacity">
@@ -196,11 +199,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
+      )}
       {/* Main Content */}
       <main className="flex-1 relative z-10">
         {children}
       </main>
       {/* Footer */}
+      {!isCourseViewer && (
       <footer className="bg-muted/30 border-t py-12 mt-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -262,6 +267,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </footer>
+      )}
     </div>
   );
 }

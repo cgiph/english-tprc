@@ -286,7 +286,7 @@ export default function CourseViewer() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-background">
+    <div className="flex h-screen overflow-hidden bg-background">
       {/* Quiz Modal */}
       {activeQuizModule && (
         <ModuleQuiz 
@@ -303,12 +303,12 @@ export default function CourseViewer() {
       {/* Main Content Area - Video Player Style */}
       <div className="flex-1 flex flex-col overflow-y-auto bg-slate-950 text-slate-100">
         {/* Header Overlay */}
-        <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+        <div className="p-3 border-b border-slate-800 flex justify-between items-center bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
            <div>
-             <Link href="/lms" className="text-sm text-slate-400 hover:text-white flex items-center mb-1">
-               <ChevronLeft className="h-4 w-4 mr-1" /> Back to Dashboard
+             <Link href="/lms" className="text-xs text-slate-400 hover:text-white flex items-center mb-1">
+               <ChevronLeft className="h-3 w-3 mr-1" /> Back to Dashboard
              </Link>
-             <h1 className="text-xl font-bold text-white">{activeLesson?.lesson.title || course.title}</h1>
+             <h1 className="text-lg font-bold text-white">{activeLesson?.lesson.title || course.title}</h1>
            </div>
            <Badge variant="outline" className="text-slate-300 border-slate-700">{course.title}</Badge>
         </div>
@@ -463,7 +463,7 @@ export default function CourseViewer() {
 
       {/* Sidebar - Course Syllabus */}
       <div className="w-96 bg-background border-l border-border flex flex-col h-full overflow-hidden shrink-0 hidden lg:flex">
-        <div className="p-6 border-b border-border">
+        <div className="p-4 border-b border-border">
            <h2 className="font-bold text-lg mb-2">Course Syllabus</h2>
            <div className="space-y-2">
               <div className="flex justify-between text-sm">
