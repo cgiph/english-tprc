@@ -1432,7 +1432,7 @@ export const COURSES: Course[] = [
              resources: [
                {
                  title: "High-frequency PTE Collocations List",
-                 url: "https://drive.google.com/file/d/1uYYQ8S1ICro4GdEfJL6lL7-42G0_YmAD/view?usp=drive_link"
+                 url:  "https://drive.google.com/uc?id=1uYYQ8S1ICro4GdEfJL6lL7-42G0_YmAD&export=download"
                }
              ]
            },
@@ -1454,11 +1454,11 @@ export const COURSES: Course[] = [
             isCompleted: false,
             content: `
 <div class="space-y-6">
-  <h3 class="text-2xl font-bold text-slate-800">The "One-Size-Fits-All" Essay Template</h3>
-  <p class="text-slate-600">Use this structure for any "Agree/Disagree" or "Pros/Cons" prompt to ensure perfect structure scores.</p>
+  <h3 class="text-2xl font-bold text-slate-100">The "One-Size-Fits-All" Essay Template</h3>
+  <p class="text-slate-300">Use this structure for any "Agree/Disagree" or "Pros/Cons" prompt to ensure perfect structure scores.</p>
   
-  <div class="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-500 font-serif">
-    <p class="mb-4"><strong>Introduction:</strong> "The issue of [Topic] has become a matter of intense debate. While some argue that [Side A], others believe [Side B]. This essay will examine both views before reaching a conclusion."</p>
+  <div class="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-500 font-serif text-slate-800">
+    <p class="mb-4"><strong>Introduction:</strong> "This issue on [Topic] has become a matter of intense debate. While some people argue that [Side A], others believe that [Side B]. Let us examine both views before reaching a conclusion."</p>
     <p class="mb-4"><strong>Body Paragraph 1:</strong> "On the one hand, there are several reasons why [Point 1]. For instance, recent studies suggest that [Example]. Consequently, it is clear that [Result]."</p>
     <p class="mb-4"><strong>Body Paragraph 2:</strong> "On the other hand, another crucial aspect is [Point 2]. A primary example of this is [Example]. This further illustrates the importance of [Topic]."</p>
     <p><strong>Conclusion:</strong> "In conclusion, although [Side A] has its merits, I believe that [Side B] is more effective because [Reason]. Ultimately, a balanced approach is necessary."</p>
@@ -1474,12 +1474,12 @@ export const COURSES: Course[] = [
             isCompleted: false,
             content: `
 <div class="space-y-6">
-  <h3 class="text-2xl font-bold text-slate-800">Summarize Spoken Text: Keyword Strategy</h3>
-  <p class="text-slate-600">The goal is to capture 5-8 key nouns/phrases and fit them into a grammatically perfect structure.</p>
+  <h3 class="text-2xl font-bold text-slate-100">Summarize Spoken Text: Keyword Strategy</h3>
+  <p class="text-slate-300">The goal is to capture 5-8 key nouns/phrases and fit them into a grammatically perfect structure.</p>
   
   <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
     <h4 class="font-bold text-indigo-900 mb-4">The SST Template</h4>
-    <div class="bg-white p-4 rounded border font-mono text-sm shadow-inner">
+    <div class="bg-white p-4 rounded border font-mono text-sm shadow-inner text-slate-800">
       "The lecture provided important information about <strong>[Topic]</strong>. 
       Firstly, the speaker mentioned <strong>[Keyword 1]</strong> and <strong>[Keyword 2]</strong>. 
       Furthermore, it was emphasized that <strong>[Keyword 3]</strong> plays a vital role in <strong>[Keyword 4]</strong>. 
@@ -1489,10 +1489,10 @@ export const COURSES: Course[] = [
   </div>
 
   <div class="grid grid-cols-2 gap-4 text-sm">
-    <div class="p-3 bg-green-50 rounded border border-green-200">
+    <div class="p-3 bg-green-50 rounded border border-green-200 text-green-900">
       <strong>Word Count:</strong> Aim for 50-70 words exactly.
     </div>
-    <div class="p-3 bg-blue-50 rounded border border-blue-200">
+    <div class="p-3 bg-blue-50 rounded border border-blue-200 text-blue-900">
       <strong>Strategy:</strong> Don't try to write full sentences while listening. Just note down nouns!
     </div>
   </div>
