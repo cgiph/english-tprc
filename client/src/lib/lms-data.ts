@@ -1541,7 +1541,15 @@ export const COURSES: Course[] = [
           },
           { id: "pte-m3-l1-quiz", title: "Logic Check: Punctuation", type: "quiz", duration: "10 min", isCompleted: false },
           { 
-            id: "pte-m3-l2", 
+            id: "pte-m3-l3-lab", 
+            title: "Lab: SWT Interactive Practice", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: "<!-- SWT Practice Lab -->"
+          },
+          { 
+            id: "pte-m3-l2",  
             title: "Summarize Spoken Text & Retell Lecture", 
             type: "reading", 
             duration: "25 min", 

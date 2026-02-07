@@ -22,6 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { NounPractice } from "@/components/lms/noun-practice";
 import { GrammarGuard } from "@/components/lms/grammar-guard";
+import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
 
 function SpeakingPractice({ content }: { content: string }) {
   const [isMemorizeMode, setIsMemorizeMode] = useState(false);
@@ -29,10 +30,23 @@ function SpeakingPractice({ content }: { content: string }) {
   // Basic check to see if we should render the interactive mode
   // This is a simple heuristic based on the presence of specific keywords or structure
   // In a real app, this would be a specific lesson type or metadata
-  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard");
+  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab");
 
   if (!isTemplateLesson) {
     return <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
+  }
+
+  // Handle SWT Practice Lab
+  if (content.includes("SWT Practice Lab")) {
+      return (
+          <div className="max-w-6xl mx-auto p-8 text-left h-full flex flex-col">
+              <div className="mb-6">
+                 <h2 className="text-2xl font-bold text-slate-800 mb-2">Summarize Written Text: Interactive Lab</h2>
+                 <p className="text-slate-600">Read the passage on the left and summarize it into ONE sentence on the right.</p>
+              </div>
+              <SwtPracticeLab />
+          </div>
+      );
   }
 
   // Handle Grammar Guard Lesson
