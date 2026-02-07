@@ -271,13 +271,19 @@ export default function CourseViewer() {
                  <div className="space-y-3">
                     {activeLesson?.lesson.resources && activeLesson.lesson.resources.length > 0 ? (
                       activeLesson.lesson.resources.map((resource, idx) => (
-                        <div key={idx} className="flex items-center justify-between p-3 bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors cursor-pointer group">
+                        <a 
+                          key={idx} 
+                          href={resource.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between p-3 bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors cursor-pointer group"
+                        >
                            <div className="flex items-center gap-3">
                               <FileText className="h-5 w-5 text-slate-400 group-hover:text-primary" />
                               <span className="text-sm font-medium text-slate-300">{resource.title}</span>
                            </div>
                            <Download className="h-4 w-4 text-slate-500 group-hover:text-white" />
-                        </div>
+                        </a>
                       ))
                     ) : (
                        <div className="p-4 rounded-lg border border-dashed border-slate-800 text-slate-500 text-sm text-center">
