@@ -314,11 +314,13 @@ export default function CourseViewer() {
         </div>
 
         {/* Cinema Mode Player */}
-        <div className="flex-1 flex items-center justify-center p-8 bg-black/40 min-h-[500px] overflow-y-auto">
+        <div className="flex-1 flex items-center justify-center bg-black/40 min-h-[500px] overflow-y-auto">
            {activeLesson ? (
               <div className={cn(
-                "w-full max-w-4xl bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-800 flex items-center justify-center relative group",
-                activeLesson.lesson.type === "video" ? "aspect-video" : "min-h-screen h-auto"
+                "w-full overflow-hidden shadow-2xl relative group",
+                activeLesson.lesson.type === "video" 
+                   ? "max-w-4xl aspect-video bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-center" 
+                   : "lesson-wrapper w-full h-full p-8"
               )}>
                  {activeLesson.lesson.type === "video" ? (
                     activeLesson.lesson.videoUrl ? (

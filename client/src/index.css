@@ -141,3 +141,20 @@
     @apply font-serif font-bold tracking-tight;
   }
 }
+
+/* Global Lesson Container Overrides */
+.lesson-wrapper {
+  min-height: 100vh;
+  height: auto !important;
+  background-color: #f8fafc; /* Slate 50 - Softer on eyes */
+  color: #1e293b;            /* Slate 800 - Better readability */
+  line-height: 1.6;
+  padding-bottom: 5rem;      /* Extra space at bottom for scrolling */
+}
+
+.lesson-card {
+  flex-shrink: 0;            /* Prevents items from squashing */
+  margin-bottom: 1.5rem;     /* Breathability between components */
+  border-radius: 12px;
+  border: 1px solid #e2e8f0; /* Soft border instead of harsh lines */
+}
