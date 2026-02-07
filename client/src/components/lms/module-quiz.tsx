@@ -8,9 +8,14 @@ import { AlertCircle, CheckCircle2 } from "lucide-react";
 
 interface Question {
   id: string;
-  text: string;
-  options: string[];
-  correctAnswer: number; // Index of correct option
+  text?: string;
+  question?: string;
+  type?: "multiple-choice" | "diagnostic";
+  transcript?: string;
+  correctSegment?: string;
+  rationale?: string;
+  options?: string[];
+  correctAnswer: number | string; // Index of correct option OR string value for diagnostic
 }
 
 // Mock Quiz Data for demo purposes
@@ -242,20 +247,25 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
   "pte-m2-quiz-ai": [
     {
       id: "ai-q1",
-      text: "A student says: 'The chart shows... uh... shows the increase.' What is the primary error?",
-      options: ["Poor Vocabulary", "Repetition & Filler", "Grammar Error", "Wrong Content"],
-      correctAnswer: 1
+      type: "diagnostic",
+      transcript: "The graph... uh... shows that the population increased from 1990... sorry, 1995 to 2000.",
+      question: "Identify the 'Self-Correction' in this transcript.",
+      correctSegment: "sorry, 1995",
+      correctAnswer: "sorry, 1995",
+      rationale: "When the student says 'sorry' and changes the date, the AI penalizes Oral Fluency heavily."
     },
     {
       id: "ai-q2",
-      text: "If you realize you said 'The men is' instead of 'The men are', what should you do?",
+      type: "multiple-choice",
+      question: "The student above paused for 4 seconds after 'The graph'. What is the likely result?",
       options: [
-        "Stop and say 'Sorry'",
-        "Restart the sentence",
-        "Keep speaking smoothly",
-        "Wait 3 seconds to think"
+        "The microphone might stop recording automatically",
+        "The AI gives them extra time to think",
+        "It counts as a 'Natural Pause'",
+        "Nothing, it only cares about pronunciation"
       ],
-      correctAnswer: 2
+      correctAnswer: 0,
+      rationale: "The '3-second rule' is real; long silences can end the task prematurely."
     }
   ],
   "pte-reading": [
@@ -496,17 +506,28 @@ interface ModuleQuizProps {
 
 export function ModuleQuiz({ moduleId, moduleTitle, isOpen, onClose, onComplete }: ModuleQuizProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [answers, setAnswers] = useState<Record<string, number | string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
   const questions = MOCK_QUIZZES[moduleId] || MOCK_QUIZZES["m1"]; // Fallback to m1 if not found
 
   const handleSelect = (value: string) => {
-    setAnswers(prev => ({
-      ...prev,
-      [questions[currentQuestion].id]: parseInt(value)
-    }));
+    // For diagnostic questions, the value is the text segment clicked
+    // For multiple choice, it's the index
+    const q = questions[currentQuestion];
+    
+    if (q.type === "diagnostic") {
+        setAnswers(prev => ({
+            ...prev,
+            [q.id]: value
+        }));
+    } else {
+        setAnswers(prev => ({
+            ...prev,
+            [q.id]: parseInt(value)
+        }));
+    }
   };
 
   const handleNext = () => {
@@ -554,20 +575,71 @@ export function ModuleQuiz({ moduleId, moduleTitle, isOpen, onClose, onComplete 
 
         {!submitted ? (
           <div className="py-4">
-            <h3 className="text-lg font-medium mb-4">{questions[currentQuestion].text}</h3>
-            {/* Key added to force re-render when question changes, clearing selection state visually */}
-            <RadioGroup 
-              key={currentQuestion}
-              value={answers[questions[currentQuestion].id]?.toString() ?? ""} 
-              onValueChange={handleSelect}
-            >
-              {questions[currentQuestion].options.map((option, idx) => (
-                <div key={idx} className="flex items-center space-x-2 mb-2 p-2 rounded hover:bg-muted/50">
-                  <RadioGroupItem value={idx.toString()} id={`opt-${idx}`} />
-                  <Label htmlFor={`opt-${idx}`} className="flex-1 cursor-pointer">{option}</Label>
-                </div>
-              ))}
-            </RadioGroup>
+            <h3 className="text-lg font-medium mb-4">{questions[currentQuestion].text || questions[currentQuestion].question}</h3>
+            
+            {questions[currentQuestion].type === "diagnostic" ? (
+               <div className="space-y-4">
+                  <div className="p-4 bg-slate-100 rounded-lg border border-slate-200 text-lg leading-relaxed font-mono">
+                    {/* Simple implementation: split by space and make each word clickable, or specific segments */}
+                    {/* For this mock, we'll manually render the interactive transcript based on the known content */}
+                    {questions[currentQuestion].id === "ai-q1" ? (
+                        <p>
+                            <span 
+                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "The graph" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
+                                onClick={() => handleSelect("The graph")}
+                            >The graph</span>
+                            {" "}
+                            <span 
+                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "uh" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
+                                onClick={() => handleSelect("uh")}
+                            >... uh...</span>
+                            {" "}
+                            <span 
+                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "shows that" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
+                                onClick={() => handleSelect("shows that")}
+                            >shows that</span>
+                            {" "}
+                            <span 
+                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "the population" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
+                                onClick={() => handleSelect("the population")}
+                            >the population</span>
+                            {" "}
+                            <span 
+                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "increased from 1990" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
+                                onClick={() => handleSelect("increased from 1990")}
+                            >increased from 1990</span>
+                            {" "}
+                            <span 
+                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "sorry, 1995" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
+                                onClick={() => handleSelect("sorry, 1995")}
+                            >... sorry, 1995</span>
+                            {" "}
+                            <span 
+                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "to 2000" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
+                                onClick={() => handleSelect("to 2000")}
+                            >to 2000.</span>
+                        </p>
+                    ) : (
+                        <p>{questions[currentQuestion].transcript}</p>
+                    )}
+                  </div>
+                  <p className="text-sm text-slate-500 italic">Click on the part of the text that represents the error.</p>
+               </div>
+            ) : (
+                /* Key added to force re-render when question changes, clearing selection state visually */
+                <RadioGroup 
+                key={currentQuestion}
+                value={answers[questions[currentQuestion].id]?.toString() ?? ""} 
+                onValueChange={handleSelect}
+                >
+                {questions[currentQuestion].options?.map((option, idx) => (
+                    <div key={idx} className="flex items-center space-x-2 mb-2 p-2 rounded hover:bg-muted/50">
+                    <RadioGroupItem value={idx.toString()} id={`opt-${idx}`} />
+                    <Label htmlFor={`opt-${idx}`} className="flex-1 cursor-pointer">{option}</Label>
+                    </div>
+                ))}
+                </RadioGroup>
+            )}
           </div>
         ) : (
           <div className="py-6 flex flex-col items-center justify-center text-center space-y-4">
