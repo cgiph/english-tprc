@@ -33,13 +33,13 @@ function SpeakingPractice({ content }: { content: string }) {
   const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab");
 
   if (!isTemplateLesson) {
-    return <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
+    return <div className="w-full mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
   }
 
   // Handle SWT Practice Lab
   if (content.includes("SWT Practice Lab")) {
       return (
-          <div className="max-w-6xl mx-auto p-8 text-left h-full flex flex-col">
+          <div className="w-full mx-auto p-8 text-left h-full flex flex-col">
               <div className="mb-6">
                  <h2 className="text-2xl font-bold text-slate-800 mb-2">Summarize Written Text: Interactive Lab</h2>
                  <p className="text-slate-600">Read the passage on the left and summarize it into ONE sentence on the right.</p>
@@ -56,7 +56,7 @@ function SpeakingPractice({ content }: { content: string }) {
      const theoryContent = parts[0] || content;
 
      return (
-       <div className="max-w-4xl mx-auto p-8 text-left space-y-8">
+       <div className="w-full mx-auto p-8 text-left space-y-8">
           <div dangerouslySetInnerHTML={{ __html: theoryContent }} />
           
           <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
@@ -73,7 +73,7 @@ function SpeakingPractice({ content }: { content: string }) {
   
   if (content.includes("Template Teleprompter")) {
     return (
-      <div className="max-w-4xl mx-auto p-8 text-left space-y-6">
+      <div className="w-full mx-auto p-8 text-left space-y-6">
         <div className="bg-amber-50 border-l-4 border-amber-400 p-4">
           <p className="text-amber-900 text-sm"><strong>The 80/20 Rule:</strong> 80% of your score comes from the notes you take; 20% comes from using this template smoothly.</p>
         </div>
@@ -120,7 +120,7 @@ function SpeakingPractice({ content }: { content: string }) {
   }
 
   // Fallback for AI Auditor or other lessons
-  return <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
+  return <div className="w-full mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
 }
 
 export default function CourseViewer() {
