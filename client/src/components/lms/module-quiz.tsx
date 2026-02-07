@@ -368,6 +368,102 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       options: ["A permanent finish", "Measuring thickness", "Small, temporary welds", "Grinding surface rust"],
       correctAnswer: 2
     }
+  ],
+  "tmec2": [
+    {
+      id: "tm2-q1",
+      text: "Which brake component squeezes the pads against the rotor?",
+      options: ["Drum", "Shoe", "Caliper", "Master Cylinder"],
+      correctAnswer: 2
+    },
+    {
+      id: "tm2-q2",
+      text: "What is a key advantage of Disc brakes over Drum brakes?",
+      options: ["Cheaper to make", "Better heat dissipation (less fade)", "Self-energizing", "Better for parking brakes"],
+      correctAnswer: 1
+    },
+    {
+      id: "tm2-q3",
+      text: "Drum brakes use which components to create friction?",
+      options: ["Pads and Rotors", "Shoes and Drums", "Calipers and Discs", "Pistons and Valves"],
+      correctAnswer: 1
+    },
+    {
+      id: "tm2-q4",
+      text: "Which statement about 'Self-energizing' brakes is correct?",
+      options: ["They require more pedal force", "They use the rotation to increase braking force", "They cool down faster", "They are only used on racing cars"],
+      correctAnswer: 1
+    },
+    {
+      id: "tm2-q5",
+      text: "Where are Disc brakes most commonly found on modern cars?",
+      options: ["Rear wheels only", "Front wheels (or all four)", "Parking brake only", "Transmission output"],
+      correctAnswer: 1
+    }
+  ],
+  "tcarp1": [
+    {
+      id: "tc1-q1",
+      text: "Softwood lumber comes from which type of tree?",
+      options: ["Deciduous (Leafy)", "Conifers (Needles/Cones)", "Fruit trees", "Tropical trees"],
+      correctAnswer: 1
+    },
+    {
+      id: "tc1-q2",
+      text: "Which wood is typically classified as a Hardwood?",
+      options: ["Pine", "Spruce", "Oak", "Fir"],
+      correctAnswer: 2
+    },
+    {
+      id: "tc1-q3",
+      text: "What is a 'Check' in lumber terminology?",
+      options: ["A mark of quality", "A crack along the grain", "A knot in the wood", "A warped board"],
+      correctAnswer: 1
+    },
+    {
+      id: "tc1-q4",
+      text: "Which tool requires hearing protection due to high noise levels?",
+      options: ["Tape measure", "Chalk line", "Circular Saw", "Speed Square"],
+      correctAnswer: 2
+    },
+    {
+      id: "tc1-q5",
+      text: "Pine and Fir are most commonly used for:",
+      options: ["Fine furniture", "Structural framing", "Tool handles", "Cutting boards"],
+      correctAnswer: 1
+    }
+  ],
+  "tcarp2": [
+    {
+      id: "tc2-q1",
+      text: "In roof framing, what is the 'Span'?",
+      options: ["The height of the roof", "The distance between outside supporting walls", "The length of the rafter", "The overhang"],
+      correctAnswer: 1
+    },
+    {
+      id: "tc2-q2",
+      text: "A 4/12 Pitch means:",
+      options: ["4 inches of run for 12 inches of rise", "4 inches of rise for every 12 inches of run", "The roof is flat", "The roof is 4 feet high"],
+      correctAnswer: 1
+    },
+    {
+      id: "tc2-q3",
+      text: "What is a main advantage of Roof Trusses?",
+      options: ["They allow for attic storage", "They are custom built on site", "Fast installation and engineered strength", "They are heavier"],
+      correctAnswer: 2
+    },
+    {
+      id: "tc2-q4",
+      text: "What is the 'Ridge' of a roof?",
+      options: ["The bottom edge", "The highest horizontal point where rafters meet", "The part that hangs over", "The wall plate"],
+      correctAnswer: 1
+    },
+    {
+      id: "tc2-q5",
+      text: "Standard wall studs are typically spaced at:",
+      options: ["12 inches on center", "16 inches on center", "24 inches on center", "30 inches on center"],
+      correctAnswer: 1
+    }
   ]
 };
 
