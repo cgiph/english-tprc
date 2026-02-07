@@ -648,7 +648,85 @@ export const COURSES: Course[] = [
         description: "Short messages and filling forms.",
         status: "locked",
         progress: 0,
-        lessons: []
+        lessons: [
+          { 
+            id: "m5-l1", 
+            title: "Writing Short Emails", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                 <h3 class="text-2xl font-bold text-slate-800">Email Basics</h3>
+                 <p class="text-slate-600">How to write a simple professional email.</p>
+                 
+                 <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="mb-4 pb-4 border-b">
+                       <p class="text-sm text-slate-500">Subject: <strong>Sick Leave</strong></p>
+                    </div>
+                    <div class="space-y-4 text-slate-800">
+                       <p>Dear Mr. Smith,</p>
+                       <p>I am writing to tell you that I am sick today. I have a fever and cannot come to work.</p>
+                       <p>I will go to the doctor and send you the medical certificate later.</p>
+                       <p>Best regards,<br/>John Doe</p>
+                    </div>
+                 </div>
+
+                 <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-green-50 p-4 rounded border border-green-100">
+                       <h4 class="font-bold text-green-800 mb-2">Openings</h4>
+                       <ul class="text-sm space-y-1 text-green-700">
+                          <li>Dear [Name],</li>
+                          <li>Hi [Name], (Informal)</li>
+                          <li>To whom it may concern,</li>
+                       </ul>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded border border-blue-100">
+                       <h4 class="font-bold text-blue-800 mb-2">Closings</h4>
+                       <ul class="text-sm space-y-1 text-blue-700">
+                          <li>Best regards,</li>
+                          <li>Sincerely,</li>
+                          <li>Thank you,</li>
+                       </ul>
+                    </div>
+                 </div>
+              </div>
+            `
+          },
+          { 
+            id: "m5-l2", 
+            title: "Filling Out Forms", 
+            type: "reading", 
+            duration: "15 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                 <h3 class="text-2xl font-bold text-slate-800">Understanding Forms</h3>
+                 <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                       <div>
+                          <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Surname / Family Name</label>
+                          <div class="bg-white p-2 border rounded text-slate-800">Doe</div>
+                       </div>
+                       <div>
+                          <label class="block text-xs font-bold uppercase text-slate-500 mb-1">First Name / Given Name</label>
+                          <div class="bg-white p-2 border rounded text-slate-800">John</div>
+                       </div>
+                       <div class="md:col-span-2">
+                          <label class="block text-xs font-bold uppercase text-slate-500 mb-1">DOB (Date of Birth)</label>
+                          <div class="bg-white p-2 border rounded text-slate-800">12 / 05 / 1990 (DD/MM/YYYY)</div>
+                       </div>
+                       <div class="md:col-span-2">
+                          <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Address</label>
+                          <div class="bg-white p-2 border rounded text-slate-800">123 Maple Street, London</div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+            `
+          },
+          { id: "m5-quiz", title: "Writing Skills Quiz", type: "quiz", duration: "20 min", isCompleted: false }
+        ]
       }
     ]
   },
@@ -1817,6 +1895,93 @@ export const COURSES: Course[] = [
 `
           },
           { id: "tech-m2-quiz", title: "Listening Assessment", type: "quiz", duration: "15 min", isCompleted: false }
+        ]
+      },
+      {
+        id: "tech-m3",
+        title: "Module 3: Workplace Communication",
+        description: "Writing reports and requesting materials professionally.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          { 
+            id: "tech-m3-l1", 
+            title: "Incident Reports", 
+            type: "reading", 
+            duration: "25 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <h3 class="text-2xl font-bold text-slate-800">Writing an Incident Report</h3>
+                <p class="text-slate-600">Accurate reporting is crucial for safety and insurance. Stick to the facts.</p>
+                
+                <div class="bg-red-50 p-6 rounded-xl border border-red-100">
+                   <h4 class="font-bold text-red-900 mb-4">The 5 W's of Reporting</h4>
+                   <ul class="space-y-2 text-slate-700">
+                      <li><strong>Who:</strong> Who was involved? (Names, not just "he/she")</li>
+                      <li><strong>What:</strong> What happened exactly? (Use specific verbs: "slipped," "fell," "sparked")</li>
+                      <li><strong>When:</strong> Date and Time (24-hour format preferred).</li>
+                      <li><strong>Where:</strong> Exact location (e.g., "Workshop B, Bay 4").</li>
+                      <li><strong>Why:</strong> The immediate cause (e.g., "Oil spill on floor").</li>
+                   </ul>
+                </div>
+
+                <div class="bg-white border rounded-lg p-6 shadow-sm">
+                   <h4 class="font-bold text-slate-800 mb-2">Example Report</h4>
+                   <p class="font-mono text-sm text-slate-600 bg-slate-50 p-4 rounded border">
+                     "On 12 Oct at 14:30, John Smith slipped in Bay 4. There was an oil leak from the forklift. He injured his left ankle. First aid was applied immediately."
+                   </p>
+                </div>
+              </div>
+            `
+          },
+          { 
+            id: "tech-m3-l2", 
+            title: "Requesting Materials", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <h3 class="text-2xl font-bold text-slate-800">Material Request Forms</h3>
+                <p class="text-slate-600">Getting the right parts prevents delays. Be specific.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                   <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                      <h4 class="font-bold text-blue-900 mb-2">Key Vocabulary</h4>
+                      <ul class="space-y-2 text-sm text-blue-800">
+                         <li><strong>SKU / Part #:</strong> The unique ID code.</li>
+                         <li><strong>Quantity (Qty):</strong> How many?</li>
+                         <li><strong>Dimensions:</strong> Size (Length x Width x Height).</li>
+                         <li><strong>Grade:</strong> Quality level (e.g., "Marine Grade").</li>
+                      </ul>
+                   </div>
+                   
+                   <div class="bg-white p-6 rounded-xl border border-slate-200">
+                      <h4 class="font-bold text-slate-800 mb-2">Sample Request</h4>
+                      <table class="w-full text-sm text-left">
+                         <tr class="border-b">
+                            <th class="py-2 text-slate-500">Item</th>
+                            <th class="py-2 text-slate-500">Qty</th>
+                            <th class="py-2 text-slate-500">Reason</th>
+                         </tr>
+                         <tr>
+                            <td class="py-2 font-mono">M10 x 50mm Bolts</td>
+                            <td class="py-2">100</td>
+                            <td class="py-2">Project A Assembly</td>
+                         </tr>
+                         <tr>
+                            <td class="py-2 font-mono">5W-30 Oil (5L)</td>
+                            <td class="py-2">2</td>
+                            <td class="py-2">Forklift Service</td>
+                         </tr>
+                      </table>
+                   </div>
+                </div>
+              </div>
+            `
+          },
+          { id: "tech-m3-quiz", title: "Communication Assessment", type: "quiz", duration: "20 min", isCompleted: false }
         ]
       }
     ]
