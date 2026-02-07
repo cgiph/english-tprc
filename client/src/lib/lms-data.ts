@@ -1409,18 +1409,6 @@ export const COURSES: Course[] = [
                  <h3 class="text-2xl font-bold text-slate-800">Collocations are King</h3>
                  <p class="text-slate-600">The PTE algorithm loves collocations—words that naturally go together.</p>
 
-                 <div class="bg-blue-50 p-6 rounded-lg border border-blue-200 my-4">
-                    <h4 class="flex items-center gap-2 font-bold text-blue-900 mb-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                      Downloadable Resource
-                    </h4>
-                    <p class="text-blue-800 text-sm mb-4">Get the complete list of high-frequency PTE collocations.</p>
-                    <a href="https://drive.google.com/file/d/1uYYQ8S1ICro4GdEfJL6lL7-42G0_YmAD/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
-                      Download PDF Material
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-                    </a>
-                 </div>
-
                  <div class="grid grid-cols-2 gap-4">
                     <div class="bg-white p-4 border rounded shadow-sm">
                        <div class="font-bold text-green-600">Correct</div>
@@ -1440,7 +1428,13 @@ export const COURSES: Course[] = [
                     </div>
                  </div>
                </div>
-             `
+             `,
+             resources: [
+               {
+                 title: "High-frequency PTE Collocations List",
+                 url: "https://drive.google.com/file/d/1uYYQ8S1ICro4GdEfJL6lL7-42G0_YmAD/view?usp=drive_link"
+               }
+             ]
            },
            { id: "pte-m2-quiz", title: "Reading Assessment", type: "quiz", duration: "30 min", isCompleted: false }
         ]
