@@ -1479,12 +1479,12 @@ export const COURSES: Course[] = [
   
   <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
     <h4 class="font-bold text-indigo-900 mb-4">The SST Template</h4>
-    <div class="bg-white p-4 rounded border font-mono text-sm shadow-inner text-slate-800">
-      "The lecture provided important information about <strong>[Topic]</strong>. 
-      Firstly, the speaker mentioned <strong>[Keyword 1]</strong> and <strong>[Keyword 2]</strong>. 
-      Furthermore, it was emphasized that <strong>[Keyword 3]</strong> plays a vital role in <strong>[Keyword 4]</strong>. 
-      In addition, the researcher highlighted the significance of <strong>[Keyword 5]</strong>. 
-      Overall, the presentation concluded that <strong>[Keyword 6]</strong> is essential for future development."
+    <div class="bg-white p-4 rounded border font-mono text-sm shadow-inner text-slate-900" style="color: #0f172a">
+      "The lecture provided important information about <strong class="text-black">[Topic]</strong>. 
+      Firstly, the speaker mentioned <strong class="text-black">[Keyword 1]</strong> and <strong class="text-black">[Keyword 2]</strong>. 
+      Furthermore, it was emphasized that <strong class="text-black">[Keyword 3]</strong> plays a vital role in <strong class="text-black">[Keyword 4]</strong>. 
+      In addition, the researcher highlighted the significance of <strong class="text-black">[Keyword 5]</strong>. 
+      Overall, the presentation concluded that <strong class="text-black">[Keyword 6]</strong> is essential for future development."
     </div>
   </div>
 
