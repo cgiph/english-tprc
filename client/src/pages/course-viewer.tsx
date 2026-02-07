@@ -318,7 +318,7 @@ export default function CourseViewer() {
            {activeLesson ? (
               <div className={cn(
                 "w-full max-w-4xl bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-800 flex items-center justify-center relative group",
-                activeLesson.lesson.type === "video" ? "aspect-video" : "min-h-[60vh] h-auto"
+                activeLesson.lesson.type === "video" ? "aspect-video" : "min-h-screen h-auto"
               )}>
                  {activeLesson.lesson.type === "video" ? (
                     activeLesson.lesson.videoUrl ? (

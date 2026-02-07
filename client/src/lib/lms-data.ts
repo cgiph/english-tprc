@@ -91,7 +91,7 @@ export const COURSES: Course[] = [
                 </div>
 
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                   <div class="bg-green-100 px-6 py-3 shrink-0 rounded-lg border border-green-200 shadow-sm relative overflow-hidden">
+                   <div class="bg-green-100 px-6 py-4 shrink-0 rounded-lg border border-green-200 shadow-sm relative overflow-hidden">
                       <div class="absolute top-0 right-0 p-2 opacity-10">
                          <svg width="60" height="60" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/></svg>
                       </div>
@@ -102,7 +102,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-yellow-100 px-6 py-3 shrink-0 rounded-lg border border-yellow-200 shadow-sm relative overflow-hidden">
+                   <div class="bg-yellow-100 px-6 py-4 shrink-0 rounded-lg border border-yellow-200 shadow-sm relative overflow-hidden">
                        <div class="absolute top-0 right-0 p-2 opacity-10">
                          <svg width="60" height="60" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                       </div>
@@ -113,7 +113,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-orange-100 px-6 py-3 shrink-0 rounded-lg border border-orange-200 shadow-sm relative overflow-hidden">
+                   <div class="bg-orange-100 px-6 py-4 shrink-0 rounded-lg border border-orange-200 shadow-sm relative overflow-hidden">
                       <div class="absolute top-0 right-0 p-2 opacity-10">
                          <svg width="60" height="60" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
                       </div>
@@ -124,7 +124,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-amber-100 px-6 py-3 shrink-0 rounded-lg border border-amber-200 shadow-sm relative overflow-hidden">
+                   <div class="bg-amber-100 px-6 py-4 shrink-0 rounded-lg border border-amber-200 shadow-sm relative overflow-hidden">
                       <h3 class="font-bold text-xl text-amber-800 mb-2 uppercase tracking-wider">Adjective</h3>
                       <p class="text-amber-900 text-sm mb-3 font-medium">Describes a noun or pronoun.</p>
                       <div class="bg-white/60 p-3 rounded text-sm text-amber-900 border border-amber-200">
@@ -132,7 +132,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-purple-100 px-6 py-3 shrink-0 rounded-lg border border-purple-200 shadow-sm relative overflow-hidden">
+                   <div class="bg-purple-100 px-6 py-4 shrink-0 rounded-lg border border-purple-200 shadow-sm relative overflow-hidden">
                       <h3 class="font-bold text-xl text-purple-800 mb-2 uppercase tracking-wider">Adverb</h3>
                       <p class="text-purple-900 text-sm mb-3 font-medium">Describes a verb, adjective, or another adverb.</p>
                       <div class="bg-white/60 p-3 rounded text-sm text-purple-900 border border-purple-200">
@@ -140,7 +140,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-yellow-200 px-6 py-3 shrink-0 rounded-lg border border-yellow-300 shadow-sm relative overflow-hidden">
+                   <div class="bg-yellow-200 px-6 py-4 shrink-0 rounded-lg border border-yellow-300 shadow-sm relative overflow-hidden">
                       <h3 class="font-bold text-xl text-yellow-900 mb-2 uppercase tracking-wider">Article</h3>
                       <p class="text-yellow-950 text-sm mb-3 font-medium">Words used before a noun to modify it.</p>
                       <div class="bg-white/60 p-3 rounded text-sm text-yellow-950 border border-yellow-300">
@@ -148,7 +148,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-cyan-100 px-6 py-3 shrink-0 rounded-lg border border-cyan-200 shadow-sm relative overflow-hidden">
+                   <div class="bg-cyan-100 px-6 py-4 shrink-0 rounded-lg border border-cyan-200 shadow-sm relative overflow-hidden">
                       <h3 class="font-bold text-xl text-cyan-800 mb-2 uppercase tracking-wider">Preposition</h3>
                       <p class="text-cyan-900 text-sm mb-3 font-medium">Shows place, time, or direction before a noun.</p>
                       <div class="bg-white/60 p-3 rounded text-sm text-cyan-900 border border-cyan-200">
@@ -156,7 +156,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-lime-100 px-6 py-3 shrink-0 rounded-lg border border-lime-200 shadow-sm relative overflow-hidden">
+                   <div class="bg-lime-100 px-6 py-4 shrink-0 rounded-lg border border-lime-200 shadow-sm relative overflow-hidden">
                       <h3 class="font-bold text-xl text-lime-800 mb-2 uppercase tracking-wider">Conjunction</h3>
                       <p class="text-lime-900 text-sm mb-3 font-medium">Connects words, phrases, or clauses.</p>
                       <div class="bg-white/60 p-3 rounded text-sm text-lime-900 border border-lime-200">
@@ -164,7 +164,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-blue-100 px-6 py-3 shrink-0 rounded-lg border border-blue-200 shadow-sm relative overflow-hidden">
+                   <div class="bg-blue-100 px-6 py-4 shrink-0 rounded-lg border border-blue-200 shadow-sm relative overflow-hidden">
                       <h3 class="font-bold text-xl text-blue-800 mb-2 uppercase tracking-wider">Interjection</h3>
                       <p class="text-blue-900 text-sm mb-3 font-medium">Expresses a strong feeling or emotion.</p>
                       <div class="bg-white/60 p-3 rounded text-sm text-blue-900 border border-blue-200">
@@ -189,10 +189,10 @@ export const COURSES: Course[] = [
                 </div>
 
                 <div class="grid gap-6 md:grid-cols-2">
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">1</div>
-                         <h3 class="font-bold text-lg text-slate-900">Have / Has / Had + V3</h3>
+                         <h3 class="font-bold text-base md:text-lg text-slate-900 leading-tight">Have / Has / Had + V3</h3>
                       </div>
                       <p class="text-slate-600 mb-3">These words are always followed by the <strong>Past Participle</strong> (3rd form) of the verb.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-blue-500 text-slate-700">
@@ -201,10 +201,10 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold">2</div>
-                         <h3 class="font-bold text-lg text-slate-900">To + V1</h3>
+                         <h3 class="font-bold text-base md:text-lg text-slate-900 leading-tight">To + V1</h3>
                       </div>
                       <p class="text-slate-600 mb-3">The preposition 'to' is followed by the <strong>Base Form</strong> (1st form) of the verb.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-green-500 text-slate-700">
@@ -213,10 +213,10 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold">3</div>
-                         <h3 class="font-bold text-lg text-slate-900">Modals + V1</h3>
+                         <h3 class="font-bold text-base md:text-lg text-slate-900 leading-tight">Modals + V1</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Can, could, may, might, should, will, would are followed by the <strong>Base Form</strong>.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-purple-500 text-slate-700">
@@ -225,10 +225,10 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">4</div>
-                         <h3 class="font-bold text-lg text-slate-900">Prepositions + V-ing</h3>
+                         <h3 class="font-bold text-base md:text-lg text-slate-900 leading-tight">Prepositions + V-ing</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Prepositions like 'of', 'for', 'with', 'in' (except 'to') are followed by the <strong>-ing form</strong>.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-orange-500 text-slate-700">
@@ -237,10 +237,10 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
                    
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold">5</div>
-                         <h3 class="font-bold text-lg text-slate-900">Many + Plural Noun</h3>
+                         <h3 class="font-bold text-base md:text-lg text-slate-900 leading-tight">Many + Plural Noun</h3>
                       </div>
                       <p class="text-slate-600 mb-3">'Many' indicates multiple items, so the noun must be <strong>Plural</strong>.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-teal-500 text-slate-700">
@@ -249,10 +249,10 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold">6</div>
-                         <h3 class="font-bold text-lg text-slate-900">Article + (Adj) + Noun</h3>
+                         <h3 class="font-bold text-base md:text-lg text-slate-900 leading-tight">Article + (Adj) + Noun</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Articles (a, an, the) are followed by a Noun. If there's a word in between, it's an Adjective.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-rose-500 text-slate-700">
@@ -261,10 +261,10 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">7</div>
-                         <h3 class="font-bold text-lg text-slate-900">Subject-Verb Agreement</h3>
+                         <h3 class="font-bold text-base md:text-lg text-slate-900 leading-tight">Subject-Verb Agreement</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Singular Subject = Singular Verb (with 's'). Plural Subject = Plural Verb (no 's').</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-indigo-500 text-slate-700">
@@ -273,10 +273,10 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center font-bold">8</div>
-                         <h3 class="font-bold text-lg text-slate-900">Passive Voice</h3>
+                         <h3 class="font-bold text-base md:text-lg text-slate-900 leading-tight">Passive Voice</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Forms of 'Be' (is, am, are, was, were, be, been, being) + <strong>V3</strong>.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-yellow-500 text-slate-700">
@@ -285,10 +285,10 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold">9</div>
-                         <h3 class="font-bold text-lg text-slate-900">One of the + Plural Noun</h3>
+                         <h3 class="font-bold text-base md:text-lg text-slate-900 leading-tight">One of the + Plural Noun</h3>
                       </div>
                       <p class="text-slate-600 mb-3">After 'One of the', the noun is always <strong>Plural</strong>.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-cyan-500 text-slate-700">
@@ -297,10 +297,10 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center font-bold">10</div>
-                         <h3 class="font-bold text-lg text-slate-900">Despite / In spite of</h3>
+                         <h3 class="font-bold text-base md:text-lg text-slate-900 leading-tight">Despite / In spite of</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Followed by a Noun or V-ing. 'Despite' never takes 'of'.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-fuchsia-500 text-slate-700">
@@ -327,7 +327,7 @@ export const COURSES: Course[] = [
                   <div class="mb-8 space-y-6 text-slate-800 leading-relaxed text-lg">
                     <p>In a professional environment, the distinction between common and proper nouns is not just about grammar—it is about <strong>specificity and authority</strong>. Miscapitalizing a common noun looks unprofessional, but failing to capitalize a proper noun (like a brand or a client name) can be seen as a lack of attention to detail.</p>
 
-                    <div class="bg-blue-50 px-6 py-3 shrink-0 rounded-lg border-l-4 border-blue-500">
+                    <div class="bg-blue-50 px-6 py-4 shrink-0 rounded-lg border-l-4 border-blue-500">
                       <h4 class="font-bold text-blue-900 mb-2">The Golden Rule</h4>
                       <p>A <strong>common noun</strong> is a generic label for a category. A <strong>proper noun</strong> is a specific entity's "legal" name.</p>
                     </div>
@@ -557,7 +557,7 @@ export const COURSES: Course[] = [
                  </div>
               </div>
 
-              <div class="bg-amber-50 px-6 py-3 shrink-0 rounded-lg border border-amber-200">
+              <div class="bg-amber-50 px-6 py-4 shrink-0 rounded-lg border border-amber-200">
                 <h4 class="font-bold text-amber-900 mb-2">Culture Tip: Handshakes</h4>
                 <p class="text-amber-800 text-sm">In many Western countries, a firm handshake and direct eye contact during an introduction show confidence and respect.</p>
               </div>
@@ -627,7 +627,7 @@ export const COURSES: Course[] = [
                 </table>
               </div>
 
-              <div class="bg-blue-50 px-6 py-3 shrink-0 rounded-lg border border-blue-200">
+              <div class="bg-blue-50 px-6 py-4 shrink-0 rounded-lg border border-blue-200">
                 <h4 class="font-bold text-blue-900 mb-2">Key Vocabulary</h4>
                 <ul class="list-disc pl-5 space-y-1 text-blue-800 text-sm">
                    <li><strong>Shift:</strong> The time period you work (e.g., Morning Shift, Night Shift).</li>
@@ -686,7 +686,7 @@ export const COURSES: Course[] = [
             isCompleted: false,
             content: `
               <div class="space-y-6">
-                <div class="bg-blue-50 px-6 py-3 shrink-0 rounded-lg border border-blue-100">
+                <div class="bg-blue-50 px-6 py-4 shrink-0 rounded-lg border border-blue-100">
                    <h3 class="text-xl font-bold text-blue-800 mb-4">Pre-Shift Inspection Checklist</h3>
                    <p class="text-slate-700 mb-4">Before striking an arc, verify the integrity of your personal protective equipment.</p>
                    
@@ -715,7 +715,7 @@ export const COURSES: Course[] = [
                    </div>
                 </div>
 
-                <div class="bg-yellow-50 px-6 py-3 shrink-0 rounded-lg border border-yellow-200">
+                <div class="bg-yellow-50 px-6 py-4 shrink-0 rounded-lg border border-yellow-200">
                    <h4 class="font-bold text-yellow-800 mb-2">Scenario Analysis</h4>
                    <p class="text-sm text-slate-700 italic mb-4">"A welder is wearing a cotton t-shirt with a polyester vest on top. He is welding in a damp area."</p>
                    <p class="font-bold text-slate-900">Identify the 2 major violations:</p>
@@ -1226,7 +1226,7 @@ export const COURSES: Course[] = [
                 </div>
 
                 <div class="grid gap-6 md:grid-cols-2">
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">1</div>
                          <h3 class="font-bold text-lg">Have / Has / Had + V3</h3>
@@ -1238,7 +1238,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold">2</div>
                          <h3 class="font-bold text-lg">To + V1</h3>
@@ -1250,7 +1250,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold">3</div>
                          <h3 class="font-bold text-lg">Modals + V1</h3>
@@ -1262,7 +1262,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">4</div>
                          <h3 class="font-bold text-lg">Prepositions + V-ing</h3>
@@ -1286,7 +1286,7 @@ export const COURSES: Course[] = [
             content: `
               <div class="space-y-8">
                  <div class="grid gap-6 md:grid-cols-2">
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold">5</div>
                          <h3 class="font-bold text-lg">Many + Plural Noun</h3>
@@ -1298,7 +1298,7 @@ export const COURSES: Course[] = [
                       </div>
                    </div>
 
-                   <div class="bg-white px-6 py-3 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
                          <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold">6</div>
                          <h3 class="font-bold text-lg">Article + (Adj) + Noun</h3>
