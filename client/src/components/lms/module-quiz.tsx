@@ -256,7 +256,7 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
         "Pronunciation (The words aren't clear)"
       ],
       correctAnswer: 1, // Answer B is correct (Hesitation & Self-Correction)
-      rationale: "When the student says 'sorry' and changes the date, the AI penalizes Oral Fluency heavily."
+      rationale: "Correct! The AI values the flow of speech more than the accuracy of the year. Pausing or correcting yourself breaks the flow and hurts your score significantly."
     },
     {
       id: "ai-q2",
@@ -581,33 +581,40 @@ export function ModuleQuiz({ moduleId, moduleTitle, quizId, isOpen, onClose, onC
                <div className="space-y-4">
                   {questions[currentQuestion].id === "ai-q1" ? (
                      <div className="space-y-4">
-                        <div className="bg-slate-100 p-4 rounded-lg border-l-4 border-indigo-500 font-mono text-lg">
-                          "The graph <span className="bg-yellow-200 text-red-700 font-bold px-1">... uh ...</span> 
-                          shows that the population increased from 1990 
-                          <span className="bg-yellow-200 text-red-700 font-bold px-1">... sorry, 1995</span> to 2000."
+                        <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Transcript Analysis</h4>
+                          <div className="font-mono text-lg leading-relaxed text-slate-800">
+                             "The graph <span className="bg-amber-200 text-amber-900 font-bold px-1 rounded mx-1">... uh ...</span> 
+                             shows that the population increased from 1990 
+                             <span className="bg-amber-200 text-amber-900 font-bold px-1 rounded mx-1">... sorry, 1995</span> to 2000."
+                          </div>
                         </div>
                         
-                        <p className="text-sm font-bold text-slate-700">The highlighted parts are 'Fluency Killers'. What is the most damaging one for your score?</p>
-                        
-                        <div className="grid grid-cols-1 gap-2">
-                          <button 
-                            className={`text-left p-3 rounded border transition-all ${answers[questions[currentQuestion].id] === 0 ? "bg-indigo-50 border-indigo-500 ring-2 ring-indigo-500/20" : "hover:bg-indigo-50 hover:border-indigo-500"}`}
-                            onClick={() => handleSelect("0")}
-                          >
-                            <strong>A. Content Error</strong> (The dates are wrong)
-                          </button>
-                          <button 
-                            className={`text-left p-3 rounded border transition-all ${answers[questions[currentQuestion].id] === 1 ? "bg-indigo-50 border-indigo-500 ring-2 ring-indigo-500/20" : "hover:bg-indigo-50 hover:border-indigo-500"}`}
-                            onClick={() => handleSelect("1")}
-                          >
-                            <strong>B. Hesitation & Self-Correction</strong> (The 'uh' and 'sorry')
-                          </button>
-                          <button 
-                            className={`text-left p-3 rounded border transition-all ${answers[questions[currentQuestion].id] === 2 ? "bg-indigo-50 border-indigo-500 ring-2 ring-indigo-500/20" : "hover:bg-indigo-50 hover:border-indigo-500"}`}
-                            onClick={() => handleSelect("2")}
-                          >
-                            <strong>C. Pronunciation</strong> (The words aren't clear)
-                          </button>
+                        <div>
+                          <p className="text-sm font-bold text-slate-700 mb-3">What type of error is highlighted above?</p>
+                          <div className="grid grid-cols-1 gap-2">
+                            <button 
+                              className={`text-left p-4 rounded-lg border transition-all ${answers[questions[currentQuestion].id] === 0 ? "bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500" : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-slate-50"}`}
+                              onClick={() => handleSelect("0")}
+                            >
+                              <div className="font-bold text-sm">A. Content Error</div>
+                              <div className="text-xs text-slate-500 mt-1">The dates mentioned are factually wrong.</div>
+                            </button>
+                            <button 
+                              className={`text-left p-4 rounded-lg border transition-all ${answers[questions[currentQuestion].id] === 1 ? "bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500" : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-slate-50"}`}
+                              onClick={() => handleSelect("1")}
+                            >
+                              <div className="font-bold text-sm">B. Hesitation & Self-Correction</div>
+                              <div className="text-xs text-slate-500 mt-1">Stumbling words like 'uh' and 'sorry'.</div>
+                            </button>
+                            <button 
+                              className={`text-left p-4 rounded-lg border transition-all ${answers[questions[currentQuestion].id] === 2 ? "bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500" : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-slate-50"}`}
+                              onClick={() => handleSelect("2")}
+                            >
+                              <div className="font-bold text-sm">C. Pronunciation</div>
+                              <div className="text-xs text-slate-500 mt-1">The words are not spoken clearly.</div>
+                            </button>
+                          </div>
                         </div>
                      </div>
                   ) : (
