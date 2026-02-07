@@ -1509,26 +1509,36 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-           { 
+          { 
             id: "pte-m3-l1", 
-            title: "Essay Templates", 
+            title: "Summarize Written Text: The One-Sentence Rule", 
             type: "reading", 
-            duration: "30 min", 
+            duration: "20 min", 
             isCompleted: false,
             content: `
 <div class="space-y-6">
-  <h3 class="text-2xl font-bold text-slate-100">The "One-Size-Fits-All" Essay Template</h3>
-  <p class="text-slate-300">Use this structure for any "Agree/Disagree" or "Pros/Cons" prompt to ensure perfect structure scores.</p>
-  
-  <div class="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-500 font-serif text-slate-800">
-    <p class="mb-4"><strong>Introduction:</strong> "This issue on [Topic] has become a matter of intense debate. While some people argue that [Side A], others believe that [Side B]. Let us examine both views before reaching a conclusion."</p>
-    <p class="mb-4"><strong>Body Paragraph 1:</strong> "On the one hand, there are several reasons why [Point 1]. For instance, recent studies suggest that [Example]. Consequently, it is clear that [Result]."</p>
-    <p class="mb-4"><strong>Body Paragraph 2:</strong> "On the other hand, another crucial aspect is [Point 2]. A primary example of this is [Example]. This further illustrates the importance of [Topic]."</p>
-    <p><strong>Conclusion:</strong> "In conclusion, although [Side A] has its merits, I believe that [Side B] is more effective because [Reason]. Ultimately, a balanced approach is necessary."</p>
+  <div class="bg-blue-900 text-white p-6 rounded-xl shadow-lg border-b-4 border-blue-400">
+    <h3 class="text-xl font-bold mb-2">The Golden Rule: One Period Only</h3>
+    <p class="text-blue-100 italic text-sm">"If you hit the 'Full Stop' key twice, you score 0. Period."</p>
+  </div>
+
+  <div class="bg-white border-2 border-slate-200 rounded-xl p-6">
+    <h4 class="font-bold text-slate-800 mb-4">The 'Connector' Strategy</h4>
+    <p class="text-slate-600 text-sm mb-4">Pick two main ideas from the text and join them using <strong>; however,</strong> or <strong>, and</strong>.</p>
+    
+    <div class="bg-slate-50 p-4 rounded-lg font-mono text-sm border-l-4 border-indigo-500">
+      <span class="text-indigo-600 font-bold">[Main Idea A]</span>; however, <span class="text-indigo-600 font-bold">[Main Idea B]</span>.
+    </div>
+  </div>
+
+  <div class="p-4 bg-amber-50 rounded-lg border border-amber-200">
+    <h5 class="text-amber-800 font-bold text-xs uppercase mb-2">Pro-Tip for Mechanics</h5>
+    <p class="text-amber-900 text-sm">Don't try to be creative. Copy-paste the most 'technical-looking' phrases from the start and the end of the text.</p>
   </div>
 </div>
 `
           },
+          { id: "pte-m3-l1-quiz", title: "Logic Check: Punctuation", type: "quiz", duration: "10 min", isCompleted: false },
           { 
             id: "pte-m3-l2", 
             title: "Summarize Spoken Text & Retell Lecture", 

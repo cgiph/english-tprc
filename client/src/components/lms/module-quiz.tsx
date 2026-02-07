@@ -292,6 +292,19 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
         correctAnswer: 1
      }
   ],
+  "pte-m3-l1-quiz": [
+     {
+        id: "wm3-q1",
+        text: "Which of these is a valid PTE summary?",
+        options: [
+          "The engine failed because of heat. The cooling system was broken.",
+          "The engine failed because of heat, and the cooling system was broken.",
+          "The engine failed because of heat; furthermore the cooling system was broken."
+        ],
+        correctAnswer: 1,
+        rationale: "Option A has two sentences (Score 0). Option C is missing a comma before the connector."
+     }
+  ],
   "pte-writing": [
      {
         id: "pm3-q1",
