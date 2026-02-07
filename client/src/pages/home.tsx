@@ -34,7 +34,7 @@ export default function Home() {
                 <Link href="/reviews">Read Reviews</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 font-medium text-lg h-14 px-8">
-                <Link href="/resources">Explore Resources</Link>
+                <Link href="/lms">Explore Courses</Link>
               </Button>
             </div>
             <div className="flex items-center gap-4 text-white/80 text-sm pt-4">
