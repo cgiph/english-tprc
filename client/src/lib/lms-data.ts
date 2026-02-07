@@ -675,7 +675,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "12 min", 
             isCompleted: false, 
-            videoUrl: "https://www.youtube.com/embed/KzVvjX_2u_A",
+            videoUrl: "https://www.youtube.com/embed/QEB7wE-YFXg",
             content: "<h3>Safety Essentials</h3><ul><li>Wear a Level 10 Shade Helmet</li><li>Leather gloves are mandatory</li></ul>"
           },
           { 
@@ -769,7 +769,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "8 min", 
             isCompleted: false,
-            videoUrl: "https://www.youtube.com/embed/9l7J0i7_WAg" 
+            videoUrl: "https://www.youtube.com/embed/LJjRbeAUivY" 
           },
           { id: "tw1-l3", title: "Safety Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
@@ -787,7 +787,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "20 min", 
             isCompleted: false,
-            videoUrl: "https://www.youtube.com/embed/TeB2eWdK6aU" 
+            videoUrl: "https://www.youtube.com/embed/DIf_l8l5BkY" 
           },
           { 
             id: "tw2-l2", 
@@ -882,7 +882,7 @@ export const COURSES: Course[] = [
     category: "Technical",
     silo: "Mechanics",
     description: "Diagnostic and repair training for automotive systems. Covers engine performance, braking systems, and electrical diagnostics.",
-    thumbnail: "https://images.unsplash.com/photo-1486262715619-72a604e3d7a9?w=800&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1486262715619-72a604e3d7a9?auto=format&fit=crop&w=800&q=80",
     totalModules: 3,
     completedModules: 0,
     modules: [
@@ -893,7 +893,7 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-          { id: "tmec1-l1", title: "Four-Stroke Cycle", type: "video", duration: "20 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/OGj8OneMjek" },
+          { id: "tmec1-l1", title: "Four-Stroke Cycle", type: "video", duration: "20 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/Z_V_Qd89Jg8" },
           { 
             id: "tmec1-l2", 
             title: "Engine Components", 
@@ -966,7 +966,7 @@ export const COURSES: Course[] = [
                 type: "video", 
                 duration: "20 min", 
                 isCompleted: false,
-                videoUrl: "https://www.youtube.com/embed/Zz95_VvTxZM" 
+                videoUrl: "https://www.youtube.com/embed/Px1wnARs12Q" 
             },
             { 
                 id: "tmec2-l2", 
@@ -1034,7 +1034,7 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tcarp1-l1", title: "Power Tool Safety", type: "video", duration: "20 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/AtpZ4OQZ-c4" },
+            { id: "tcarp1-l1", title: "Power Tool Safety", type: "video", duration: "20 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/qQnrZeofF84" },
             { 
                 id: "tcarp1-l2", 
                 title: "Wood Types & Grades", 
@@ -1113,7 +1113,7 @@ export const COURSES: Course[] = [
                 type: "video", 
                 duration: "25 min", 
                 isCompleted: false,
-                videoUrl: "https://www.youtube.com/embed/3ogM2q_bLhM" 
+                videoUrl: "https://www.youtube.com/embed/KGJaA5u9Yj8" 
             },
             { 
                 id: "tcarp2-l2", 
@@ -1336,7 +1336,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "20 min", 
             isCompleted: false,
-            videoUrl: "https://youtu.be/giyQUb23JzU?si=ujAtwNkXZ7VoiPL2",
+            videoUrl: "https://www.youtube.com/embed/DkW2LUVDQG4",
             content: "<h3>Read Aloud Tips</h3><ul><li>Speak at a natural pace.</li><li>Do not correct yourself if you make a mistake; keep going.</li><li>Pause slightly at punctuation marks.</li></ul>"
           },
           { 
@@ -1396,7 +1396,7 @@ export const COURSES: Course[] = [
              type: "video", 
              duration: "25 min", 
              isCompleted: false,
-             videoUrl: "https://www.youtube.com/embed/7Y4J8k5q6w0" 
+             videoUrl: "https://www.youtube.com/embed/bhUr3gGMmi4" 
            },
            { 
              id: "pte-m2-l2", 
@@ -1408,6 +1408,19 @@ export const COURSES: Course[] = [
                <div class="space-y-6">
                  <h3 class="text-2xl font-bold text-slate-800">Collocations are King</h3>
                  <p class="text-slate-600">The PTE algorithm loves collocations—words that naturally go together.</p>
+
+                 <div class="bg-blue-50 p-6 rounded-lg border border-blue-200 my-4">
+                    <h4 class="flex items-center gap-2 font-bold text-blue-900 mb-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                      Downloadable Resource
+                    </h4>
+                    <p class="text-blue-800 text-sm mb-4">Get the complete list of high-frequency PTE collocations.</p>
+                    <a href="https://drive.google.com/file/d/1uYYQ8S1ICro4GdEfJL6lL7-42G0_YmAD/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
+                      Download PDF Material
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                    </a>
+                 </div>
+
                  <div class="grid grid-cols-2 gap-4">
                     <div class="bg-white p-4 border rounded shadow-sm">
                        <div class="font-bold text-green-600">Correct</div>
