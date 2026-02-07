@@ -260,16 +260,16 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
     },
     {
       id: "ai-q2",
-      type: "multiple-choice",
-      question: "The student above paused for 4 seconds after 'The graph'. What is the likely result?",
+      type: "diagnostic",
+      transcript: "The lecture mentioned three main factors. [ SILENCE: 4 SECONDS ] ... First, the economic impact.",
+      question: "What is the primary risk of the 4-second silence in the middle of this response?",
       options: [
-        "The microphone might stop recording automatically",
-        "The AI gives them extra time to think",
-        "It counts as a 'Natural Pause'",
-        "Nothing, it only cares about pronunciation"
+        "The AI will think you have finished and may close the microphone.",
+        "The AI will award points for 'thoughtful pausing'.",
+        "It only affects the 'Pronunciation' score."
       ],
       correctAnswer: 0,
-      rationale: "The '3-second rule' is real; long silences can end the task prematurely."
+      rationale: "In PTE, if the microphone detects 3 seconds of silence, it assumes you are done and stops recording. You lose all points for whatever you say after that."
     }
   ],
   "pte-reading": [
@@ -613,6 +613,42 @@ export function ModuleQuiz({ moduleId, moduleTitle, quizId, isOpen, onClose, onC
                             >
                               <div className="font-bold text-sm">C. Pronunciation</div>
                               <div className="text-xs text-slate-500 mt-1">The words are not spoken clearly.</div>
+                            </button>
+                          </div>
+                        </div>
+                     </div>
+                  ) : questions[currentQuestion].id === "ai-q2" ? (
+                     <div className="space-y-4">
+                        <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Transcript Analysis</h4>
+                          <div className="font-mono text-lg leading-relaxed text-slate-800">
+                             "The lecture mentioned three main factors. <span className="bg-red-100 text-red-700 font-bold px-2 py-1 rounded mx-1 border border-red-200 text-sm tracking-wide">[ SILENCE: 4 SECONDS ]</span> ... First, the economic impact."
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <p className="text-sm font-bold text-slate-700 mb-3">What is the primary risk of this silence?</p>
+                          <div className="grid grid-cols-1 gap-2">
+                            <button 
+                              className={`text-left p-4 rounded-lg border transition-all ${answers[questions[currentQuestion].id] === 0 ? "bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500" : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-slate-50"}`}
+                              onClick={() => handleSelect("0")}
+                            >
+                              <div className="font-bold text-sm">A. Microphone Shutdown</div>
+                              <div className="text-xs text-slate-500 mt-1">The AI will think you have finished and may close the microphone.</div>
+                            </button>
+                            <button 
+                              className={`text-left p-4 rounded-lg border transition-all ${answers[questions[currentQuestion].id] === 1 ? "bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500" : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-slate-50"}`}
+                              onClick={() => handleSelect("1")}
+                            >
+                              <div className="font-bold text-sm">B. Thinking Time</div>
+                              <div className="text-xs text-slate-500 mt-1">The AI will award points for 'thoughtful pausing'.</div>
+                            </button>
+                            <button 
+                              className={`text-left p-4 rounded-lg border transition-all ${answers[questions[currentQuestion].id] === 2 ? "bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500" : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-slate-50"}`}
+                              onClick={() => handleSelect("2")}
+                            >
+                              <div className="font-bold text-sm">C. Pronunciation Only</div>
+                              <div className="text-xs text-slate-500 mt-1">It only affects the 'Pronunciation' score.</div>
                             </button>
                           </div>
                         </div>
