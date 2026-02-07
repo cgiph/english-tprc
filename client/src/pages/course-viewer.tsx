@@ -314,9 +314,12 @@ export default function CourseViewer() {
         </div>
 
         {/* Cinema Mode Player */}
-        <div className="flex-1 flex items-center justify-center p-8 bg-black/40 min-h-[500px]">
+        <div className="flex-1 flex items-center justify-center p-8 bg-black/40 min-h-[500px] overflow-y-auto">
            {activeLesson ? (
-              <div className="w-full max-w-4xl aspect-video bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-800 flex items-center justify-center relative group">
+              <div className={cn(
+                "w-full max-w-4xl bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-800 flex items-center justify-center relative group",
+                activeLesson.lesson.type === "video" ? "aspect-video" : "min-h-[60vh] h-auto"
+              )}>
                  {activeLesson.lesson.type === "video" ? (
                     activeLesson.lesson.videoUrl ? (
                       <iframe 
@@ -344,7 +347,7 @@ export default function CourseViewer() {
                  ) : activeLesson.lesson.id === "l3-bonus" ? (
                     <NounPractice onComplete={handleMarkComplete} />
                  ) : (
-                    <div className="w-full h-full overflow-y-auto">
+                    <div className="w-full h-auto min-h-full overflow-y-auto">
                        {(activeLesson.lesson.type === "reading" || activeLesson.lesson.type === "assignment") && activeLesson.lesson.content ? (
                          <SpeakingPractice content={activeLesson.lesson.content} />
                        ) : (
