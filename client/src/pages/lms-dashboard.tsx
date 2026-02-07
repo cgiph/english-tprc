@@ -18,7 +18,7 @@ export default function LMSDashboard() {
     : COURSES.filter(c => c.category.toLowerCase().includes(activeTab) || (activeTab === "technical" && c.category === "Technical"));
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="container mx-auto px-4 py-8 max-w-full">
       <div className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-4">
           <h1 className="text-4xl font-serif font-bold text-primary">Learning Hub</h1>
