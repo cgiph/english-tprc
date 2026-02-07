@@ -7,19 +7,34 @@ import { Badge } from "@/components/ui/badge";
 export function SwtPracticeLab() {
   const [text, setText] = useState("");
   const [showModel, setShowModel] = useState(false);
+  const [checklist, setChecklist] = useState({
+    oneStop: false,
+    grammar: false,
+    capital: false,
+    keywords: false
+  });
 
   // Validation Logic
   const wordCount = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
-  const sentenceCount = (text.match(/[.!?]+/g) || []).length;
+  // Specific requirement: Search for the character .
+  const periodCount = (text.match(/\./g) || []).length;
   const startsWithCapital = /^[A-Z]/.test(text);
+  const endsWithPeriod = text.trim().endsWith(".");
   
   // Danger Checks
-  const isMultipleSentences = sentenceCount > 1;
+  const isMultipleSentences = periodCount > 1;
   const isTooShort = wordCount > 0 && wordCount < 5;
   const isTooLong = wordCount > 75;
-  const isCapitalizationError = text.length > 0 && !startsWithCapital;
+  const isMissingFinalPeriod = text.length > 0 && !endsWithPeriod;
+  
+  // All gauges green?
+  const isGaugesGreen = !isMultipleSentences && !isTooShort && !isTooLong && !isMissingFinalPeriod && wordCount > 0;
 
-  const isValid = !isMultipleSentences && !isTooShort && !isTooLong && !isCapitalizationError && wordCount > 0;
+  const handleChecklistChange = (key: keyof typeof checklist) => {
+    setChecklist(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const allChecked = Object.values(checklist).every(Boolean);
 
   return (
     <div className="grid lg:grid-cols-2 gap-6 h-[600px]">
@@ -44,19 +59,19 @@ export function SwtPracticeLab() {
 
       {/* Right: Editor & Validation */}
       <div className="flex flex-col h-full space-y-4">
-        <div className={`flex-1 flex flex-col rounded-xl border-2 transition-all duration-300 overflow-hidden ${isMultipleSentences ? "border-red-500 bg-red-50" : isValid ? "border-green-500 bg-green-50" : "border-slate-200 bg-white"}`}>
+        <div className={`flex-1 flex flex-col rounded-xl border-2 transition-all duration-300 overflow-hidden ${isMultipleSentences ? "border-red-500 bg-red-50" : isGaugesGreen ? "border-green-500 bg-green-50" : "border-slate-200 bg-white"}`}>
             
-            {/* Validation Header */}
-            <div className={`p-3 border-b flex items-center justify-between ${isMultipleSentences ? "bg-red-100 border-red-200" : isValid ? "bg-green-100 border-green-200" : "bg-slate-100 border-slate-200"}`}>
+            {/* Validation Header - Live Gauge */}
+            <div className={`p-3 border-b flex items-center justify-between ${isMultipleSentences ? "bg-red-100 border-red-200" : isGaugesGreen ? "bg-green-100 border-green-200" : "bg-slate-100 border-slate-200"}`}>
                <div className="flex items-center gap-2">
-                 {isMultipleSentences ? <AlertTriangle className="h-5 w-5 text-red-600" /> : isValid ? <CheckCircle2 className="h-5 w-5 text-green-600" /> : <div className="h-5 w-5 rounded-full border-2 border-slate-400" />}
-                 <span className={`font-bold text-sm ${isMultipleSentences ? "text-red-700" : isValid ? "text-green-700" : "text-slate-700"}`}>
-                   {isMultipleSentences ? "CRITICAL ERROR" : isValid ? "Validation Passed" : "Drafting..."}
+                 {isMultipleSentences ? <AlertTriangle className="h-5 w-5 text-red-600" /> : isGaugesGreen ? <CheckCircle2 className="h-5 w-5 text-green-600" /> : <div className="h-5 w-5 rounded-full border-2 border-slate-400" />}
+                 <span className={`font-bold text-sm ${isMultipleSentences ? "text-red-700" : isGaugesGreen ? "text-green-700" : "text-slate-700"}`}>
+                   {isMultipleSentences ? "MULTIPLE SENTENCES DETECTED" : isMissingFinalPeriod ? "MISSING FINAL PERIOD" : isGaugesGreen ? "Validation Passed" : "Drafting..."}
                  </span>
                </div>
                <div className="flex gap-2">
-                  <Badge variant={wordCount >= 5 && wordCount <= 75 ? "outline" : "destructive"} className="bg-white/50">
-                    Words: {wordCount}/75
+                  <Badge variant={wordCount >= 5 && wordCount <= 75 ? "outline" : "destructive"} className={wordCount >= 5 && wordCount <= 75 ? "bg-white/50 text-slate-700" : "bg-red-100 text-red-700 border-red-200"}>
+                    Word Count: {wordCount}/75
                   </Badge>
                </div>
             </div>
@@ -65,6 +80,11 @@ export function SwtPracticeLab() {
             {isMultipleSentences && (
                <div className="bg-red-500 text-white px-4 py-2 text-xs font-bold animate-pulse text-center">
                  ⚠️ DANGER: You have used more than one sentence. Use a comma or semicolon instead!
+               </div>
+            )}
+            {isMissingFinalPeriod && !isMultipleSentences && text.length > 0 && (
+               <div className="bg-amber-500 text-white px-4 py-2 text-xs font-bold text-center">
+                 ⚠️ WARNING: Your sentence must end with a full stop.
                </div>
             )}
             
@@ -77,18 +97,49 @@ export function SwtPracticeLab() {
             />
 
             {/* Live Checks Footer */}
-            <div className="p-3 bg-white/50 border-t border-black/5 text-xs grid grid-cols-2 gap-2">
+            <div className="p-3 bg-white/50 border-t border-black/5 text-xs grid grid-cols-3 gap-2">
                <div className={`flex items-center gap-1 ${isMultipleSentences ? "text-red-600 font-bold" : "text-green-600"}`}>
-                 {isMultipleSentences ? "❌ Single Sentence" : "✅ Single Sentence"}
+                 {isMultipleSentences ? "❌ 1 Period Max" : "✅ 1 Period Max"}
                </div>
-               <div className={`flex items-center gap-1 ${isCapitalizationError ? "text-red-600 font-bold" : "text-green-600"}`}>
-                 {isCapitalizationError ? "❌ Capitalization" : "✅ Capitalization"}
+               <div className={`flex items-center gap-1 ${isMissingFinalPeriod ? "text-red-600 font-bold" : "text-green-600"}`}>
+                 {isMissingFinalPeriod ? "❌ Final Period" : "✅ Final Period"}
                </div>
                <div className={`flex items-center gap-1 ${isTooShort || isTooLong ? "text-red-600 font-bold" : "text-green-600"}`}>
-                 {isTooShort || isTooLong ? "❌ Length (5-75)" : "✅ Length (5-75)"}
+                 {isTooShort || isTooLong ? "❌ 5-75 Words" : "✅ 5-75 Words"}
                </div>
             </div>
         </div>
+
+        {/* Phase 2: Pre-Flight Checklist */}
+        {isGaugesGreen && (
+          <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4 animate-in fade-in slide-in-from-bottom-4">
+            <h4 className="font-bold text-indigo-900 mb-3 flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-indigo-600" />
+              Pre-Flight Checklist
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+              <label className="flex items-start gap-2 cursor-pointer group">
+                <input type="checkbox" className="mt-1 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500" checked={checklist.oneStop} onChange={() => handleChecklistChange('oneStop')} />
+                <span className="text-sm text-indigo-800 group-hover:text-indigo-900 transition-colors"><strong>The One-Stop Test:</strong> Exactly one period at the very end?</span>
+              </label>
+              <label className="flex items-start gap-2 cursor-pointer group">
+                <input type="checkbox" className="mt-1 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500" checked={checklist.grammar} onChange={() => handleChecklistChange('grammar')} />
+                <span className="text-sm text-indigo-800 group-hover:text-indigo-900 transition-colors"><strong>The Grammar Check:</strong> Comma before connector?</span>
+              </label>
+              <label className="flex items-start gap-2 cursor-pointer group">
+                <input type="checkbox" className="mt-1 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500" checked={checklist.capital} onChange={() => handleChecklistChange('capital')} />
+                <span className="text-sm text-indigo-800 group-hover:text-indigo-900 transition-colors"><strong>The Capital Start:</strong> Starts with Capital letter?</span>
+              </label>
+              <label className="flex items-start gap-2 cursor-pointer group">
+                <input type="checkbox" className="mt-1 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500" checked={checklist.keywords} onChange={() => handleChecklistChange('keywords')} />
+                <span className="text-sm text-indigo-800 group-hover:text-indigo-900 transition-colors"><strong>The Keyword Check:</strong> 3+ technical nouns?</span>
+              </label>
+            </div>
+            <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold" disabled={!allChecked}>
+              {allChecked ? "Submit Response" : "Complete Checklist to Submit"}
+            </Button>
+          </div>
+        )}
 
         {/* Model Answer Toggle */}
         <div className="bg-slate-900 rounded-xl p-4 text-slate-300 shadow-lg">
