@@ -1536,6 +1536,7 @@ export const COURSES: Course[] = [
     <p class="text-amber-900 text-sm">Don't try to be creative. Copy-paste the most 'technical-looking' phrases from the start and the end of the text.</p>
   </div>
 </div>
+<!-- INTERACTIVE_COMPONENT -->
 `
           },
           { id: "pte-m3-l1-quiz", title: "Logic Check: Punctuation", type: "quiz", duration: "10 min", isCompleted: false },

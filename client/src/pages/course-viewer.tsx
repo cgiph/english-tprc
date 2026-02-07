@@ -21,6 +21,7 @@ import { ModuleQuiz } from "@/components/lms/module-quiz";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { NounPractice } from "@/components/lms/noun-practice";
+import { GrammarGuard } from "@/components/lms/grammar-guard";
 
 function SpeakingPractice({ content }: { content: string }) {
   const [isMemorizeMode, setIsMemorizeMode] = useState(false);
@@ -28,10 +29,28 @@ function SpeakingPractice({ content }: { content: string }) {
   // Basic check to see if we should render the interactive mode
   // This is a simple heuristic based on the presence of specific keywords or structure
   // In a real app, this would be a specific lesson type or metadata
-  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules");
+  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard");
 
   if (!isTemplateLesson) {
     return <div className="max-w-4xl mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
+  }
+
+  // Handle Grammar Guard Lesson
+  if (content.includes("Grammar Guard")) {
+     // Split content to show the theory part first, then the interactive component
+     const parts = content.split("<!-- INTERACTIVE_COMPONENT -->");
+     const theoryContent = parts[0] || content;
+
+     return (
+       <div className="max-w-4xl mx-auto p-8 text-left space-y-8">
+          <div dangerouslySetInnerHTML={{ __html: theoryContent }} />
+          
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+             <h3 className="text-xl font-bold text-slate-800 mb-6 border-b pb-4">Interactive Practice: The One-Sentence Challenge</h3>
+             <GrammarGuard />
+          </div>
+       </div>
+     );
   }
 
   // Parse content to extract the main parts if needed, or just render the specialized view directly
