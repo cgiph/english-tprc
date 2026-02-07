@@ -273,6 +273,38 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
         correctAnswer: 2
      }
   ],
+  "pte-mock": [
+    {
+      id: "pmock1",
+      text: "In the 'Read Aloud' task, which factor contributes most to your score?",
+      options: ["Speaking as fast as possible", "Oral Fluency and Pronunciation", "Using a British accent", "Skipping difficult words"],
+      correctAnswer: 1
+    },
+    {
+      id: "pmock2",
+      text: "What is the recommended structure for the PTE Essay?",
+      options: ["One single long paragraph", "Introduction, 2 Body Paragraphs, Conclusion", "Just a list of bullet points", "Introduction and Conclusion only"],
+      correctAnswer: 1
+    },
+    {
+      id: "pmock3",
+      text: "Which of the following is a correct 'Collocation'?",
+      options: ["Do a mistake", "Make a mistake", "Build a mistake", "Create a mistake"],
+      correctAnswer: 1
+    },
+    {
+      id: "pmock4",
+      text: "For 'Summarize Spoken Text', what is the strict word limit?",
+      options: ["20-30 words", "50-70 words", "100-120 words", "No limit"],
+      correctAnswer: 1
+    },
+    {
+      id: "pmock5",
+      text: "In 'Describe Image', if you don't know the exact data, what should you do?",
+      options: ["Stay silent", "Describe the general trend or visible elements fluently", "Say 'I don't know'", "Panic"],
+      correctAnswer: 1
+    }
+  ],
   "tmec3": [
     {
       id: "mq1",
