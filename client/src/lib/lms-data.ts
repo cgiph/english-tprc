@@ -1273,6 +1273,26 @@ export const COURSES: Course[] = [
                          <p>❌ Thanks for <strong>give</strong> me this chance.</p>
                       </div>
                    </div>
+
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm md:col-span-2">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold">5</div>
+                         <h3 class="font-bold text-lg">Passive Voice (Be + V3)</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">Any form of the verb 'to be' (am, is, are, was, were, be, been, being) is followed by the <strong>Past Participle (V3)</strong> in passive sentences.</p>
+                      <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-red-500">
+                           <p class="font-bold text-xs text-slate-500 mb-1">PRESENT TENSE</p>
+                           <p class="mb-1">✅ The work is <strong>done</strong>.</p>
+                           <p>❌ The work is <strong>do</strong>.</p>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-red-500">
+                           <p class="font-bold text-xs text-slate-500 mb-1">CONTINUOUS</p>
+                           <p class="mb-1">✅ It is being <strong>prepared</strong>.</p>
+                           <p>❌ It is being <strong>prepare</strong>.</p>
+                        </div>
+                      </div>
+                   </div>
                 </div>
               </div>
             `
@@ -1288,34 +1308,69 @@ export const COURSES: Course[] = [
                  <div class="grid gap-6 md:grid-cols-2">
                    <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
-                         <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold">5</div>
+                         <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold">6</div>
                          <h3 class="font-bold text-lg">Many + Plural Noun</h3>
                       </div>
-                      <p class="text-slate-600 mb-3">'Many' indicates multiple items, so the noun must be <strong>Plural</strong>.</p>
+                      <p class="text-slate-600 mb-3">'Many', 'few', 'several', 'various' indicate multiple items, so the noun must be <strong>Plural</strong>.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-teal-500">
-                         <p class="mb-1">✅ Many <strong>languages</strong> are spoken here.</p>
-                         <p>❌ Many <strong>language</strong> are spoken here.</p>
+                         <p class="mb-1">✅ Many <strong>languages</strong> are spoken.</p>
+                         <p>❌ Many <strong>language</strong> are spoken.</p>
                       </div>
                    </div>
 
                    <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
                       <div class="flex items-center gap-3 mb-4">
-                         <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold">6</div>
+                         <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold">7</div>
                          <h3 class="font-bold text-lg">Article + (Adj) + Noun</h3>
                       </div>
                       <p class="text-slate-600 mb-3">Articles (a, an, the) are followed by a Noun. If there's a word in between, it's an Adjective.</p>
                       <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-rose-500">
-                         <p class="mb-1">✅ The <strong>book</strong> (Article + Noun)</p>
-                         <p>✅ The <strong>big</strong> book (Article + Adj + Noun)</p>
+                         <p class="mb-1">✅ The <strong>book</strong> (Art + Noun)</p>
+                         <p>✅ The <strong>big</strong> book (Art + Adj + Noun)</p>
                       </div>
                    </div>
-                 </div>
 
-                 <div class="bg-yellow-50 p-6 rounded-xl border border-yellow-200">
-                    <h3 class="text-xl font-bold text-yellow-800 mb-4">Pro Tip: Passive Voice</h3>
-                    <p class="text-slate-800 mb-2"><strong>Was / Were / Be / Been / Being + V3</strong></p>
-                    <p class="text-slate-600">This structure creates the Passive Voice. If you see these helping verbs, look for a Past Participle.</p>
-                    <p class="mt-4 font-mono text-sm bg-white p-2 rounded inline-block border border-yellow-300">"The work is being <strong>carried</strong> out."</p>
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">8</div>
+                         <h3 class="font-bold text-lg">Subject-Verb Agreement</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">Singular Subject takes Singular Verb (usually ends in 's'). Plural Subject takes Plural Verb (no 's').</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-indigo-500">
+                         <p class="mb-1">✅ The student <strong>writes</strong>.</p>
+                         <p>✅ The students <strong>write</strong>.</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold">9</div>
+                         <h3 class="font-bold text-lg">One of the + Plural</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3">After 'One of the', the noun is always <strong>Plural</strong>, but the verb is <strong>Singular</strong>.</p>
+                      <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-cyan-500">
+                         <p class="mb-1">✅ One of the <strong>reasons</strong> is...</p>
+                         <p>❌ One of the <strong>reason</strong> is...</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-white px-6 py-4 shrink-0 rounded-lg border border-slate-200 shadow-sm md:col-span-2">
+                      <div class="flex items-center gap-3 mb-4">
+                         <div class="w-8 h-8 rounded-full bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center font-bold">10</div>
+                         <h3 class="font-bold text-lg">Despite vs. Although</h3>
+                      </div>
+                      <p class="text-slate-600 mb-3"><strong>Despite</strong> is a preposition (followed by Noun/V-ing). <strong>Although</strong> is a conjunction (followed by a full sentence).</p>
+                      <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-fuchsia-500">
+                           <p class="mb-1">✅ <strong>Despite</strong> the rain, we went out.</p>
+                           <p>❌ <strong>Despite</strong> it was raining...</p>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded text-sm border-l-4 border-fuchsia-500">
+                           <p class="mb-1">✅ <strong>Although</strong> it was raining...</p>
+                           <p>❌ <strong>Although</strong> the rain...</p>
+                        </div>
+                      </div>
+                   </div>
                  </div>
               </div>
             `
