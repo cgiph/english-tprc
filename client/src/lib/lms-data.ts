@@ -1442,6 +1442,7 @@ export const COURSES: Course[] = [
 </div>
 `
           },
+          { id: "pte-m2-quiz-ai", title: "AI Auditor Assessment", type: "quiz", duration: "10 min", isCompleted: false },
           { id: "pte-m1-quiz", title: "Speaking Assessment", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },

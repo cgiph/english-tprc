@@ -239,6 +239,25 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
        correctAnswer: 2
     }
   ],
+  "pte-m2-quiz-ai": [
+    {
+      id: "ai-q1",
+      text: "A student says: 'The chart shows... uh... shows the increase.' What is the primary error?",
+      options: ["Poor Vocabulary", "Repetition & Filler", "Grammar Error", "Wrong Content"],
+      correctAnswer: 1
+    },
+    {
+      id: "ai-q2",
+      text: "If you realize you said 'The men is' instead of 'The men are', what should you do?",
+      options: [
+        "Stop and say 'Sorry'",
+        "Restart the sentence",
+        "Keep speaking smoothly",
+        "Wait 3 seconds to think"
+      ],
+      correctAnswer: 2
+    }
+  ],
   "pte-reading": [
      {
         id: "pm2-q1",
