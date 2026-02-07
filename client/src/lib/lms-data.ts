@@ -1404,6 +1404,33 @@ export const COURSES: Course[] = [
 </div>
 `
           },
+          { 
+            id: "pte-m2-l4", 
+            title: "Speech Analysis Lab", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+<div class="space-y-6">
+  <h3 class="text-2xl font-bold text-slate-800">The AI Auditor: Speech Analysis</h3>
+  <p class="text-slate-600">In this lab, you play the role of the PTE Computer. Your goal is to spot the 'Fluency Killers' that drop scores.</p>
+
+  <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+    <h4 class="font-bold text-red-800 mb-2">The 'Death Triangle' of Speaking</h4>
+    <ul class="text-sm space-y-2 text-red-900">
+      <li><strong>False Starts:</strong> Starting a sentence, stopping, and starting again.</li>
+      <li><strong>Self-Correction:</strong> Going back to fix a grammar mistake (e.g., "She go—she goes").</li>
+      <li><strong>Fillers:</strong> "Uhm", "Ah", "Like", "You know".</li>
+    </ul>
+  </div>
+
+  <div class="bg-slate-800 text-white p-6 rounded-xl shadow-lg">
+    <h4 class="text-indigo-400 font-bold mb-2">AI Scoring Rule:</h4>
+    <p class="text-sm italic">"One smooth, grammatically incorrect sentence is worth MORE than one hesitant, perfectly accurate sentence."</p>
+  </div>
+</div>
+`
+          },
           { id: "pte-m1-quiz", title: "Speaking Assessment", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
