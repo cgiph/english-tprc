@@ -4,6 +4,47 @@ import { Button } from "@/components/ui/button";
 import { AlertTriangle, CheckCircle2, RefreshCw } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
+// Internal Component for Validation Display
+const LiveValidator = ({ text }: { text: string }) => {
+  const wordCount = text.trim() === "" ? 0 : text.trim().split(/\s+/).filter(Boolean).length;
+  // Count periods to determine sentence count more accurately for this specific validator logic
+  const sentenceCount = (text.match(/\./g) || []).length;
+  const startsWithCapital = /^[A-Z]/.test(text);
+  const endsWithPeriod = text.trim().endsWith('.');
+
+  return (
+    <div className="grid grid-cols-3 gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200 mt-2">
+      {/* Word Count Gauge */}
+      <div className={`text-center ${wordCount > 75 || (wordCount < 5 && wordCount > 0) ? 'text-red-600' : 'text-slate-600'}`}>
+        <span className="block text-xs uppercase font-bold text-slate-500">Words</span>
+        <span className="text-xl font-mono font-bold">{wordCount}/75</span>
+      </div>
+
+      {/* Sentence Counter */}
+      <div className={`text-center ${sentenceCount > 1 ? 'text-red-600 font-bold' : 'text-slate-600'}`}>
+        <span className="block text-xs uppercase font-bold text-slate-500">Sentences</span>
+        <span className="text-xl font-mono font-bold">{sentenceCount}/1</span>
+        {sentenceCount > 1 && <span className="block text-[10px] animate-pulse text-red-600 mt-1">FIX: REMOVE EXTRA PERIODS</span>}
+      </div>
+
+      {/* Mechanics Check */}
+      <div className="text-center">
+        <span className="block text-xs uppercase font-bold text-slate-500">Format</span>
+        <div className="flex justify-center gap-2 mt-2">
+          <div className="flex flex-col items-center gap-1">
+             <span className={`w-3 h-3 rounded-full ${startsWithCapital ? 'bg-green-500' : 'bg-slate-300'}`} title="Starts with Capital"></span>
+             <span className="text-[10px] text-slate-400">Cap</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+             <span className={`w-3 h-3 rounded-full ${endsWithPeriod ? 'bg-green-500' : 'bg-slate-300'}`} title="Ends with Period"></span>
+             <span className="text-[10px] text-slate-400">End</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export function SwtPracticeLab() {
   const [text, setText] = useState("");
   const [showModel, setShowModel] = useState(false);
@@ -14,11 +55,9 @@ export function SwtPracticeLab() {
     keywords: false
   });
 
-  // Validation Logic
+  // Validation Logic for Main Component State (reused for checklist gating)
   const wordCount = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
-  // Specific requirement: Search for the character .
   const periodCount = (text.match(/\./g) || []).length;
-  const startsWithCapital = /^[A-Z]/.test(text);
   const endsWithPeriod = text.trim().endsWith(".");
   
   // Danger Checks
@@ -61,21 +100,6 @@ export function SwtPracticeLab() {
       <div className="flex flex-col h-full space-y-4">
         <div className={`flex-1 flex flex-col rounded-xl border-2 transition-all duration-300 overflow-hidden ${isMultipleSentences ? "border-red-500 bg-red-50" : isGaugesGreen ? "border-green-500 bg-green-50" : "border-slate-200 bg-white"}`}>
             
-            {/* Validation Header - Live Gauge */}
-            <div className={`p-3 border-b flex items-center justify-between ${isMultipleSentences ? "bg-red-100 border-red-200" : isGaugesGreen ? "bg-green-100 border-green-200" : "bg-slate-100 border-slate-200"}`}>
-               <div className="flex items-center gap-2">
-                 {isMultipleSentences ? <AlertTriangle className="h-5 w-5 text-red-600" /> : isGaugesGreen ? <CheckCircle2 className="h-5 w-5 text-green-600" /> : <div className="h-5 w-5 rounded-full border-2 border-slate-400" />}
-                 <span className={`font-bold text-sm ${isMultipleSentences ? "text-red-700" : isGaugesGreen ? "text-green-700" : "text-slate-700"}`}>
-                   {isMultipleSentences ? "MULTIPLE SENTENCES DETECTED" : isMissingFinalPeriod ? "MISSING FINAL PERIOD" : isGaugesGreen ? "Validation Passed" : "Drafting..."}
-                 </span>
-               </div>
-               <div className="flex gap-2">
-                  <Badge variant={wordCount >= 5 && wordCount <= 75 ? "outline" : "destructive"} className={wordCount >= 5 && wordCount <= 75 ? "bg-white/50 text-slate-700" : "bg-red-100 text-red-700 border-red-200"}>
-                    Word Count: {wordCount}/75
-                  </Badge>
-               </div>
-            </div>
-
             {/* Warning Banner */}
             {isMultipleSentences && (
                <div className="bg-red-500 text-white px-4 py-2 text-xs font-bold animate-pulse text-center">
@@ -96,17 +120,9 @@ export function SwtPracticeLab() {
               onChange={(e) => setText(e.target.value)}
             />
 
-            {/* Live Checks Footer */}
-            <div className="p-3 bg-white/50 border-t border-black/5 text-xs grid grid-cols-3 gap-2">
-               <div className={`flex items-center gap-1 ${isMultipleSentences ? "text-red-600 font-bold" : "text-green-600"}`}>
-                 {isMultipleSentences ? "❌ 1 Period Max" : "✅ 1 Period Max"}
-               </div>
-               <div className={`flex items-center gap-1 ${isMissingFinalPeriod ? "text-red-600 font-bold" : "text-green-600"}`}>
-                 {isMissingFinalPeriod ? "❌ Final Period" : "✅ Final Period"}
-               </div>
-               <div className={`flex items-center gap-1 ${isTooShort || isTooLong ? "text-red-600 font-bold" : "text-green-600"}`}>
-                 {isTooShort || isTooLong ? "❌ 5-75 Words" : "✅ 5-75 Words"}
-               </div>
+            {/* Live Validator Component */}
+            <div className="p-3 bg-white/50 border-t border-black/5">
+               <LiveValidator text={text} />
             </div>
         </div>
 
