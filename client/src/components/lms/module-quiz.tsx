@@ -249,9 +249,13 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       id: "ai-q1",
       type: "diagnostic",
       transcript: "The graph... uh... shows that the population increased from 1990... sorry, 1995 to 2000.",
-      question: "Identify the 'Self-Correction' in this transcript.",
-      correctSegment: "sorry, 1995",
-      correctAnswer: "sorry, 1995",
+      question: "The highlighted parts are 'Fluency Killers'. What is the most damaging one for your score?",
+      options: [
+        "Content Error (The dates are wrong)",
+        "Hesitation & Self-Correction (The 'uh' and 'sorry')",
+        "Pronunciation (The words aren't clear)"
+      ],
+      correctAnswer: 1, // Answer B is correct (Hesitation & Self-Correction)
       rationale: "When the student says 'sorry' and changes the date, the AI penalizes Oral Fluency heavily."
     },
     {
@@ -516,21 +520,14 @@ export function ModuleQuiz({ moduleId, moduleTitle, quizId, isOpen, onClose, onC
 
 
   const handleSelect = (value: string) => {
-    // For diagnostic questions, the value is the text segment clicked
-    // For multiple choice, it's the index
-    const q = questions[currentQuestion];
+    // For diagnostic questions, if we are using the new UI, we treat it as standard multiple choice (index)
+    // If we were using the old "click segment" UI, it was a string value.
+    // Since we updated ai-q1 to be multiple choice style but with custom UI, we can just use parseInt
     
-    if (q.type === "diagnostic") {
-        setAnswers(prev => ({
-            ...prev,
-            [q.id]: value
-        }));
-    } else {
-        setAnswers(prev => ({
-            ...prev,
-            [q.id]: parseInt(value)
-        }));
-    }
+    setAnswers(prev => ({
+        ...prev,
+        [questions[currentQuestion].id]: parseInt(value)
+    }));
   };
 
   const handleNext = () => {
@@ -582,51 +579,42 @@ export function ModuleQuiz({ moduleId, moduleTitle, quizId, isOpen, onClose, onC
             
             {questions[currentQuestion].type === "diagnostic" ? (
                <div className="space-y-4">
-                  <div className="p-4 bg-slate-100 rounded-lg border border-slate-200 text-lg leading-relaxed font-mono">
-                    {/* Simple implementation: split by space and make each word clickable, or specific segments */}
-                    {/* For this mock, we'll manually render the interactive transcript based on the known content */}
-                    {questions[currentQuestion].id === "ai-q1" ? (
-                        <p>
-                            <span 
-                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "The graph" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
-                                onClick={() => handleSelect("The graph")}
-                            >The graph</span>
-                            {" "}
-                            <span 
-                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "uh" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
-                                onClick={() => handleSelect("uh")}
-                            >... uh...</span>
-                            {" "}
-                            <span 
-                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "shows that" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
-                                onClick={() => handleSelect("shows that")}
-                            >shows that</span>
-                            {" "}
-                            <span 
-                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "the population" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
-                                onClick={() => handleSelect("the population")}
-                            >the population</span>
-                            {" "}
-                            <span 
-                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "increased from 1990" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
-                                onClick={() => handleSelect("increased from 1990")}
-                            >increased from 1990</span>
-                            {" "}
-                            <span 
-                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "sorry, 1995" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
-                                onClick={() => handleSelect("sorry, 1995")}
-                            >... sorry, 1995</span>
-                            {" "}
-                            <span 
-                                className={`cursor-pointer px-1 rounded hover:bg-red-100 ${answers[questions[currentQuestion].id] === "to 2000" ? "bg-indigo-200 ring-2 ring-indigo-500" : ""}`}
-                                onClick={() => handleSelect("to 2000")}
-                            >to 2000.</span>
-                        </p>
-                    ) : (
-                        <p>{questions[currentQuestion].transcript}</p>
-                    )}
-                  </div>
-                  <p className="text-sm text-slate-500 italic">Click on the part of the text that represents the error.</p>
+                  {questions[currentQuestion].id === "ai-q1" ? (
+                     <div className="space-y-4">
+                        <div className="bg-slate-100 p-4 rounded-lg border-l-4 border-indigo-500 font-mono text-lg">
+                          "The graph <span className="bg-yellow-200 text-red-700 font-bold px-1">... uh ...</span> 
+                          shows that the population increased from 1990 
+                          <span className="bg-yellow-200 text-red-700 font-bold px-1">... sorry, 1995</span> to 2000."
+                        </div>
+                        
+                        <p className="text-sm font-bold text-slate-700">The highlighted parts are 'Fluency Killers'. What is the most damaging one for your score?</p>
+                        
+                        <div className="grid grid-cols-1 gap-2">
+                          <button 
+                            className={`text-left p-3 rounded border transition-all ${answers[questions[currentQuestion].id] === 0 ? "bg-indigo-50 border-indigo-500 ring-2 ring-indigo-500/20" : "hover:bg-indigo-50 hover:border-indigo-500"}`}
+                            onClick={() => handleSelect("0")}
+                          >
+                            <strong>A. Content Error</strong> (The dates are wrong)
+                          </button>
+                          <button 
+                            className={`text-left p-3 rounded border transition-all ${answers[questions[currentQuestion].id] === 1 ? "bg-indigo-50 border-indigo-500 ring-2 ring-indigo-500/20" : "hover:bg-indigo-50 hover:border-indigo-500"}`}
+                            onClick={() => handleSelect("1")}
+                          >
+                            <strong>B. Hesitation & Self-Correction</strong> (The 'uh' and 'sorry')
+                          </button>
+                          <button 
+                            className={`text-left p-3 rounded border transition-all ${answers[questions[currentQuestion].id] === 2 ? "bg-indigo-50 border-indigo-500 ring-2 ring-indigo-500/20" : "hover:bg-indigo-50 hover:border-indigo-500"}`}
+                            onClick={() => handleSelect("2")}
+                          >
+                            <strong>C. Pronunciation</strong> (The words aren't clear)
+                          </button>
+                        </div>
+                     </div>
+                  ) : (
+                      <div className="p-4 bg-slate-100 rounded-lg border border-slate-200 text-lg leading-relaxed font-mono">
+                          <p>{questions[currentQuestion].transcript}</p>
+                      </div>
+                  )}
                </div>
             ) : (
                 /* Key added to force re-render when question changes, clearing selection state visually */
