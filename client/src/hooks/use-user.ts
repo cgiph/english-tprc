@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export function useUser() {
-  const [user, setUser] = useState<{ name: string; email: string } | null>(() => {
+  const [user, setUser] = useState<{ name: string; email: string; role?: 'student' | 'trainer' } | null>(() => {
     const saved = localStorage.getItem('mock_user');
     return saved ? JSON.parse(saved) : null;
   });
@@ -21,8 +21,8 @@ export function useUser() {
     };
   }, []);
 
-  const login = (name: string, email: string) => {
-    const userData = { name, email };
+  const login = (name: string, email: string, role: 'student' | 'trainer' = 'student') => {
+    const userData = { name, email, role };
     localStorage.setItem('mock_user', JSON.stringify(userData));
     window.dispatchEvent(new Event('mock-login'));
   };

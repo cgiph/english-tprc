@@ -82,16 +82,35 @@ export default function AuthPage() {
       // Use Name from form for register, or extract from email for login
       const displayName = mode === "register" ? formData.name : formData.email.split('@')[0];
       
-      login(displayName, formData.email);
+      // Check for Trainer Emails
+      const trainerEmails = [
+        "jorge.catiempo@cirrusrecruitment.com",
+        "susan.centino@cirrusrecruitment.com",
+        "jobart.benedito@cirrusrecruitment.com"
+      ];
+
+      const isTrainer = trainerEmails.includes(formData.email.toLowerCase());
+      
+      // If it's a known trainer, use their proper name if logging in without registration flow (simplified)
+      let finalName = displayName;
+      if (formData.email.toLowerCase() === "jorge.catiempo@cirrusrecruitment.com") finalName = "Jorge Catiempo";
+      if (formData.email.toLowerCase() === "susan.centino@cirrusrecruitment.com") finalName = "Susan Centino";
+      if (formData.email.toLowerCase() === "jobart.benedito@cirrusrecruitment.com") finalName = "Jobart Benedito";
+
+      login(finalName, formData.email, isTrainer ? 'trainer' : 'student');
 
       toast({
         title: mode === "login" ? "Login Successful" : "Registration Successful",
-        description: mode === "login" ? "Welcome back!" : "Your account has been created.",
+        description: isTrainer ? `Welcome back, Trainer ${finalName.split(' ')[0]}!` : (mode === "login" ? "Welcome back!" : "Your account has been created."),
         variant: "default",
       });
       
-      // Redirect to Resources for initial practice after short delay
-      setTimeout(() => setLocation("/resources"), 1000);
+      // Redirect based on role
+      if (isTrainer) {
+         setTimeout(() => setLocation("/lms/admin"), 1000);
+      } else {
+         setTimeout(() => setLocation("/resources"), 1000);
+      }
     } else {
       toast({
         title: "Validation Error",

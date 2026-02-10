@@ -116,10 +116,12 @@ const MESSAGES = [
 ];
 
 import { useLMS } from "@/hooks/use-lms";
+import { useUser } from "@/hooks/use-user";
 
 export default function AdminDashboard() {
   const { toast } = useToast();
   const { state } = useLMS();
+  const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [exporting, setExporting] = useState(false);
 
@@ -169,6 +171,9 @@ export default function AdminDashboard() {
                  <Briefcase className="h-6 w-6 text-orange-500" />
                  Trainer Dashboard
                </h1>
+               {user?.role === 'trainer' && (
+                 <p className="text-xs text-slate-400 mt-1">Logged in as: {user.name}</p>
+               )}
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -176,8 +181,8 @@ export default function AdminDashboard() {
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                 <span className="text-xs font-medium text-green-400">HubSpot Connected</span>
              </div>
-             <div className="h-8 w-8 rounded-full bg-orange-600 flex items-center justify-center text-white font-bold border-2 border-slate-800">
-                AD
+             <div className="h-8 w-8 rounded-full bg-orange-600 flex items-center justify-center text-white font-bold border-2 border-slate-800" title={user?.name || "Admin"}>
+                {user?.name ? user.name.charAt(0) : "T"}
              </div>
           </div>
         </div>
