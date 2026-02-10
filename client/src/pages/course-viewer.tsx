@@ -26,6 +26,7 @@ import { GrammarGuard } from "@/components/lms/grammar-guard";
 import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
 import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
 import { ReadingMockTest } from "@/components/lms/reading-mock-test";
+import { ListeningMockTest } from "@/components/lms/listening-mock-test";
 import pteBarChart from "@/assets/images/pte-bar-chart.png";
 import waveformBad from "@/assets/images/waveform-bad.png";
 import waveformGood from "@/assets/images/waveform-good.png";
@@ -141,7 +142,7 @@ function SpeakingPractice({ content }: { content: string }) {
   // Basic check to see if we should render the interactive mode
   // This is a simple heuristic based on the presence of specific keywords or structure
   // In a real app, this would be a specific lesson type or metadata
-  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab") || content.includes("REPEAT_SENTENCE_PRACTICE") || content.includes("DESCRIBE_IMAGE_PRACTICE") || content.includes("SPEAKING_MOCK_TEST") || content.includes("READING_MOCK_TEST");
+  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab") || content.includes("REPEAT_SENTENCE_PRACTICE") || content.includes("DESCRIBE_IMAGE_PRACTICE") || content.includes("SPEAKING_MOCK_TEST") || content.includes("READING_MOCK_TEST") || content.includes("LISTENING_MOCK_TEST");
 
   if (!isTemplateLesson) {
     return <div className="w-full mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
@@ -475,6 +476,11 @@ function SpeakingPractice({ content }: { content: string }) {
   // Handle Reading Mock Test
   if (content.includes("<!-- READING_MOCK_TEST -->")) {
      return <ReadingMockTest />;
+  }
+
+  // Handle Listening Mock Test
+  if (content.includes("<!-- LISTENING_MOCK_TEST -->")) {
+     return <ListeningMockTest />;
   }
 
   // Parse content to extract the main parts if needed, or just render the specialized view directly
