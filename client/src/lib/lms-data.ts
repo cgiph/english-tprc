@@ -1758,6 +1758,46 @@ export const COURSES: Course[] = [
 </div>
 `
           },
+          { 
+            id: "pte-m3-l3", 
+            title: "Listening: Multiple Choice Multiple Answers", 
+            type: "video", 
+            duration: "15 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/m1c3X4YtexI"
+          },
+          { 
+            id: "pte-m3-l4", 
+            title: "Listening: Select Missing Word", 
+            type: "video", 
+            duration: "15 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/uZx4fpHT_Dw"
+          },
+          { 
+            id: "pte-m3-l5", 
+            title: "Listening: Highlight Incorrect Words", 
+            type: "video", 
+            duration: "15 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/1xraH11zCBI"
+          },
+          { 
+            id: "pte-m3-l6", 
+            title: "Listening: Fill in the Blanks", 
+            type: "video", 
+            duration: "15 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/UIrtM-hSJcA"
+          },
+          { 
+            id: "pte-m3-l7", 
+            title: "Writing: Write from Dictation", 
+            type: "video", 
+            duration: "15 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/9edG9TRte8o"
+          },
            { id: "pte-m3-quiz", title: "Writing & Listening Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
