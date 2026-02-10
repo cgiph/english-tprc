@@ -25,6 +25,8 @@ import { GrammarGuard } from "@/components/lms/grammar-guard";
 import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
 import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
 import pteBarChart from "@/assets/images/pte-bar-chart.png";
+import waveformBad from "@/assets/images/waveform-bad.png";
+import waveformGood from "@/assets/images/waveform-good.png";
 
 function SpeakingPractice({ content }: { content: string }) {
   const [isMemorizeMode, setIsMemorizeMode] = useState(false);
@@ -69,14 +71,8 @@ function SpeakingPractice({ content }: { content: string }) {
                          <button className="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center hover:bg-red-200 transition-colors">
                             <PlayCircle className="w-6 h-6 ml-0.5" />
                          </button>
-                         <div className="flex-1 space-y-1">
-                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                               <div className="h-full bg-red-400 w-1/3 rounded-full"></div>
-                            </div>
-                            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
-                               <span>0:04</span>
-                               <span>0:12</span>
-                            </div>
+                         <div className="flex-1 flex items-center justify-center h-10">
+                            <img src={waveformBad} alt="Erratic waveform" className="h-full w-full object-contain opacity-80" />
                          </div>
                       </div>
                    </div>
@@ -98,14 +94,8 @@ function SpeakingPractice({ content }: { content: string }) {
                          <button className="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center hover:bg-green-200 transition-colors">
                             <PlayCircle className="w-6 h-6 ml-0.5" />
                          </button>
-                         <div className="flex-1 space-y-1">
-                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                               <div className="h-full bg-green-500 w-0 rounded-full"></div>
-                            </div>
-                            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
-                               <span>0:00</span>
-                               <span>0:11</span>
-                            </div>
+                         <div className="flex-1 flex items-center justify-center h-10">
+                            <img src={waveformGood} alt="Smooth waveform" className="h-full w-full object-contain opacity-80" />
                          </div>
                       </div>
                    </div>
