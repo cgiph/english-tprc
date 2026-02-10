@@ -1389,6 +1389,64 @@ export const COURSES: Course[] = [
             `
           },
           { 
+            id: "pte-sentence-structure", 
+            title: "Sentence Structures", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-indigo-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">Sentence Structures</h1>
+                   <p class="text-indigo-200 text-lg">Understanding sentence variety is key to high scores in PTE Writing and Summarization.</p>
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-2">
+                   <div class="bg-blue-50 px-6 py-6 rounded-lg border border-blue-200 shadow-sm">
+                      <h3 class="font-bold text-xl text-blue-900 mb-2">1. Simple Sentence</h3>
+                      <p class="text-slate-700 mb-4">Contains one independent clause (subject + verb).</p>
+                      <div class="bg-white p-4 rounded border-l-4 border-blue-500 text-slate-800">
+                         <p class="font-medium">✅ The cat sat on the mat.</p>
+                         <p class="text-sm text-slate-500 mt-1">One subject (cat) + One verb (sat).</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-green-50 px-6 py-6 rounded-lg border border-green-200 shadow-sm">
+                      <h3 class="font-bold text-xl text-green-900 mb-2">2. Compound Sentence</h3>
+                      <p class="text-slate-700 mb-4">Two independent clauses joined by a conjunction (FANBOYS).</p>
+                      <div class="bg-white p-4 rounded border-l-4 border-green-500 text-slate-800">
+                         <p class="font-medium">✅ The cat sat on the mat, <strong>and</strong> the dog barked.</p>
+                         <p class="text-sm text-slate-500 mt-1">FANBOYS: For, And, Nor, But, Or, Yet, So.</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-purple-50 px-6 py-6 rounded-lg border border-purple-200 shadow-sm">
+                      <h3 class="font-bold text-xl text-purple-900 mb-2">3. Complex Sentence</h3>
+                      <p class="text-slate-700 mb-4">One independent clause + one or more dependent clauses.</p>
+                      <div class="bg-white p-4 rounded border-l-4 border-purple-500 text-slate-800">
+                         <p class="font-medium">✅ The dog barked <strong>because</strong> he was hungry.</p>
+                         <p class="text-sm text-slate-500 mt-1">Joined by subordinating conjunctions (because, although, if, when).</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-orange-50 px-6 py-6 rounded-lg border border-orange-200 shadow-sm">
+                      <h3 class="font-bold text-xl text-orange-900 mb-2">4. Compound-Complex</h3>
+                      <p class="text-slate-700 mb-4">Two independent clauses + one or more dependent clauses.</p>
+                      <div class="bg-white p-4 rounded border-l-4 border-orange-500 text-slate-800">
+                         <p class="font-medium">✅ <strong>Although</strong> it was raining, I went for a walk, <strong>and</strong> I saw a rainbow.</p>
+                         <p class="text-sm text-slate-500 mt-1">Demonstrates high-level writing ability.</p>
+                      </div>
+                   </div>
+                </div>
+
+                <div class="bg-amber-50 p-6 rounded-xl border border-amber-200 mt-8">
+                   <h3 class="text-lg font-bold text-amber-900 mb-2">💡 PTE Tip for Summarize Written Text</h3>
+                   <p class="text-amber-800">You must write exactly <strong>ONE sentence</strong> (5-75 words). Mastering <strong>Complex</strong> and <strong>Compound-Complex</strong> structures is essential to combine multiple ideas into a single sentence without grammar errors.</p>
+                </div>
+              </div>
+            `
+          },
+          { 
             id: "pte-gram-l1", 
             title: "Rule #1-5: Verbs & Prepositions", 
             type: "reading", 
