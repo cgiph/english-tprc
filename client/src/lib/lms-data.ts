@@ -1687,7 +1687,173 @@ export const COURSES: Course[] = [
               </div>
             `
           },
-          { id: "pte-grammar-quiz", title: "Grammar Rules Assessment", type: "quiz", duration: "30 min", isCompleted: false }
+          { 
+            id: "pte-grammar-quiz", 
+            title: "Grammar Rules Assessment", 
+            type: "quiz", 
+            duration: "30 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <div class="bg-indigo-900 text-white p-6 rounded-lg shadow-lg mb-6">
+                   <h2 class="text-2xl font-bold mb-2">PTE Grammar Proficiency Check</h2>
+                   <p class="text-indigo-200">Test your mastery of the rules before proceeding to speaking modules.</p>
+                </div>
+                
+                <!-- Question 1: Passive Voice -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm question-item" data-correct="1">
+                   <h4 class="font-bold text-lg mb-4">1. Select the grammatically correct sentence:</h4>
+                   <div class="space-y-3">
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q1" value="0" class="w-4 h-4 text-indigo-600">
+                         <span>The report was write by the manager yesterday.</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q1" value="1" class="w-4 h-4 text-indigo-600">
+                         <span>The report was written by the manager yesterday.</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q1" value="2" class="w-4 h-4 text-indigo-600">
+                         <span>The report was writing by the manager yesterday.</span>
+                      </label>
+                   </div>
+                </div>
+
+                <!-- Question 2: Prepositions -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm question-item" data-correct="2">
+                   <h4 class="font-bold text-lg mb-4">2. Fill in the blank: "He is responsible ___ managing the team."</h4>
+                   <div class="space-y-3">
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q2" value="0" class="w-4 h-4 text-indigo-600">
+                         <span>to</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q2" value="1" class="w-4 h-4 text-indigo-600">
+                         <span>of</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q2" value="2" class="w-4 h-4 text-indigo-600">
+                         <span>for</span>
+                      </label>
+                   </div>
+                </div>
+
+                <!-- Question 3: Subject-Verb Agreement (NEW) -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm question-item" data-correct="0">
+                   <h4 class="font-bold text-lg mb-4">3. Choose the correct verb form: "One of the students ___ absent today."</h4>
+                   <div class="space-y-3">
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q3" value="0" class="w-4 h-4 text-indigo-600">
+                         <span>is</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q3" value="1" class="w-4 h-4 text-indigo-600">
+                         <span>are</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q3" value="2" class="w-4 h-4 text-indigo-600">
+                         <span>were</span>
+                      </label>
+                   </div>
+                </div>
+
+                <!-- Question 4: Parts of Speech (NEW) -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm question-item" data-correct="1">
+                   <h4 class="font-bold text-lg mb-4">4. Identify the ADVERB in this sentence: "She spoke softly to the child."</h4>
+                   <div class="space-y-3">
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q4" value="0" class="w-4 h-4 text-indigo-600">
+                         <span>spoke</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q4" value="1" class="w-4 h-4 text-indigo-600">
+                         <span>softly</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q4" value="2" class="w-4 h-4 text-indigo-600">
+                         <span>child</span>
+                      </label>
+                   </div>
+                </div>
+
+                <!-- Question 5: Sentence Structure (NEW) -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm question-item" data-correct="2">
+                   <h4 class="font-bold text-lg mb-4">5. What type of sentence is this? "I wanted to go to the park, but it started raining."</h4>
+                   <div class="space-y-3">
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q5" value="0" class="w-4 h-4 text-indigo-600">
+                         <span>Simple</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q5" value="1" class="w-4 h-4 text-indigo-600">
+                         <span>Complex</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q5" value="2" class="w-4 h-4 text-indigo-600">
+                         <span>Compound</span>
+                      </label>
+                   </div>
+                </div>
+
+                <!-- Question 6: Despite vs Although (NEW) -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm question-item" data-correct="0">
+                   <h4 class="font-bold text-lg mb-4">6. Choose the correct word: "___ the heavy traffic, we arrived on time."</h4>
+                   <div class="space-y-3">
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q6" value="0" class="w-4 h-4 text-indigo-600">
+                         <span>Despite</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q6" value="1" class="w-4 h-4 text-indigo-600">
+                         <span>Although</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q6" value="2" class="w-4 h-4 text-indigo-600">
+                         <span>However</span>
+                      </label>
+                   </div>
+                </div>
+
+                <!-- Question 7: Modals (NEW) -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm question-item" data-correct="1">
+                   <h4 class="font-bold text-lg mb-4">7. Correct the error: "You must to submit the form."</h4>
+                   <div class="space-y-3">
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q7" value="0" class="w-4 h-4 text-indigo-600">
+                         <span>You must submitting the form.</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q7" value="1" class="w-4 h-4 text-indigo-600">
+                         <span>You must submit the form.</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q7" value="2" class="w-4 h-4 text-indigo-600">
+                         <span>You must submitted the form.</span>
+                      </label>
+                   </div>
+                </div>
+
+                <!-- Question 8: Article + Noun (NEW) -->
+                <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm question-item" data-correct="2">
+                   <h4 class="font-bold text-lg mb-4">8. Which phrase is correct?</h4>
+                   <div class="space-y-3">
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q8" value="0" class="w-4 h-4 text-indigo-600">
+                         <span>A important decision</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q8" value="1" class="w-4 h-4 text-indigo-600">
+                         <span>An important decisions</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 rounded border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                         <input type="radio" name="q8" value="2" class="w-4 h-4 text-indigo-600">
+                         <span>An important decision</span>
+                      </label>
+                   </div>
+                </div>
+
+              </div>
+            `
         ]
       },
       {
