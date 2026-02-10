@@ -1290,6 +1290,104 @@ export const COURSES: Course[] = [
         status: "unlocked",
         progress: 0,
         lessons: [
+          {
+            id: "pte-parts-speech",
+            title: "The 9 Parts of Speech",
+            type: "reading",
+            duration: "20 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-violet-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">The 9 Parts of Speech</h1>
+                   <p class="text-violet-200 text-lg">Understanding these building blocks is the first step to mastering English grammar.</p>
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                   <div class="bg-green-100 px-6 py-4 shrink-0 rounded-lg border border-green-200 shadow-sm relative overflow-hidden">
+                      <div class="absolute top-0 right-0 p-2 opacity-10">
+                         <svg width="60" height="60" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/></svg>
+                      </div>
+                      <h3 class="font-bold text-xl text-green-800 mb-2 uppercase tracking-wider">Noun</h3>
+                      <p class="text-green-900 text-sm mb-3 font-medium">Refers to a person, place, thing, activity, quality, or idea.</p>
+                      <div class="bg-white/60 p-3 rounded text-sm text-green-900 border border-green-200">
+                         <p>🐶 dog, cat, school, work, teacher</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-yellow-100 px-6 py-4 shrink-0 rounded-lg border border-yellow-200 shadow-sm relative overflow-hidden">
+                       <div class="absolute top-0 right-0 p-2 opacity-10">
+                         <svg width="60" height="60" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                      </div>
+                      <h3 class="font-bold text-xl text-yellow-800 mb-2 uppercase tracking-wider">Pronoun</h3>
+                      <p class="text-yellow-900 text-sm mb-3 font-medium">Words used instead of a noun or noun phrase.</p>
+                      <div class="bg-white/60 p-3 rounded text-sm text-yellow-900 border border-yellow-200">
+                         <p>👤 he, I, me, she, that, this</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-orange-100 px-6 py-4 shrink-0 rounded-lg border border-orange-200 shadow-sm relative overflow-hidden">
+                      <div class="absolute top-0 right-0 p-2 opacity-10">
+                         <svg width="60" height="60" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                      </div>
+                      <h3 class="font-bold text-xl text-orange-800 mb-2 uppercase tracking-wider">Verb</h3>
+                      <p class="text-orange-900 text-sm mb-3 font-medium">Describes an action, experience, or state of being.</p>
+                      <div class="bg-white/60 p-3 rounded text-sm text-orange-900 border border-orange-200">
+                         <p>🏃 run, sit, go, have, get, invite</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-amber-100 px-6 py-4 shrink-0 rounded-lg border border-amber-200 shadow-sm relative overflow-hidden">
+                      <h3 class="font-bold text-xl text-amber-800 mb-2 uppercase tracking-wider">Adjective</h3>
+                      <p class="text-amber-900 text-sm mb-3 font-medium">Describes a noun or pronoun.</p>
+                      <div class="bg-white/60 p-3 rounded text-sm text-amber-900 border border-amber-200">
+                         <p>🌟 angry, brave, healthy, good, big</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-purple-100 px-6 py-4 shrink-0 rounded-lg border border-purple-200 shadow-sm relative overflow-hidden">
+                      <h3 class="font-bold text-xl text-purple-800 mb-2 uppercase tracking-wider">Adverb</h3>
+                      <p class="text-purple-900 text-sm mb-3 font-medium">Describes a verb, adjective, or another adverb.</p>
+                      <div class="bg-white/60 p-3 rounded text-sm text-purple-900 border border-purple-200">
+                         <p>⚡ badly, fully, carefully, never</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-yellow-200 px-6 py-4 shrink-0 rounded-lg border border-yellow-300 shadow-sm relative overflow-hidden">
+                      <h3 class="font-bold text-xl text-yellow-900 mb-2 uppercase tracking-wider">Article</h3>
+                      <p class="text-yellow-950 text-sm mb-3 font-medium">Words used before a noun to modify it.</p>
+                      <div class="bg-white/60 p-3 rounded text-sm text-yellow-950 border border-yellow-300">
+                         <p>🅰️ the, a, an</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-cyan-100 px-6 py-4 shrink-0 rounded-lg border border-cyan-200 shadow-sm relative overflow-hidden">
+                      <h3 class="font-bold text-xl text-cyan-800 mb-2 uppercase tracking-wider">Preposition</h3>
+                      <p class="text-cyan-900 text-sm mb-3 font-medium">Shows place, time, or direction before a noun.</p>
+                      <div class="bg-white/60 p-3 rounded text-sm text-cyan-900 border border-cyan-200">
+                         <p>📍 in, from, of, before, since</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-lime-100 px-6 py-4 shrink-0 rounded-lg border border-lime-200 shadow-sm relative overflow-hidden">
+                      <h3 class="font-bold text-xl text-lime-800 mb-2 uppercase tracking-wider">Conjunction</h3>
+                      <p class="text-lime-900 text-sm mb-3 font-medium">Connects words, phrases, or clauses.</p>
+                      <div class="bg-white/60 p-3 rounded text-sm text-lime-900 border border-lime-200">
+                         <p>🔗 and, or, so, after, either</p>
+                      </div>
+                   </div>
+
+                   <div class="bg-blue-100 px-6 py-4 shrink-0 rounded-lg border border-blue-200 shadow-sm relative overflow-hidden">
+                      <h3 class="font-bold text-xl text-blue-800 mb-2 uppercase tracking-wider">Interjection</h3>
+                      <p class="text-blue-900 text-sm mb-3 font-medium">Expresses a strong feeling or emotion.</p>
+                      <div class="bg-white/60 p-3 rounded text-sm text-blue-900 border border-blue-200">
+                         <p>❗️ wow!, oh!, hey!, ouch!</p>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            `
+          },
           { 
             id: "pte-gram-l1", 
             title: "Rule #1-5: Verbs & Prepositions", 
