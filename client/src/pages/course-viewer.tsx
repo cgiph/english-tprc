@@ -27,6 +27,7 @@ import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
 import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
 import { ReadingMockTest } from "@/components/lms/reading-mock-test";
 import { ListeningMockTest } from "@/components/lms/listening-mock-test";
+import { WritingMockTest } from "@/components/lms/writing-mock-test";
 import pteBarChart from "@/assets/images/pte-bar-chart.png";
 import waveformBad from "@/assets/images/waveform-bad.png";
 import waveformGood from "@/assets/images/waveform-good.png";
@@ -471,6 +472,11 @@ function SpeakingPractice({ content }: { content: string }) {
           </div>
        </div>
      );
+  }
+
+  // Handle Writing Mock Test
+  if (content.includes("<!-- WRITING_MOCK_TEST -->")) {
+     return <WritingMockTest />;
   }
 
   // Handle Reading Mock Test

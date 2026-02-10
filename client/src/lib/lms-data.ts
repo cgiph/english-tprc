@@ -2097,6 +2097,14 @@ export const COURSES: Course[] = [
             `
           },
           { 
+            id: "pte-mock-writing-section", 
+            title: "Section 1: Writing Test", 
+            type: "reading", 
+            duration: "30 min", 
+            isCompleted: false,
+            content: "<!-- WRITING_MOCK_TEST -->" 
+          },
+          { 
             id: "pte-mock-reading-section", 
             title: "Section 2: Reading Test", 
             type: "reading", 
