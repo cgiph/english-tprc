@@ -1491,6 +1491,8 @@ export const COURSES: Course[] = [
                       <li><strong>Don't Pause:</strong> If you forget a word, skip it and continue. Fluency is more important than 100% content accuracy.</li>
                    </ul>
                 </div>
+                
+                <!-- REPEAT_SENTENCE_PRACTICE -->
               </div>
             `
           },

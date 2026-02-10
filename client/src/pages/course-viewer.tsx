@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { NounPractice } from "@/components/lms/noun-practice";
 import { GrammarGuard } from "@/components/lms/grammar-guard";
 import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
+import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
 
 function SpeakingPractice({ content }: { content: string }) {
   const [isMemorizeMode, setIsMemorizeMode] = useState(false);
@@ -30,10 +31,24 @@ function SpeakingPractice({ content }: { content: string }) {
   // Basic check to see if we should render the interactive mode
   // This is a simple heuristic based on the presence of specific keywords or structure
   // In a real app, this would be a specific lesson type or metadata
-  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab");
+  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab") || content.includes("REPEAT_SENTENCE_PRACTICE");
 
   if (!isTemplateLesson) {
     return <div className="w-full mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
+  }
+
+  // Handle Repeat Sentence Practice
+  if (content.includes("REPEAT_SENTENCE_PRACTICE")) {
+     // Split content to show the theory part first, then the interactive component
+     const parts = content.split("<!-- REPEAT_SENTENCE_PRACTICE -->");
+     const theoryContent = parts[0] || content;
+
+     return (
+       <div className="w-full mx-auto p-8 text-left space-y-8">
+          <div dangerouslySetInnerHTML={{ __html: theoryContent }} />
+          <RepeatSentencePractice />
+       </div>
+     );
   }
 
   // Handle SWT Practice Lab
