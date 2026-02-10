@@ -254,6 +254,12 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
        text: "For 'Respond to a Situation', how should you approach the answer?",
        options: ["Give a short 'Yes' or 'No' answer", "Provide a logical solution or response that addresses the specific problem described", "Describe the image shown on screen", "Repeat exactly what the prompt said"],
        correctAnswer: 1
+    },
+    {
+       id: "pm1-q8",
+       text: "In 'Retell Lecture', what is the most effective strategy for content?",
+       options: ["Memorize the entire lecture", "Take notes on key nouns and use a template to structure your response", "Focus only on the speaker's accent", "Write a full transcript of everything said"],
+       correctAnswer: 1
     }
   ],
   "pte-m2-quiz-ai": [
