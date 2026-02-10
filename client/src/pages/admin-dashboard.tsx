@@ -117,13 +117,30 @@ const MESSAGES = [
 
 import { useLMS } from "@/hooks/use-lms";
 import { useUser } from "@/hooks/use-user";
+import { useEffect } from "react";
+import { useLocation } from "wouter";
 
 export default function AdminDashboard() {
   const { toast } = useToast();
   const { state } = useLMS();
   const { user } = useUser();
+  const [_, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [exporting, setExporting] = useState(false);
+
+  // Protect the route - Only trainers allowed
+  useEffect(() => {
+    if (!user || user.role !== 'trainer') {
+      toast({
+        title: "Access Denied",
+        description: "You do not have permission to view the Trainer Dashboard.",
+        variant: "destructive"
+      });
+      setLocation("/");
+    }
+  }, [user, setLocation, toast]);
+
+  if (!user || user.role !== 'trainer') return null;
 
   // Combine Mock Messages + Real Support Tickets from LMS State
   const dynamicMessages = (state.supportTickets || []).map(ticket => ({
