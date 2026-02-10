@@ -1675,8 +1675,8 @@ export const COURSES: Course[] = [
       },
       {
         id: "pte-writing",
-        title: "Module 4: Writing & Listening",
-        description: "Essay writing templates and Summarize Spoken Text techniques.",
+        title: "Module 4: Writing",
+        description: "Essay writing templates and Summarize Written Text techniques.",
         status: "locked",
         progress: 0,
         lessons: [
@@ -1758,7 +1758,90 @@ export const COURSES: Course[] = [
 </div>
 `
           },
-          { 
+          { id: "pte-m3-quiz", title: "Writing Quiz", type: "quiz", duration: "30 min", isCompleted: false }
+        ]
+      },
+      {
+        id: "pte-listening",
+        title: "Module 5: Listening",
+        description: "Master the 8 listening question types with focused strategies.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+           {
+             id: "pte-m5-intro",
+             title: "Overview: The PTE Listening Section",
+             type: "reading",
+             duration: "10 min",
+             isCompleted: false,
+             content: `
+               <div class="space-y-6">
+                 <div class="bg-indigo-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">The PTE Listening Section</h1>
+                   <p class="text-indigo-200 text-lg">30-43 Minutes | 8 Question Types | One Hearing Only</p>
+                 </div>
+                 
+                 <div class="grid md:grid-cols-2 gap-6">
+                   <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                      <h3 class="font-bold text-xl text-slate-800 mb-4">Critical Constraints</h3>
+                      <ul class="space-y-3 text-slate-600">
+                        <li class="flex items-start gap-2">
+                          <span class="bg-red-100 text-red-600 p-1 rounded text-xs font-bold">ONCE</span>
+                          <span>You hear the audio <strong>only once</strong>. Never rewind.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="bg-amber-100 text-amber-600 p-1 rounded text-xs font-bold">AUTO</span>
+                          <span>Audio plays automatically after 3-5 seconds.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                          <span class="bg-blue-100 text-blue-600 p-1 rounded text-xs font-bold">NOTES</span>
+                          <span>Use your erasable notebook constantly.</span>
+                        </li>
+                      </ul>
+                   </div>
+
+                   <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
+                      <h3 class="font-bold text-xl text-indigo-900 mb-4">Section Breakdown</h3>
+                      <div class="space-y-2 text-sm">
+                        <div class="flex justify-between items-center bg-white p-2 rounded border border-indigo-200">
+                          <span class="font-medium text-indigo-700">1. Summarize Spoken Text</span>
+                          <span class="text-slate-500">Writing & Listening</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2 rounded border border-indigo-200">
+                          <span class="font-medium text-indigo-700">2. Multiple Choice (Multiple)</span>
+                          <span class="text-slate-500">Listening</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2 rounded border border-indigo-200">
+                          <span class="font-medium text-indigo-700">3. Fill in the Blanks</span>
+                          <span class="text-slate-500">Listening & Writing</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2 rounded border border-indigo-200">
+                          <span class="font-medium text-indigo-700">4. Highlight Correct Summary</span>
+                          <span class="text-slate-500">Listening & Reading</span>
+                        </div>
+                         <div class="flex justify-between items-center bg-white p-2 rounded border border-indigo-200">
+                          <span class="font-medium text-indigo-700">5. Multiple Choice (Single)</span>
+                          <span class="text-slate-500">Listening</span>
+                        </div>
+                         <div class="flex justify-between items-center bg-white p-2 rounded border border-indigo-200">
+                          <span class="font-medium text-indigo-700">6. Select Missing Word</span>
+                          <span class="text-slate-500">Listening</span>
+                        </div>
+                         <div class="flex justify-between items-center bg-white p-2 rounded border border-indigo-200">
+                          <span class="font-medium text-indigo-700">7. Highlight Incorrect Words</span>
+                          <span class="text-slate-500">Listening & Reading</span>
+                        </div>
+                         <div class="flex justify-between items-center bg-white p-2 rounded border border-indigo-200">
+                          <span class="font-medium text-indigo-700">8. Write from Dictation</span>
+                          <span class="text-slate-500">Listening & Writing</span>
+                        </div>
+                      </div>
+                   </div>
+                 </div>
+               </div>
+             `
+           },
+           { 
             id: "pte-m3-l3", 
             title: "Listening: Multiple Choice Multiple Answers", 
             type: "video", 
@@ -1798,12 +1881,12 @@ export const COURSES: Course[] = [
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/9edG9TRte8o"
           },
-           { id: "pte-m3-quiz", title: "Writing & Listening Quiz", type: "quiz", duration: "30 min", isCompleted: false }
+          { id: "pte-listening-quiz", title: "Listening Assessment", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
       {
-        id: "pte-mock",
-        title: "Module 5: PTE Mock Exam",
+        id: "pte-mock-exam",
+        title: "Module 6: PTE Mock Exam",
         description: "Full-length simulation of the PTE Speaking section.",
         status: "locked",
         progress: 0,
