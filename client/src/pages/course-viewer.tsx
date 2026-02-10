@@ -15,8 +15,19 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare, ChevronDown, ChevronUp, PanelRightClose, PanelRightOpen, SidebarClose, SidebarOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Mic, StopCircle, RefreshCw } from "lucide-react";
+import { useLMS } from "@/hooks/use-lms";
+import { ModuleQuiz } from "@/components/lms/module-quiz";
+import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
+import { NounPractice } from "@/components/lms/noun-practice";
+import { GrammarGuard } from "@/components/lms/grammar-guard";
+import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
+import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
+import pteBarChart from "@/assets/images/pte-bar-chart.png";
+import waveformBad from "@/assets/images/waveform-bad.png";
+import waveformGood from "@/assets/images/waveform-good.png";
 
 function SpeakingPractice({ content }: { content: string }) {
   const [isMemorizeMode, setIsMemorizeMode] = useState(false);
