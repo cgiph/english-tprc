@@ -310,20 +310,25 @@ export function ReadingMockTest() {
         </div>
       ))}
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-slate-200 shadow-lg flex justify-end items-center gap-4 z-50">
-         {score && (
-             <div className="text-xl font-bold text-indigo-700 mr-4">
-                 Score: {score.total} / {score.max}
-             </div>
-         )}
-         <Button 
-            size="lg" 
-            onClick={handleSubmit} 
-            disabled={!isComplete || submitted}
-            className={cn("min-w-[150px]", submitted ? "bg-slate-400" : "bg-indigo-600 hover:bg-indigo-700")}
-         >
-            {submitted ? "Submitted" : "SUBMIT"}
-         </Button>
+      <div className="mt-12 p-6 bg-slate-50 border-t border-slate-200 rounded-lg flex justify-between items-center gap-4">
+         <div className="text-sm text-slate-500 italic">
+             {isComplete ? "All questions answered." : "Please answer all questions to submit."}
+         </div>
+         <div className="flex items-center gap-4">
+             {score && (
+                 <div className="text-xl font-bold text-indigo-700 mr-4">
+                     Score: {score.total} / {score.max}
+                 </div>
+             )}
+             <Button 
+                size="lg" 
+                onClick={handleSubmit} 
+                disabled={!isComplete || submitted}
+                className={cn("min-w-[150px]", submitted ? "bg-slate-400" : "bg-indigo-600 hover:bg-indigo-700")}
+             >
+                {submitted ? "Submitted" : "SUBMIT ANSWERS"}
+             </Button>
+         </div>
       </div>
     </div>
   );
