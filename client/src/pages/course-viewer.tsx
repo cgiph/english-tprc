@@ -297,6 +297,51 @@ function SpeakingPractice({ content }: { content: string }) {
              <div className="w-full bg-blue-50 p-4 rounded text-sm text-blue-800 italic border border-blue-100">
                 "Describe this image using the template above. Focus on the highest (Asia) and lowest (Europe) values."
              </div>
+             
+             {/* Recording Tool */}
+             <div className="w-full mt-6 pt-6 border-t border-slate-100 flex flex-col items-center">
+                 <h4 className="text-sm font-bold text-slate-600 mb-4 flex items-center gap-2">
+                     <span className="p-1 bg-orange-100 text-orange-700 rounded-lg">🎤</span>
+                     Record Your Answer
+                 </h4>
+                 
+                 {!audioBlob ? (
+                    <div className="flex justify-center">
+                        <Button 
+                            size="lg" 
+                            className={cn(
+                                "rounded-full w-16 h-16 flex items-center justify-center transition-all shadow-lg hover:shadow-xl hover:scale-105", 
+                                isRecording ? "bg-red-500 hover:bg-red-600 animate-pulse" : "bg-indigo-600 hover:bg-indigo-700"
+                            )}
+                            onClick={isRecording ? stopRecording : startRecording}
+                        >
+                            {isRecording ? <div className="w-6 h-6 bg-white rounded-sm" /> : <Mic className="w-8 h-8 text-white" />}
+                        </Button>
+                    </div>
+                 ) : (
+                    <div className="flex flex-col items-center gap-4 animate-in fade-in zoom-in duration-300 w-full">
+                         <div className="flex items-center gap-4 bg-slate-50 p-2 pr-4 rounded-full shadow-sm border border-slate-200 w-full max-w-sm justify-center">
+                            <button 
+                                onClick={playUserAudio}
+                                disabled={isPlayingUser}
+                                className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center hover:bg-indigo-200 transition-colors shrink-0"
+                            >
+                                {isPlayingUser ? <div className="w-3 h-3 bg-indigo-600 rounded-sm animate-pulse" /> : <PlayCircle className="w-5 h-5 ml-0.5" />}
+                            </button>
+                            <span className="text-sm font-medium text-slate-600 truncate">Your Recording</span>
+                            <audio ref={userAudioRef} className="hidden" />
+                         </div>
+                         
+                         <Button variant="ghost" size="sm" onClick={resetRecording} className="text-slate-500 hover:text-red-500">
+                            <RefreshCw className="w-4 h-4 mr-2" /> Record Again
+                         </Button>
+                    </div>
+                 )}
+                 
+                 <p className="text-xs text-slate-400 mt-4 h-4">
+                     {isRecording ? "Recording... Describe the image now!" : audioBlob ? "Click play to review your description." : "Click microphone to start recording"}
+                 </p>
+             </div>
           </div>
 
           <div dangerouslySetInnerHTML={{ __html: tipsContent }} />
