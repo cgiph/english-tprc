@@ -1606,6 +1606,14 @@ export const COURSES: Course[] = [
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/YoV25DFFADs"
           },
+          { 
+            id: "pte-m2-l7-rl", 
+            title: "Retell Lecture", 
+            type: "video", 
+            duration: "15 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/GmofpAGRFvE"
+          },
           { id: "pte-m1-quiz", title: "Speaking Assessment", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
