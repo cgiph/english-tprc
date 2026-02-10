@@ -15,22 +15,102 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare, ChevronDown, ChevronUp, PanelRightClose, PanelRightOpen, SidebarClose, SidebarOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
-import { useState, useEffect } from "react";
-import { useLMS } from "@/hooks/use-lms";
-import { ModuleQuiz } from "@/components/lms/module-quiz";
-import { useToast } from "@/hooks/use-toast";
-import { Textarea } from "@/components/ui/textarea";
-import { NounPractice } from "@/components/lms/noun-practice";
-import { GrammarGuard } from "@/components/lms/grammar-guard";
-import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
-import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
-import pteBarChart from "@/assets/images/pte-bar-chart.png";
-import waveformBad from "@/assets/images/waveform-bad.png";
-import waveformGood from "@/assets/images/waveform-good.png";
+import { useRef } from "react";
+import { Mic, StopCircle, RefreshCw } from "lucide-react";
 
 function SpeakingPractice({ content }: { content: string }) {
   const [isMemorizeMode, setIsMemorizeMode] = useState(false);
-  
+  const [isPlayingBad, setIsPlayingBad] = useState(false);
+  const [isPlayingGood, setIsPlayingGood] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [isPlayingUser, setIsPlayingUser] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const userAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const playBadExample = () => {
+    if (isPlayingBad) return;
+    setIsPlayingBad(true);
+    const u1 = new SpeechSynthesisUtterance("One smooth...");
+    u1.rate = 0.8;
+    const u2 = new SpeechSynthesisUtterance("incorrect sentence...");
+    u2.rate = 0.7;
+    const u3 = new SpeechSynthesisUtterance("is... uhm... is worth more.");
+    u3.rate = 0.6;
+    
+    u1.onend = () => window.speechSynthesis.speak(u2);
+    u2.onend = () => {
+      setTimeout(() => window.speechSynthesis.speak(u3), 500);
+    };
+    u3.onend = () => setIsPlayingBad(false);
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u1);
+  };
+
+  const playGoodExample = () => {
+    if (isPlayingGood) return;
+    setIsPlayingGood(true);
+    const u = new SpeechSynthesisUtterance("One smooth, incorrect sentence is worth more than one hesitant, perfect sentence.");
+    u.rate = 1.1;
+    u.pitch = 1.1;
+    u.onend = () => setIsPlayingGood(false);
+    
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorderRef.current = new MediaRecorder(stream);
+      audioChunksRef.current = [];
+
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        audioChunksRef.current.push(event.data);
+      };
+
+      mediaRecorderRef.current.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+        setAudioBlob(audioBlob);
+        if (userAudioRef.current) {
+            userAudioRef.current.src = URL.createObjectURL(audioBlob);
+        }
+      };
+
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
+    } catch (err) {
+      console.error("Error accessing microphone:", err);
+      alert("Could not access microphone. Please ensure permission is granted.");
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      // Stop all tracks to release microphone
+      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+    }
+  };
+
+  const playUserAudio = () => {
+    if (userAudioRef.current && audioBlob) {
+        setIsPlayingUser(true);
+        userAudioRef.current.play();
+        userAudioRef.current.onended = () => setIsPlayingUser(false);
+    }
+  };
+
+  const resetRecording = () => {
+    setAudioBlob(null);
+    if (userAudioRef.current) {
+        userAudioRef.current.src = "";
+    }
+  };
+
   // Basic check to see if we should render the interactive mode
   // This is a simple heuristic based on the presence of specific keywords or structure
   // In a real app, this would be a specific lesson type or metadata
@@ -68,11 +148,16 @@ function SpeakingPractice({ content }: { content: string }) {
                       <p className="text-sm text-red-700 mb-4 h-10">Hesitant, includes fillers, and restarts sentences.</p>
                       
                       <div className="bg-white p-3 rounded-lg shadow-sm flex items-center gap-3 border border-red-100">
-                         <button className="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center hover:bg-red-200 transition-colors">
-                            <PlayCircle className="w-6 h-6 ml-0.5" />
+                         <button 
+                           onClick={playBadExample}
+                           disabled={isPlayingBad}
+                           className="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center hover:bg-red-200 transition-colors disabled:opacity-50"
+                         >
+                            {isPlayingBad ? <div className="w-3 h-3 bg-red-600 rounded-sm animate-pulse" /> : <PlayCircle className="w-6 h-6 ml-0.5" />}
                          </button>
-                         <div className="flex-1 flex items-center justify-center h-10">
+                         <div className="flex-1 flex items-center justify-center h-10 overflow-hidden relative">
                             <img src={waveformBad} alt="Erratic waveform" className="h-full w-full object-contain opacity-80" />
+                            {isPlayingBad && <div className="absolute inset-0 bg-red-100/30 animate-pulse" />}
                          </div>
                       </div>
                    </div>
@@ -91,14 +176,68 @@ function SpeakingPractice({ content }: { content: string }) {
                       <p className="text-sm text-green-700 mb-4 h-10">Smooth flow, steady pace, even with minor grammar errors.</p>
                       
                       <div className="bg-white p-3 rounded-lg shadow-sm flex items-center gap-3 border border-green-100">
-                         <button className="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center hover:bg-green-200 transition-colors">
-                            <PlayCircle className="w-6 h-6 ml-0.5" />
+                         <button 
+                           onClick={playGoodExample}
+                           disabled={isPlayingGood}
+                           className="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center hover:bg-green-200 transition-colors disabled:opacity-50"
+                         >
+                            {isPlayingGood ? <div className="w-3 h-3 bg-green-600 rounded-sm animate-pulse" /> : <PlayCircle className="w-6 h-6 ml-0.5" />}
                          </button>
-                         <div className="flex-1 flex items-center justify-center h-10">
+                         <div className="flex-1 flex items-center justify-center h-10 overflow-hidden relative">
                             <img src={waveformGood} alt="Smooth waveform" className="h-full w-full object-contain opacity-80" />
+                            {isPlayingGood && <div className="absolute inset-0 bg-green-100/30 animate-pulse" />}
                          </div>
                       </div>
                    </div>
+                </div>
+             </div>
+
+             {/* Try it yourself section */}
+             <div className="mt-8 pt-8 border-t border-slate-200">
+                <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2 mb-4">
+                    <span className="p-1 bg-orange-100 text-orange-700 rounded-lg">🎤</span>
+                    Try It Yourself
+                </h3>
+                
+                <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 text-center">
+                    <p className="text-slate-600 mb-6 font-medium">"One smooth, incorrect sentence is worth more than one hesitant, perfect sentence."</p>
+                    
+                    {!audioBlob ? (
+                        <div className="flex justify-center">
+                            <Button 
+                                size="lg" 
+                                className={cn(
+                                    "rounded-full w-16 h-16 flex items-center justify-center transition-all shadow-lg hover:shadow-xl hover:scale-105", 
+                                    isRecording ? "bg-red-500 hover:bg-red-600 animate-pulse" : "bg-indigo-600 hover:bg-indigo-700"
+                                )}
+                                onClick={isRecording ? stopRecording : startRecording}
+                            >
+                                {isRecording ? <div className="w-6 h-6 bg-white rounded-sm" /> : <Mic className="w-8 h-8 text-white" />}
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center gap-4 animate-in fade-in zoom-in duration-300">
+                             <div className="flex items-center gap-4 bg-white p-2 pr-4 rounded-full shadow-sm border border-slate-200">
+                                <button 
+                                    onClick={playUserAudio}
+                                    disabled={isPlayingUser}
+                                    className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center hover:bg-indigo-200 transition-colors"
+                                >
+                                    {isPlayingUser ? <div className="w-3 h-3 bg-indigo-600 rounded-sm animate-pulse" /> : <PlayCircle className="w-5 h-5 ml-0.5" />}
+                                </button>
+                                <span className="text-sm font-medium text-slate-600">Your Recording</span>
+                                <audio ref={userAudioRef} className="hidden" />
+                             </div>
+                             
+                             <Button variant="ghost" size="sm" onClick={resetRecording} className="text-slate-500 hover:text-red-500">
+                                <RefreshCw className="w-4 h-4 mr-2" /> Try Again
+                             </Button>
+                        </div>
+                    )}
+                    
+                    <p className="text-xs text-slate-400 mt-4 h-4">
+                        {isRecording ? "Recording... Speak now!" : audioBlob ? "Great! Listen to compare." : "Click microphone to record"}
+                    </p>
                 </div>
              </div>
           </div>
