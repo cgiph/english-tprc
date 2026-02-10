@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare, ChevronDown, ChevronUp } from "lucide-react";
+import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare, ChevronDown, ChevronUp, PanelRightClose, PanelRightOpen, SidebarClose, SidebarOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
 import { useState, useEffect } from "react";
@@ -141,6 +141,9 @@ export default function CourseViewer() {
 
   // Trainer Support State
   const [supportQuestion, setSupportQuestion] = useState("");
+  
+  // Sidebar State
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   if (!rawCourse) return <NotFound />;
 
@@ -317,7 +320,18 @@ export default function CourseViewer() {
              </Link>
              <h1 className="text-lg font-bold text-white">{activeLesson?.lesson.title || course.title}</h1>
            </div>
-           <Badge variant="outline" className="text-slate-300 border-slate-700">{course.title}</Badge>
+           <div className="flex items-center gap-2">
+             <Badge variant="outline" className="text-slate-300 border-slate-700 hidden md:flex">{course.title}</Badge>
+             <Button 
+               variant="ghost" 
+               size="icon" 
+               className="text-slate-400 hover:text-white hover:bg-slate-800 ml-2"
+               onClick={() => setSidebarOpen(!isSidebarOpen)}
+               title={isSidebarOpen ? "Hide Syllabus" : "Show Syllabus"}
+             >
+               {isSidebarOpen ? <PanelRightClose className="h-5 w-5" /> : <PanelRightOpen className="h-5 w-5" />}
+             </Button>
+           </div>
         </div>
 
         {/* Cinema Mode Player */}
@@ -469,15 +483,23 @@ export default function CourseViewer() {
       </div>
 
       {/* Sidebar - Course Syllabus */}
-      <div className="w-96 bg-background border-l border-border flex flex-col h-full overflow-hidden shrink-0 hidden lg:flex">
+      <div className={cn(
+        "bg-background border-l border-border flex flex-col h-full overflow-hidden shrink-0 transition-all duration-300 ease-in-out",
+        isSidebarOpen ? "w-80 translate-x-0 opacity-100" : "w-0 translate-x-full opacity-0 overflow-hidden border-none"
+      )}>
+        <div className="p-4 border-b border-border flex justify-between items-center bg-muted/20">
+           <h2 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">Course Syllabus</h2>
+           <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setSidebarOpen(false)}>
+             <SidebarClose className="h-4 w-4" />
+           </Button>
+        </div>
         <div className="p-4 border-b border-border">
-           <h2 className="font-bold text-lg mb-2">Course Syllabus</h2>
            <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">{courseProgressPercent}% Complete</span>
-                <span className="font-medium text-primary">{completedLessonsCount}/{totalLessons} Lessons</span>
+                <span className="text-muted-foreground text-xs">{courseProgressPercent}% Complete</span>
+                <span className="font-medium text-primary text-xs">{completedLessonsCount}/{totalLessons} Lessons</span>
               </div>
-              <Progress value={courseProgressPercent} className="h-2" />
+              <Progress value={courseProgressPercent} className="h-1.5" />
            </div>
         </div>
         
