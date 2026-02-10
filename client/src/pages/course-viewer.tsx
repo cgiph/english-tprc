@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare, ChevronDown, ChevronUp, PanelRightClose, PanelRightOpen, SidebarClose, SidebarOpen } from "lucide-react";
+import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare, ChevronDown, ChevronUp, PanelRightClose, PanelRightOpen, SidebarClose, SidebarOpen, Volume2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
 import { useRef, useState, useEffect } from "react";
@@ -140,10 +140,87 @@ function SpeakingPractice({ content }: { content: string }) {
   // Basic check to see if we should render the interactive mode
   // This is a simple heuristic based on the presence of specific keywords or structure
   // In a real app, this would be a specific lesson type or metadata
-  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab") || content.includes("REPEAT_SENTENCE_PRACTICE") || content.includes("DESCRIBE_IMAGE_PRACTICE");
+  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab") || content.includes("REPEAT_SENTENCE_PRACTICE") || content.includes("DESCRIBE_IMAGE_PRACTICE") || content.includes("SPEAKING_MOCK_TEST");
 
   if (!isTemplateLesson) {
     return <div className="w-full mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
+  }
+
+  // Handle Speaking Mock Test
+  if (content.includes("SPEAKING_MOCK_TEST")) {
+     const parts = content.split("<!-- SPEAKING_MOCK_TEST -->");
+     const mainContent = parts[0] || content;
+     
+     // Extract TTS text from data-tts attribute
+     const ttsMatch = mainContent.match(/data-tts="([^"]+)"/);
+     const ttsText = ttsMatch ? ttsMatch[1] : null;
+
+     const playTTS = () => {
+       if (!ttsText) return;
+       const u = new SpeechSynthesisUtterance(ttsText);
+       u.rate = 1.0;
+       window.speechSynthesis.cancel();
+       window.speechSynthesis.speak(u);
+     };
+
+     return (
+       <div className="w-full mx-auto p-8 text-left space-y-8">
+          <div dangerouslySetInnerHTML={{ __html: mainContent }} />
+          
+          {ttsText && (
+             <div className="flex justify-center -mt-4 mb-8">
+                <Button onClick={playTTS} size="lg" className="gap-2 bg-indigo-600 hover:bg-indigo-700 shadow-md">
+                   <Volume2 className="w-5 h-5" />
+                   Play Audio Prompt
+                </Button>
+             </div>
+          )}
+          
+          <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 text-center max-w-2xl mx-auto">
+              <h4 className="text-lg font-bold text-slate-800 mb-6 flex items-center justify-center gap-2">
+                  <span className="p-1 bg-red-100 text-red-700 rounded-lg">⏺️</span>
+                  Record Response
+              </h4>
+              
+              {!audioBlob ? (
+                  <div className="flex justify-center">
+                      <Button 
+                          size="lg" 
+                          className={cn(
+                              "rounded-full w-20 h-20 flex items-center justify-center transition-all shadow-xl hover:shadow-2xl hover:scale-105", 
+                              isRecording ? "bg-red-500 hover:bg-red-600 animate-pulse ring-4 ring-red-200" : "bg-indigo-600 hover:bg-indigo-700"
+                          )}
+                          onClick={isRecording ? stopRecording : startRecording}
+                      >
+                          {isRecording ? <div className="w-8 h-8 bg-white rounded-sm" /> : <Mic className="w-10 h-10 text-white" />}
+                      </Button>
+                  </div>
+              ) : (
+                  <div className="flex flex-col items-center gap-4 animate-in fade-in zoom-in duration-300 w-full">
+                       <div className="flex items-center gap-4 bg-white p-3 pr-5 rounded-full shadow-md border border-slate-200 w-full max-w-sm justify-center">
+                          <button 
+                              onClick={playUserAudio}
+                              disabled={isPlayingUser}
+                              className="w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center hover:bg-indigo-200 transition-colors shrink-0"
+                          >
+                              {isPlayingUser ? <div className="w-4 h-4 bg-indigo-600 rounded-sm animate-pulse" /> : <PlayCircle className="w-6 h-6 ml-0.5" />}
+                          </button>
+                          <span className="text-sm font-bold text-slate-700 truncate">Recording Saved</span>
+                          <audio ref={userAudioRef} className="hidden" />
+                       </div>
+                       
+                       <Button variant="ghost" size="sm" onClick={resetRecording} className="text-slate-500 hover:text-red-500 hover:bg-red-50">
+                          <RefreshCw className="w-4 h-4 mr-2" /> Record Again
+                       </Button>
+                  </div>
+              )}
+              
+              <p className="text-sm text-slate-500 mt-6 font-medium">
+                  {isRecording ? "Recording in progress..." : audioBlob ? "Click play to review." : "Click microphone to start."}
+              </p>
+          </div>
+       </div>
+     );
   }
 
   // Handle AI Scoring Rules / Audio Examples
