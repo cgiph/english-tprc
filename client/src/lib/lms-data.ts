@@ -2119,6 +2119,14 @@ export const COURSES: Course[] = [
             duration: "45 min", 
             isCompleted: false,
             content: "<!-- LISTENING_MOCK_TEST -->" 
+          },
+          { 
+            id: "pte-mock-completion", 
+            title: "Completion: Full Mock Unlock", 
+            type: "reading", 
+            duration: "5 min", 
+            isCompleted: false,
+            content: "<!-- MOCK_EXAM_COMPLETION -->" 
           }
         ]
       },
