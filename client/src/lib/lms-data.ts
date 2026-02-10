@@ -2119,6 +2119,7 @@ export const COURSES: Course[] = [
     <div class="bg-white p-6 rounded-lg border border-slate-300 leading-8 text-lg">
        The proliferation of deepfake technology poses a significant threat to epistemic security. Without robust verification mechanisms, the public's ability to 
        <select class="mx-1 border-b-2 border-indigo-500 bg-indigo-50 px-2 py-1 rounded text-sm font-bold text-indigo-900 focus:outline-none">
+          <option value="" selected disabled hidden></option>
           <option>discern</option>
           <option>ignore</option>
           <option>fabricate</option>
@@ -2126,6 +2127,7 @@ export const COURSES: Course[] = [
        </select> 
        truth from falsehood diminishes, potentially leading to a state of 'reality apathy'. Furthermore, the legal frameworks surrounding digital identity are currently 
        <select class="mx-1 border-b-2 border-indigo-500 bg-indigo-50 px-2 py-1 rounded text-sm font-bold text-indigo-900 focus:outline-none">
+          <option value="" selected disabled hidden></option>
           <option>insufficient</option>
           <option>robust</option>
           <option>excessive</option>
@@ -2144,6 +2146,7 @@ export const COURSES: Course[] = [
     <div class="bg-white p-6 rounded-lg border border-slate-300 leading-8 text-lg">
        Epigenetics challenges the traditional view of genetic determinism. It suggests that while our DNA code remains 
        <select class="mx-1 border-b-2 border-indigo-500 bg-indigo-50 px-2 py-1 rounded text-sm font-bold text-indigo-900 focus:outline-none">
+          <option value="" selected disabled hidden></option>
           <option>static</option>
           <option>malleable</option>
           <option>hidden</option>
@@ -2151,6 +2154,7 @@ export const COURSES: Course[] = [
        </select>, 
        the chemical markers that control gene expression can be altered by environmental factors. This 
        <select class="mx-1 border-b-2 border-indigo-500 bg-indigo-50 px-2 py-1 rounded text-sm font-bold text-indigo-900 focus:outline-none">
+          <option value="" selected disabled hidden></option>
           <option>plasticity</option>
           <option>rigidity</option>
           <option>fragility</option>
