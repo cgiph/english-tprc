@@ -1509,6 +1509,9 @@ export const COURSES: Course[] = [
 
   <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
     <h4 class="font-bold text-blue-900 mb-2">The "Universal" DI Template</h4>
+    
+    <!-- DESCRIBE_IMAGE_PRACTICE -->
+
     <div class="bg-white p-4 rounded font-serif text-slate-700 shadow-inner">
       "The supplied <strong class="text-slate-900">[Bar/Line/Pie]</strong> chart provides information about <strong class="text-slate-900">[Topic]</strong>. 
       It is clear from the image that the highest value is <strong class="text-slate-900">[Max Value]</strong>, 
@@ -1517,6 +1520,8 @@ export const COURSES: Course[] = [
       In conclusion, this image is very informative for understanding <strong class="text-slate-900">[Topic]</strong>."
     </div>
   </div>
+
+  <!-- DESCRIBE_IMAGE_PRACTICE -->
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="p-4 bg-slate-50 rounded-lg border">

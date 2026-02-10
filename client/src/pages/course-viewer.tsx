@@ -24,6 +24,7 @@ import { NounPractice } from "@/components/lms/noun-practice";
 import { GrammarGuard } from "@/components/lms/grammar-guard";
 import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
 import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
+import pteBarChart from "@/assets/images/pte-bar-chart.png";
 
 function SpeakingPractice({ content }: { content: string }) {
   const [isMemorizeMode, setIsMemorizeMode] = useState(false);
@@ -31,10 +32,43 @@ function SpeakingPractice({ content }: { content: string }) {
   // Basic check to see if we should render the interactive mode
   // This is a simple heuristic based on the presence of specific keywords or structure
   // In a real app, this would be a specific lesson type or metadata
-  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab") || content.includes("REPEAT_SENTENCE_PRACTICE");
+  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab") || content.includes("REPEAT_SENTENCE_PRACTICE") || content.includes("DESCRIBE_IMAGE_PRACTICE");
 
   if (!isTemplateLesson) {
     return <div className="w-full mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
+  }
+
+  // Handle Describe Image Practice
+  if (content.includes("DESCRIBE_IMAGE_PRACTICE")) {
+     const parts = content.split("<!-- DESCRIBE_IMAGE_PRACTICE -->");
+     const theoryContent = parts[0] || content;
+     const tipsContent = parts[1] || "";
+
+     return (
+       <div className="w-full mx-auto p-8 text-left space-y-8">
+          <div dangerouslySetInnerHTML={{ __html: theoryContent }} />
+          
+          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center max-w-2xl mx-auto">
+             <div className="w-full flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                   <span className="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                   Practice Image
+                </h3>
+                <span className="text-xs font-medium bg-slate-100 text-slate-500 px-2 py-1 rounded">Bar Chart</span>
+             </div>
+             
+             <div className="border border-slate-200 rounded-lg overflow-hidden shadow-sm w-full bg-white mb-4">
+                <img src={pteBarChart} alt="PTE Practice Bar Chart: World Population" className="w-full h-auto object-contain max-h-[400px]" />
+             </div>
+             
+             <div className="w-full bg-blue-50 p-4 rounded text-sm text-blue-800 italic border border-blue-100">
+                "Describe this image using the template above. Focus on the highest (Asia) and lowest (Europe) values."
+             </div>
+          </div>
+
+          <div dangerouslySetInnerHTML={{ __html: tipsContent }} />
+       </div>
+     );
   }
 
   // Handle Repeat Sentence Practice
