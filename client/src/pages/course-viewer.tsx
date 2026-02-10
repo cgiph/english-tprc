@@ -341,7 +341,9 @@ export default function CourseViewer() {
                 "w-full transition-all duration-300",
                 activeLesson.lesson.type === "video" 
                    ? "flex-1 flex items-center justify-center bg-black/40 p-8 min-h-[600px]" 
-                   : "bg-white text-slate-900 h-full min-h-screen" // Ensure it takes full height and expands
+                   : activeLesson.lesson.type === "quiz"
+                     ? "bg-slate-50 h-full min-h-screen flex flex-col" 
+                     : "bg-white text-slate-900 h-full min-h-screen" 
               )}>
                  {activeLesson.lesson.type === "video" ? (
                     <div className="w-full max-w-5xl aspect-video bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
@@ -363,7 +365,7 @@ export default function CourseViewer() {
                     )}
                     </div>
                  ) : activeLesson.lesson.type === "quiz" ? (
-                    <div className="flex flex-col items-center justify-center min-h-[600px] bg-slate-50 p-8">
+                    <div className="flex flex-col items-center justify-center flex-1 p-8">
                        <div className="text-center space-y-6 max-w-md p-8 bg-white rounded-2xl shadow-sm border border-slate-200">
                          <HelpCircle className="h-20 w-20 text-orange-500 mx-auto" />
                          <h3 className="text-2xl font-bold text-slate-900">Module Assessment</h3>
