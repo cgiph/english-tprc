@@ -1585,6 +1585,22 @@ export const COURSES: Course[] = [
 `
           },
           { id: "pte-m2-quiz-ai", title: "AI Auditor Assessment", type: "quiz", duration: "10 min", isCompleted: false },
+          { 
+            id: "pte-m2-l5-sgd", 
+            title: "Summarize Group Discussion", 
+            type: "video", 
+            duration: "15 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/-TWLcLqfC6Y"
+          },
+          { 
+            id: "pte-m2-l6-rts", 
+            title: "Respond to a Situation", 
+            type: "video", 
+            duration: "15 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/YoV25DFFADs"
+          },
           { id: "pte-m1-quiz", title: "Speaking Assessment", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
