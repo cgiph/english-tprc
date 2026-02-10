@@ -1508,7 +1508,12 @@ export const COURSES: Course[] = [
   <p class="text-slate-600">The computer doesn't care if you understand the data; it cares that you speak <strong>without hesitation</strong> for 40 seconds.</p>
 
   <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
-    <h4 class="font-bold text-blue-900 mb-2">The "Universal" DI Template</h4>
+    <div class="flex items-start justify-between mb-2">
+      <h4 class="font-bold text-blue-900">The "Universal" DI Template</h4>
+      <div class="text-xs font-bold text-red-600 bg-red-100 px-2 py-1 rounded border border-red-200 max-w-[50%] text-right">
+        ⚠️ DO NOT use the template as a script in the actual exam. Scripts or templates are banned. Use the template as your GUIDE.
+      </div>
+    </div>
     
     <!-- DESCRIBE_IMAGE_PRACTICE -->
 
