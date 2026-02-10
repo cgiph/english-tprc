@@ -335,14 +335,14 @@ export default function CourseViewer() {
         </div>
 
         {/* Lesson Content Container */}
-        <div className="flex-auto flex flex-col min-h-[500px] relative w-full">
+        <div className="flex-grow shrink-0 relative w-full z-0">
            {activeLesson ? (
               <div className={cn(
-                "w-full flex-grow transition-all duration-300",
+                "w-full transition-all duration-300",
                 activeLesson.lesson.type === "video" 
                    ? "flex items-center justify-center bg-black/40 p-8 min-h-[600px]" 
                    : activeLesson.lesson.type === "quiz"
-                     ? "bg-slate-50 flex flex-col" 
+                     ? "bg-slate-50 flex flex-col min-h-[500px]" 
                      : "bg-white text-slate-900" 
               )}>
                  {activeLesson.lesson.type === "video" ? (
