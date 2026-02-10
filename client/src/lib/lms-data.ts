@@ -1447,6 +1447,84 @@ export const COURSES: Course[] = [
             `
           },
           { 
+            id: "pte-subject-verb-agreement", 
+            title: "Subject-Verb Agreement", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-indigo-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">Subject-Verb Agreement</h1>
+                   <p class="text-indigo-200 text-lg">The Golden Rule: The verb must agree with its subject in number.</p>
+                </div>
+
+                <div class="space-y-6">
+                   <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                      <h3 class="font-bold text-xl text-indigo-900 mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm">1</span>
+                        Basic Rule
+                      </h3>
+                      <div class="grid md:grid-cols-2 gap-6">
+                         <div class="bg-slate-50 p-4 rounded-lg border-l-4 border-green-500">
+                            <h4 class="font-bold text-green-800 mb-2">Singular Subject = Singular Verb</h4>
+                            <p class="text-slate-600 text-sm mb-2">Singular verbs often end in <strong>'s'</strong>.</p>
+                            <p class="font-medium">✅ The cat <strong>runs</strong> fast.</p>
+                            <p class="font-medium">✅ He <strong>is</strong> happy.</p>
+                         </div>
+                         <div class="bg-slate-50 p-4 rounded-lg border-l-4 border-blue-500">
+                            <h4 class="font-bold text-blue-800 mb-2">Plural Subject = Plural Verb</h4>
+                            <p class="text-slate-600 text-sm mb-2">Plural verbs do <strong>not</strong> end in 's'.</p>
+                            <p class="font-medium">✅ The cats <strong>run</strong> fast.</p>
+                            <p class="font-medium">✅ They <strong>are</strong> happy.</p>
+                         </div>
+                      </div>
+                   </div>
+
+                   <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                      <h3 class="font-bold text-xl text-orange-900 mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-sm">2</span>
+                        Tricky Cases
+                      </h3>
+                      <div class="space-y-4">
+                         <div class="flex items-start gap-4 p-3 bg-orange-50 rounded-lg">
+                            <div class="font-bold text-orange-700 min-w-[120px]">Indefinite Pronouns</div>
+                            <div>
+                               <p class="text-slate-800 mb-1">Everyone, someone, anyone, nobody are <strong>Singular</strong>.</p>
+                               <p class="text-sm font-medium">✅ Everyone <strong>is</strong> here. (Not 'are')</p>
+                            </div>
+                         </div>
+                         <div class="flex items-start gap-4 p-3 bg-orange-50 rounded-lg">
+                            <div class="font-bold text-orange-700 min-w-[120px]">Compound Subjects</div>
+                            <div>
+                               <p class="text-slate-800 mb-1">Subjects joined by 'and' are usually <strong>Plural</strong>.</p>
+                               <p class="text-sm font-medium">✅ John and Mary <strong>are</strong> coming.</p>
+                            </div>
+                         </div>
+                         <div class="flex items-start gap-4 p-3 bg-orange-50 rounded-lg">
+                            <div class="font-bold text-orange-700 min-w-[120px]">Collective Nouns</div>
+                            <div>
+                               <p class="text-slate-800 mb-1">Group nouns (team, family, class) are usually <strong>Singular</strong> when acting as one unit.</p>
+                               <p class="text-sm font-medium">✅ The team <strong>wins</strong> the game.</p>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+
+                   <div class="bg-yellow-50 p-6 rounded-xl border border-yellow-200">
+                      <h3 class="text-lg font-bold text-yellow-900 mb-2">⚠️ The "Prepositional Phrase" Trap</h3>
+                      <p class="text-yellow-950 mb-3">Ignore words between the subject and the verb. They do not affect agreement.</p>
+                      <div class="bg-white/60 p-4 rounded border border-yellow-300">
+                         <p class="mb-2">❌ The box <s>of apples</s> <strong>are</strong> heavy.</p>
+                         <p>✅ The <strong>box</strong> (of apples) <strong>is</strong> heavy.</p>
+                         <p class="text-xs text-slate-500 mt-1">'Box' is the subject, not 'apples'.</p>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            `
+          },
+          { 
             id: "pte-gram-l1", 
             title: "Rule #1-5: Verbs & Prepositions", 
             type: "reading", 
