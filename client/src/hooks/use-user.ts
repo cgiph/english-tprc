@@ -3,13 +3,46 @@ import { useState, useEffect } from 'react';
 export function useUser() {
   const [user, setUser] = useState<{ name: string; email: string; role?: 'student' | 'trainer' } | null>(() => {
     const saved = localStorage.getItem('mock_user');
-    return saved ? JSON.parse(saved) : null;
+    if (!saved) return null;
+    
+    const parsed = JSON.parse(saved);
+    
+    // Auto-fix role if missing or incorrect for known trainers
+    const trainerEmails = [
+      "jorge.catiempo@cirrusrecruitment.com",
+      "susan.centino@cirrusrecruitment.com",
+      "jobart.benedito@cirrusrecruitment.com"
+    ];
+    
+    if (parsed && trainerEmails.includes(parsed.email.toLowerCase().trim())) {
+      parsed.role = 'trainer';
+    }
+    
+    return parsed;
   });
 
   useEffect(() => {
     const handleStorage = () => {
       const saved = localStorage.getItem('mock_user');
-      setUser(saved ? JSON.parse(saved) : null);
+      if (!saved) {
+        setUser(null);
+        return;
+      }
+
+      const parsed = JSON.parse(saved);
+      
+      // Auto-fix role here too
+      const trainerEmails = [
+        "jorge.catiempo@cirrusrecruitment.com",
+        "susan.centino@cirrusrecruitment.com",
+        "jobart.benedito@cirrusrecruitment.com"
+      ];
+      
+      if (parsed && trainerEmails.includes(parsed.email.toLowerCase().trim())) {
+        parsed.role = 'trainer';
+      }
+
+      setUser(parsed);
     };
 
     window.addEventListener('storage', handleStorage);
