@@ -25,6 +25,7 @@ import { NounPractice } from "@/components/lms/noun-practice";
 import { GrammarGuard } from "@/components/lms/grammar-guard";
 import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
 import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
+import { ReadingMockTest } from "@/components/lms/reading-mock-test";
 import pteBarChart from "@/assets/images/pte-bar-chart.png";
 import waveformBad from "@/assets/images/waveform-bad.png";
 import waveformGood from "@/assets/images/waveform-good.png";
@@ -469,6 +470,11 @@ function SpeakingPractice({ content }: { content: string }) {
           </div>
        </div>
      );
+  }
+
+  // Handle Reading Mock Test
+  if (content.includes("<!-- READING_MOCK_TEST -->")) {
+     return <ReadingMockTest />;
   }
 
   // Parse content to extract the main parts if needed, or just render the specialized view directly
