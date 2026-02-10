@@ -282,6 +282,19 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       ],
       correctAnswer: 0,
       rationale: "In PTE, if the microphone detects 3 seconds of silence, it assumes you are done and stops recording. You lose all points for whatever you say after that."
+    },
+    {
+      id: "ai-q3",
+      type: "diagnostic", // Re-using diagnostic type for consistency in this quiz section
+      transcript: "The supplied bar chart... [READING ROBOTICALLY FROM MEMORY] ... provides information about topic.",
+      question: "The student is using a template. What is the correct approach for using templates in the actual exam?",
+      options: [
+        "Memorize it and use it as a strict script (The computer loves scripts).",
+        "Use it as a flexible guide for structure, but speak naturally.",
+        "Write it down on the erasable notebook and read it word-for-word."
+      ],
+      correctAnswer: 1,
+      rationale: "Correct! Templates are strictly GUIDES. Using them as a script (or sounding like you are reading one) is banned and can severely hurt your Oral Fluency and Pronunciation scores."
     }
   ],
   "pte-reading": [
