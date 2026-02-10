@@ -242,6 +242,18 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
        text: "What affects your Oral Fluency score the most?",
        options: ["Using big words", "Speaking very fast", "Smooth rhythm and phrasing without hesitations", "Having a British accent"],
        correctAnswer: 2
+    },
+    {
+       id: "pm1-q6",
+       text: "In 'Summarize Group Discussion', what is the main goal?",
+       options: ["To summarize everyone's opinion in detail", "To pick one side and argue for it", "To provide a balanced summary of the key points raised by different speakers", "To critique the speakers' grammar"],
+       correctAnswer: 2
+    },
+    {
+       id: "pm1-q7",
+       text: "For 'Respond to a Situation', how should you approach the answer?",
+       options: ["Give a short 'Yes' or 'No' answer", "Provide a logical solution or response that addresses the specific problem described", "Describe the image shown on screen", "Repeat exactly what the prompt said"],
+       correctAnswer: 1
     }
   ],
   "pte-m2-quiz-ai": [

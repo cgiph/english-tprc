@@ -1469,7 +1469,7 @@ export const COURSES: Course[] = [
             type: "video", 
             duration: "20 min", 
             isCompleted: false,
-            videoUrl: "https://www.youtube.com/embed/DkW2LUVDQG4",
+            videoUrl: "https://www.youtube.com/embed/uNGb7bDtdW0",
             content: "<h3>Read Aloud Tips</h3><ul><li>Speak at a natural pace.</li><li>Do not correct yourself if you make a mistake; keep going.</li><li>Pause slightly at punctuation marks.</li></ul>"
           },
           { 
