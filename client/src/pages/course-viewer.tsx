@@ -141,7 +141,7 @@ function SpeakingPractice({ content }: { content: string }) {
   // Basic check to see if we should render the interactive mode
   // This is a simple heuristic based on the presence of specific keywords or structure
   // In a real app, this would be a specific lesson type or metadata
-  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab") || content.includes("REPEAT_SENTENCE_PRACTICE") || content.includes("DESCRIBE_IMAGE_PRACTICE") || content.includes("SPEAKING_MOCK_TEST");
+  const isTemplateLesson = content.includes("Template Teleprompter") || content.includes("AI Scoring Rules") || content.includes("Grammar Guard") || content.includes("SWT Practice Lab") || content.includes("REPEAT_SENTENCE_PRACTICE") || content.includes("DESCRIBE_IMAGE_PRACTICE") || content.includes("SPEAKING_MOCK_TEST") || content.includes("READING_MOCK_TEST");
 
   if (!isTemplateLesson) {
     return <div className="w-full mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
