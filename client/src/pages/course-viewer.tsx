@@ -335,13 +335,13 @@ export default function CourseViewer() {
         </div>
 
         {/* Lesson Content Container */}
-        <div className="flex-1 flex flex-col min-h-[500px] relative">
+        <div className="flex-1 flex flex-col min-h-[500px] relative overflow-visible">
            {activeLesson ? (
               <div className={cn(
                 "w-full transition-all duration-300",
                 activeLesson.lesson.type === "video" 
                    ? "flex-1 flex items-center justify-center bg-black/40 p-8 min-h-[600px]" 
-                   : "bg-white text-slate-900 min-h-full" // Use white bg for text lessons for better readability
+                   : "bg-white text-slate-900 h-full min-h-screen" // Ensure it takes full height and expands
               )}>
                  {activeLesson.lesson.type === "video" ? (
                     <div className="w-full max-w-5xl aspect-video bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
