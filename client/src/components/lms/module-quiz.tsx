@@ -348,6 +348,80 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
         text: "In the Essay task, how many paragraphs are recommended?",
         options: ["1 long paragraph", "2 paragraphs", "4 paragraphs (Intro, Body 1, Body 2, Conclusion)", "10 bullet points"],
         correctAnswer: 2
+     },
+     {
+        id: "pm3-q3",
+        text: "In 'Multiple Choice Multiple Answers' (Listening), is there negative marking?",
+        options: ["No, guess freely", "Yes, incorrect options deduct points from correct ones", "Only if you select all options", "Negative marking only applies to Reading"],
+        correctAnswer: 1
+     },
+     {
+        id: "pm3-q4",
+        text: "What happens at the very end of the recording in 'Select Missing Word'?",
+        options: ["The speaker repeats the sentence", "A bell rings", "The last word or phrase is replaced by a beep", "The screen goes black"],
+        correctAnswer: 2
+     },
+     {
+        id: "pm3-q5",
+        text: "How is 'Highlight Incorrect Words' scored?",
+        options: ["1 point per correct highlight, -1 point per incorrect highlight", "1 point per correct highlight only", "Pass/Fail based on overall accuracy", "No negative marking"],
+        correctAnswer: 0
+     },
+     {
+        id: "pm3-q6",
+        text: "For 'Listening: Fill in the Blanks', what is a recommended strategy?",
+        options: ["Listen without writing anything", "Type directly into the box and tab to the next one", "Write full sentences on the notepad", "Close your eyes and visualize"],
+        correctAnswer: 1
+     },
+     {
+        id: "pm3-q7",
+        text: "Why is 'Write from Dictation' considered a high-value task?",
+        options: ["It is the easiest task", "It contributes significantly to both Listening and Writing scores", "It is multiple choice", "It has no time limit"],
+        correctAnswer: 1
+     }
+  ],
+  "pte-m3-quiz": [
+     {
+        id: "pm3-quiz-q1",
+        text: "What is the word limit for 'Summarize Spoken Text'?",
+        options: ["20-30 words", "50-70 words", "100-200 words", "No limit"],
+        correctAnswer: 1
+     },
+     {
+        id: "pm3-quiz-q2",
+        text: "In the Essay task, how many paragraphs are recommended?",
+        options: ["1 long paragraph", "2 paragraphs", "4 paragraphs (Intro, Body 1, Body 2, Conclusion)", "10 bullet points"],
+        correctAnswer: 2
+     },
+     {
+        id: "pm3-quiz-q3",
+        text: "In 'Multiple Choice Multiple Answers' (Listening), is there negative marking?",
+        options: ["No, guess freely", "Yes, incorrect options deduct points from correct ones", "Only if you select all options", "Negative marking only applies to Reading"],
+        correctAnswer: 1
+     },
+     {
+        id: "pm3-quiz-q4",
+        text: "What happens at the very end of the recording in 'Select Missing Word'?",
+        options: ["The speaker repeats the sentence", "A bell rings", "The last word or phrase is replaced by a beep", "The screen goes black"],
+        correctAnswer: 2
+     },
+     {
+        id: "pm3-quiz-q5",
+        text: "How is 'Highlight Incorrect Words' scored?",
+        options: ["1 point per correct highlight, -1 point per incorrect highlight", "1 point per correct highlight only", "Pass/Fail based on overall accuracy", "No negative marking"],
+        correctAnswer: 0
+     },
+     {
+        id: "pm3-quiz-q6",
+        text: "For 'Listening: Fill in the Blanks', what is a recommended strategy?",
+        options: ["Listen without writing anything", "Type directly into the box and tab to the next one", "Write full sentences on the notepad", "Close your eyes and visualize"],
+        correctAnswer: 1
+     },
+     {
+        id: "pm3-quiz-q7",
+        text: "Why is 'Write from Dictation' considered a high-value task?",
+        options: ["It is the easiest task", "It contributes significantly to both Listening and Writing scores", "It is multiple choice", "It has no time limit"],
+        correctAnswer: 1
      }
   ],
   "pte-mock": [
