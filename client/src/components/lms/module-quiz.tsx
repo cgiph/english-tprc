@@ -692,8 +692,32 @@ export function ModuleQuiz({ moduleId, moduleTitle, quizId, isOpen, onClose, onC
                         </div>
                      </div>
                   ) : (
-                      <div className="p-4 bg-slate-100 rounded-lg border border-slate-200 text-lg leading-relaxed font-mono">
-                          <p>{questions[currentQuestion].transcript}</p>
+                      <div className="space-y-4">
+                          {questions[currentQuestion].transcript && (
+                              <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Transcript Analysis</h4>
+                                  <div className="font-mono text-lg leading-relaxed text-slate-800">
+                                      "{questions[currentQuestion].transcript}"
+                                  </div>
+                              </div>
+                          )}
+                          
+                          <div>
+                              {questions[currentQuestion].question && (
+                                  <p className="text-sm font-bold text-slate-700 mb-3">{questions[currentQuestion].question}</p>
+                              )}
+                              <div className="grid grid-cols-1 gap-2">
+                                  {questions[currentQuestion].options?.map((option, idx) => (
+                                      <button 
+                                          key={idx}
+                                          className={`text-left p-4 rounded-lg border transition-all ${answers[questions[currentQuestion].id] === idx ? "bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500" : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-slate-50"}`}
+                                          onClick={() => handleSelect(idx.toString())}
+                                      >
+                                          <div className="font-bold text-sm">{String.fromCharCode(65 + idx)}. {option}</div>
+                                      </button>
+                                  ))}
+                              </div>
+                          </div>
                       </div>
                   )}
                </div>
