@@ -1881,14 +1881,6 @@ export const COURSES: Course[] = [
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/9edG9TRte8o"
           },
-          { 
-            id: "pte-listening-practice-test", 
-            title: "Full Listening Practice Test", 
-            type: "reading", 
-            duration: "45 min", 
-            isCompleted: false,
-            content: "<!-- LISTENING_MOCK_TEST -->" 
-          },
           { id: "pte-listening-quiz", title: "Listening Strategy Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
@@ -2111,7 +2103,14 @@ export const COURSES: Course[] = [
             duration: "18 min", 
             isCompleted: false,
             content: `<!-- READING_MOCK_TEST -->`
-
+          },
+          { 
+            id: "pte-mock-listening-section", 
+            title: "Section 3: Listening Test", 
+            type: "reading", 
+            duration: "45 min", 
+            isCompleted: false,
+            content: "<!-- LISTENING_MOCK_TEST -->" 
           }
         ]
       },
