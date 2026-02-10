@@ -342,8 +342,8 @@ export default function CourseViewer() {
                 activeLesson.lesson.type === "video" 
                    ? "flex-1 flex items-center justify-center bg-black/40 p-8 min-h-[600px]" 
                    : activeLesson.lesson.type === "quiz"
-                     ? "bg-slate-50 h-full min-h-screen flex flex-col" 
-                     : "bg-white text-slate-900 h-full min-h-screen" 
+                     ? "bg-slate-50 min-h-full flex flex-col" 
+                     : "bg-white text-slate-900 min-h-full" 
               )}>
                  {activeLesson.lesson.type === "video" ? (
                     <div className="w-full max-w-5xl aspect-video bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
