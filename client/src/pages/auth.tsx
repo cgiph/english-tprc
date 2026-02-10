@@ -81,6 +81,7 @@ export default function AuthPage() {
       // Mock Authentication
       // Use Name from form for register, or extract from email for login
       const displayName = mode === "register" ? formData.name : formData.email.split('@')[0];
+      const normalizedEmail = formData.email.toLowerCase().trim();
       
       // Check for Trainer Emails
       const trainerEmails = [
@@ -89,15 +90,15 @@ export default function AuthPage() {
         "jobart.benedito@cirrusrecruitment.com"
       ];
 
-      const isTrainer = trainerEmails.includes(formData.email.toLowerCase());
+      const isTrainer = trainerEmails.includes(normalizedEmail);
       
       // If it's a known trainer, use their proper name if logging in without registration flow (simplified)
       let finalName = displayName;
-      if (formData.email.toLowerCase() === "jorge.catiempo@cirrusrecruitment.com") finalName = "Jorge Catiempo";
-      if (formData.email.toLowerCase() === "susan.centino@cirrusrecruitment.com") finalName = "Susan Centino";
-      if (formData.email.toLowerCase() === "jobart.benedito@cirrusrecruitment.com") finalName = "Jobart Benedito";
+      if (normalizedEmail === "jorge.catiempo@cirrusrecruitment.com") finalName = "Jorge Catiempo";
+      if (normalizedEmail === "susan.centino@cirrusrecruitment.com") finalName = "Susan Centino";
+      if (normalizedEmail === "jobart.benedito@cirrusrecruitment.com") finalName = "Jobart Benedito";
 
-      login(finalName, formData.email, isTrainer ? 'trainer' : 'student');
+      login(finalName, normalizedEmail, isTrainer ? 'trainer' : 'student');
 
       toast({
         title: mode === "login" ? "Login Successful" : "Registration Successful",
