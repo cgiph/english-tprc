@@ -27,7 +27,8 @@ const defaultState: UserLMSState = {
     "mock1": { status: "unlocked", completedLessons: [] }
   },
   quizHistory: [],
-  mockTestResults: []
+  mockTestResults: [],
+  supportTickets: []
 };
 
 interface LMSContextType {
@@ -36,6 +37,7 @@ interface LMSContextType {
   completeLesson: (moduleId: ModuleId, lessonId: LessonId) => void;
   submitQuizScore: (moduleId: ModuleId, score: number) => void;
   saveMockResult: (testId: string, difficulty: DifficultyLevel, score: number, breakdown: any) => void;
+  submitSupportTicket: (lessonId: string, lessonTitle: string, question: string) => void;
 }
 
 const LMSContext = createContext<LMSContextType | undefined>(undefined);
@@ -148,8 +150,33 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  const submitSupportTicket = (lessonId: string, lessonTitle: string, question: string) => {
+    setState(prev => ({
+      ...prev,
+      supportTickets: [
+        {
+          id: Math.random().toString(36).substr(2, 9),
+          userId: prev.userId,
+          lessonId,
+          lessonTitle,
+          question,
+          status: 'open',
+          date: new Date().toISOString(),
+          messages: [
+            {
+              sender: 'user',
+              text: question,
+              date: new Date().toISOString()
+            }
+          ]
+        },
+        ...(prev.supportTickets || [])
+      ]
+    }));
+  };
+
   return (
-    <LMSContext.Provider value={{ state, unlockModule, completeLesson, submitQuizScore, saveMockResult }}>
+    <LMSContext.Provider value={{ state, unlockModule, completeLesson, submitQuizScore, saveMockResult, submitSupportTicket }}>
       {children}
     </LMSContext.Provider>
   );

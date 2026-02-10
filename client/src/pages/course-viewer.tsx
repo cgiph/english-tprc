@@ -126,7 +126,7 @@ function SpeakingPractice({ content }: { content: string }) {
 export default function CourseViewer() {
   const { id } = useParams();
   const rawCourse = getCourseById(id || "");
-  const { state, completeLesson, unlockModule, submitQuizScore } = useLMS();
+  const { state, completeLesson, unlockModule, submitQuizScore, submitSupportTicket } = useLMS();
   
   // Quiz State
   const [quizOpen, setQuizOpen] = useState(false);
@@ -243,6 +243,13 @@ export default function CourseViewer() {
   const handleSupportSubmit = () => {
     if (!supportQuestion.trim()) return;
     
+    // Send to LMS state
+    if (activeLesson) {
+      submitSupportTicket(activeLesson.lesson.id, activeLesson.lesson.title, supportQuestion);
+    } else {
+      submitSupportTicket("general", course.title, supportQuestion);
+    }
+
     toast({
       title: "Message Sent",
       description: "Your message has been sent to the Cirrus Training Team.",

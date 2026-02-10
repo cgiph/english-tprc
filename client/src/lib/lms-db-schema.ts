@@ -57,6 +57,22 @@ export interface UserLMSState {
     isTechnicalVerified?: boolean; // Flag for Technical Hard Tier success
     proctorLogId?: string; // Reference to proctoring session log
   }[];
+
+  // 5. Support Tickets
+  supportTickets: {
+    id: string;
+    userId: string;
+    lessonId: string;
+    lessonTitle: string;
+    question: string;
+    status: 'open' | 'resolved';
+    date: string;
+    messages: {
+      sender: 'user' | 'admin';
+      text: string;
+      date: string;
+    }[];
+  }[];
 }
 
 // -- Source of Truth Integrity --

@@ -115,10 +115,26 @@ const MESSAGES = [
   }
 ];
 
+import { useLMS } from "@/hooks/use-lms";
+
 export default function AdminDashboard() {
   const { toast } = useToast();
+  const { state } = useLMS();
   const [searchTerm, setSearchTerm] = useState("");
   const [exporting, setExporting] = useState(false);
+
+  // Combine Mock Messages + Real Support Tickets from LMS State
+  const dynamicMessages = (state.supportTickets || []).map(ticket => ({
+    id: ticket.id,
+    sender: ticket.userId === "guest" ? "Guest User" : ticket.userId,
+    role: "Candidate",
+    subject: `Question: ${ticket.lessonTitle}`,
+    preview: ticket.question,
+    time: new Date(ticket.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+    status: ticket.status === 'open' ? 'unread' : 'read'
+  }));
+
+  const allMessages = [...dynamicMessages, ...MESSAGES];
 
   const handleExport = () => {
     setExporting(true);
@@ -360,7 +376,7 @@ export default function AdminDashboard() {
                        <Input placeholder="Search messages..." className="mt-2" />
                     </CardHeader>
                     <div className="flex-1 overflow-y-auto">
-                       {MESSAGES.map((msg) => (
+                       {allMessages.map((msg) => (
                           <div key={msg.id} className={`p-4 border-b cursor-pointer hover:bg-slate-50 transition-colors ${msg.id === 1 ? 'bg-blue-50/50' : ''}`}>
                              <div className="flex justify-between items-start mb-1">
                                 <span className={`font-semibold text-sm ${msg.status === 'unread' ? 'text-slate-900' : 'text-slate-600'}`}>{msg.sender}</span>
