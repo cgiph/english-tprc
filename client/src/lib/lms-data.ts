@@ -1578,6 +1578,8 @@ export const COURSES: Course[] = [
         "One <strong class="text-white underline">smooth</strong>, incorrect sentence is worth <strong class="text-white underline">more</strong> than one hesitant, perfect sentence."
       </p>
     </div>
+    
+    <!-- AUDIO_EXAMPLES -->
   </div>
 </div>
 `

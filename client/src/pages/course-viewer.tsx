@@ -38,6 +38,84 @@ function SpeakingPractice({ content }: { content: string }) {
     return <div className="w-full mx-auto p-8 text-left" dangerouslySetInnerHTML={{ __html: content }} />;
   }
 
+  // Handle AI Scoring Rules / Audio Examples
+  if (content.includes("AI Scoring Rules") || content.includes("AUDIO_EXAMPLES")) {
+     const parts = content.split("<!-- AUDIO_EXAMPLES -->");
+     const mainContent = parts[0] || content;
+
+     return (
+       <div className="w-full mx-auto p-8 text-left space-y-8">
+          <div dangerouslySetInnerHTML={{ __html: mainContent }} />
+          
+          <div className="space-y-4 pt-4 border-t border-slate-200">
+             <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+                <span className="p-1 bg-indigo-100 text-indigo-700 rounded-lg">🎧</span>
+                Listen and Compare
+             </h3>
+             <div className="grid md:grid-cols-2 gap-6">
+                {/* Bad Example */}
+                <div className="bg-red-50 p-6 rounded-xl border border-red-100 relative overflow-hidden group">
+                   <div className="absolute top-0 right-0 p-2 opacity-10 text-red-600">
+                      <Video className="w-24 h-24" />
+                   </div>
+                   
+                   <div className="relative z-10">
+                      <h4 className="font-bold text-red-800 mb-2 flex items-center gap-2">
+                         <span className="bg-red-200 text-red-700 text-xs px-2 py-1 rounded-full uppercase tracking-wider">Bad Example</span>
+                      </h4>
+                      <p className="text-sm text-red-700 mb-4 h-10">Hesitant, includes fillers, and restarts sentences.</p>
+                      
+                      <div className="bg-white p-3 rounded-lg shadow-sm flex items-center gap-3 border border-red-100">
+                         <button className="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center hover:bg-red-200 transition-colors">
+                            <PlayCircle className="w-6 h-6 ml-0.5" />
+                         </button>
+                         <div className="flex-1 space-y-1">
+                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                               <div className="h-full bg-red-400 w-1/3 rounded-full"></div>
+                            </div>
+                            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+                               <span>0:04</span>
+                               <span>0:12</span>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+
+                {/* Good Example */}
+                <div className="bg-green-50 p-6 rounded-xl border border-green-100 relative overflow-hidden group">
+                   <div className="absolute top-0 right-0 p-2 opacity-10 text-green-600">
+                      <CheckCircle2 className="w-24 h-24" />
+                   </div>
+                   
+                   <div className="relative z-10">
+                      <h4 className="font-bold text-green-800 mb-2 flex items-center gap-2">
+                         <span className="bg-green-200 text-green-700 text-xs px-2 py-1 rounded-full uppercase tracking-wider">Good Example</span>
+                      </h4>
+                      <p className="text-sm text-green-700 mb-4 h-10">Smooth flow, steady pace, even with minor grammar errors.</p>
+                      
+                      <div className="bg-white p-3 rounded-lg shadow-sm flex items-center gap-3 border border-green-100">
+                         <button className="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center hover:bg-green-200 transition-colors">
+                            <PlayCircle className="w-6 h-6 ml-0.5" />
+                         </button>
+                         <div className="flex-1 space-y-1">
+                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                               <div className="h-full bg-green-500 w-0 rounded-full"></div>
+                            </div>
+                            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+                               <span>0:00</span>
+                               <span>0:11</span>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+     );
+  }
+
   // Handle Describe Image Practice
   if (content.includes("DESCRIBE_IMAGE_PRACTICE")) {
      const parts = content.split("<!-- DESCRIBE_IMAGE_PRACTICE -->");
