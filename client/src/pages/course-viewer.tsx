@@ -310,10 +310,10 @@ export default function CourseViewer() {
         />
       )}
 
-      {/* Main Content Area - Video Player Style */}
-      <div className="flex-1 flex flex-col overflow-y-auto bg-slate-950 text-slate-100">
+      {/* Main Content Area - Scrollable */}
+      <div className="flex-1 flex flex-col overflow-y-auto bg-slate-950 text-slate-100 relative scroll-smooth">
         {/* Header Overlay */}
-        <div className="p-3 border-b border-slate-800 flex justify-between items-center bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+        <div className="p-3 border-b border-slate-800 flex justify-between items-center bg-slate-900/95 backdrop-blur-sm sticky top-0 z-20 shadow-sm">
            <div>
              <Link href="/lms" className="text-xs text-slate-400 hover:text-white flex items-center mb-1">
                <ChevronLeft className="h-3 w-3 mr-1" /> Back to Dashboard
@@ -334,17 +334,18 @@ export default function CourseViewer() {
            </div>
         </div>
 
-        {/* Cinema Mode Player */}
-        <div className="flex-1 flex items-center justify-center bg-black/40 min-h-[500px] overflow-y-auto">
+        {/* Lesson Content Container */}
+        <div className="flex-1 flex flex-col min-h-[500px] relative">
            {activeLesson ? (
               <div className={cn(
-                "w-full overflow-hidden shadow-2xl relative group",
+                "w-full transition-all duration-300",
                 activeLesson.lesson.type === "video" 
-                   ? "max-w-4xl aspect-video bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-center" 
-                   : "lesson-wrapper w-full h-full p-8"
+                   ? "flex-1 flex items-center justify-center bg-black/40 p-8 min-h-[600px]" 
+                   : "bg-white text-slate-900 min-h-full" // Use white bg for text lessons for better readability
               )}>
                  {activeLesson.lesson.type === "video" ? (
-                    activeLesson.lesson.videoUrl ? (
+                    <div className="w-full max-w-5xl aspect-video bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+                    {activeLesson.lesson.videoUrl ? (
                       <iframe 
                         width="100%" 
                         height="100%" 
@@ -355,28 +356,35 @@ export default function CourseViewer() {
                         className="w-full h-full"
                       ></iframe>
                     ) : (
-                      <div className="text-center space-y-4">
+                      <div className="w-full h-full flex flex-col items-center justify-center text-center space-y-4">
                         <PlayCircle className="h-24 w-24 text-slate-700 group-hover:text-primary transition-colors cursor-pointer" />
                         <p className="text-slate-500 font-medium">Video Placeholder: {activeLesson.lesson.title}</p>
                       </div>
-                    )
+                    )}
+                    </div>
                  ) : activeLesson.lesson.type === "quiz" ? (
-                    <div className="text-center space-y-6 max-w-md p-8">
-                       <HelpCircle className="h-20 w-20 text-orange-500 mx-auto" />
-                       <h3 className="text-2xl font-bold">Module Assessment</h3>
-                       <p className="text-slate-400">Pass this quiz with 80% or higher to unlock the next module.</p>
-                       <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white w-full" onClick={() => handleLessonStart(activeLesson.moduleId, activeLesson.lesson.id, "quiz")}>Start Quiz</Button>
+                    <div className="flex flex-col items-center justify-center min-h-[600px] bg-slate-50 p-8">
+                       <div className="text-center space-y-6 max-w-md p-8 bg-white rounded-2xl shadow-sm border border-slate-200">
+                         <HelpCircle className="h-20 w-20 text-orange-500 mx-auto" />
+                         <h3 className="text-2xl font-bold text-slate-900">Module Assessment</h3>
+                         <p className="text-slate-500">Pass this quiz with 80% or higher to unlock the next module.</p>
+                         <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white w-full" onClick={() => handleLessonStart(activeLesson.moduleId, activeLesson.lesson.id, "quiz")}>Start Quiz</Button>
+                       </div>
                     </div>
                  ) : activeLesson.lesson.id === "l3-bonus" ? (
-                    <NounPractice onComplete={handleMarkComplete} />
+                    <div className="p-8 max-w-6xl mx-auto w-full">
+                       <NounPractice onComplete={handleMarkComplete} />
+                    </div>
                  ) : (
-                    <div className="w-full h-auto min-h-full overflow-y-auto">
+                    <div className="w-full max-w-6xl mx-auto">
                        {(activeLesson.lesson.type === "reading" || activeLesson.lesson.type === "assignment") && activeLesson.lesson.content ? (
-                         <SpeakingPractice content={activeLesson.lesson.content} />
+                         <div className="bg-white min-h-[600px]">
+                            <SpeakingPractice content={activeLesson.lesson.content} />
+                         </div>
                        ) : (
-                         <div className="flex flex-col items-center justify-center h-full text-center space-y-4 max-w-2xl px-8 mx-auto">
-                            <FileText className="h-20 w-20 text-slate-600 mx-auto" />
-                            <h3 className="text-2xl font-bold">{activeLesson.lesson.title}</h3>
+                         <div className="flex flex-col items-center justify-center py-20 text-center space-y-4 max-w-2xl px-8 mx-auto">
+                            <FileText className="h-20 w-20 text-slate-300 mx-auto" />
+                            <h3 className="text-2xl font-bold text-slate-400">{activeLesson.lesson.title}</h3>
                             <p className="text-slate-400 text-lg leading-relaxed">
                               Reading content for this lesson would appear here. This is a mockup for the reading interface.
                             </p>
@@ -386,12 +394,14 @@ export default function CourseViewer() {
                  )}
               </div>
            ) : (
-              <p className="text-slate-500">Select a lesson to begin</p>
+              <div className="flex-1 flex items-center justify-center text-slate-500">
+                <p>Select a lesson to begin</p>
+              </div>
            )}
         </div>
 
         {/* Lesson Controls & Resources */}
-        <div className="bg-slate-900 p-8 border-t border-slate-800">
+        <div className="bg-slate-900 p-8 border-t border-slate-800 z-10 relative">
            <div className="w-full mx-auto grid md:grid-cols-2 gap-8">
               <div>
                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
