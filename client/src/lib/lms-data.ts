@@ -10,7 +10,7 @@ export interface LessonBase {
   title: string;
   duration: string; // e.g. "10 min"
   isCompleted: boolean;
-  resources?: { title: string; type: "pdf" | "doc" | "link" }[];
+  resources?: { title: string; type: "pdf" | "doc" | "link"; url?: string }[];
 }
 
 export interface VideoLesson extends LessonBase {
@@ -1854,6 +1854,7 @@ export const COURSES: Course[] = [
 
               </div>
             `
+          }
         ]
       },
       {
@@ -2066,6 +2067,7 @@ export const COURSES: Course[] = [
              resources: [
                {
                  title: "High-frequency PTE Collocations List",
+                 type: "pdf",
                  url:  "https://drive.google.com/uc?id=1uYYQ8S1ICro4GdEfJL6lL7-42G0_YmAD&export=download"
                }
              ]
