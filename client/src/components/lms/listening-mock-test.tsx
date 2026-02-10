@@ -295,11 +295,19 @@ export function ListeningMockTest() {
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState<{ total: number; max: number } | null>(null);
   
-  // Track audio start state for each question
-  const [audioStarted, setAudioStarted] = useState<Record<string, boolean>>({});
+  // Timers
+  const [sstAudioStarted, setSstAudioStarted] = useState<Record<string, boolean>>({});
+  const [groupTimerStarted, setGroupTimerStarted] = useState(false);
 
-  const handleAudioStart = (qId: string) => {
-      setAudioStarted(prev => ({ ...prev, [qId]: true }));
+  const handleAudioStart = (qId: string, type: QuestionType) => {
+      if (type === "sst") {
+          setSstAudioStarted(prev => ({ ...prev, [qId]: true }));
+      } else {
+          // For any other type, start the group timer if not already started
+          if (!groupTimerStarted) {
+              setGroupTimerStarted(true);
+          }
+      }
   };
 
   const updateAnswer = (qId: string, val: any) => {
@@ -392,7 +400,7 @@ export function ListeningMockTest() {
   };
 
   return (
-    <div className="w-full mx-auto p-8 text-left space-y-12 pb-24">
+    <div className="w-full mx-auto p-8 text-left space-y-12 pb-24 relative">
       <div className="bg-slate-900 text-white p-6 rounded-xl border-l-4 border-indigo-500 shadow-lg">
         <h2 className="text-2xl font-bold mb-2">Section 3: Listening Test</h2>
         <p className="text-slate-300">Contains: SST, MCMA, FIB-L, HCS, MCSA, SMW, HIW, WFD</p>
@@ -403,6 +411,17 @@ export function ListeningMockTest() {
             </div>
         )}
       </div>
+      
+      {/* Sticky Group Timer Header */}
+      {groupTimerStarted && !submitted && (
+         <div className="sticky top-20 z-10 bg-white/95 backdrop-blur shadow-md p-4 rounded-lg border border-slate-200 flex justify-between items-center animate-in slide-in-from-top-2">
+            <span className="font-bold text-slate-800">Part 2: Listening & Writing</span>
+            <QuestionTimer 
+                  startTrigger={true} 
+                  initialSeconds={1200} // 20 minutes for the group
+            />
+         </div>
+      )}
 
       {LISTENING_QUESTIONS.map((q, i) => (
           <div key={q.id} className="space-y-4 pt-8 border-t border-slate-200 first:border-0 first:pt-0">
@@ -410,15 +429,17 @@ export function ListeningMockTest() {
                   <h4 className="font-bold text-indigo-900 text-lg">{q.title}</h4>
               </div>
 
-              {/* Timer for all questions */}
-              <QuestionTimer 
-                  startTrigger={!!audioStarted[q.id]} 
-                  initialSeconds={q.type === "sst" ? 600 : 120} // 10 mins for SST, 2 mins for others
-              />
+              {/* Individual Timer ONLY for SST */}
+              {q.type === "sst" && (
+                  <QuestionTimer 
+                      startTrigger={!!sstAudioStarted[q.id]} 
+                      initialSeconds={600} // 10 mins for SST
+                  />
+              )}
 
               <AudioPlayer 
                   text={q.transcript} 
-                  onStart={() => handleAudioStart(q.id)}
+                  onStart={() => handleAudioStart(q.id, q.type)}
               />
 
               <div className="bg-white p-6 rounded-lg border border-slate-300 shadow-sm">
