@@ -169,7 +169,17 @@ const LISTENING_QUESTIONS: Question[] = [
 
 // --- Helper Components ---
 
-function AudioPlayer({ text, onEnd, stopAtEnd = false }: { text: string; onEnd?: () => void; stopAtEnd?: boolean }) {
+function AudioPlayer({ 
+  text, 
+  onEnd, 
+  onStart,
+  stopAtEnd = false 
+}: { 
+  text: string; 
+  onEnd?: () => void; 
+  onStart?: () => void;
+  stopAtEnd?: boolean 
+}) {
     const [playing, setPlaying] = useState(false);
     
     const togglePlay = () => {
@@ -184,6 +194,11 @@ function AudioPlayer({ text, onEnd, stopAtEnd = false }: { text: string; onEnd?:
             const preferred = voices.find(v => v.lang === 'en-US' && v.name.includes("Google")) || voices[0];
             if (preferred) u.voice = preferred;
 
+            u.onstart = () => {
+                setPlaying(true);
+                if (onStart) onStart();
+            };
+
             u.onend = () => {
                 setPlaying(false);
                 if (stopAtEnd && onEnd) onEnd();
@@ -195,10 +210,10 @@ function AudioPlayer({ text, onEnd, stopAtEnd = false }: { text: string; onEnd?:
             
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(u);
-            setPlaying(true);
+            // setPlaying(true); // Moved to onstart
         }
     };
-
+    
     // Cleanup
     useEffect(() => {
         return () => window.speechSynthesis.cancel();
@@ -229,12 +244,63 @@ function AudioPlayer({ text, onEnd, stopAtEnd = false }: { text: string; onEnd?:
     );
 }
 
+function QuestionTimer({ 
+    startTrigger, 
+    initialSeconds 
+}: { 
+    startTrigger: boolean; 
+    initialSeconds: number 
+}) {
+    const [timeLeft, setTimeLeft] = useState(initialSeconds);
+    const [active, setActive] = useState(false);
+    
+    useEffect(() => {
+        if (startTrigger && !active && timeLeft === initialSeconds) {
+            setActive(true);
+        }
+    }, [startTrigger]);
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        if (active && timeLeft > 0) {
+            interval = setInterval(() => {
+                setTimeLeft(prev => prev - 1);
+            }, 1000);
+        } else if (timeLeft === 0) {
+            setActive(false);
+        }
+        return () => clearInterval(interval);
+    }, [active, timeLeft]);
+    
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    
+    return (
+        <div className={cn(
+            "flex items-center gap-2 font-mono text-sm mb-2 transition-colors",
+            timeLeft < 60 ? "text-red-600 animate-pulse" : "text-slate-600"
+        )}>
+            <Clock className="w-4 h-4" />
+            <span>
+                {minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')} (Simulated)
+            </span>
+        </div>
+    );
+}
+
 // --- Main Component ---
 
 export function ListeningMockTest() {
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState<{ total: number; max: number } | null>(null);
+  
+  // Track audio start state for each question
+  const [audioStarted, setAudioStarted] = useState<Record<string, boolean>>({});
+
+  const handleAudioStart = (qId: string) => {
+      setAudioStarted(prev => ({ ...prev, [qId]: true }));
+  };
 
   const updateAnswer = (qId: string, val: any) => {
     setAnswers(prev => ({ ...prev, [qId]: val }));
@@ -344,15 +410,16 @@ export function ListeningMockTest() {
                   <h4 className="font-bold text-indigo-900 text-lg">{q.title}</h4>
               </div>
 
-              {/* Special Handling for SST Timer */}
-              {q.type === "sst" && (
-                  <div className="flex items-center gap-2 text-red-600 font-mono text-sm mb-2">
-                      <Clock className="w-4 h-4" />
-                      <span>10:00 (Simulated)</span>
-                  </div>
-              )}
+              {/* Timer for all questions */}
+              <QuestionTimer 
+                  startTrigger={!!audioStarted[q.id]} 
+                  initialSeconds={q.type === "sst" ? 600 : 120} // 10 mins for SST, 2 mins for others
+              />
 
-              <AudioPlayer text={q.transcript} />
+              <AudioPlayer 
+                  text={q.transcript} 
+                  onStart={() => handleAudioStart(q.id)}
+              />
 
               <div className="bg-white p-6 rounded-lg border border-slate-300 shadow-sm">
                   {/* SST */}
