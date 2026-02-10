@@ -83,11 +83,9 @@ function SpeakingPractice({ content }: { content: string }) {
       };
 
       mediaRecorderRef.current.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         setAudioBlob(audioBlob);
-        if (userAudioRef.current) {
-            userAudioRef.current.src = URL.createObjectURL(audioBlob);
-        }
+        // Don't set src immediately here to avoid race conditions or empty sources
       };
 
       mediaRecorderRef.current.start();
@@ -103,22 +101,39 @@ function SpeakingPractice({ content }: { content: string }) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
       // Stop all tracks to release microphone
-      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+      if (mediaRecorderRef.current.stream) {
+        mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+      }
     }
   };
 
   const playUserAudio = () => {
     if (userAudioRef.current && audioBlob) {
+        // Create object URL only when playing if not already set or valid
+        if (!userAudioRef.current.src || userAudioRef.current.src === "") {
+            const url = URL.createObjectURL(audioBlob);
+            userAudioRef.current.src = url;
+            
+            // Clean up old URL when audio ends or source changes
+            userAudioRef.current.onended = () => {
+                setIsPlayingUser(false);
+            };
+        }
+        
         setIsPlayingUser(true);
-        userAudioRef.current.play();
-        userAudioRef.current.onended = () => setIsPlayingUser(false);
+        userAudioRef.current.play().catch(e => {
+            console.error("Playback failed:", e);
+            setIsPlayingUser(false);
+        });
     }
   };
 
   const resetRecording = () => {
     setAudioBlob(null);
     if (userAudioRef.current) {
-        userAudioRef.current.src = "";
+        userAudioRef.current.pause();
+        userAudioRef.current.removeAttribute('src'); // Better than setting to empty string
+        userAudioRef.current.load(); // Reload to reset state
     }
   };
 
