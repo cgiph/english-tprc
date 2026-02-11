@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/hooks/use-user";
+import { useLMS } from "@/hooks/use-lms";
 
 const iconMap = {
   "Guide": FileText,
@@ -31,10 +32,41 @@ export default function Resources() {
   const [password, setPassword] = useState("");
   const { toast } = useToast();
   const { user } = useUser();
+  const { state } = useLMS();
+
+  // Check Full Mock Test Unlock Status (Same logic as Module 6 completion)
+  const requiredTests = [
+    { id: "pte-mock-1", title: "Read Aloud" },
+    { id: "pte-mock-2", title: "Repeat Sentence" },
+    { id: "pte-mock-3", title: "Describe Image" },
+    { id: "pte-mock-4", title: "Retell Lecture" },
+    { id: "pte-mock-5", title: "Answer Short Question" },
+    { id: "pte-mock-6", title: "Summarize Group Discussion" },
+    { id: "pte-mock-7", title: "Respond to a Situation" },
+  ];
+
+  const incompleteTests = requiredTests.filter(test => {
+     const scoreData = state.sectionScores?.[test.id];
+     return !scoreData || !scoreData.passed;
+  });
+
+  const isFullMockUnlocked = incompleteTests.length === 0;
 
   const [_location, navigate] = useLocation();
 
   const handleDownloadClick = (resource: Resource) => {
+    // Special handling for Full Mock Test
+    if (resource.id === "4") {
+        if (!isFullMockUnlocked) {
+            toast({
+                title: "Mock Test Locked",
+                description: "You must pass all Module 6 Speaking Mock Tests to unlock this exam.",
+                variant: "destructive",
+            });
+            return;
+        }
+    }
+
     if (resource.locked && !user) {
       setSelectedResource(resource);
       setPasswordDialogOpen(true);
@@ -155,14 +187,23 @@ export default function Resources() {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {MOCK_RESOURCES.map((resource) => {
           const Icon = iconMap[resource.type] || FileText;
-          const isLocked = resource.locked && !user;
+          
+          // Special logic for Full Mock Test (ID: 4)
+          let isLocked = resource.locked && !user;
+          let lockReason = "Restricted Access";
+          
+          if (resource.id === "4") {
+             isLocked = !isFullMockUnlocked;
+             lockReason = "Complete Module 6 to Unlock";
+          }
           
           return (
             <Card key={resource.id} className="flex flex-col hover:shadow-lg transition-all duration-300 group border-muted relative">
               {isLocked && (
                 <div className="absolute top-4 right-4 z-20">
-                  <div className="bg-background/80 backdrop-blur p-1.5 rounded-full border shadow-sm" title="Restricted Access">
+                  <div className="bg-background/80 backdrop-blur p-1.5 rounded-full border shadow-sm flex items-center gap-2 pr-3" title={lockReason}>
                     <Lock className="h-4 w-4 text-muted-foreground" />
+                    {resource.id === "4" && <span className="text-xs font-bold text-muted-foreground">Locked</span>}
                   </div>
                 </div>
               )}
