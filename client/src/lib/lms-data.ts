@@ -2185,37 +2185,95 @@ export const COURSES: Course[] = [
             duration: "25 min", 
             isCompleted: false,
             content: `
-<div class="space-y-6">
-  <h3 class="text-2xl font-bold text-slate-800">Retell Lecture: The Note-Taking Hack</h3>
-  <p class="text-slate-600">Success is 80% notes, 20% template. 40 seconds to shine.</p>
+<div class="space-y-8">
+  <!-- RETELL LECTURE SECTION -->
+  <div class="border-b border-slate-200 pb-8">
+    <div class="flex items-center justify-between mb-4">
+        <h3 class="text-2xl font-bold text-slate-800">Retell Lecture</h3>
+        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Speaking Task</span>
+    </div>
+    <p class="text-slate-600 mb-6">Success is 80% notes, 20% template. You have 40 seconds to retell the information.</p>
 
-  <div class="bg-indigo-50 border border-indigo-100 p-6 rounded-xl shadow-sm">
-    <h4 class="text-indigo-900 font-bold mb-3 flex items-center gap-2">
-      <span class="bg-indigo-600 text-white text-xs px-2 py-1 rounded">STEP 1</span>
-      Note-Taking Frame
-    </h4>
-    <p class="text-sm text-indigo-800 mb-4 font-medium">Capture 10-12 'Big' nouns. Avoid verbs.</p>
-    <div class="grid grid-cols-2 gap-3">
-      <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Global Warming</div>
-      <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Carbon Dioxide</div>
-      <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Ice Caps</div>
-      <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Industrialization</div>
+    <!-- AUDIO PLAYER SIMULATION -->
+    <div class="bg-slate-100 p-4 rounded-lg mb-6 flex items-center gap-4 border border-slate-200">
+        <div class="bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </div>
+        <div class="flex-1">
+            <div class="text-sm font-bold text-slate-800">Sample Lecture: Climate Change</div>
+            <div class="text-xs text-slate-500">00:00 / 01:30</div>
+            <div class="w-full bg-slate-300 h-1.5 mt-2 rounded-full overflow-hidden">
+                <div class="bg-indigo-500 h-full w-1/3"></div>
+            </div>
+        </div>
+        <button data-tts="The lecture mainly discusses the impact of industrialization on global warming. Specifically, the speaker highlights how carbon dioxide emissions from factories are leading to the melting of ice caps. Furthermore, the lecture emphasizes that immediate action is required to combat these environmental changes." class="text-xs bg-white border border-slate-300 px-4 py-2 rounded-lg font-bold text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm flex items-center gap-2">
+            <span>🔊 Play Snippet</span>
+        </button>
+    </div>
+
+    <div class="bg-indigo-50 border border-indigo-100 p-6 rounded-xl shadow-sm mb-6">
+      <h4 class="text-indigo-900 font-bold mb-3 flex items-center gap-2">
+        <span class="bg-indigo-600 text-white text-xs px-2 py-1 rounded">STEP 1</span>
+        Note-Taking Frame
+      </h4>
+      <p class="text-sm text-indigo-800 mb-4 font-medium">Capture 10-12 'Big' nouns. Avoid verbs.</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Global Warming</div>
+        <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Carbon Dioxide</div>
+        <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Ice Caps</div>
+        <div class="bg-white border border-indigo-200 p-2 rounded text-xs font-mono text-indigo-600">● Industrialization</div>
+      </div>
+    </div>
+
+    <div class="bg-slate-900 p-6 rounded-xl shadow-xl border-t-4 border-indigo-500">
+      <h4 class="text-indigo-400 font-bold mb-3 uppercase tracking-widest text-xs">The Speaking Frame (Memorize This)</h4>
+      <div class="text-slate-200 leading-relaxed font-serif text-lg italic">
+        "The speaker was discussing <span class="text-indigo-400 font-bold">[Topic]</span>. 
+        He mentioned <span class="text-indigo-400 font-bold">[Keyword 1]</span>, 
+        <span class="text-indigo-400 font-bold">[Keyword 2]</span>, and 
+        <span class="text-indigo-400 font-bold">[Keyword 3]</span>. 
+        Furthermore, the lecture highlighted <span class="text-indigo-400 font-bold">[Keyword 4]</span>. 
+        In conclusion, the speaker suggested that <span class="text-indigo-400 font-bold">[Keyword 5]</span> is vital."
+      </div>
     </div>
   </div>
 
-  <div class="bg-slate-900 p-6 rounded-xl shadow-2xl border-t-4 border-indigo-500">
-    <h4 class="text-indigo-400 font-bold mb-3 uppercase tracking-widest text-xs">The Speaking Frame (Memorize This)</h4>
-    <div class="text-slate-200 leading-relaxed font-serif text-lg italic">
-      "The speaker was discussing <span class="text-indigo-400 font-bold">[Topic]</span>. 
-      He mentioned <span class="text-indigo-400 font-bold">[Keyword 1]</span>, 
-      <span class="text-indigo-400 font-bold">[Keyword 2]</span>, and 
-      <span class="text-indigo-400 font-bold">[Keyword 3]</span>. 
-      Furthermore, the lecture highlighted <span class="text-indigo-400 font-bold">[Keyword 4]</span>. 
-      In conclusion, the speaker suggested that <span class="text-indigo-400 font-bold">[Keyword 5]</span> is vital."
+  <!-- SUMMARIZE SPOKEN TEXT SECTION -->
+  <div>
+    <div class="flex items-center justify-between mb-4">
+        <h3 class="text-2xl font-bold text-slate-800">Summarize Spoken Text</h3>
+        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Writing Task</span>
+    </div>
+    <div class="flex items-start gap-4 mb-6">
+        <div class="bg-emerald-100 text-emerald-700 p-3 rounded-lg text-2xl">✍️</div>
+        <div>
+            <p class="text-slate-700 font-medium">Same audio, different output.</p>
+            <p class="text-slate-600 text-sm mt-1">You will hear the same type of lecture, but instead of speaking, you must write a <strong>50-70 word summary</strong> in 10 minutes.</p>
+        </div>
+    </div>
+    
+    <div class="bg-emerald-50 border border-emerald-100 p-6 rounded-xl shadow-sm">
+        <h4 class="text-emerald-900 font-bold mb-3">The Writing Template</h4>
+        <p class="text-sm text-emerald-800 mb-4">Unlike Retell Lecture, grammar and spelling count here. Use simple, correct sentences.</p>
+        
+        <div class="bg-white p-5 rounded-lg border border-emerald-200 font-serif text-slate-700 italic leading-loose shadow-inner">
+            "The lecture discusses the importance of <span class="text-emerald-600 font-bold">[Topic]</span>. 
+            Firstly, the speaker emphasizes that <span class="text-emerald-600 font-bold">[Main Point 1]</span> is significant. 
+            Secondly, it is mentioned that <span class="text-emerald-600 font-bold">[Main Point 2]</span> plays a crucial role. 
+            Finally, the lecturer concludes that <span class="text-emerald-600 font-bold">[Conclusion/Implication]</span>."
+        </div>
+        
+        <div class="mt-4 flex gap-2 text-xs text-emerald-700 font-bold bg-emerald-100/50 p-2 rounded inline-block">
+            <span>✅ 50-70 Words</span>
+            <span>•</span>
+            <span>✅ Good Grammar</span>
+            <span>•</span>
+            <span>✅ Correct Spelling</span>
+        </div>
     </div>
   </div>
 </div>
-`
+`,
           },
           { id: "pte-m3-quiz", title: "Writing Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
