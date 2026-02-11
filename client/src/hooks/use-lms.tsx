@@ -26,6 +26,7 @@ const defaultState: UserLMSState = {
 
     "mock1": { status: "unlocked", completedLessons: [] }
   },
+  sectionScores: {},
   quizHistory: [],
   mockTestResults: [],
   supportTickets: []
@@ -36,6 +37,7 @@ interface LMSContextType {
   unlockModule: (moduleId: ModuleId) => void;
   completeLesson: (moduleId: ModuleId, lessonId: LessonId) => void;
   submitQuizScore: (moduleId: ModuleId, score: number) => void;
+  submitSectionScore: (lessonId: string, score: number) => void;
   saveMockResult: (testId: string, difficulty: DifficultyLevel, score: number, breakdown: any) => void;
   submitSupportTicket: (lessonId: string, lessonTitle: string, question: string) => void;
 }
@@ -128,6 +130,20 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  const submitSectionScore = (lessonId: string, score: number) => {
+    setState(prev => ({
+      ...prev,
+      sectionScores: {
+        ...prev.sectionScores,
+        [lessonId]: {
+          score,
+          passed: score >= 65, // PTE often considers 65 as a good target (approx 6.5/7.0 IELTS)
+          date: new Date().toISOString()
+        }
+      }
+    }));
+  };
+
   const saveMockResult = (testId: string, difficulty: DifficultyLevel, overallScore: number, breakdown: any) => {
     setState(prev => ({
       ...prev,
@@ -176,7 +192,7 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <LMSContext.Provider value={{ state, unlockModule, completeLesson, submitQuizScore, saveMockResult, submitSupportTicket }}>
+    <LMSContext.Provider value={{ state, unlockModule, completeLesson, submitQuizScore, submitSectionScore, saveMockResult, submitSupportTicket }}>
       {children}
     </LMSContext.Provider>
   );

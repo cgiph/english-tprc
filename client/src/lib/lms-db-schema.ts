@@ -28,6 +28,15 @@ export interface UserLMSState {
     };
   };
 
+  // 2.5. Section Scores (For Mock Exam Parts)
+  sectionScores?: {
+    [lessonId: string]: {
+      score: number;
+      passed: boolean;
+      date: string;
+    }
+  };
+
   // 3. Quiz & Assessment History
   // Detailed log of all attempts for module quizzes
   quizHistory: {

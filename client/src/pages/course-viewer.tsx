@@ -33,16 +33,47 @@ import pteBarChart from "@/assets/images/pte-bar-chart.png";
 import waveformBad from "@/assets/images/waveform-bad.png";
 import waveformGood from "@/assets/images/waveform-good.png";
 
-function SpeakingPractice({ content }: { content: string }) {
+function SpeakingPractice({ content, lessonId }: { content: string; lessonId?: string }) {
+  const { submitSectionScore, state } = useLMS();
   const [isMemorizeMode, setIsMemorizeMode] = useState(false);
   const [isPlayingBad, setIsPlayingBad] = useState(false);
   const [isPlayingGood, setIsPlayingGood] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [isPlayingUser, setIsPlayingUser] = useState(false);
+  const [gradingStatus, setGradingStatus] = useState<'idle' | 'analyzing' | 'graded'>('idle');
+  const [score, setScore] = useState<number | null>(null);
+
+  // Check if this lesson has already been graded
+  useEffect(() => {
+    if (lessonId && state.sectionScores?.[lessonId]) {
+       setScore(state.sectionScores[lessonId].score);
+       setGradingStatus('graded');
+    }
+  }, [lessonId, state.sectionScores]);
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const userAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const simulateGrading = () => {
+    setGradingStatus('analyzing');
+    
+    // Simulate AI processing time
+    setTimeout(() => {
+        // Generate a random score between 55 and 90 for the mockup
+        // In a real app, this would come from the backend AI service
+        const mockScore = Math.floor(Math.random() * (90 - 55 + 1)) + 55;
+        
+        setScore(mockScore);
+        setGradingStatus('graded');
+        
+        if (lessonId) {
+            submitSectionScore(lessonId, mockScore);
+        }
+    }, 2000);
+  };
+
 
   const playBadExample = () => {
     if (isPlayingBad) return;
@@ -212,7 +243,7 @@ function SpeakingPractice({ content }: { content: string }) {
                             </Button>
                         </div>
                     ) : (
-                        <div className="flex flex-col items-center gap-4 animate-in fade-in zoom-in duration-300 w-full">
+                        <div className="flex flex-col items-center gap-6 animate-in fade-in zoom-in duration-300 w-full">
                             <div className="flex items-center gap-4 bg-white p-3 pr-5 rounded-full shadow-md border border-slate-200 w-full max-w-sm justify-center">
                                 <button 
                                     onClick={playUserAudio}
@@ -225,14 +256,65 @@ function SpeakingPractice({ content }: { content: string }) {
                                 <audio ref={userAudioRef} className="hidden" />
                             </div>
                             
-                            <Button variant="ghost" size="sm" onClick={resetRecording} className="text-slate-500 hover:text-red-500 hover:bg-red-50">
-                                <RefreshCw className="w-4 h-4 mr-2" /> Record Again
-                            </Button>
+                            {/* Grading Section */}
+                            {gradingStatus === 'idle' && (
+                                <div className="flex gap-3">
+                                    <Button variant="ghost" size="sm" onClick={resetRecording} className="text-slate-500 hover:text-red-500 hover:bg-red-50">
+                                        <RefreshCw className="w-4 h-4 mr-2" /> Record Again
+                                    </Button>
+                                    <Button size="lg" onClick={simulateGrading} className="bg-emerald-600 hover:bg-emerald-700 shadow-lg animate-pulse">
+                                        Submit for Grading
+                                    </Button>
+                                </div>
+                            )}
+
+                            {gradingStatus === 'analyzing' && (
+                                <div className="flex flex-col items-center gap-2">
+                                    <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                                    <span className="text-sm text-indigo-600 font-medium">Analyzing pronunciation & fluency...</span>
+                                </div>
+                            )}
+
+                            {gradingStatus === 'graded' && score !== null && (
+                                <div className="bg-white p-6 rounded-xl border-2 border-indigo-100 shadow-xl w-full max-w-md animate-in slide-in-from-bottom-4">
+                                    <div className="text-center mb-4">
+                                        <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Your AI Score</div>
+                                        <div className={cn("text-5xl font-black mb-2", score >= 65 ? "text-emerald-600" : "text-amber-500")}>
+                                            {score}
+                                        </div>
+                                        <div className="text-sm font-medium text-slate-600">
+                                            {score >= 65 ? "Passing Score! Great job." : "Needs Improvement. Try again."}
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-xs font-medium text-slate-500">
+                                            <span>Content</span>
+                                            <span className="text-slate-900">{Math.min(90, score + 5)}/90</span>
+                                        </div>
+                                        <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                                            <div className="h-full bg-indigo-500 rounded-full" style={{ width: `${((score + 5)/90)*100}%` }}></div>
+                                        </div>
+                                        
+                                        <div className="flex justify-between text-xs font-medium text-slate-500 mt-2">
+                                            <span>Fluency</span>
+                                            <span className="text-slate-900">{Math.min(90, score - 2)}/90</span>
+                                        </div>
+                                        <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                                            <div className="h-full bg-blue-500 rounded-full" style={{ width: `${((score - 2)/90)*100}%` }}></div>
+                                        </div>
+                                    </div>
+
+                                    <Button variant="outline" size="sm" onClick={resetRecording} className="mt-6 w-full text-slate-500">
+                                        <RefreshCw className="w-4 h-4 mr-2" /> Try for a better score
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                     )}
                     
                     <p className="text-sm text-slate-500 mt-6 font-medium">
-                        {isRecording ? "Recording in progress..." : audioBlob ? "Click play to review." : "Click microphone to start."}
+                        {isRecording ? "Recording in progress..." : audioBlob ? "" : "Click microphone to start."}
                     </p>
                 </div>
             </div>
@@ -876,7 +958,7 @@ export default function CourseViewer() {
                     <div className="w-full max-w-6xl mx-auto">
                        {(activeLesson.lesson.type === "reading" || activeLesson.lesson.type === "assignment") && activeLesson.lesson.content ? (
                          <div className="bg-white min-h-[600px]">
-                            <SpeakingPractice content={activeLesson.lesson.content} />
+                            <SpeakingPractice content={activeLesson.lesson.content} lessonId={activeLesson.lesson.id} />
                          </div>
                        ) : (
                          <div className="flex flex-col items-center justify-center py-20 text-center space-y-4 max-w-2xl px-8 mx-auto">
