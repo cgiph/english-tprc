@@ -2476,7 +2476,7 @@ export const COURSES: Course[] = [
                 <div class="bg-slate-50 border-l-4 border-indigo-500 p-6 rounded-r-lg">
                   <h4 class="font-bold text-indigo-900 mb-4">Task 3: Describe Image</h4>
                   <div class="border rounded-lg overflow-hidden mb-4">
-                     <img src="/src/assets/images/pte-mock-di.jpg" alt="Meeting discussion" class="w-full h-auto object-cover max-h-[400px]" />
+                     <img src="/assets/meeting-discussion.jpg" alt="Meeting discussion" class="w-full h-auto object-cover max-h-[400px]" />
                   </div>
                   <p class="text-slate-600 text-sm">Describe this image in detail.</p>
                 </div>
@@ -2500,15 +2500,12 @@ export const COURSES: Course[] = [
             duration: "5 min", 
             isCompleted: false,
             content: `
-              <div class="space-y-6">
+              <div class="space-y-6" data-tts="Urbanization has fundamentally shifted the demographic landscape of the 21st century. For the first time in history, more people reside in cities than in rural areas. This shift presents unique challenges for infrastructure, sanitation, and social cohesion, requiring innovative policy solutions.">
                 <div class="bg-slate-50 border-l-4 border-indigo-500 p-6 rounded-r-lg">
                   <h4 class="font-bold text-indigo-900 mb-4">Task 4: Retell Lecture</h4>
                    <p class="text-slate-600 mb-4">You will hear a lecture. Retell the lecture in your own words.</p>
                    
-                   <div data-tts="Urbanization has fundamentally shifted the demographic landscape of the 21st century. For the first time in history, more people reside in cities than in rural areas. This shift presents unique challenges for infrastructure, sanitation, and social cohesion, requiring innovative policy solutions." class="bg-white p-4 rounded border border-slate-200 flex items-center gap-3">
-                     <!-- TTS_TRIGGER -->
-                     <span class="text-sm text-slate-400 italic">Click play to hear the lecture</span>
-                  </div>
+                   <!-- AUDIO_PLAYER_PLACEHOLDER -->
                 </div>
                 
                 <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
@@ -2530,14 +2527,11 @@ export const COURSES: Course[] = [
             duration: "2 min", 
             isCompleted: false,
             content: `
-              <div class="space-y-6">
+              <div class="space-y-6" data-tts="What is the term for a period of ten years?">
                 <div class="bg-slate-50 border-l-4 border-indigo-500 p-6 rounded-r-lg">
                   <h4 class="font-bold text-indigo-900 mb-4">Task 5: Answer Short Question</h4>
                   
-                  <div data-tts="What is the term for a period of ten years?" class="bg-white p-4 rounded border border-slate-200 flex items-center gap-3">
-                     <!-- TTS_TRIGGER -->
-                     <span class="text-sm text-slate-400 italic">Click play to hear the question</span>
-                  </div>
+                  <!-- AUDIO_PLAYER_PLACEHOLDER -->
                 </div>
                 
                 <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
@@ -2558,14 +2552,11 @@ export const COURSES: Course[] = [
             duration: "5 min", 
             isCompleted: false,
             content: `
-              <div class="space-y-6">
+              <div class="space-y-6" data-tts="Speaker A: I think we should focus on digital marketing. It's cheaper. Speaker B: I disagree, traditional ads reach older people better. Speaker C: Maybe we can do a mix of both to cover all bases.">
                 <div class="bg-slate-50 border-l-4 border-indigo-500 p-6 rounded-r-lg">
                   <h4 class="font-bold text-indigo-900 mb-4">Task 6: Summarize Group Discussion</h4>
                   
-                  <div data-tts="Speaker A: I think we should focus on digital marketing. It's cheaper. Speaker B: I disagree, traditional ads reach older people better. Speaker C: Maybe we can do a mix of both to cover all bases." class="bg-white p-4 rounded border border-slate-200 flex items-center gap-3">
-                     <!-- TTS_TRIGGER -->
-                     <span class="text-sm text-slate-400 italic">Click play to hear the discussion</span>
-                  </div>
+                  <!-- AUDIO_PLAYER_PLACEHOLDER -->
                 </div>
                 
                 <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
@@ -2587,7 +2578,7 @@ export const COURSES: Course[] = [
             duration: "5 min", 
             isCompleted: false,
             content: `
-              <div class="space-y-6">
+              <div class="space-y-6" data-tts="You are late for an important meeting because your car broke down. Call your manager, explain the situation, and suggest a solution.">
                 <div class="bg-slate-50 border-l-4 border-indigo-500 p-6 rounded-r-lg">
                   <h4 class="font-bold text-indigo-900 mb-4">Task 7: Respond to a Situation</h4>
                   
@@ -2595,10 +2586,7 @@ export const COURSES: Course[] = [
                      Prompt: "You are late for an important meeting because your car broke down. Call your manager, explain the situation, and suggest a solution."
                   </div>
                   
-                  <div data-tts="You are late for an important meeting because your car broke down. Call your manager, explain the situation, and suggest a solution." class="bg-white p-4 rounded border border-slate-200 flex items-center gap-3">
-                     <!-- TTS_TRIGGER -->
-                     <span class="text-sm text-slate-400 italic">Click play to hear the prompt audio</span>
-                  </div>
+                  <!-- AUDIO_PLAYER_PLACEHOLDER -->
                 </div>
                 
                 <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">

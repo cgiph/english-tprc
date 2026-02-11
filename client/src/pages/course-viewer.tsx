@@ -172,6 +172,73 @@ function SpeakingPractice({ content }: { content: string }) {
        window.speechSynthesis.speak(u);
      };
 
+     // Check for custom audio player placement
+     if (mainContent.includes("<!-- AUDIO_PLAYER_PLACEHOLDER -->")) {
+        const [part1, part2] = mainContent.split("<!-- AUDIO_PLAYER_PLACEHOLDER -->");
+        
+        return (
+            <div className="w-full mx-auto p-8 text-left space-y-6">
+                <div dangerouslySetInnerHTML={{ __html: part1 }} />
+                
+                {ttsText && (
+                    <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <Button onClick={playTTS} className="gap-2 bg-indigo-600 hover:bg-indigo-700 shadow-sm">
+                            <Volume2 className="w-4 h-4" />
+                            Play Audio
+                        </Button>
+                        <span className="text-sm text-slate-500 italic">Click to listen to the prompt</span>
+                    </div>
+                )}
+                
+                <div dangerouslySetInnerHTML={{ __html: part2 }} />
+
+                <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 text-center max-w-2xl mx-auto mt-8">
+                    <h4 className="text-lg font-bold text-slate-800 mb-6 flex items-center justify-center gap-2">
+                        <span className="p-1 bg-red-100 text-red-700 rounded-lg">⏺️</span>
+                        Record Response
+                    </h4>
+                    
+                    {!audioBlob ? (
+                        <div className="flex justify-center">
+                            <Button 
+                                size="lg" 
+                                className={cn(
+                                    "rounded-full w-20 h-20 flex items-center justify-center transition-all shadow-xl hover:shadow-2xl hover:scale-105", 
+                                    isRecording ? "bg-red-500 hover:bg-red-600 animate-pulse ring-4 ring-red-200" : "bg-indigo-600 hover:bg-indigo-700"
+                                )}
+                                onClick={isRecording ? stopRecording : startRecording}
+                            >
+                                {isRecording ? <div className="w-8 h-8 bg-white rounded-sm" /> : <Mic className="w-10 h-10 text-white" />}
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center gap-4 animate-in fade-in zoom-in duration-300 w-full">
+                            <div className="flex items-center gap-4 bg-white p-3 pr-5 rounded-full shadow-md border border-slate-200 w-full max-w-sm justify-center">
+                                <button 
+                                    onClick={playUserAudio}
+                                    disabled={isPlayingUser}
+                                    className="w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center hover:bg-indigo-200 transition-colors shrink-0"
+                                >
+                                    {isPlayingUser ? <div className="w-4 h-4 bg-indigo-600 rounded-sm animate-pulse" /> : <PlayCircle className="w-6 h-6 ml-0.5" />}
+                                </button>
+                                <span className="text-sm font-bold text-slate-700 truncate">Recording Saved</span>
+                                <audio ref={userAudioRef} className="hidden" />
+                            </div>
+                            
+                            <Button variant="ghost" size="sm" onClick={resetRecording} className="text-slate-500 hover:text-red-500 hover:bg-red-50">
+                                <RefreshCw className="w-4 h-4 mr-2" /> Record Again
+                            </Button>
+                        </div>
+                    )}
+                    
+                    <p className="text-sm text-slate-500 mt-6 font-medium">
+                        {isRecording ? "Recording in progress..." : audioBlob ? "Click play to review." : "Click microphone to start."}
+                    </p>
+                </div>
+            </div>
+        );
+     }
+
      return (
        <div className="w-full mx-auto p-8 text-left space-y-8">
           <div dangerouslySetInnerHTML={{ __html: mainContent }} />
