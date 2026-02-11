@@ -2040,30 +2040,87 @@ export const COURSES: Course[] = [
              duration: "30 min", 
              isCompleted: false,
              content: `
-               <div class="space-y-6">
-                 <h3 class="text-2xl font-bold text-slate-800">Collocations are King</h3>
-                 <p class="text-slate-600">The PTE algorithm loves collocations—words that naturally go together.</p>
+              <div class="space-y-6">
+                <h3 class="text-2xl font-bold text-slate-800">Collocations are King</h3>
+                <p class="text-slate-600">The PTE algorithm loves collocations—words that naturally go together.</p>
 
-                 <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-white p-4 border rounded shadow-sm">
-                       <div class="font-bold text-green-600">Correct</div>
-                       <div class="text-slate-700">"Academic <u>performance</u>"</div>
+                <div class="grid grid-cols-2 gap-4">
+                   <div class="bg-white p-4 border rounded shadow-sm">
+                      <div class="font-bold text-green-600">Correct</div>
+                      <div class="text-slate-700">"Academic <u>performance</u>"</div>
+                   </div>
+                   <div class="bg-white p-4 border rounded shadow-sm">
+                      <div class="font-bold text-red-600">Incorrect</div>
+                      <div class="text-slate-700">"Academic <u>working</u>"</div>
+                   </div>
+                   <div class="bg-white p-4 border rounded shadow-sm">
+                      <div class="font-bold text-green-600">Correct</div>
+                      <div class="text-slate-700">"Rapid <u>growth</u>"</div>
+                   </div>
+                   <div class="bg-white p-4 border rounded shadow-sm">
+                      <div class="font-bold text-red-600">Incorrect</div>
+                      <div class="text-slate-700">"Fast <u>enlargement</u>"</div>
+                   </div>
+                </div>
+
+                <h4 class="text-xl font-bold text-slate-800 mt-6">Essential Topic-Based Collocations</h4>
+                
+                <div class="space-y-4">
+                  <!-- Business & Economy -->
+                  <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                    <h5 class="font-bold text-blue-800 mb-3 flex items-center gap-2">
+                      <span class="p-1 bg-blue-200 rounded text-blue-800">💼</span> Business & Economy
+                    </h5>
+                    <div class="flex flex-wrap gap-2">
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-blue-200 shadow-sm font-medium">Take responsibility</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-blue-200 shadow-sm font-medium">Make a profit/loss</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-blue-200 shadow-sm font-medium">Boost sales/revenue</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-blue-200 shadow-sm font-medium">Attract investment/customers</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-blue-200 shadow-sm font-medium">Generate income/employment</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-blue-200 shadow-sm font-medium">Meet demand/expectations</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-blue-200 shadow-sm font-medium">Reduce costs/expenses</span>
                     </div>
-                    <div class="bg-white p-4 border rounded shadow-sm">
-                       <div class="font-bold text-red-600">Incorrect</div>
-                       <div class="text-slate-700">"Academic <u>working</u>"</div>
+                  </div>
+
+                  <!-- Education & Learning -->
+                  <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
+                    <h5 class="font-bold text-indigo-800 mb-3 flex items-center gap-2">
+                      <span class="p-1 bg-indigo-200 rounded text-indigo-800">🎓</span> Education & Learning
+                    </h5>
+                    <div class="flex flex-wrap gap-2">
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-indigo-200 shadow-sm font-medium">Acquire knowledge/skills</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-indigo-200 shadow-sm font-medium">Gain experience/confidence</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-indigo-200 shadow-sm font-medium">Conduct research/study</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-indigo-200 shadow-sm font-medium">Achieve success/progress</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-indigo-200 shadow-sm font-medium">Develop skills/abilities</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-indigo-200 shadow-sm font-medium">Enhance learning/performance</span>
                     </div>
-                    <div class="bg-white p-4 border rounded shadow-sm">
-                       <div class="font-bold text-green-600">Correct</div>
-                       <div class="text-slate-700">"Rapid <u>growth</u>"</div>
+                  </div>
+
+                  <!-- Science & Technology -->
+                  <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
+                    <h5 class="font-bold text-emerald-800 mb-3 flex items-center gap-2">
+                      <span class="p-1 bg-emerald-200 rounded text-emerald-800">🔬</span> Science & Technology
+                    </h5>
+                    <div class="flex flex-wrap gap-2">
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-emerald-200 shadow-sm font-medium">Carry out an experiment/research</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-emerald-200 shadow-sm font-medium">Develop a technique/method</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-emerald-200 shadow-sm font-medium">Innovative solution/approach</span>
+                      <span class="bg-white px-3 py-1.5 rounded-full text-sm text-slate-700 border border-emerald-200 shadow-sm font-medium">Breakthrough discovery/technology</span>
                     </div>
-                    <div class="bg-white p-4 border rounded shadow-sm">
-                       <div class="font-bold text-red-600">Incorrect</div>
-                       <div class="text-slate-700">"Fast <u>enlargement</u>"</div>
-                    </div>
-                 </div>
-               </div>
-             `,
+                  </div>
+                </div>
+
+                <div class="bg-amber-50 p-6 rounded-xl border border-amber-200 mt-6 shadow-sm">
+                  <div class="flex gap-3">
+                    <span class="text-2xl">💡</span>
+                    <p class="text-amber-900 italic font-serif text-lg leading-relaxed">
+                      "Mastering these collocations will help you sound more natural and accurate in your responses, ultimately contributing to a higher score on the PTE Academic reading test."
+                    </p>
+                  </div>
+                </div>
+              </div>
+            `,
              resources: [
                {
                  title: "High-frequency PTE Collocations List",
