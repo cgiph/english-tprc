@@ -18,6 +18,7 @@ import { useLMS } from "@/hooks/use-lms";
 import { DifficultyLevel } from "@/lib/lms-db-schema";
 
 import { scoreItem, aggregateScores, ScoreResult } from "@/lib/scoring";
+import { analytics } from "@/lib/analytics";
 
 export default function FullMockTest() {
   const { saveMockResult } = useLMS();
@@ -661,6 +662,7 @@ export default function FullMockTest() {
         listening: Math.round(communicative.listening)
       }
     );
+    analytics.trackMockTestCompleted("full-mock-1", Math.round(overallScore));
 
     setTestState("finished");
   };

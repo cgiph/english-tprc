@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLMS } from "@/hooks/use-lms";
+import { analytics } from "@/lib/analytics";
 
 export default function LMSDashboard() {
   const [activeTab, setActiveTab] = useState("all");
@@ -161,7 +162,11 @@ function CourseCard({ course }: { course: Course }) {
 
       <CardFooter className="pt-0">
         <Button className={cn("w-full group/btn", isTechnical && "bg-slate-800 hover:bg-slate-900")} asChild>
-          <Link href={`/lms/course/${course.id}`}>
+          <Link href={`/lms/course/${course.id}`} onClick={() => {
+            if (progressPercent === 0) {
+              analytics.trackCourseEnrollment(course.id, course.title);
+            }
+          }}>
             {progressPercent === 0 ? "Start Course" : "Continue Learning"}
             <PlayCircle className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
           </Link>

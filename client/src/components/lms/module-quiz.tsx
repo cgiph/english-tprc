@@ -670,8 +670,14 @@ export function ModuleQuiz({ moduleId, moduleTitle, quizId, isOpen, onClose, onC
     setScore(finalScore);
     setSubmitted(true);
     
-    // Track quiz completion
-    analytics.trackQuizCompletion(moduleTitle + (quizId ? ` (${quizId})` : ""), finalScore, questions.length);
+    // Track quiz completion based on type
+    if (moduleId.includes("grammar") || moduleTitle.toLowerCase().includes("grammar")) {
+        analytics.trackGrammarAssessment(finalScore, questions.length, "General");
+    } else if (moduleId.includes("listening") || moduleTitle.toLowerCase().includes("listening")) {
+        analytics.trackListeningQuiz(finalScore, questions.length);
+    } else {
+        analytics.trackQuizCompletion(moduleTitle + (quizId ? ` (${quizId})` : ""), finalScore, questions.length);
+    }
 
     onComplete(finalScore);
   };

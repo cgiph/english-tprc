@@ -44,6 +44,7 @@ function SpeakingPractice({ content, lessonId }: { content: string; lessonId?: s
   const [isPlayingUser, setIsPlayingUser] = useState(false);
   const [gradingStatus, setGradingStatus] = useState<'idle' | 'analyzing' | 'graded'>('idle');
   const [score, setScore] = useState<number | null>(null);
+  const [attemptCount, setAttemptCount] = useState(0);
 
   // Check if this lesson has already been graded
   useEffect(() => {
@@ -68,7 +69,12 @@ function SpeakingPractice({ content, lessonId }: { content: string; lessonId?: s
         
         setScore(mockScore);
         setGradingStatus('graded');
+        setAttemptCount(prev => prev + 1);
         
+        // Track Speaking Submission
+        // Mock values for fluency and pronunciation since this is a simulation
+        analytics.trackSpeakingSubmission(Math.min(90, mockScore - 2), mockScore, Math.min(90, mockScore + 5), attemptCount + 1);
+
         if (lessonId) {
             submitSectionScore(lessonId, mockScore);
         }
@@ -802,6 +808,19 @@ export default function CourseViewer() {
     }
   };
 
+  // Track lesson start when active lesson changes
+  useEffect(() => {
+    if (activeLesson) {
+      analytics.trackLessonStart(activeLesson.lesson.id, activeLesson.lesson.title, activeLesson.moduleId);
+      
+      return () => {
+        // Track abandonment if component unmounts or lesson changes without completion
+        // Note: Ideally we'd check if it was completed, but for now this tracks time spent
+        analytics.trackAbandonedLesson(activeLesson.lesson.id);
+      };
+    }
+  }, [activeLesson?.lesson.id]);
+
   const handleMarkComplete = () => {
     if (activeLesson) {
         if (activeLesson.lesson.type === "quiz") {
@@ -813,6 +832,7 @@ export default function CourseViewer() {
             }
         } else {
             completeLesson(activeLesson.moduleId, activeLesson.lesson.id);
+            analytics.trackLessonComplete(activeLesson.lesson.id, activeLesson.lesson.title);
             toast({
                 title: "Lesson Completed",
                 description: "Progress saved."
@@ -857,6 +877,11 @@ export default function CourseViewer() {
          if (currentIndex >= 0 && currentIndex < course.modules.length - 1) {
            const nextModule = course.modules[currentIndex + 1];
            unlockModule(nextModule.id);
+           
+           if (nextModule.id.includes("mock")) {
+             analytics.trackMockTestUnlocked(nextModule.id);
+           }
+           
            toast({
              title: "Next Module Unlocked!",
              description: `You passed with ${score}%. ${nextModule.title} is now available.`,

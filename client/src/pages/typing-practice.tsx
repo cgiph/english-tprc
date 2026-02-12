@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { RotateCcw, Keyboard, Clock, Trophy, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { analytics } from "@/lib/analytics";
 
 const WORDS = [
   "Academic", "research", "university", "Student's", "exam", "studies", "analysis", "Theory", "He's", "She's",
@@ -56,6 +57,7 @@ export default function TypingPractice() {
     } else if (timeLeft === 0) {
       setIsFinished(true);
       setIsActive(false);
+      analytics.trackTypingTest(wpm, accuracy);
     }
     return () => clearInterval(interval);
   }, [isActive, timeLeft]);
