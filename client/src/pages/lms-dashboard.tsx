@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLMS } from "@/hooks/use-lms";
 
 export default function LMSDashboard() {
   const [activeTab, setActiveTab] = useState("all");
@@ -54,7 +55,35 @@ export default function LMSDashboard() {
 }
 
 function CourseCard({ course }: { course: Course }) {
-  const progressPercent = Math.round((course.completedModules / course.totalModules) * 100);
+  const { state } = useLMS();
+
+  // Calculate dynamic progress based on LMS state
+  let totalLessons = 0;
+  let completedLessonsCount = 0;
+  let completedModulesCount = 0;
+
+  course.modules.forEach(module => {
+    totalLessons += module.lessons.length;
+    
+    // Get user progress for this module
+    const userModule = state.modules[module.id];
+    
+    if (userModule && userModule.completedLessons) {
+      // Count completed lessons
+      const completedInModule = userModule.completedLessons.length;
+      completedLessonsCount += completedInModule;
+      
+      // Check if module is fully complete
+      if (completedInModule === module.lessons.length && module.lessons.length > 0) {
+        completedModulesCount++;
+      }
+    }
+  });
+
+  // Avoid division by zero
+  const progressPercent = totalLessons > 0 
+    ? Math.round((completedLessonsCount / totalLessons) * 100) 
+    : 0;
   
   const getIcon = () => {
     switch(course.category) {
@@ -125,7 +154,7 @@ function CourseCard({ course }: { course: Course }) {
           </div>
           <Progress value={progressPercent} className={cn("h-2", isTechnical && "[&>div]:bg-orange-600")} />
           <p className="text-xs text-muted-foreground pt-1">
-            {course.completedModules} of {course.totalModules} modules completed
+            {completedModulesCount} of {course.totalModules} modules completed ({completedLessonsCount}/{totalLessons} lessons)
           </p>
         </div>
       </CardContent>
