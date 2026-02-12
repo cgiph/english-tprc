@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlayCircle, PauseCircle, Mic, Square, RefreshCcw } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { analytics } from "@/lib/analytics";
 
 type ShadowingRecorderProps = {
   audioUrl?: string;
@@ -127,6 +128,9 @@ export default function ShadowingRecorder({ audioUrl, transcript }: ShadowingRec
       mediaRecorder.current.start();
       setIsRecording(true);
       
+      // Track recording start
+      analytics.trackSpeakingRecord("shadowing-session");
+
       // Auto-play model audio when recording starts? Requirement says:
       // "It plays a 5-second official clip, then immediately opens the mic"
       // So this function might need to be part of a sequence.

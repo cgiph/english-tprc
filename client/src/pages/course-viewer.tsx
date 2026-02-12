@@ -3,6 +3,7 @@ import { useParams, Link } from "wouter";
 import { getCourseById, Module } from "@/lib/lms-data";
 import type { Lesson } from "@/lib/lms-data";
 import { Button } from "@/components/ui/button";
+import { analytics } from "@/lib/analytics";
 
 type ActiveLesson = {
   lesson: Lesson;
@@ -892,7 +893,7 @@ export default function CourseViewer() {
         {/* Header Overlay */}
         <div className="p-3 border-b border-slate-800 flex justify-between items-center bg-slate-900/95 backdrop-blur-sm sticky top-0 z-20 shadow-sm">
            <div>
-             <Link href="/lms" className="text-xs text-slate-400 hover:text-white flex items-center mb-1">
+             <Link href="/lms" onClick={() => analytics.trackBackToDashboard("Course Viewer")} className="text-xs text-slate-400 hover:text-white flex items-center mb-1">
                <ChevronLeft className="h-3 w-3 mr-1" /> Back to Dashboard
              </Link>
              <h1 className="text-lg font-bold text-white">{activeLesson?.lesson.title || course.title}</h1>

@@ -5,6 +5,7 @@ import heroImage from "@assets/generated_images/bright_modern_university_library
 import { Link } from "wouter";
 import { ArrowRight, CheckCircle2, Star, TrendingUp, Users, Mic, BookOpen, Headphones, PenTool, BookA } from "lucide-react";
 import { MOCK_REVIEWS, MOCK_RESOURCES } from "@/lib/mock-data";
+import { analytics } from "@/lib/analytics";
 
 export default function Home() {
   return (
@@ -34,7 +35,7 @@ export default function Home() {
                 <Link href="/reviews">Read Reviews</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 font-medium text-lg h-14 px-8">
-                <Link href="/lms">Explore Courses</Link>
+                <Link href="/lms" onClick={() => analytics.trackExploreCourses()}>Explore Courses</Link>
               </Button>
             </div>
             <div className="flex items-center gap-4 text-white/80 text-sm pt-4">

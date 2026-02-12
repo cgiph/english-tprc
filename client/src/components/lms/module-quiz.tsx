@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
+import { analytics } from "@/lib/analytics";
 
 interface Question {
   id: string;
@@ -668,6 +669,10 @@ export function ModuleQuiz({ moduleId, moduleTitle, quizId, isOpen, onClose, onC
     const finalScore = Math.round((correct / questions.length) * 100);
     setScore(finalScore);
     setSubmitted(true);
+    
+    // Track quiz completion
+    analytics.trackQuizCompletion(moduleTitle + (quizId ? ` (${quizId})` : ""), finalScore, questions.length);
+
     onComplete(finalScore);
   };
 
