@@ -874,6 +874,17 @@ export default function SpeakingPractice() {
                               </div>
                            </div>
                            
+                           {/* Play Button for SGD */}
+                           <Button 
+                             variant="outline" 
+                             size="sm" 
+                             onClick={() => speakConversation(currentQuestion.audioScript || "")} 
+                             className="gap-2"
+                             disabled={status === "playing" || status === "recording"}
+                           >
+                              <PlayCircle className="h-4 w-4" /> Play Audio
+                           </Button>
+
                            {/* Player Interface */}
                            <div className="w-full space-y-2">
                               <div className="flex items-center justify-between text-sm font-mono font-medium text-muted-foreground">
