@@ -344,6 +344,17 @@ export default function FullMockTest() {
     }
   }, []);
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      stopAllAudio();
+      if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [stopAllAudio, mediaRecorder]);
+
   // Audio Playback Logic
   const speakText = useCallback((text: string, onEndCallback?: () => void) => {
     window.speechSynthesis.cancel();

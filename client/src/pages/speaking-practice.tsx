@@ -308,6 +308,15 @@ export default function SpeakingPractice() {
     resetState();
   }, [activeTab, currentQuestionIndex]);
 
+  // Global cleanup on unmount
+  useEffect(() => {
+    return () => {
+      isAudioCancelledRef.current = true;
+      stopAudio();
+      stopRecordingAudio();
+    };
+  }, []);
+
   // Timer logic
   useEffect(() => {
     let interval: NodeJS.Timeout;
