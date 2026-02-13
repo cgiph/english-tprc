@@ -178,6 +178,7 @@ export default function SpeakingPractice() {
   };
 
   const stopAudio = () => {
+    isAudioCancelledRef.current = true;
     window.speechSynthesis.cancel();
     // Sometimes one cancel isn't enough if multiple are queued
     setTimeout(() => window.speechSynthesis.cancel(), 50);
