@@ -172,6 +172,44 @@ class AnalyticsService {
       });
     }
   }
+
+  // Legacy/Helper events
+  trackExploreCourses() {
+    this.trackEvent({
+      name: 'explore_courses_click',
+      category: 'Navigation',
+      label: 'Main Header'
+    });
+  }
+
+  trackQuizCompletion(quizTitle: string, score: number, totalQuestions: number) {
+    this.trackEvent({
+      name: 'quiz_completed',
+      category: 'Assessment',
+      label: quizTitle,
+      value: score,
+      properties: {
+        total_questions: totalQuestions,
+        percentage: (score / totalQuestions) * 100
+      }
+    });
+  }
+
+  trackSpeakingRecord(exerciseId: string) {
+    this.trackEvent({
+      name: 'speaking_record_start',
+      category: 'Engagement',
+      label: exerciseId
+    });
+  }
+
+  trackBackToDashboard(fromPage: string) {
+    this.trackEvent({
+      name: 'back_to_dashboard',
+      category: 'Navigation',
+      label: fromPage
+    });
+  }
 }
 
 export const analytics = new AnalyticsService();
