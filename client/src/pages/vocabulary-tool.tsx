@@ -866,13 +866,15 @@ export default function VocabularyTool() {
       </div>
 
       <Tabs defaultValue="phonemic-chart" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5 max-w-5xl">
-          <TabsTrigger value="phonemic-chart">Phonemic Chart</TabsTrigger>
-          <TabsTrigger value="vocabulary">Vocabulary Words</TabsTrigger>
-          <TabsTrigger value="collocations">Common Collocations</TabsTrigger>
-          <TabsTrigger value="confused">Confused Words</TabsTrigger>
-          <TabsTrigger value="misspelled">Misspelled Words</TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto pb-2">
+          <TabsList className="w-full justify-start md:justify-center bg-muted/50 p-1 h-auto flex-wrap sm:flex-nowrap min-w-max md:min-w-0">
+            <TabsTrigger value="phonemic-chart" className="px-4 py-2 flex-grow sm:flex-grow-0">Phonemic Chart</TabsTrigger>
+            <TabsTrigger value="vocabulary" className="px-4 py-2 flex-grow sm:flex-grow-0">Vocabulary Words</TabsTrigger>
+            <TabsTrigger value="collocations" className="px-4 py-2 flex-grow sm:flex-grow-0">Common Collocations</TabsTrigger>
+            <TabsTrigger value="confused" className="px-4 py-2 flex-grow sm:flex-grow-0">Confused Words</TabsTrigger>
+            <TabsTrigger value="misspelled" className="px-4 py-2 flex-grow sm:flex-grow-0">Misspelled Words</TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="vocabulary" className="space-y-6">
           <div className="grid gap-6">
