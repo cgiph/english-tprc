@@ -104,7 +104,6 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
         modules: {
           ...prev.modules,
           [moduleId]: {
-            completedLessons: [], // Ensure property exists
             ...currentModule,
             completedLessons,
             status: "in-progress" // Auto set to in-progress if a lesson is done
