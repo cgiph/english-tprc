@@ -62,6 +62,7 @@ export default function SpeakingPractice() {
   const audioContextRef = useRef<AudioContext | null>(null);
   const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
   const playbackAudioRef = useRef<HTMLAudioElement | null>(null);
+  const isAudioCancelledRef = useRef(false);
 
   const { toast } = useToast();
 
@@ -82,6 +83,7 @@ export default function SpeakingPractice() {
   };
 
   const speakConversation = (text: string, onEnd?: () => void) => {
+    isAudioCancelledRef.current = false;
     window.speechSynthesis.cancel();
     
     // Simple split by likely speaker delimiters (Person X:, Student Y:, etc.)
@@ -104,6 +106,8 @@ export default function SpeakingPractice() {
     let voiceIndex = 0;
 
     const speakSegment = (index: number) => {
+        if (isAudioCancelledRef.current) return;
+
         if (index >= segments.length) {
             if (onEnd) onEnd();
             return;
@@ -134,10 +138,16 @@ export default function SpeakingPractice() {
         
         utterance.rate = 0.9;
         
-        utterance.onend = () => speakSegment(index + 1);
-        utterance.onerror = () => speakSegment(index + 1); // Continue on error
+        utterance.onend = () => {
+             if (!isAudioCancelledRef.current) speakSegment(index + 1);
+        };
+        utterance.onerror = () => {
+             if (!isAudioCancelledRef.current) speakSegment(index + 1);
+        };
         
-        window.speechSynthesis.speak(utterance);
+        if (!isAudioCancelledRef.current) {
+             window.speechSynthesis.speak(utterance);
+        }
     };
 
     speakSegment(0);
@@ -604,6 +614,7 @@ export default function SpeakingPractice() {
   };
 
   const handleNext = () => {
+    stopAudio();
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndices(prev => ({
         ...prev,
@@ -613,6 +624,7 @@ export default function SpeakingPractice() {
   };
 
   const handlePrev = () => {
+    stopAudio();
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndices(prev => ({
         ...prev,
