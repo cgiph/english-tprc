@@ -1038,26 +1038,26 @@ export default function SpeakingPractice() {
 
           </CardContent>
           
-          <CardFooter className="border-t p-6 bg-muted/5 flex justify-between items-center">
-             <Button variant="ghost" onClick={resetState}>
+          <CardFooter className="border-t p-6 bg-muted/5 flex flex-col sm:flex-row justify-between items-center gap-4">
+             <Button variant="ghost" onClick={resetState} className="w-full sm:w-auto order-2 sm:order-1">
                 <RotateCcw className="mr-2 h-4 w-4" /> Reset / Redo
              </Button>
 
-             <div className="flex gap-4">
+             <div className="flex gap-2 w-full sm:w-auto justify-center sm:justify-end flex-wrap order-1 sm:order-2">
                {status === "idle" && (
-                 <Button size="lg" className="w-40 gap-2 font-bold" onClick={startPreparation}>
+                 <Button size="lg" className="w-full sm:w-40 gap-2 font-bold" onClick={startPreparation}>
                    Start
                  </Button>
                )}
 
                {status === "preparing" && (
-                 <Button size="lg" className="w-40 gap-2 font-bold bg-blue-600 hover:bg-blue-700 text-white" onClick={startRecording}>
+                 <Button size="lg" className="w-full sm:w-40 gap-2 font-bold bg-blue-600 hover:bg-blue-700 text-white" onClick={startRecording}>
                    Skip Prep
                  </Button>
                )}
                
                {(status === "playing" || status === "waiting") && (
-                 <Button size="lg" className="w-40 gap-2 font-bold" disabled>
+                 <Button size="lg" className="w-full sm:w-40 gap-2 font-bold" disabled>
                    {status === "playing" ? "Listening..." : "Wait..."}
                  </Button>
                )}
@@ -1065,7 +1065,7 @@ export default function SpeakingPractice() {
                {status === "recording" && (
                  <Button 
                    size="lg" 
-                   className="w-40 gap-2 font-bold bg-red-500 hover:bg-red-600 text-white animate-pulse"
+                   className="w-full sm:w-40 gap-2 font-bold bg-red-500 hover:bg-red-600 text-white animate-pulse"
                    onClick={stopRecording}
                  >
                    <StopCircle className="h-4 w-4" /> Stop
@@ -1074,11 +1074,11 @@ export default function SpeakingPractice() {
 
                {status === "completed" && (
                  <>
-                   <Button size="lg" variant="outline" className="w-32 gap-2" onClick={playRecording}>
+                   <Button size="lg" variant="outline" className="flex-1 sm:flex-none sm:w-32 gap-2" onClick={playRecording}>
                      <PlayCircle className="h-4 w-4" /> Playback
                    </Button>
                    {!score && (
-                     <Button size="lg" className="w-32 gap-2" onClick={handleScore} disabled={isScoring}>
+                     <Button size="lg" className="flex-1 sm:flex-none sm:w-32 gap-2" onClick={handleScore} disabled={isScoring}>
                        {isScoring ? "Analyzing..." : "Get Score"}
                      </Button>
                    )}
