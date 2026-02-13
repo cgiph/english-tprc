@@ -152,14 +152,16 @@ export default function WritingPractice() {
       </div>
 
       <Tabs value={activeTab} onValueChange={(val) => setActiveTab(val as WritingTaskType)} className="space-y-8">
-        <TabsList className="w-full justify-start md:justify-center bg-muted/50 p-1">
-          <TabsTrigger value="Summarize Written Text" className="px-8 py-2 gap-2">
-            <FileText className="h-4 w-4" /> Summarize Written Text
-          </TabsTrigger>
-          <TabsTrigger value="Write Essay" className="px-8 py-2 gap-2">
-            <PenTool className="h-4 w-4" /> Write Essay
-          </TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto pb-2">
+          <TabsList className="w-full justify-start md:justify-center bg-muted/50 p-1 h-auto flex-wrap sm:flex-nowrap">
+            <TabsTrigger value="Summarize Written Text" className="px-4 sm:px-8 py-2 gap-2 whitespace-nowrap flex-grow sm:flex-grow-0">
+              <FileText className="h-4 w-4" /> Summarize Written Text
+            </TabsTrigger>
+            <TabsTrigger value="Write Essay" className="px-4 sm:px-8 py-2 gap-2 whitespace-nowrap flex-grow sm:flex-grow-0">
+              <PenTool className="h-4 w-4" /> Write Essay
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <div className="grid gap-6">
           <Card className="border-2 border-muted">
@@ -373,22 +375,22 @@ export default function WritingPractice() {
 
             </CardContent>
             
-            <CardFooter className="border-t p-6 bg-muted/5 flex justify-between items-center">
-               <div className="flex gap-2">
-                   <Button variant="ghost" onClick={handleReset}>
+            <CardFooter className="border-t p-6 bg-muted/5 flex flex-col sm:flex-row justify-between items-center gap-4">
+               <div className="flex gap-2 w-full sm:w-auto order-2 sm:order-1">
+                   <Button variant="ghost" onClick={handleReset} className="w-full sm:w-auto">
                       <RotateCcw className="mr-2 h-4 w-4" /> Reset
                    </Button>
                </div>
 
-               <div className="flex gap-2">
+               <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto order-1 sm:order-2">
                    {!isActive && timeLeft === currentQuestion.timeLimit && (
-                     <Button size="lg" onClick={handleStart} className="w-40 font-bold" disabled={showResults[currentQuestion.id]}>
+                     <Button size="lg" onClick={handleStart} className="w-full sm:w-40 font-bold" disabled={showResults[currentQuestion.id]}>
                        Start Timer
                      </Button>
                    )}
                    
                    {isActive && (
-                     <Button size="lg" variant="destructive" onClick={() => setIsActive(false)} className="w-40 font-bold">
+                     <Button size="lg" variant="destructive" onClick={() => setIsActive(false)} className="w-full sm:w-40 font-bold">
                        Stop Timer
                      </Button>
                    )}
@@ -397,7 +399,7 @@ export default function WritingPractice() {
                    <Button 
                       size="lg" 
                       onClick={handleSubmit} 
-                      className="w-40 font-bold bg-green-600 hover:bg-green-700 text-white"
+                      className="w-full sm:w-40 font-bold bg-green-600 hover:bg-green-700 text-white"
                       disabled={showResults[currentQuestion.id] || currentResponse.length < 5}
                    >
                      Submit & Score
