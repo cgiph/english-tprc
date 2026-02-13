@@ -335,8 +335,12 @@ export default function FullMockTest() {
   
   const stopAllAudio = useCallback(() => {
     window.speechSynthesis.cancel();
+    // Double cancel for safety
+    setTimeout(() => window.speechSynthesis.cancel(), 50);
+
     if (audioElementRef.current) {
       audioElementRef.current.pause();
+      audioElementRef.current.currentTime = 0;
       audioElementRef.current = null;
     }
     if (utteranceRef.current) {

@@ -154,6 +154,7 @@ export default function SpeakingPractice() {
   };
 
   const speakText = (text: string, onEnd?: () => void) => {
+    isAudioCancelledRef.current = false;
     // If it looks like a conversation, use speakConversation
     if (text.match(/(?:Person [A-C]|Student [A-C]|Speaker [1-3]|Admin|Teacher|Manager|Treasurer|President|Member|Librarian|Advisor|Activist|Counselor|Commuter|Professor):/)) {
         speakConversation(text, onEnd);
@@ -164,16 +165,26 @@ export default function SpeakingPractice() {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-GB';
     utterance.rate = 0.9;
-    if (onEnd) {
-      utterance.onend = onEnd;
+    
+    utterance.onend = () => {
+      if (!isAudioCancelledRef.current && onEnd) {
+        onEnd();
+      }
+    };
+    
+    if (!isAudioCancelledRef.current) {
+        window.speechSynthesis.speak(utterance);
     }
-    window.speechSynthesis.speak(utterance);
   };
 
   const stopAudio = () => {
     window.speechSynthesis.cancel();
+    // Sometimes one cancel isn't enough if multiple are queued
+    setTimeout(() => window.speechSynthesis.cancel(), 50);
+    
     if (playbackAudioRef.current) {
         playbackAudioRef.current.pause();
+        playbackAudioRef.current.currentTime = 0; // Reset position
         playbackAudioRef.current = null;
     }
   };
