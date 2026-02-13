@@ -36,9 +36,6 @@ export default function ListeningPractice() {
   const [questionTimers, setQuestionTimers] = useState<Record<string, number>>({});
   
   const [timerStarted, setTimerStarted] = useState<Record<string, boolean>>({});
-
-  const [groupTimer, setGroupTimer] = useState(0);
-  const [groupTimerStarted, setGroupTimerStarted] = useState(false);
   
   // Audio playback state
   const [audioProgress, setAudioProgress] = useState(0);
@@ -54,11 +51,6 @@ export default function ListeningPractice() {
   // Timer Logic
   useEffect(() => {
     const interval = setInterval(() => {
-        // Group Timer Logic
-        if (groupTimerStarted) {
-            setGroupTimer(prev => prev + 1);
-        }
-
       setQuestionTimers(prev => {
         const next = { ...prev };
         
@@ -84,12 +76,6 @@ export default function ListeningPractice() {
                     next[q.id] = 600; // Ensure it stays at 600 if not started
                 }
              } else {
-                // For group questions, we don't need individual logic here
-                // as the group timer is handled separately
-                
-                // Keep individual timer for potential analytics or display if needed, 
-                // but main logic is group based for these types
-                
                 // Initialize timer if undefined
                 const currentTime = next[q.id] || 0;
                 
@@ -106,7 +92,7 @@ export default function ListeningPractice() {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [activeTab, playingId, showResults, toast, timerStarted, groupTimerStarted]);
+  }, [activeTab, playingId, showResults, toast, timerStarted]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -141,9 +127,9 @@ export default function ListeningPractice() {
     }
 
     // Group timer logic
-    if (type && GROUP_TYPES.includes(type) && !groupTimerStarted) {
-        setGroupTimerStarted(true);
-    }
+    // if (type && GROUP_TYPES.includes(type) && !groupTimerStarted) {
+    //    setGroupTimerStarted(true);
+    // }
 
     if (playingId === id) {
       window.speechSynthesis.cancel();
@@ -260,7 +246,7 @@ export default function ListeningPractice() {
       </div>
       <div className="flex items-center gap-2 bg-[#0077B6] px-3 py-1 rounded text-sm font-medium">
         <Timer className="w-4 h-4" />
-        <span>Timer: {q.type === "SST" ? formatTime(questionTimers[q.id] || 600) : formatTime(groupTimer)}</span>
+        <span>Timer: {q.type === "SST" ? formatTime(questionTimers[q.id] || 600) : formatTime(questionTimers[q.id] || 0)}</span>
       </div>
     </div>
   );
