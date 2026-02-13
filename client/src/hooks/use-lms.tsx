@@ -77,18 +77,20 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
   }, [state, isLoaded]);
 
   const unlockModule = (moduleId: ModuleId) => {
-    setState(prev => ({
-      ...prev,
-      modules: {
-        ...prev.modules,
-        [moduleId]: {
-          completedLessons: [], // Default to empty array if new
-          ...prev.modules[moduleId],
-          status: "unlocked",
-          unlockedAt: new Date().toISOString()
+    setState(prev => {
+      const existingModule = prev.modules[moduleId] || { completedLessons: [] };
+      return {
+        ...prev,
+        modules: {
+          ...prev.modules,
+          [moduleId]: {
+            ...existingModule,
+            status: "unlocked",
+            unlockedAt: new Date().toISOString()
+          }
         }
-      }
-    }));
+      };
+    });
   };
 
   const completeLesson = (moduleId: ModuleId, lessonId: LessonId) => {
