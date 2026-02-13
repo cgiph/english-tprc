@@ -551,7 +551,7 @@ export default function FullMockTest() {
   };
 
   const handleNext = () => {
-    stopAudio();
+    stopAllAudio();
     if (!currentTest) return;
     
     // Reset states for next question

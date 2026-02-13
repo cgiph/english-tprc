@@ -61,6 +61,7 @@ export default function SpeakingPractice() {
   const dataArrayRef = useRef<Uint8Array | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
+  const playbackAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const { toast } = useToast();
 
@@ -161,6 +162,10 @@ export default function SpeakingPractice() {
 
   const stopAudio = () => {
     window.speechSynthesis.cancel();
+    if (playbackAudioRef.current) {
+        playbackAudioRef.current.pause();
+        playbackAudioRef.current = null;
+    }
   };
 
   const startRecordingAudio = async () => {
@@ -266,7 +271,14 @@ export default function SpeakingPractice() {
 
   const playRecording = () => {
     if (recordedAudioUrl) {
+      if (playbackAudioRef.current) {
+          playbackAudioRef.current.pause();
+      }
       const audio = new Audio(recordedAudioUrl);
+      playbackAudioRef.current = audio;
+      audio.onended = () => {
+          playbackAudioRef.current = null;
+      };
       audio.play();
     } else {
       toast({
