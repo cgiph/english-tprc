@@ -46,6 +46,7 @@ import { useToast } from "@/hooks/use-toast";
 import { COURSES, Course } from "@/lib/lms-data";
 import { ContentManager } from "@/components/lms/admin/content-manager";
 import { BrandingSettings } from "@/components/lms/admin/branding-settings";
+import { TenantManager } from "@/components/lms/admin/tenant-manager";
 
 // Mock Data for Candidates
 const CANDIDATES = [
@@ -312,6 +313,7 @@ export default function AdminDashboard() {
                  <TabsTrigger value="inbox">Trainer Inbox</TabsTrigger>
                  <TabsTrigger value="content">Content Manager</TabsTrigger>
                  <TabsTrigger value="branding">White Label</TabsTrigger>
+                 <TabsTrigger value="tenants">Multi-Tenant</TabsTrigger>
               </TabsList>
               
               <div className="flex items-center gap-2">
@@ -338,6 +340,10 @@ export default function AdminDashboard() {
 
            <TabsContent value="branding" className="space-y-4">
               <BrandingSettings />
+           </TabsContent>
+
+           <TabsContent value="tenants" className="space-y-4">
+              <TenantManager />
            </TabsContent>
 
            <TabsContent value="pipeline" className="space-y-4">
