@@ -7,17 +7,41 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase } from "lucide-react";
+import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLMS } from "@/hooks/use-lms";
 import { analytics } from "@/lib/analytics";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { CertificateView } from "@/components/lms/certificate-view";
+import { useUser } from "@/hooks/use-user";
 
 export default function LMSDashboard() {
   const [activeTab, setActiveTab] = useState("all");
+  const { state } = useLMS();
 
+  // Filter logic...
   const filteredCourses = activeTab === "all" 
     ? COURSES 
-    : COURSES.filter(c => c.category.toLowerCase().includes(activeTab) || (activeTab === "technical" && c.category === "Technical"));
+    : activeTab === "certificates"
+        ? COURSES // We will filter for completed courses below
+        : COURSES.filter(c => c.category.toLowerCase().includes(activeTab) || (activeTab === "technical" && c.category === "Technical"));
+
+  // Calculate completed courses for the Certificates tab
+  const completedCourses = COURSES.filter(course => {
+     // Check if all modules are completed for this course in user state
+     // This is a simplified check: assumes course is complete if all modules are marked complete
+     // In a real app we might have a specific 'isCompleted' flag on the course enrollment
+     const totalModules = course.modules.length;
+     let completedModules = 0;
+     
+     course.modules.forEach(m => {
+        if (state.modules[m.id]?.status === "completed") {
+            completedModules++;
+        }
+     });
+     
+     return totalModules > 0 && completedModules === totalModules;
+  });
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-full">
@@ -43,17 +67,82 @@ export default function LMSDashboard() {
           <TabsTrigger value="english" className="px-6">English Levels</TabsTrigger>
           <TabsTrigger value="technical" className="px-6 data-[state=active]:bg-orange-600 data-[state=active]:text-white">Trade Prep (TSA/TRA)</TabsTrigger>
           <TabsTrigger value="mock test" className="px-6">Mock Tests</TabsTrigger>
+          <TabsTrigger value="certificates" className="px-6 gap-2">
+            <Award className="h-4 w-4" /> Certificates
+          </TabsTrigger>
         </TabsList>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          {filteredCourses.map((course) => (
-            <CourseCard key={course.id} course={course} />
-          ))}
+          {activeTab === "certificates" ? (
+             completedCourses.length > 0 ? (
+               completedCourses.map(course => (
+                 <CertificateCard key={course.id} course={course} />
+               ))
+             ) : (
+               <div className="col-span-full py-12 text-center bg-slate-50 rounded-xl border-2 border-dashed border-slate-200">
+                  <div className="h-16 w-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                     <Award className="h-8 w-8 text-slate-400" />
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-700">No Certificates Yet</h3>
+                  <p className="text-slate-500 max-w-sm mx-auto mt-2">Complete all modules in a course to earn your certificate of completion.</p>
+                  <Button variant="link" onClick={() => setActiveTab("all")} className="mt-4 text-orange-600">Browse Courses</Button>
+               </div>
+             )
+          ) : (
+            filteredCourses.map((course) => (
+              <CourseCard key={course.id} course={course} />
+            ))
+          )}
         </div>
       </Tabs>
     </div>
   );
 }
+
+function CertificateCard({ course }: { course: Course }) {
+  const { user } = useUser();
+  
+  return (
+    <Card className="flex flex-col overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-orange-100 group">
+       <div className="relative h-40 bg-slate-900 overflow-hidden flex items-center justify-center">
+          <div className="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+          <Award className="h-16 w-16 text-orange-400 drop-shadow-lg" />
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 to-indigo-500"></div>
+       </div>
+       
+       <CardHeader className="text-center pb-2">
+          <Badge className="mx-auto mb-2 bg-green-100 text-green-700 hover:bg-green-100 border-green-200">Completed</Badge>
+          <CardTitle className="text-xl font-serif">{course.title}</CardTitle>
+          <CardDescription>Issued on {new Date().toLocaleDateString()}</CardDescription>
+       </CardHeader>
+       
+       <CardContent className="text-center pb-6">
+          <p className="text-sm text-slate-500">
+             Professional Certification Level {course.level || "Standard"}
+          </p>
+       </CardContent>
+       
+       <CardFooter>
+          <Dialog>
+             <DialogTrigger asChild>
+                <Button className="w-full bg-slate-900 text-white hover:bg-slate-800 gap-2">
+                   <FileText className="h-4 w-4" /> View Certificate
+                </Button>
+             </DialogTrigger>
+             <DialogContent className="max-w-4xl p-0 overflow-hidden bg-transparent border-none shadow-none">
+                <CertificateView 
+                   course={course} 
+                   studentName={user?.name || "Guest User"} 
+                   completionDate={new Date().toLocaleDateString()} 
+                   onDownload={() => alert("Downloading PDF...")}
+                />
+             </DialogContent>
+          </Dialog>
+       </CardFooter>
+    </Card>
+  );
+}
+
 
 function CourseCard({ course }: { course: Course }) {
   const { state } = useLMS();
