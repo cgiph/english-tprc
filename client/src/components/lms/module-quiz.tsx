@@ -222,6 +222,38 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 2
     }
   ],
+  "tw2": [
+    {
+      id: "tw2-q1",
+      text: "What does the '70' in E7018 stand for?",
+      options: ["70 PSI Tensile Strength", "7,000 PSI Tensile Strength", "70,000 PSI Tensile Strength", "700 PSI Tensile Strength"],
+      correctAnswer: 2
+    },
+    {
+      id: "tw2-q2",
+      text: "Which electrode is commonly referred to as 'Lo-Hy'?",
+      options: ["E6010", "E6011", "E7018", "E6013"],
+      correctAnswer: 2
+    },
+    {
+      id: "tw2-q3",
+      text: "Which electrode is best suited for dirty or rusty metal?",
+      options: ["E7018", "E7024", "E308L", "E6010"],
+      correctAnswer: 3
+    },
+    {
+      id: "tw2-q4",
+      text: "In the electrode classification E7018, what does the '1' indicate?",
+      options: ["Flat position only", "All positions", "Horizontal position only", "Vertical down only"],
+      correctAnswer: 1
+    },
+    {
+      id: "tw2-q5",
+      text: "SMAW is more commonly known in the industry as:",
+      options: ["MIG Welding", "TIG Welding", "Stick Welding", "Flux Core Welding"],
+      correctAnswer: 2
+    }
+  ],
   "pte-grammar": [
     {
        id: "pg-q1",
