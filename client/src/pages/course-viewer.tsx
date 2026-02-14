@@ -1142,8 +1142,8 @@ export default function CourseViewer() {
 
       {/* Sidebar - Course Syllabus */}
       <div className={cn(
-        "bg-background border-l border-border flex flex-col h-full overflow-hidden shrink-0 transition-all duration-300 ease-in-out",
-        isSidebarOpen ? "w-80 translate-x-0 opacity-100" : "w-0 translate-x-full opacity-0 overflow-hidden border-none"
+        "bg-background border-l border-border flex flex-col h-full overflow-hidden shrink-0 transition-all duration-300 ease-in-out absolute md:relative right-0 z-30",
+        isSidebarOpen ? "w-80 translate-x-0 opacity-100 shadow-2xl md:shadow-none" : "w-0 translate-x-full opacity-0 overflow-hidden border-none"
       )}>
         <div className="p-4 border-b border-border flex justify-between items-center bg-muted/20">
            <h2 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">Course Syllabus</h2>
