@@ -724,6 +724,38 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 1
     }
   ],
+  "tech-m4": [
+    {
+      id: "tm4-q1",
+      text: "If a colleague says 'See you this arvo', when will you see them?",
+      options: ["Tomorrow morning", "This afternoon", "At night", "Next week"],
+      correctAnswer: 1
+    },
+    {
+      id: "tm4-q2",
+      text: "What does 'Smoko' refer to?",
+      options: ["A smoking ban", "A fire drill", "A short break for food/coffee", "Smoke coming from a machine"],
+      correctAnswer: 2
+    },
+    {
+      id: "tm4-q3",
+      text: "In Australian slang, what is a 'Ute'?",
+      options: ["A utility vehicle / pickup truck", "A type of wrench", "A safety uniform", "An underground tunnel"],
+      correctAnswer: 0
+    },
+    {
+      id: "tm4-q4",
+      text: "Who is a 'Sparkie'?",
+      options: ["A welder", "An electrician", "A painter", "A mechanic"],
+      correctAnswer: 1
+    },
+    {
+      id: "tm4-q5",
+      text: "If someone says 'Yeah, nah', what do they usually mean?",
+      options: ["Yes", "Maybe", "No", "I don't know"],
+      correctAnswer: 2
+    }
+  ],
   "tech-m1": [
     {
       id: "tq1",

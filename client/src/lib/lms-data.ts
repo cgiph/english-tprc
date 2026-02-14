@@ -3074,6 +3074,137 @@ export const COURSES: Course[] = [
           },
           { id: "tech-m3-quiz", title: "Communication Assessment", type: "quiz", duration: "20 min", isCompleted: false }
         ]
+      },
+      {
+        id: "tech-m4",
+        title: "Module 4: Australian Workplace Culture",
+        description: "Mastering the unique slang and communication style of Aussie job sites.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          {
+            id: "tech-m4-l1",
+            title: "Aussie Slang 101",
+            type: "reading",
+            duration: "15 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <h3 class="text-2xl font-bold text-slate-800">Survival Guide: Aussie Workplace Slang</h3>
+                <p class="text-slate-600">Australians (Aussies) love to shorten words. Understanding these terms is critical for building rapport and following instructions quickly.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                    <h4 class="font-bold text-amber-900 mb-2">The Essentials</h4>
+                    <ul class="space-y-2 text-sm text-slate-700">
+                      <li><strong>Arvo:</strong> Afternoon ("See you this arvo").</li>
+                      <li><strong>Smoko:</strong> Short break for food/coffee (morning tea).</li>
+                      <li><strong>Tradie:</strong> A skilled tradesperson (You!).</li>
+                      <li><strong>Mate:</strong> Friend, colleague, or anyone really.</li>
+                      <li><strong>Hard Yakka:</strong> Hard work.</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h4 class="font-bold text-blue-900 mb-2">Feedback & Attitude</h4>
+                    <ul class="space-y-2 text-sm text-slate-700">
+                      <li><strong>She'll be right:</strong> It will be okay / Don't worry.</li>
+                      <li><strong>No worries:</strong> You're welcome / It's fine.</li>
+                      <li><strong>Too easy:</strong> I can do that easily / Agreed.</li>
+                      <li><strong>Flat out:</strong> Very busy ("We are flat out today").</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="bg-slate-800 text-white p-6 rounded-xl">
+                   <h4 class="font-bold mb-2">⚠️ Warning: "Yeah, nah" vs "Nah, yeah"</h4>
+                   <p class="text-slate-300 text-sm mb-2">Australians often say 'yes' and 'no' together. Context is key:</p>
+                   <div class="grid grid-cols-2 gap-4 text-center">
+                      <div class="bg-red-900/50 p-2 rounded">
+                        <div class="font-bold text-red-200">"Yeah, nah"</div>
+                        <div class="text-xs text-slate-400">Means: NO</div>
+                      </div>
+                      <div class="bg-green-900/50 p-2 rounded">
+                        <div class="font-bold text-green-200">"Nah, yeah"</div>
+                        <div class="text-xs text-slate-400">Means: YES</div>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: "tech-m4-l2",
+            title: "Trade Specific Slang",
+            type: "reading",
+            duration: "20 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <h3 class="text-2xl font-bold text-slate-800">Slang by Trade</h3>
+                <p class="text-slate-600">Specific terms you will hear in the workshop or on site.</p>
+
+                <div class="space-y-6">
+                  <!-- Automotive -->
+                  <div class="border rounded-xl overflow-hidden">
+                    <div class="bg-slate-100 p-3 font-bold text-slate-700 border-b">🚗 Automotive (Mechanics)</div>
+                    <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white">
+                      <div>
+                        <strong class="block text-indigo-600">Ute</strong>
+                        <span class="text-sm text-slate-600">Utility vehicle / Pickup truck.</span>
+                      </div>
+                      <div>
+                        <strong class="block text-indigo-600">Servo</strong>
+                        <span class="text-sm text-slate-600">Service Station / Gas Station.</span>
+                      </div>
+                      <div>
+                        <strong class="block text-indigo-600">Rego</strong>
+                        <span class="text-sm text-slate-600">Vehicle Registration.</span>
+                      </div>
+                      <div>
+                        <strong class="block text-indigo-600">Blowie / Blower</strong>
+                        <span class="text-sm text-slate-600">Supercharger (or sometimes Turbo).</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Construction/Welding -->
+                  <div class="border rounded-xl overflow-hidden">
+                    <div class="bg-slate-100 p-3 font-bold text-slate-700 border-b">🏗️ Construction & Welding</div>
+                    <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white">
+                      <div>
+                        <strong class="block text-orange-600">Sparkie</strong>
+                        <span class="text-sm text-slate-600">Electrician.</span>
+                      </div>
+                      <div>
+                        <strong class="block text-orange-600">Chippie</strong>
+                        <span class="text-sm text-slate-600">Carpenter.</span>
+                      </div>
+                      <div>
+                        <strong class="block text-orange-600">Brickie</strong>
+                        <span class="text-sm text-slate-600">Bricklayer.</span>
+                      </div>
+                      <div>
+                        <strong class="block text-orange-600">Boilermaker (Boily)</strong>
+                        <span class="text-sm text-slate-600">Heavy fabricator/welder.</span>
+                      </div>
+                      <div>
+                        <strong class="block text-orange-600">Slab</strong>
+                        <span class="text-sm text-slate-600">Concrete foundation OR a carton of 24 beers (currency for favors).</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                   <h4 class="font-bold text-yellow-800">Cultural Tip: "The Shout"</h4>
+                   <p class="text-sm text-yellow-900">If someone says "It's your shout," it means it is your turn to buy the coffee or drinks for the group. Do not ignore this—it is key to team bonding.</p>
+                </div>
+              </div>
+            `
+          },
+          { id: "tech-m4-quiz", title: "Aussie Slang Quiz", type: "quiz", duration: "15 min", isCompleted: false }
+        ]
       }
     ]
   }
