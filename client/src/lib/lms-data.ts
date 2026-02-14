@@ -1171,6 +1171,14 @@ export const COURSES: Course[] = [
               </div>
             `
           },
+          { 
+            id: "tmec3-l2", 
+            title: "Video: When to Ask?", 
+            type: "video", 
+            duration: "5 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/Xe1C9LoSWlA"
+          },
           { id: "tmec3-final", title: "Final Mechanics Assessment", type: "quiz", duration: "90 min", isCompleted: false }
         ]
       }
