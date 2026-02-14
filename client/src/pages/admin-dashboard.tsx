@@ -47,6 +47,7 @@ import { COURSES, Course } from "@/lib/lms-data";
 import { ContentManager } from "@/components/lms/admin/content-manager";
 import { BrandingSettings } from "@/components/lms/admin/branding-settings";
 import { TenantManager } from "@/components/lms/admin/tenant-manager";
+import { StressTest } from "@/components/debug/stress-test";
 
 // Mock Data for Candidates
 const CANDIDATES = [
@@ -739,6 +740,7 @@ export default function AdminDashboard() {
         </Tabs>
 
       </main>
+      <StressTest />
     </div>
   );
 }

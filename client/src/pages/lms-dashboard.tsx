@@ -21,8 +21,6 @@ import visionStage2 from "@/assets/images/vision-stage-2.png";
 import visionStage3 from "@/assets/images/vision-stage-3.png";
 import visionStage4 from "@/assets/images/vision-stage-4.png";
 
-import { StressTest } from "@/components/debug/stress-test";
-
 export default function LMSDashboard() {
   const [activeTab, setActiveTab] = useState("all");
   const { state } = useLMS();
@@ -99,8 +97,6 @@ export default function LMSDashboard() {
       
       {/* Gamification: Vision Board */}
       <VisionBoard progress={overallProgress} />
-
-      <StressTest />
 
       <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="space-y-8">
         <TabsList className="bg-muted/50 p-1">
