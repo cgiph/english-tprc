@@ -714,6 +714,7 @@ export default function CourseViewer() {
   
   // Quiz State
   const [quizOpen, setQuizOpen] = useState(false);
+  const [lessonQuizOpen, setLessonQuizOpen] = useState(false);
   const [activeQuizModule, setActiveQuizModule] = useState<{id: string, title: string, quizId?: string} | null>(null);
   const { toast } = useToast();
 
@@ -830,6 +831,9 @@ export default function CourseViewer() {
                 setActiveQuizModule({ id: module.id, title: module.title });
                 setQuizOpen(true);
             }
+        } else if (activeLesson.lesson.quizId) {
+            // If lesson has a specific quiz, open it
+            setLessonQuizOpen(true);
         } else {
             completeLesson(activeLesson.moduleId, activeLesson.lesson.id);
             analytics.trackLessonComplete(activeLesson.lesson.id, activeLesson.lesson.title);
@@ -837,6 +841,27 @@ export default function CourseViewer() {
                 title: "Lesson Completed",
                 description: "Progress saved."
             });
+        }
+    }
+  };
+
+  const handleLessonQuizComplete = (score: number) => {
+    if (activeLesson && activeLesson.lesson.quizId) {
+        if (score >= 80) { // 80% pass mark for lesson quizzes too
+            completeLesson(activeLesson.moduleId, activeLesson.lesson.id);
+            analytics.trackLessonComplete(activeLesson.lesson.id, activeLesson.lesson.title);
+            toast({
+                title: "Lesson Completed",
+                description: `You passed the quiz with ${score}%. Lesson marked as complete.`,
+                className: "bg-green-50 border-green-200"
+            });
+            setLessonQuizOpen(false);
+        } else {
+             toast({
+                variant: "destructive",
+                title: "Quiz Failed",
+                description: `You scored ${score}%. You need 80% to complete this lesson.`
+             });
         }
     }
   };
@@ -910,6 +935,19 @@ export default function CourseViewer() {
           moduleTitle={activeQuizModule.title}
           quizId={activeQuizModule.quizId}
           onComplete={handleQuizComplete}
+        />
+      )}
+
+      {/* Lesson Quiz Modal */}
+      {activeLesson && activeLesson.lesson.quizId && (
+        <ModuleQuiz
+            key={`lesson-quiz-${activeLesson.lesson.id}`}
+            isOpen={lessonQuizOpen}
+            onClose={() => setLessonQuizOpen(false)}
+            moduleId={activeLesson.moduleId}
+            moduleTitle={`Lesson Quiz: ${activeLesson.lesson.title}`}
+            quizId={activeLesson.lesson.quizId}
+            onComplete={handleLessonQuizComplete}
         />
       )}
 

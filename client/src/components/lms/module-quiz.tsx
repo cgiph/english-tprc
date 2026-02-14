@@ -21,6 +21,47 @@ interface Question {
 
 // Mock Quiz Data for demo purposes
 const MOCK_QUIZZES: Record<string, Question[]> = {
+  // Lesson Quizzes
+  "l0-quiz": [
+    {
+      id: "l0q1",
+      text: "Which of these is a Noun?",
+      options: ["Quickly", "School", "Run", "Beautiful"],
+      correctAnswer: 1
+    },
+    {
+      id: "l0q2",
+      text: "Which word is a Verb?",
+      options: ["Apple", "Blue", "Jump", "Happy"],
+      correctAnswer: 2
+    },
+    {
+      id: "l0q3",
+      text: "Select the Adjective in this sentence: 'The red car is fast.'",
+      options: ["Car", "Is", "Red", "The"],
+      correctAnswer: 2
+    }
+  ],
+  "l1-quiz": [
+    {
+      id: "l1q1",
+      text: "Choose the correct form: 'She has ______ the work.'",
+      options: ["finish", "finished", "finishing", "finishes"],
+      correctAnswer: 1
+    },
+    {
+      id: "l1q2",
+      text: "After 'to', you normally use:",
+      options: ["Verb + ing", "Base Form (V1)", "Past Tense (V2)", "Past Participle (V3)"],
+      correctAnswer: 1
+    },
+    {
+      id: "l1q3",
+      text: "Which sentence is correct?",
+      options: ["Many person are here.", "Many people is here.", "Many people are here.", "Many persons is here."],
+      correctAnswer: 2
+    }
+  ],
   "m1": [
     {
       id: "q1",

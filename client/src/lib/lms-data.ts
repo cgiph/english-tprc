@@ -11,6 +11,7 @@ export interface LessonBase {
   duration: string; // e.g. "10 min"
   isCompleted: boolean;
   resources?: { title: string; type: "pdf" | "doc" | "link"; url?: string }[];
+  quizId?: string; // Optional quiz to complete before finishing the lesson
 }
 
 export interface VideoLesson extends LessonBase {
@@ -83,6 +84,7 @@ export const COURSES: Course[] = [
             type: "reading",
             duration: "20 min",
             isCompleted: false,
+            quizId: "l0-quiz",
             content: `
               <div class="space-y-8">
                 <div class="bg-violet-900 text-white p-8 rounded-xl shadow-xl">
@@ -181,6 +183,7 @@ export const COURSES: Course[] = [
             type: "reading", 
             duration: "30 min", 
             isCompleted: false, 
+            quizId: "l1-quiz",
             content: `
               <div class="space-y-8">
                 <div class="bg-indigo-900 text-white p-8 rounded-xl shadow-xl">
