@@ -180,7 +180,7 @@ export default function Profile() {
                     variant="outline" 
                     className="bg-white hover:bg-orange-50 text-orange-700 border-orange-200"
                     onClick={() => {
-                      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localStorage));
+                      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localStorage, null, 2));
                       const downloadAnchorNode = document.createElement('a');
                       downloadAnchorNode.setAttribute("href",     dataStr);
                       downloadAnchorNode.setAttribute("download", "pte_prep_backup_" + new Date().toISOString().split('T')[0] + ".json");
