@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Check, X, CreditCard, Shield, Zap, Star, Layout, Briefcase, Award, HelpCircle } from "lucide-react";
+import { Check, X, CreditCard, Shield, Zap, Star, Layout, Briefcase, Award, HelpCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -77,19 +77,27 @@ export default function PricingPage() {
         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50/50 to-transparent"></div>
         
-        <div className="container mx-auto text-center relative z-10 max-w-3xl">
-          <Badge className="mb-4 bg-orange-500 hover:bg-orange-600 border-none px-3 py-1">Simple Pricing</Badge>
-          <h1 className="text-4xl md:text-5xl font-bold font-serif mb-6">Invest in Your Future</h1>
-          <p className="text-lg md:text-xl text-slate-300 mb-8">
-            Choose the plan that fits your goals. Whether you're mastering English for PTE or preparing for a technical trade, we have you covered.
-          </p>
-          
-          <div className="flex items-center justify-center gap-4 bg-white/10 w-fit mx-auto p-1.5 rounded-full backdrop-blur-sm border border-white/20">
-            <span className={`text-sm font-medium px-3 ${!isYearly ? 'text-white' : 'text-slate-400'}`}>Monthly</span>
-            <Switch checked={isYearly} onCheckedChange={setIsYearly} />
-            <span className={`text-sm font-medium px-3 flex items-center gap-1 ${isYearly ? 'text-white' : 'text-slate-400'}`}>
-              Yearly <Badge variant="secondary" className="bg-green-500 text-white text-[10px] h-4 px-1">SAVE 20%</Badge>
-            </span>
+        <div className="container mx-auto relative z-10 max-w-6xl">
+          <Link href="/lms">
+            <Button variant="ghost" className="text-slate-300 hover:text-white hover:bg-white/10 mb-8 gap-2 pl-0">
+               <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+            </Button>
+          </Link>
+
+          <div className="text-center max-w-3xl mx-auto">
+            <Badge className="mb-4 bg-orange-500 hover:bg-orange-600 border-none px-3 py-1">Simple Pricing</Badge>
+            <h1 className="text-4xl md:text-5xl font-bold font-serif mb-6">Invest in Your Future</h1>
+            <p className="text-lg md:text-xl text-slate-300 mb-8">
+              Choose the plan that fits your goals. Whether you're mastering English for PTE or preparing for a technical trade, we have you covered.
+            </p>
+            
+            <div className="flex items-center justify-center gap-4 bg-white/10 w-fit mx-auto p-1.5 rounded-full backdrop-blur-sm border border-white/20">
+              <span className={`text-sm font-medium px-3 ${!isYearly ? 'text-white' : 'text-slate-400'}`}>Monthly</span>
+              <Switch checked={isYearly} onCheckedChange={setIsYearly} />
+              <span className={`text-sm font-medium px-3 flex items-center gap-1 ${isYearly ? 'text-white' : 'text-slate-400'}`}>
+                Yearly <Badge variant="secondary" className="bg-green-500 text-white text-[10px] h-4 px-1">SAVE 20%</Badge>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -110,6 +118,17 @@ export default function PricingPage() {
               }} 
             />
           ))}
+        </div>
+        
+        <div className="max-w-4xl mx-auto mt-12 bg-blue-50 border border-blue-100 rounded-xl p-6 flex flex-col md:flex-row items-center gap-6">
+           <div className="bg-blue-100 p-4 rounded-full">
+              <Briefcase className="w-8 h-8 text-blue-600" />
+           </div>
+           <div className="flex-1 text-center md:text-left">
+              <h3 className="text-lg font-bold text-blue-900">Are you a Cirrus Candidate?</h3>
+              <p className="text-blue-700">Candidates who have applied through our recruitment partners get <span className="font-bold">Full Access for FREE</span>. Contact your trainer for an access code.</p>
+           </div>
+           <Button className="bg-blue-600 hover:bg-blue-700 whitespace-nowrap">Enter Access Code</Button>
         </div>
       </div>
 
