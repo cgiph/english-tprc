@@ -33,7 +33,6 @@ import SpeakingGuide from "@/pages/speaking-guide";
 import ReadingGuide from "@/pages/reading-guide";
 import ListeningGuide from "@/pages/listening-guide";
 import WritingGuide from "@/pages/writing-guide";
-import PricingPage from "@/pages/pricing";
 import Demo from "@/pages/demo";
 
 function Router() {
@@ -43,7 +42,7 @@ function Router() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/demo" component={Demo} />
-          <Route path="/pricing" component={PricingPage} />
+          {/* Pricing route removed - now accessible via modal only */}
           <Route path="/auth" component={AuthPage} />
           <Route path="/reviews" component={Reviews} />
           

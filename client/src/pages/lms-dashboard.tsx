@@ -14,6 +14,7 @@ import { analytics } from "@/lib/analytics";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CertificateView } from "@/components/lms/certificate-view";
 import { useUser } from "@/hooks/use-user";
+import { PricingContent } from "@/components/pricing-modal";
 
 // Import generated images
 import visionStage1 from "@/assets/images/vision-stage-1.png";
@@ -80,12 +81,17 @@ export default function LMSDashboard() {
           </p>
         </div>
         <div className="flex gap-3">
-          <Link href="/pricing">
-            <Button className="gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white border-0 shadow-md">
-              <Zap className="h-4 w-4 fill-white" />
-              Upgrade Plan
-            </Button>
-          </Link>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white border-0 shadow-md">
+                <Zap className="h-4 w-4 fill-white" />
+                Upgrade Plan
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-5xl w-full p-0 overflow-hidden bg-transparent border-none shadow-none">
+              <PricingContent />
+            </DialogContent>
+          </Dialog>
           <Link href="/lms/admin">
             <Button variant="outline" className="gap-2 border-orange-200 text-orange-700 hover:bg-orange-50 hover:text-orange-800">
               <Briefcase className="h-4 w-4" />

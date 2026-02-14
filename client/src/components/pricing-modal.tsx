@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 
-export default function PricingPage() {
+export function PricingContent({ onClose }: { onClose?: () => void }) {
   const [isYearly, setIsYearly] = useState(false);
   const { toast } = useToast();
   const [_, setLocation] = useLocation();
@@ -71,103 +71,54 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50/50">
-      {/* Header */}
-      <div className="bg-slate-900 text-white py-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50/50 to-transparent"></div>
+    <div className="bg-slate-50/50 max-h-[80vh] overflow-y-auto p-4 rounded-lg">
+      <div className="text-center max-w-3xl mx-auto mb-8">
+        <Badge className="mb-4 bg-orange-500 hover:bg-orange-600 border-none px-3 py-1">Simple Pricing</Badge>
+        <h2 className="text-3xl font-bold font-serif mb-4">Invest in Your Future</h2>
+        <p className="text-muted-foreground mb-6">
+          Choose the plan that fits your goals. Whether you're mastering English for PTE or preparing for a technical trade, we have you covered.
+        </p>
         
-        <div className="container mx-auto relative z-10 max-w-6xl">
-          <Link href="/lms">
-            <Button variant="ghost" className="text-slate-300 hover:text-white hover:bg-white/10 mb-8 gap-2 pl-0">
-               <ArrowLeft className="w-4 h-4" /> Back to Dashboard
-            </Button>
-          </Link>
-
-          <div className="text-center max-w-3xl mx-auto">
-            <Badge className="mb-4 bg-orange-500 hover:bg-orange-600 border-none px-3 py-1">Simple Pricing</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold font-serif mb-6">Invest in Your Future</h1>
-            <p className="text-lg md:text-xl text-slate-300 mb-8">
-              Choose the plan that fits your goals. Whether you're mastering English for PTE or preparing for a technical trade, we have you covered.
-            </p>
-            
-            <div className="flex items-center justify-center gap-4 bg-white/10 w-fit mx-auto p-1.5 rounded-full backdrop-blur-sm border border-white/20">
-              <span className={`text-sm font-medium px-3 ${!isYearly ? 'text-white' : 'text-slate-400'}`}>Monthly</span>
-              <Switch checked={isYearly} onCheckedChange={setIsYearly} />
-              <span className={`text-sm font-medium px-3 flex items-center gap-1 ${isYearly ? 'text-white' : 'text-slate-400'}`}>
-                Yearly <Badge variant="secondary" className="bg-green-500 text-white text-[10px] h-4 px-1">SAVE 20%</Badge>
-              </span>
-            </div>
-          </div>
+        <div className="flex items-center justify-center gap-4 bg-white w-fit mx-auto p-1.5 rounded-full border shadow-sm">
+          <span className={`text-sm font-medium px-3 ${!isYearly ? 'text-slate-900' : 'text-slate-500'}`}>Monthly</span>
+          <Switch checked={isYearly} onCheckedChange={setIsYearly} />
+          <span className={`text-sm font-medium px-3 flex items-center gap-1 ${isYearly ? 'text-slate-900' : 'text-slate-500'}`}>
+            Yearly <Badge variant="secondary" className="bg-green-500 text-white text-[10px] h-4 px-1">SAVE 20%</Badge>
+          </span>
         </div>
       </div>
 
-      {/* Pricing Grid */}
-      <div className="container mx-auto px-4 py-16 -mt-16 relative z-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {plans.map((plan, index) => (
-            <PricingCard 
-              key={index} 
-              plan={plan} 
-              isYearly={isYearly} 
-              onSelect={() => {
-                if (plan.price === "Free") {
-                  setLocation("/lms");
-                  toast({ title: "Welcome to Starter Plan!", description: "You have free access to basic materials." });
-                }
-              }} 
-            />
-          ))}
-        </div>
-        
-        <div className="max-w-4xl mx-auto mt-12 bg-blue-50 border border-blue-100 rounded-xl p-6 flex flex-col md:flex-row items-center gap-6">
-           <div className="bg-blue-100 p-4 rounded-full">
-              <Briefcase className="w-8 h-8 text-blue-600" />
-           </div>
-           <div className="flex-1 text-center md:text-left">
-              <h3 className="text-lg font-bold text-blue-900">Are you a Cirrus Candidate?</h3>
-              <p className="text-blue-700">Candidates who have applied through our recruitment partners get <span className="font-bold">Full Access for FREE</span>. Contact your trainer for an access code.</p>
-           </div>
-           <Button className="bg-blue-600 hover:bg-blue-700 whitespace-nowrap">Enter Access Code</Button>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {plans.map((plan, index) => (
+          <PricingCard 
+            key={index} 
+            plan={plan} 
+            isYearly={isYearly} 
+            onSelect={() => {
+              if (plan.price === "Free") {
+                if (onClose) onClose();
+                toast({ title: "Welcome to Starter Plan!", description: "You have free access to basic materials." });
+              }
+            }} 
+          />
+        ))}
+      </div>
+      
+      <div className="max-w-4xl mx-auto mt-8 bg-blue-50 border border-blue-100 rounded-xl p-6 flex flex-col md:flex-row items-center gap-6">
+         <div className="bg-blue-100 p-4 rounded-full">
+            <Briefcase className="w-8 h-8 text-blue-600" />
+         </div>
+         <div className="flex-1 text-center md:text-left">
+            <h3 className="text-lg font-bold text-blue-900">Are you a Cirrus Candidate?</h3>
+            <p className="text-blue-700">Candidates who have applied through our recruitment partners get <span className="font-bold">Full Access for FREE</span>. Contact your trainer for an access code.</p>
+         </div>
+         <Button className="bg-blue-600 hover:bg-blue-700 whitespace-nowrap">Enter Access Code</Button>
       </div>
 
-      {/* Features Comparison / FAQ */}
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold font-serif mb-4">Frequently Asked Questions</h2>
-          <p className="text-muted-foreground">Everything you need to know about our plans and billing.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FaqItem 
-            question="Can I switch plans later?" 
-            answer="Yes, you can upgrade or downgrade at any time. If you upgrade, the prorated amount will be charged immediately." 
-          />
-          <FaqItem 
-            question="Is the Trade Master course refundable?" 
-            answer="We offer a 7-day money-back guarantee if you haven't completed more than 20% of the course material." 
-          />
-          <FaqItem 
-            question="Do you offer team/enterprise pricing?" 
-            answer="Yes! For training centers and organizations, please contact our sales team for bulk licenses." 
-          />
-          <FaqItem 
-            question="What payment methods do you accept?" 
-            answer="We accept all major credit cards (Visa, Mastercard, Amex), PayPal, and Google Pay." 
-          />
-        </div>
-
-        <div className="mt-16 bg-slate-900 rounded-2xl p-8 md:p-12 text-center text-white relative overflow-hidden">
-           <div className="relative z-10">
-             <h3 className="text-2xl font-bold mb-4">Still have questions?</h3>
-             <p className="text-slate-300 mb-8 max-w-lg mx-auto">Our support team is available 24/7 to help you choose the right path for your career.</p>
-             <Button variant="secondary" size="lg" className="font-semibold">Contact Support</Button>
-           </div>
-           <div className="absolute top-0 right-0 p-12 opacity-10">
-              <HelpCircle className="w-64 h-64" />
-           </div>
-        </div>
+      <div className="text-center mt-12 mb-4">
+        <p className="text-sm text-muted-foreground">
+            Still have questions? <span className="text-primary font-medium cursor-pointer">Contact Support</span>
+        </p>
       </div>
     </div>
   );
@@ -293,14 +244,5 @@ function PricingCard({ plan, isYearly, onSelect }: { plan: any, isYearly: boolea
         )}
       </CardFooter>
     </Card>
-  );
-}
-
-function FaqItem({ question, answer }: { question: string, answer: string }) {
-  return (
-    <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-      <h4 className="font-semibold text-lg mb-2 text-slate-800">{question}</h4>
-      <p className="text-slate-600 leading-relaxed">{answer}</p>
-    </div>
   );
 }

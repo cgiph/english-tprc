@@ -34,6 +34,8 @@ import pteBarChart from "@/assets/images/pte-bar-chart.png";
 import waveformBad from "@/assets/images/waveform-bad.png";
 import waveformGood from "@/assets/images/waveform-good.png";
 import { useUser } from "@/hooks/use-user";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { PricingContent } from "@/components/pricing-modal";
 
 function SpeakingPractice({ content, lessonId }: { content: string; lessonId?: string }) {
   const { submitSectionScore, state } = useLMS();
@@ -1172,16 +1174,21 @@ export default function CourseViewer() {
                <div key={module.id} className={cn("rounded-lg border relative overflow-hidden", isLocked ? "opacity-90 bg-slate-50" : "bg-card")}>
                   {isPlanLocked && (
                     <div className="absolute inset-0 bg-slate-50/60 backdrop-blur-[1px] z-20 flex items-center justify-center">
-                       <Link href="/pricing">
-                          <Button size="sm" className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 border-0 shadow-sm gap-2 h-8 text-xs">
+                       <Dialog>
+                         <DialogTrigger asChild>
+                           <Button size="sm" className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 border-0 shadow-sm gap-2 h-8 text-xs">
                              <Zap className="w-3 h-3 fill-white" />
                              Unlock
-                          </Button>
-                       </Link>
+                           </Button>
+                         </DialogTrigger>
+                         <DialogContent className="max-w-5xl w-full p-0 overflow-hidden bg-transparent border-none shadow-none">
+                            <PricingContent />
+                         </DialogContent>
+                       </Dialog>
                     </div>
                   )}
 
-                  <div 
+                  <div  
                     className={cn(
                         "p-3 border-b bg-muted/30 flex items-center gap-3 cursor-pointer select-none", 
                         !isLocked && "hover:bg-muted/50"
