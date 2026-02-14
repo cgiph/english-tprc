@@ -312,7 +312,11 @@ function SpeakingPractice({ content, lessonId }: { content: string; lessonId?: s
                                         </div>
                                     </div>
 
-                                    <Button variant="outline" size="sm" onClick={resetRecording} className="mt-6 w-full text-slate-500">
+                                    <div className="mt-4 pt-3 border-t border-slate-100 text-[10px] text-slate-400 text-center leading-tight bg-slate-50 p-2 rounded">
+                                        * Simulated Score: Official PTE scoring uses complex spectral analysis not available in this demo mode.
+                                    </div>
+
+                                    <Button variant="outline" size="sm" onClick={resetRecording} className="mt-4 w-full text-slate-500">
                                         <RefreshCw className="w-4 h-4 mr-2" /> Try for a better score
                                     </Button>
                                 </div>
