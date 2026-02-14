@@ -284,9 +284,11 @@ export function WritingMockTest() {
                 </CardContent>
             </Card>
 
-            {/* Feedback Section (Shown after submit) */}
+          {/* Feedback Section (Shown after submit) */}
             {submitted && feedback[currentTask.id] && (
-                <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-4">
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
+                  {/* Score Card */}
+                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                     <div className="bg-slate-100 p-4 border-b border-slate-200 flex items-center gap-2">
                         <AlertCircle className="w-5 h-5 text-indigo-600" />
                         <h3 className="font-bold text-slate-800">Scoring & Feedback</h3>
@@ -314,9 +316,28 @@ export function WritingMockTest() {
                             </div>
                         ))}
                     </div>
-                    <div className="p-4 bg-indigo-50 text-indigo-900 text-sm italic">
-                        <strong>Tip:</strong> This is an automated mock analysis. In the real exam, the AI scores based on complex algorithms including vocabulary diversity and discourse coherence.
-                    </div>
+                  </div>
+
+                  {/* Model Answer Section */}
+                  <div className="bg-emerald-50 rounded-xl border border-emerald-200 shadow-sm overflow-hidden">
+                     <div className="bg-emerald-100 p-4 border-b border-emerald-200 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                           <CheckCircle2 className="w-5 h-5 text-emerald-700" />
+                           <h3 className="font-bold text-emerald-800">Model Answer</h3>
+                        </div>
+                        <Badge className="bg-emerald-600 hover:bg-emerald-700">Band 90 equivalent</Badge>
+                     </div>
+                     <div className="p-6">
+                        <p className="text-emerald-900 leading-relaxed italic">
+                           "{currentTask.type === "swt" 
+                              ? "Although urbanization drives significant economic growth and innovation, contributing over 80% of global GDP, it simultaneously presents critical challenges regarding infrastructure strain and social inequality that policymakers must address through sustainable planning and inclusive policies." 
+                              : "Climate change presents a complex challenge that defies simple solutions. While proponents of technology argue that innovations in renewable energy and carbon capture are essential, relying solely on these advancements is insufficient without addressing the root cause: unsustainable consumption. A balanced approach is required. Technological solutions can mitigate immediate impacts, but long-term stability necessitates a fundamental shift in lifestyle. Therefore, I believe that while technology is a critical tool, it must be paired with conscious behavioral changes to truly safeguard our environment for future generations."}"
+                        </p>
+                        <div className="mt-4 pt-4 border-t border-emerald-200 text-xs text-emerald-700 font-medium">
+                           Why this scores high: {currentTask.type === "swt" ? "Perfect grammar, uses complex sentence structure, includes all key points (urbanization, economy, challenges, solutions), and adheres strictly to the single-sentence rule." : "Clear structure (Intro-Body-Conclusion), strong vocabulary ('necessitates', 'safeguard'), and directly addresses both sides of the argument while stating a clear personal opinion."}
+                        </div>
+                     </div>
+                  </div>
                 </div>
             )}
         </div>
