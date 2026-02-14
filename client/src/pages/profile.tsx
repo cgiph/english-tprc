@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Eye, EyeOff, Save, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Save, Loader2, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
@@ -112,33 +112,93 @@ export default function Profile() {
           <CardContent>
              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <div className="space-y-1">
-                   <h4 className="text-sm font-medium text-slate-900">Download Backup</h4>
+                   <h4 className="text-sm font-medium text-slate-900">Backup & Restore</h4>
                    <p className="text-xs text-slate-500">
-                     Export all your progress, quiz scores, and settings to a JSON file.
+                     Export your progress to a JSON file or restore from a previous backup.
                    </p>
                 </div>
-                <Button 
-                  variant="outline" 
-                  className="bg-white hover:bg-orange-50 text-orange-700 border-orange-200"
-                  onClick={() => {
-                    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localStorage));
-                    const downloadAnchorNode = document.createElement('a');
-                    downloadAnchorNode.setAttribute("href",     dataStr);
-                    downloadAnchorNode.setAttribute("download", "pte_prep_backup_" + new Date().toISOString().split('T')[0] + ".json");
-                    document.body.appendChild(downloadAnchorNode); // required for firefox
-                    downloadAnchorNode.click();
-                    downloadAnchorNode.remove();
-                    
-                    toast({
-                      title: "Backup Downloaded",
-                      description: "Your progress has been saved to your device.",
-                      className: "bg-green-50 border-green-200"
-                    });
-                  }}
-                >
-                  <Save className="h-4 w-4 mr-2" />
-                  Download Backup
-                </Button>
+                <div className="flex gap-2">
+                  <div className="relative">
+                    <input
+                      type="file"
+                      id="restore-backup"
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      accept=".json"
+                      title="Select a backup file to restore"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          try {
+                            const json = event.target?.result as string;
+                            const data = JSON.parse(json);
+                            
+                            // Validate it looks like our backup (check if it's an object)
+                            if (typeof data === 'object' && data !== null) {
+                              // Restore to localStorage
+                              Object.keys(data).forEach(key => {
+                                localStorage.setItem(key, data[key]);
+                              });
+                              
+                              toast({
+                                title: "Backup Restored",
+                                description: "Your progress has been restored. Reloading page...",
+                                className: "bg-green-50 border-green-200"
+                              });
+                              
+                              // Reload to apply changes
+                              setTimeout(() => window.location.reload(), 1500);
+                            } else {
+                              throw new Error("Invalid backup format");
+                            }
+                          } catch (err) {
+                            console.error(err);
+                            toast({
+                              title: "Restore Failed",
+                              description: "The file you selected is not a valid backup file.",
+                              variant: "destructive"
+                            });
+                          }
+                          // Reset input
+                          e.target.value = '';
+                        };
+                        reader.readAsText(file);
+                      }}
+                    />
+                    <Button 
+                      variant="outline" 
+                      className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 relative pointer-events-none"
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      Restore
+                    </Button>
+                  </div>
+
+                  <Button 
+                    variant="outline" 
+                    className="bg-white hover:bg-orange-50 text-orange-700 border-orange-200"
+                    onClick={() => {
+                      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localStorage));
+                      const downloadAnchorNode = document.createElement('a');
+                      downloadAnchorNode.setAttribute("href",     dataStr);
+                      downloadAnchorNode.setAttribute("download", "pte_prep_backup_" + new Date().toISOString().split('T')[0] + ".json");
+                      document.body.appendChild(downloadAnchorNode); // required for firefox
+                      downloadAnchorNode.click();
+                      downloadAnchorNode.remove();
+                      
+                      toast({
+                        title: "Backup Downloaded",
+                        description: "Your progress has been saved to your device.",
+                        className: "bg-green-50 border-green-200"
+                      });
+                    }}
+                  >
+                    <Save className="h-4 w-4 mr-2" />
+                    Backup
+                  </Button>
+                </div>
              </div>
           </CardContent>
         </Card>
