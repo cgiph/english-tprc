@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
+import { useLMS } from "@/hooks/use-lms";
 import { 
   Mic, 
   PlayCircle, 
@@ -65,6 +66,7 @@ export default function SpeakingPractice() {
   const isAudioCancelledRef = useRef(false);
 
   const { toast } = useToast();
+  const { submitPracticeResult } = useLMS();
 
   const playBeep = () => {
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -627,9 +629,21 @@ export default function SpeakingPractice() {
       
       setScore(newScore);
       setIsScoring(false);
+
+      // Save to LMS History
+      submitPracticeResult(
+        "Speaking", 
+        newScore.overall, 
+        90, 
+        { 
+          taskType: activeTab,
+          breakdown: newScore 
+        }
+      );
+
       toast({
         title: "Scoring Complete",
-        description: `Overall Score: ${newScore.overall}/90`,
+        description: `Overall Score: ${newScore.overall}/90. Result saved to history.`,
       });
     }, 1500);
   };

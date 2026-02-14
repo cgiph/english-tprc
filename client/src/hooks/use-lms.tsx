@@ -1,6 +1,6 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { UserLMSState, CourseId, ModuleId, LessonId, UnlockStatus, DifficultyLevel } from "@/lib/lms-db-schema";
+import { UserLMSState, CourseId, ModuleId, LessonId, UnlockStatus, DifficultyLevel, PracticeType, PracticeResult } from "@/lib/lms-db-schema";
 import { useUser } from "@/hooks/use-user";
 
 // Default empty state
@@ -29,6 +29,7 @@ const defaultState: UserLMSState = {
   sectionScores: {},
   quizHistory: [],
   mockTestResults: [],
+  practiceHistory: [],
   supportTickets: []
 };
 
@@ -39,6 +40,7 @@ interface LMSContextType {
   submitQuizScore: (moduleId: ModuleId, score: number) => void;
   submitSectionScore: (lessonId: string, score: number) => void;
   saveMockResult: (testId: string, difficulty: DifficultyLevel, score: number, breakdown: any) => void;
+  submitPracticeResult: (type: PracticeType, score: number, maxScore: number, details?: any) => void;
   submitSupportTicket: (lessonId: string, lessonTitle: string, question: string) => void;
 }
 
@@ -192,8 +194,25 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  const submitPracticeResult = (type: PracticeType, score: number, maxScore: number, details?: any) => {
+    setState(prev => ({
+      ...prev,
+      practiceHistory: [
+        {
+          id: Math.random().toString(36).substr(2, 9),
+          type,
+          date: new Date().toISOString(),
+          score,
+          maxScore,
+          details
+        },
+        ...(prev.practiceHistory || [])
+      ]
+    }));
+  };
+
   return (
-    <LMSContext.Provider value={{ state, unlockModule, completeLesson, submitQuizScore, submitSectionScore, saveMockResult, submitSupportTicket }}>
+    <LMSContext.Provider value={{ state, unlockModule, completeLesson, submitQuizScore, submitSectionScore, saveMockResult, submitPracticeResult, submitSupportTicket }}>
       {children}
     </LMSContext.Provider>
   );

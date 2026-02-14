@@ -9,6 +9,18 @@ export type LessonId = string;
 export type UnlockStatus = 'locked' | 'unlocked' | 'in-progress' | 'completed';
 export type DifficultyLevel = 'Easy' | 'Medium' | 'Hard';
 
+// -- Practice History --
+export type PracticeType = 'Speaking' | 'Writing' | 'Reading' | 'Listening';
+
+export interface PracticeResult {
+  id: string; // Unique attempt ID
+  type: PracticeType;
+  date: string; // ISO
+  score: number; // 0-90 or 0-100
+  maxScore: number;
+  details?: any; // E.g. fluency, pronunciation, specific question type
+}
+
 // -- User Progress State --
 export interface UserLMSState {
   userId: string;
@@ -67,7 +79,10 @@ export interface UserLMSState {
     proctorLogId?: string; // Reference to proctoring session log
   }[];
 
-  // 5. Support Tickets
+  // 5. Practice Session History (New)
+  practiceHistory: PracticeResult[];
+
+  // 6. Support Tickets
   supportTickets: {
     id: string;
     userId: string;

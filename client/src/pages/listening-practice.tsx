@@ -12,11 +12,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Headphones, PlayCircle, PauseCircle, CheckCircle2, AlertCircle, ArrowRight, Timer, RotateCcw, Volume2, Settings, MoreVertical, Music } from "lucide-react";
 import { LISTENING_DATA, ListeningQuestion } from "@/lib/listening-data";
 import { useToast } from "@/hooks/use-toast";
+import { useLMS } from "@/hooks/use-lms";
 import { cn } from "@/lib/utils";
 
 import { calculateSSTScore, SSTScore } from "@/lib/scoring-utils";
 
 export default function ListeningPractice() {
+  const { toast } = useToast();
+  const { submitPracticeResult } = useLMS();
   const [activeTab, setActiveTab] = useState("SST");
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [audioSpeed, setAudioSpeed] = useState(1.0);
@@ -43,8 +46,6 @@ export default function ListeningPractice() {
   const [audioTimerInterval, setAudioTimerInterval] = useState<NodeJS.Timeout | null>(null);
 
   const GROUP_TYPES = ["MC-MA", "FIB-L", "MC-SA", "SMW", "HIW", "WFD"];
-
-  const { toast } = useToast();
 
   const filterQuestions = (type: string) => LISTENING_DATA.filter(q => q.type === type);
 
@@ -207,10 +208,56 @@ export default function ListeningPractice() {
   const checkAnswer = (id: string, type?: string, audioScript?: string) => {
     setShowResults(prev => ({ ...prev, [id]: !prev[id] }));
     
+    // Calculate and submit score
     if (type === "SST" && audioScript) {
         const answer = sstAnswers[id] || "";
         const score = calculateSSTScore(answer, audioScript);
         setSstScores(prev => ({ ...prev, [id]: score }));
+        
+        submitPracticeResult(
+          "Listening", 
+          score.overall, 
+          10,
+          { taskType: "SST", questionId: id, breakdown: score }
+        );
+        
+        toast({ title: "Score saved to history" });
+    } else {
+       // Simple Correct/Incorrect check for others
+       // This is a simplified logic. Real PTE scoring is complex.
+       let isCorrect = false;
+       let userAns: any = null;
+       const q = LISTENING_DATA.find(q => q.id === id);
+       
+       if (q) {
+           if (type === "MC-MA") {
+               const ans = mcmaAnswers[id] || [];
+               userAns = ans;
+               // Exact match for simplicity
+               const correct = q.correctAnswer as string[];
+               isCorrect = ans.length === correct.length && ans.every(a => correct.includes(a));
+           } else if (type === "MC-SA") {
+               userAns = mcsaAnswers[id];
+               isCorrect = userAns === q.correctAnswer;
+           } else if (type === "FIB-L") {
+               // Logic for FIB is partial points usually
+               const ans = fibAnswers[id] || [];
+               userAns = ans;
+               // Simplified: Just log attempt
+           }
+           
+           // Only save if we can determine correctness easily or just save "Completed"
+           submitPracticeResult(
+             "Listening",
+             isCorrect ? 10 : 0, // Mock score for non-SST
+             10,
+             { taskType: type, questionId: id, correct: isCorrect, userAnswer: userAns }
+           );
+           
+           if (!showResults[id]) { // Only toast when revealing, not hiding
+               toast({ title: "Answer Checked", description: "Result saved to history." });
+           }
+       }
     }
   };
 

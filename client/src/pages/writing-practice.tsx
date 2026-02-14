@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useLMS } from "@/hooks/use-lms";
 import { 
   Timer,
   RotateCcw, 
@@ -35,6 +36,7 @@ export default function WritingPractice() {
   const [isActive, setIsActive] = useState(false);
 
   const { toast } = useToast();
+  const { submitPracticeResult } = useLMS();
 
   const currentQuestionIndex = currentQuestionIndices[activeTab];
   const questions = WRITING_QUESTIONS[activeTab];
@@ -96,10 +98,37 @@ export default function WritingPractice() {
     if (activeTab === "Summarize Written Text") {
         const score = calculateSWTScore(currentResponse, currentQuestion.content);
         setSwtScores(prev => ({ ...prev, [currentQuestion.id]: score }));
+        
+        submitPracticeResult(
+          "Writing",
+          score.overall,
+          7, // SWT is usually out of 7 internal points in this mock logic
+          {
+            taskType: activeTab,
+            questionId: currentQuestion.id,
+            breakdown: score
+          }
+        );
     } else {
         const score = calculateEssayScore(currentResponse, currentQuestion.title); // Using title as "topic" usually
         setEssayScores(prev => ({ ...prev, [currentQuestion.id]: score }));
+        
+        submitPracticeResult(
+          "Writing",
+          score.overall,
+          15, // Essay out of 15
+          {
+            taskType: activeTab,
+            questionId: currentQuestion.id,
+            breakdown: score
+          }
+        );
     }
+    
+    toast({
+      title: "Submitted",
+      description: "Your response has been scored and saved to history.",
+    });
   };
 
   const handleTextChange = (text: string) => {

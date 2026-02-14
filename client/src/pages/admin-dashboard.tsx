@@ -12,13 +12,25 @@ import {
   ChevronLeft, 
   MessageSquare,
   MoreHorizontal,
-  ArrowUpRight
+  ArrowUpRight,
+  History,
+  GraduationCap,
+  Activity
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -377,9 +389,149 @@ export default function AdminDashboard() {
                                    )}
                                 </TableCell>
                                 <TableCell className="text-right">
-                                   <Button variant="ghost" size="icon">
-                                      <MoreHorizontal className="h-4 w-4 text-slate-400" />
-                                   </Button>
+                                   <Dialog>
+                                     <DialogTrigger asChild>
+                                       <Button variant="ghost" size="icon">
+                                         <MoreHorizontal className="h-4 w-4 text-slate-400" />
+                                       </Button>
+                                     </DialogTrigger>
+                                     <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden flex flex-col">
+                                       <DialogHeader>
+                                         <DialogTitle>Candidate Progress Report</DialogTitle>
+                                         <DialogDescription>
+                                           Viewing detailed activity for {candidate.name}
+                                         </DialogDescription>
+                                       </DialogHeader>
+                                       
+                                       <ScrollArea className="flex-1 pr-4">
+                                         <div className="space-y-6 py-4">
+                                           
+                                           {/* Mock Test History */}
+                                           <div className="space-y-3">
+                                              <div className="flex items-center gap-2">
+                                                <GraduationCap className="h-5 w-5 text-purple-600" />
+                                                <h3 className="font-bold text-lg">Mock Test Results</h3>
+                                              </div>
+                                              {state.mockTestResults.length === 0 ? (
+                                                <div className="text-sm text-slate-500 italic p-4 bg-slate-50 rounded border">No mock tests attempted yet.</div>
+                                              ) : (
+                                                <Table>
+                                                  <TableHeader>
+                                                    <TableRow>
+                                                      <TableHead>Date</TableHead>
+                                                      <TableHead>Test ID</TableHead>
+                                                      <TableHead>Difficulty</TableHead>
+                                                      <TableHead>Overall Score</TableHead>
+                                                      <TableHead>Status</TableHead>
+                                                    </TableRow>
+                                                  </TableHeader>
+                                                  <TableBody>
+                                                    {state.mockTestResults.map((result) => (
+                                                      <TableRow key={result.attemptId}>
+                                                        <TableCell>{new Date(result.date).toLocaleDateString()}</TableCell>
+                                                        <TableCell>{result.testId}</TableCell>
+                                                        <TableCell>
+                                                          <Badge variant={result.difficulty === "Hard" ? "destructive" : "secondary"}>
+                                                            {result.difficulty}
+                                                          </Badge>
+                                                        </TableCell>
+                                                        <TableCell className="font-bold text-blue-600">{result.overallScore}/90</TableCell>
+                                                        <TableCell>
+                                                          {result.overallScore >= 65 ? (
+                                                            <Badge className="bg-green-100 text-green-700 hover:bg-green-100">Passed</Badge>
+                                                          ) : (
+                                                            <Badge variant="outline">Failed</Badge>
+                                                          )}
+                                                        </TableCell>
+                                                      </TableRow>
+                                                    ))}
+                                                  </TableBody>
+                                                </Table>
+                                              )}
+                                           </div>
+
+                                           {/* Quiz History */}
+                                           <div className="space-y-3">
+                                              <div className="flex items-center gap-2">
+                                                <FileText className="h-5 w-5 text-blue-600" />
+                                                <h3 className="font-bold text-lg">Module Quizzes</h3>
+                                              </div>
+                                              {state.quizHistory.length === 0 ? (
+                                                <div className="text-sm text-slate-500 italic p-4 bg-slate-50 rounded border">No quizzes taken yet.</div>
+                                              ) : (
+                                                <Table>
+                                                  <TableHeader>
+                                                    <TableRow>
+                                                      <TableHead>Date</TableHead>
+                                                      <TableHead>Module</TableHead>
+                                                      <TableHead>Score</TableHead>
+                                                      <TableHead>Result</TableHead>
+                                                    </TableRow>
+                                                  </TableHeader>
+                                                  <TableBody>
+                                                    {state.quizHistory.map((quiz) => (
+                                                      <TableRow key={quiz.attemptId}>
+                                                        <TableCell>{new Date(quiz.date).toLocaleDateString()}</TableCell>
+                                                        <TableCell>{quiz.moduleId}</TableCell>
+                                                        <TableCell className="font-medium">{quiz.score}%</TableCell>
+                                                        <TableCell>
+                                                          {quiz.passed ? (
+                                                            <Badge className="bg-green-100 text-green-700 hover:bg-green-100">Pass</Badge>
+                                                          ) : (
+                                                            <Badge className="bg-red-100 text-red-700 hover:bg-red-100">Fail</Badge>
+                                                          )}
+                                                        </TableCell>
+                                                      </TableRow>
+                                                    ))}
+                                                  </TableBody>
+                                                </Table>
+                                              )}
+                                           </div>
+
+                                           {/* Practice History */}
+                                           <div className="space-y-3">
+                                              <div className="flex items-center gap-2">
+                                                <Activity className="h-5 w-5 text-orange-600" />
+                                                <h3 className="font-bold text-lg">Practice Sessions</h3>
+                                              </div>
+                                              {(!state.practiceHistory || state.practiceHistory.length === 0) ? (
+                                                <div className="text-sm text-slate-500 italic p-4 bg-slate-50 rounded border">No practice sessions recorded yet.</div>
+                                              ) : (
+                                                <Table>
+                                                  <TableHeader>
+                                                    <TableRow>
+                                                      <TableHead>Date</TableHead>
+                                                      <TableHead>Type</TableHead>
+                                                      <TableHead>Details</TableHead>
+                                                      <TableHead>Score</TableHead>
+                                                    </TableRow>
+                                                  </TableHeader>
+                                                  <TableBody>
+                                                    {state.practiceHistory.map((practice) => (
+                                                      <TableRow key={practice.id}>
+                                                        <TableCell>{new Date(practice.date).toLocaleDateString()} {new Date(practice.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</TableCell>
+                                                        <TableCell>
+                                                          <Badge variant="outline" className="bg-slate-50">
+                                                            {practice.type}
+                                                          </Badge>
+                                                        </TableCell>
+                                                        <TableCell className="text-sm text-muted-foreground">
+                                                          {practice.details?.taskType || practice.details?.questionId || "General Practice"}
+                                                        </TableCell>
+                                                        <TableCell className="font-bold">
+                                                          {practice.score}/{practice.maxScore}
+                                                        </TableCell>
+                                                      </TableRow>
+                                                    ))}
+                                                  </TableBody>
+                                                </Table>
+                                              )}
+                                           </div>
+
+                                         </div>
+                                       </ScrollArea>
+                                     </DialogContent>
+                                   </Dialog>
                                 </TableCell>
                              </TableRow>
                           ))}
