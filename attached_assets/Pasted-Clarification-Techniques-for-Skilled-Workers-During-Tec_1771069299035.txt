@@ -1,0 +1,63 @@
+Clarification Techniques for Skilled Workers During Technical Assessments
+Based on Australian workplace communication standards and employability skills frameworks, the following clarification techniques are considered appropriate, respectful, and professionally expected.
+
+1. Paraphrasing (Restating in Your Own Words)
+This is the safest and most recommended strategy.
+You show understanding and check accuracy without asking the assessor to repeat.
+Examples:
+
+“So just to confirm, you’d like me to align the conduit before securing it, correct?”
+“If I understand correctly, you want me to describe the lockout procedure for this machine?”
+
+Supported by:
+SkillsYouNeed notes that clarification often involves summarising the speaker’s message and checking accuracy. [skillsyouneed.com]
+
+2. Asking Open Clarifying Questions
+Use what, when, where, how, why questions—not “pardon?”
+This shows active thinking and avoids giving the impression that you weren’t listening.
+Examples:
+
+“What torque level should be applied for this step?”
+“Which specification should I refer to for this measurement?”
+
+SkillsYouNeed emphasises that the best clarification questions start with open-ended prompts to deepen understanding. [skillsyouneed.com]
+
+3. Seeking Specific Details (Challenging Ambiguity)
+Useful when instructions include vague words like “properly,” “secure,” “aligned,” “healthy,” “everyone,” etc.
+Examples:
+
+“When you say ‘proper alignment’, do you mean within ±2 mm?”
+“Which part of the unit are you referring to when you say ‘this section’?”
+
+Women & Leadership Australia highlights the need to resolve ambiguous or “blinking” words by asking for specifics. [wla.edu.au]
+
+4. Confirming Missing Details (Fixing Deletions)
+When an assessor gives incomplete information, it’s appropriate to ask for the missing piece.
+Examples:
+
+“You mentioned this step is important—should it be completed before or after re‑pressurising the system?”
+
+WLA lists “deletions” as common communication issues and recommends requesting missing details. [wla.edu.au]
+
+5. Checking Assumptions (Avoiding Misinterpretation)
+Before acting on an assumption, confirm.
+Examples:
+
+“Just confirming—should I proceed as if this system is energised, or are we treating it as isolated?”
+
+WLA’s guidance on “distortions” stresses verifying assumptions before acting. [wla.edu.au]
+
+6. Active Listening Signals
+Non-verbal and verbal cues help show engagement and reduce the risk of perceived disrespect.
+Examples:
+
+“Okay, I see… so the next step is…”
+Nodding, eye contact, note-taking.
+
+Clarification is part of active listening, which SkillsYouNeed identifies as central to ensuring correct understanding. [skillsyouneed.com]
+
+7. Summarising Before Acting
+Before starting a task, summarise the instructions to ensure understanding.
+Example:
+
+“To make sure I’m following all steps correctly: first isolate the supply, then verify zero energy, and only then remove the cover—right?”

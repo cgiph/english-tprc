@@ -952,6 +952,45 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
+          {
+            id: "tw3-l1",
+            title: "Scenario: Welding Specs",
+            type: "reading",
+            duration: "15 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <h3 class="text-xl font-bold text-slate-800">Applied Communication: Welding</h3>
+                <p class="text-slate-600">Welding procedures (WPS) must be followed exactly. If a verbal instruction conflicts with the WPS, ask.</p>
+
+                <div class="space-y-4">
+                  <div class="border-l-4 border-blue-500 bg-blue-50 p-4">
+                    <p class="font-bold text-blue-900">Supervisor Says:</p>
+                    <p class="italic text-blue-800">"Just tack that bracket on quickly."</p>
+                  </div>
+
+                  <div class="flex flex-col gap-2 pl-8 border-l-2 border-slate-200">
+                    <p class="text-sm font-bold text-slate-500 uppercase">Better Responses (Clarification)</p>
+                    
+                    <div class="bg-white p-3 rounded border shadow-sm">
+                      <strong class="text-indigo-600 block mb-1">Check Assumptions (Process):</strong>
+                      <p class="text-slate-700">"Should I use TIG for a cleaner finish, or is MIG fine for speed?"</p>
+                    </div>
+
+                    <div class="bg-white p-3 rounded border shadow-sm">
+                      <strong class="text-indigo-600 block mb-1">Confirm Prep:</strong>
+                      <p class="text-slate-700">"Do you want me to grind the paint off first, or just burn through for the tack?" (Always suggest safety/quality).</p>
+                    </div>
+                    
+                    <div class="bg-white p-3 rounded border shadow-sm">
+                      <strong class="text-indigo-600 block mb-1">Paraphrasing:</strong>
+                      <p class="text-slate-700">"So, just a temporary fit-up tack for now, and you'll inspect before final weld?"</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `
+          },
           { id: "tw3-final", title: "Final Technical Assessment", type: "quiz", duration: "90 min", isCompleted: false }
         ]
       }
@@ -1093,7 +1132,46 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tmec3-final", title: "Final Mechanics Assessment", type: "quiz", duration: "90 min", isCompleted: false }
+            {
+            id: "tmec3-l1",
+            title: "Scenario: Clarifying Diagnostic Instructions",
+            type: "reading",
+            duration: "15 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <h3 class="text-xl font-bold text-slate-800">Applied Communication: Diagnostics</h3>
+                <p class="text-slate-600">Diagnostic instructions are often vague. You must clarify before you start replacing parts.</p>
+
+                <div class="space-y-4">
+                  <div class="border-l-4 border-red-500 bg-red-50 p-4">
+                    <p class="font-bold text-red-900">Supervisor Says:</p>
+                    <p class="italic text-red-800">"Check the engine, it's running rough."</p>
+                  </div>
+
+                  <div class="flex flex-col gap-2 pl-8 border-l-2 border-slate-200">
+                    <p class="text-sm font-bold text-slate-500 uppercase">Better Responses (Clarification)</p>
+                    
+                    <div class="bg-white p-3 rounded border shadow-sm">
+                      <strong class="text-indigo-600 block mb-1">Seek Specifics (Conditions):</strong>
+                      <p class="text-slate-700">"Does it run rough at idle, or only under load?"</p>
+                    </div>
+
+                    <div class="bg-white p-3 rounded border shadow-sm">
+                      <strong class="text-indigo-600 block mb-1">Check Assumptions (History):</strong>
+                      <p class="text-slate-700">"Has this vehicle had a recent tune-up, or should I start with the basics like spark plugs?"</p>
+                    </div>
+                    
+                    <div class="bg-white p-3 rounded border shadow-sm">
+                      <strong class="text-indigo-600 block mb-1">Confirm Scope:</strong>
+                      <p class="text-slate-700">"Do you want me to perform a full compression test, or just check for codes first?"</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `
+          },
+          { id: "tmec3-final", title: "Final Mechanics Assessment", type: "quiz", duration: "90 min", isCompleted: false }
         ]
       }
     ]
@@ -1271,7 +1349,46 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tcarp3-final", title: "Final Carpentry Assessment", type: "quiz", duration: "90 min", isCompleted: false }
+            {
+            id: "tcarp3-l1",
+            title: "Scenario: Site Instructions",
+            type: "reading",
+            duration: "15 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <h3 class="text-xl font-bold text-slate-800">Applied Communication: Carpentry</h3>
+                <p class="text-slate-600">On a job site, a "small error" in measurement can cost thousands. Always clarify "rough" vs "finish" instructions.</p>
+
+                <div class="space-y-4">
+                  <div class="border-l-4 border-amber-500 bg-amber-50 p-4">
+                    <p class="font-bold text-amber-900">Foreman Says:</p>
+                    <p class="italic text-amber-800">"Frame up that wall over there and leave a gap for the door."</p>
+                  </div>
+
+                  <div class="flex flex-col gap-2 pl-8 border-l-2 border-slate-200">
+                    <p class="text-sm font-bold text-slate-500 uppercase">Better Responses (Clarification)</p>
+                    
+                    <div class="bg-white p-3 rounded border shadow-sm">
+                      <strong class="text-indigo-600 block mb-1">Seek Specifics (Measurements):</strong>
+                      <p class="text-slate-700">"What is the Rough Opening (RO) width you need for the door? Standard 32-inch?"</p>
+                    </div>
+
+                    <div class="bg-white p-3 rounded border shadow-sm">
+                      <strong class="text-indigo-600 block mb-1">Confirm Location:</strong>
+                      <p class="text-slate-700">"Just to confirm—is the wall flush with this existing column, or set back?"</p>
+                    </div>
+                    
+                    <div class="bg-white p-3 rounded border shadow-sm">
+                      <strong class="text-indigo-600 block mb-1">Check Assumptions (Material):</strong>
+                      <p class="text-slate-700">"Are we using 2x4 or 2x6 studs for this section?"</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `
+          },
+          { id: "tcarp3-final", title: "Final Carpentry Assessment", type: "quiz", duration: "90 min", isCompleted: false }
         ]
       }
     ]
@@ -2882,6 +2999,51 @@ export const COURSES: Course[] = [
                          </tr>
                       </table>
                    </div>
+                </div>
+              </div>
+            `
+          },
+          { 
+            id: "tech-m3-l3", 
+            title: "Clarification Techniques", 
+            type: "reading", 
+            duration: "20 min", 
+            isCompleted: false, 
+            content: `
+              <div class="space-y-6">
+                <h3 class="text-2xl font-bold text-slate-800">Clarification Techniques for Technical Assessments</h3>
+                <p class="text-slate-600">In a technical assessment, asking for clarification is not a weakness—it is a safety requirement. Use these Australian workplace standards.</p>
+
+                <div class="grid gap-6 md:grid-cols-2">
+                   <div class="bg-indigo-50 p-5 rounded-lg border border-indigo-100">
+                      <h4 class="font-bold text-indigo-900 mb-2">1. Paraphrasing</h4>
+                      <p class="text-sm text-slate-700 mb-2">Restate the instruction in your own words to check accuracy.</p>
+                      <div class="bg-white p-3 rounded text-sm italic text-slate-600">"So just to confirm, you want me to align the conduit before securing it?"</div>
+                   </div>
+
+                   <div class="bg-green-50 p-5 rounded-lg border border-green-100">
+                      <h4 class="font-bold text-green-900 mb-2">2. Checking Assumptions</h4>
+                      <p class="text-sm text-slate-700 mb-2">Verify before acting to avoid dangerous mistakes.</p>
+                      <div class="bg-white p-3 rounded text-sm italic text-slate-600">"Should I proceed as if this system is energised, or treat it as isolated?"</div>
+                   </div>
+
+                   <div class="bg-amber-50 p-5 rounded-lg border border-amber-100">
+                      <h4 class="font-bold text-amber-900 mb-2">3. Seeking Specifics</h4>
+                      <p class="text-sm text-slate-700 mb-2">Challenge vague words like "properly" or "secure".</p>
+                      <div class="bg-white p-3 rounded text-sm italic text-slate-600">"When you say 'proper alignment', do you mean within ±2 mm?"</div>
+                   </div>
+
+                   <div class="bg-blue-50 p-5 rounded-lg border border-blue-100">
+                      <h4 class="font-bold text-blue-900 mb-2">4. Fixing Deletions</h4>
+                      <p class="text-sm text-slate-700 mb-2">Ask for missing information politely.</p>
+                      <div class="bg-white p-3 rounded text-sm italic text-slate-600">"You mentioned this step is important—should it be done before or after re-pressurising?"</div>
+                   </div>
+                </div>
+
+                <div class="bg-slate-800 text-white p-6 rounded-xl">
+                   <h4 class="font-bold mb-2">Pro Tip: The "Stop & Recap"</h4>
+                   <p class="text-slate-300 text-sm">Before starting any high-risk task in an exam, use the Summary Technique:</p>
+                   <p class="mt-2 font-mono text-green-400">"To make sure I'm following correctly: First isolate, then verify zero energy, then remove the cover. Correct?"</p>
                 </div>
               </div>
             `
