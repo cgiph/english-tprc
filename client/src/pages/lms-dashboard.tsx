@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase, Award, Clock } from "lucide-react";
+import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase, Award, Clock, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLMS } from "@/hooks/use-lms";
 import { analytics } from "@/lib/analytics";
@@ -53,12 +53,20 @@ export default function LMSDashboard() {
             Complete modules to unlock the next stage of your journey.
           </p>
         </div>
-        <Link href="/lms/admin">
-          <Button variant="outline" className="gap-2 border-orange-200 text-orange-700 hover:bg-orange-50 hover:text-orange-800">
-            <Briefcase className="h-4 w-4" />
-            Trainer Dashboard
-          </Button>
-        </Link>
+        <div className="flex gap-3">
+          <Link href="/pricing">
+            <Button className="gap-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white border-0 shadow-md">
+              <Zap className="h-4 w-4 fill-white" />
+              Upgrade Plan
+            </Button>
+          </Link>
+          <Link href="/lms/admin">
+            <Button variant="outline" className="gap-2 border-orange-200 text-orange-700 hover:bg-orange-50 hover:text-orange-800">
+              <Briefcase className="h-4 w-4" />
+              Trainer Dashboard
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="space-y-8">

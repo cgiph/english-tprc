@@ -33,7 +33,7 @@ import SpeakingGuide from "@/pages/speaking-guide";
 import ReadingGuide from "@/pages/reading-guide";
 import ListeningGuide from "@/pages/listening-guide";
 import WritingGuide from "@/pages/writing-guide";
-import Demo from "@/pages/demo";
+import PricingPage from "@/pages/pricing";
 
 function Router() {
   return (
@@ -42,6 +42,7 @@ function Router() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/demo" component={Demo} />
+          <Route path="/pricing" component={PricingPage} />
           <Route path="/auth" component={AuthPage} />
           <Route path="/reviews" component={Reviews} />
           
