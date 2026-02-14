@@ -1396,6 +1396,14 @@ export const COURSES: Course[] = [
               </div>
             `
           },
+          { 
+            id: "tcarp3-l2", 
+            title: "Video: Asking for Clarification", 
+            type: "video", 
+            duration: "5 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/eOmR3Pj0Rk4"
+          },
           { id: "tcarp3-final", title: "Final Carpentry Assessment", type: "quiz", duration: "90 min", isCompleted: false }
         ]
       }
