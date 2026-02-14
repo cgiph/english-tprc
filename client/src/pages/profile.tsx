@@ -98,6 +98,51 @@ export default function Profile() {
           </CardContent>
         </Card>
 
+        {/* Data Management Card */}
+        <Card className="border-orange-200 bg-orange-50/50">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Save className="h-5 w-5 text-orange-600" />
+              <CardTitle>Data Management</CardTitle>
+            </div>
+            <CardDescription>
+              Manage your local data. You can download a backup of your progress to keep it safe.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                <div className="space-y-1">
+                   <h4 className="text-sm font-medium text-slate-900">Download Backup</h4>
+                   <p className="text-xs text-slate-500">
+                     Export all your progress, quiz scores, and settings to a JSON file.
+                   </p>
+                </div>
+                <Button 
+                  variant="outline" 
+                  className="bg-white hover:bg-orange-50 text-orange-700 border-orange-200"
+                  onClick={() => {
+                    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localStorage));
+                    const downloadAnchorNode = document.createElement('a');
+                    downloadAnchorNode.setAttribute("href",     dataStr);
+                    downloadAnchorNode.setAttribute("download", "pte_prep_backup_" + new Date().toISOString().split('T')[0] + ".json");
+                    document.body.appendChild(downloadAnchorNode); // required for firefox
+                    downloadAnchorNode.click();
+                    downloadAnchorNode.remove();
+                    
+                    toast({
+                      title: "Backup Downloaded",
+                      description: "Your progress has been saved to your device.",
+                      className: "bg-green-50 border-green-200"
+                    });
+                  }}
+                >
+                  <Save className="h-4 w-4 mr-2" />
+                  Download Backup
+                </Button>
+             </div>
+          </CardContent>
+        </Card>
+
         {/* Personal Information */}
         <Card>
           <CardHeader>
