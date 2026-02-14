@@ -34,6 +34,7 @@ import ReadingGuide from "@/pages/reading-guide";
 import ListeningGuide from "@/pages/listening-guide";
 import WritingGuide from "@/pages/writing-guide";
 import PricingPage from "@/pages/pricing";
+import Demo from "@/pages/demo";
 
 function Router() {
   return (
