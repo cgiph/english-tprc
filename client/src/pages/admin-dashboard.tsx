@@ -177,14 +177,30 @@ export default function AdminDashboard() {
 
   const handleExport = () => {
     setExporting(true);
+    
+    // Simulate API call and file generation
     setTimeout(() => {
       setExporting(false);
+      
+      // Create a fake CSV download
+      const csvContent = "data:text/csv;charset=utf-8," 
+        + "Candidate ID,Name,Role,Location,English Score,Tech Score,Status\n"
+        + CANDIDATES.map(c => `${c.id},${c.name},${c.role},${c.location},${c.englishScore},${c.techScore},${c.status}`).join("\n");
+        
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "candidate_export_v2.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
       toast({
         title: "Export Successful",
-        description: "3 candidates exported to HubSpot CRM.",
+        description: `${CANDIDATES.length} candidates exported to CSV. HubSpot sync initiated.`,
         className: "bg-green-50 border-green-200"
       });
-    }, 1500);
+    }, 2000);
   };
 
   const filteredCandidates = CANDIDATES.filter(c => 

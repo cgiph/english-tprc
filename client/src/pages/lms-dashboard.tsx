@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase, Award } from "lucide-react";
+import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase, Award, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLMS } from "@/hooks/use-lms";
 import { analytics } from "@/lib/analytics";
@@ -151,10 +151,19 @@ function CourseCard({ course }: { course: Course }) {
   let totalLessons = 0;
   let completedLessonsCount = 0;
   let completedModulesCount = 0;
+  let totalMinutes = 0;
+  let completedMinutes = 0;
 
   course.modules.forEach(module => {
     totalLessons += module.lessons.length;
     
+    // Calculate total duration for this module
+    module.lessons.forEach(lesson => {
+       const durationMatch = lesson.duration.match(/(\d+)/);
+       const minutes = durationMatch ? parseInt(durationMatch[1]) : 10; // Default 10 mins if parse fail
+       totalMinutes += minutes;
+    });
+
     // Get user progress for this module
     const userModule = state.modules[module.id];
     
@@ -162,6 +171,16 @@ function CourseCard({ course }: { course: Course }) {
       // Count completed lessons
       const completedInModule = userModule.completedLessons.length;
       completedLessonsCount += completedInModule;
+      
+      // Calculate completed minutes
+      userModule.completedLessons.forEach(lessonId => {
+         const lesson = module.lessons.find(l => l.id === lessonId);
+         if (lesson) {
+            const durationMatch = lesson.duration.match(/(\d+)/);
+            const minutes = durationMatch ? parseInt(durationMatch[1]) : 10;
+            completedMinutes += minutes;
+         }
+      });
       
       // Check if module is fully complete
       if (completedInModule === module.lessons.length && module.lessons.length > 0) {
@@ -237,15 +256,25 @@ function CourseCard({ course }: { course: Course }) {
       </CardHeader>
 
       <CardContent className="flex-1 pb-4">
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm font-medium">
-            <span className="text-muted-foreground">Progress</span>
-            <span className={cn(isTechnical && "text-orange-600")}>{progressPercent}%</span>
+        <div className="space-y-3">
+          <div className="space-y-1">
+             <div className="flex justify-between text-sm font-medium">
+                <span className="text-muted-foreground">Progress</span>
+                <span className={cn(isTechnical && "text-orange-600")}>{progressPercent}%</span>
+             </div>
+             <Progress value={progressPercent} className={cn("h-2", isTechnical && "[&>div]:bg-orange-600")} />
           </div>
-          <Progress value={progressPercent} className={cn("h-2", isTechnical && "[&>div]:bg-orange-600")} />
-          <p className="text-xs text-muted-foreground pt-1">
-            {completedModulesCount} of {course.totalModules} modules completed ({completedLessonsCount}/{totalLessons} lessons)
-          </p>
+          
+          <div className="grid grid-cols-2 gap-2 pt-1">
+             <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-slate-50 p-1.5 rounded">
+                <CheckCircle2 className="h-3.5 w-3.5 text-green-600" />
+                <span>{completedModulesCount}/{course.totalModules} Mods</span>
+             </div>
+             <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-slate-50 p-1.5 rounded">
+                <Clock className="h-3.5 w-3.5 text-blue-600" />
+                <span>{completedMinutes}/{totalMinutes} min</span>
+             </div>
+          </div>
         </div>
       </CardContent>
 
