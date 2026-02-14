@@ -1145,19 +1145,24 @@ export default function CourseViewer() {
                   
                   {!isLocked && isExpanded && (
                     <div className="divide-y">
-                       {module.lessons.map((lesson) => {
+                       {module.lessons.map((lesson, lIdx) => {
                          const isActive = activeLesson?.lesson.id === lesson.id;
+                         // Check if previous lesson is completed to unlock this one
+                         const isLessonLocked = lIdx > 0 && !module.lessons[lIdx - 1].isCompleted;
+                         
                          return (
                            <div 
                              key={lesson.id} 
                              className={cn(
-                               "p-3 flex items-start gap-3 hover:bg-muted/50 cursor-pointer transition-colors text-sm",
-                               isActive && "bg-primary/5 border-l-2 border-primary"
+                               "p-3 flex items-start gap-3 transition-colors text-sm",
+                               isActive && "bg-primary/5 border-l-2 border-primary",
+                               isLessonLocked ? "opacity-50 cursor-not-allowed bg-slate-50/50" : "hover:bg-muted/50 cursor-pointer"
                              )}
-                             onClick={() => handleLessonStart(module.id, lesson.id, lesson.type)}
+                             onClick={() => !isLessonLocked && handleLessonStart(module.id, lesson.id, lesson.type)}
                            >
                              <div className="mt-0.5">
                                {lesson.isCompleted ? <CheckCircle2 className="h-4 w-4 text-green-500" /> :
+                                isLessonLocked ? <Lock className="h-4 w-4 text-slate-400" /> :
                                 isActive ? <PlayCircle className="h-4 w-4 text-primary fill-primary/10" /> :
                                 <Circle className="h-4 w-4 text-muted-foreground" />}
                              </div>
