@@ -26,22 +26,67 @@ export default function LMSDashboard() {
   const [activeTab, setActiveTab] = useState("all");
   const { state } = useLMS();
 
-  // Calculate overall progress across all courses
+  // Calculate overall progress based on a "Single Track" journey
+  // (e.g. 1 Technical Course + Essential English Courses)
   const calculateOverallProgress = () => {
-    let totalLessons = 0;
-    let completedLessons = 0;
+    // 1. Identify Core Courses (English / Mock Tests)
+    const coreCourses = COURSES.filter(c => c.category !== "Technical");
     
-    COURSES.forEach(course => {
-      course.modules.forEach(module => {
-        totalLessons += module.lessons.length;
-        const userModule = state.modules[module.id];
-        if (userModule && userModule.completedLessons) {
-          completedLessons += userModule.completedLessons.length;
-        }
-      });
+    // 2. Identify Technical Courses
+    const techCourses = COURSES.filter(c => c.category === "Technical");
+
+    // Helper to get course progress stats
+    const getCourseStats = (course: Course) => {
+        let total = 0;
+        let completed = 0;
+        course.modules.forEach(m => {
+            total += m.lessons.length;
+            const userModule = state.modules[m.id];
+            if (userModule && userModule.completedLessons) {
+                completed += userModule.completedLessons.length;
+            }
+        });
+        return { total, completed };
+    };
+
+    // 3. Calculate Core Progress
+    let coreTotal = 0;
+    let coreCompleted = 0;
+    coreCourses.forEach(c => {
+        const stats = getCourseStats(c);
+        coreTotal += stats.total;
+        coreCompleted += stats.completed;
     });
-    
-    return totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
+
+    // 4. Find the "Active" Technical Track (The one with the most progress, or just the first one)
+    let maxTechCompleted = 0;
+    let maxTechTotal = 0;
+    let bestTechRatio = -1;
+
+    techCourses.forEach(c => {
+        const stats = getCourseStats(c);
+        // Avoid division by zero
+        const ratio = stats.total > 0 ? stats.completed / stats.total : 0;
+        
+        // We pick the technical course with the highest completion ratio as the "active" one
+        if (ratio > bestTechRatio) {
+            bestTechRatio = ratio;
+            maxTechCompleted = stats.completed;
+            maxTechTotal = stats.total;
+        }
+    });
+
+    // If no technical course started, just use the first one's total to show accurate "remaining" work
+    if (bestTechRatio === 0 && techCourses.length > 0) {
+        const firstTech = getCourseStats(techCourses[0]);
+        maxTechTotal = firstTech.total;
+    }
+
+    // 5. Combine Core + Best Technical Track
+    const finalTotal = coreTotal + maxTechTotal;
+    const finalCompleted = coreCompleted + maxTechCompleted;
+
+    return finalTotal > 0 ? (finalCompleted / finalTotal) * 100 : 0;
   };
   
   const overallProgress = calculateOverallProgress();
