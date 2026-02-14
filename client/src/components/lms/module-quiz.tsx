@@ -532,7 +532,39 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 1
     }
   ],
-  "tmec3": [
+  "tw3": [
+    {
+      id: "tw3-q1",
+      text: "Which welding process uses a non-consumable tungsten electrode?",
+      options: ["MIG (GMAW)", "Stick (SMAW)", "TIG (GTAW)", "Flux Core (FCAW)"],
+      correctAnswer: 2
+    },
+    {
+      id: "tw3-q2",
+      text: "In MIG welding, what is the purpose of the shielding gas?",
+      options: ["To cool the weld", "To protect the molten pool from atmospheric contamination", "To add carbon to the steel", "To make the arc brighter"],
+      correctAnswer: 1
+    },
+    {
+      id: "tw3-q3",
+      text: "What defect is caused by welding over paint, oil, or rust?",
+      options: ["Porosity", "Undercut", "Overlap", "Excessive Reinforcement"],
+      correctAnswer: 0
+    },
+    {
+      id: "tw3-q4",
+      text: "Which polarity is most commonly used for TIG welding on aluminum?",
+      options: ["DCEN (Straight)", "DCEP (Reverse)", "AC (Alternating Current)", "Constant Voltage"],
+      correctAnswer: 2
+    },
+    {
+      id: "tw3-q5",
+      text: "A '3G' certification test is performed in which position?",
+      options: ["Flat", "Horizontal", "Vertical", "Overhead"],
+      correctAnswer: 2
+    }
+  ],
+  "tmec1": [
     {
       id: "mq1",
       text: "What are the four strokes of a four-cycle engine?",
@@ -561,6 +593,134 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       id: "mq5",
       text: "Which tool is used to measure cylinder bore diameter?",
       options: ["Micrometer", "Dial Bore Gauge", "Feeler Gauge", "Torque Wrench"],
+      correctAnswer: 1
+    }
+  ],
+  "tmec3": [
+    {
+      id: "tm3-q1",
+      text: "When diagnosing an electrical fault, what is the first step?",
+      options: ["Replace the battery", "Check the fuse", "Rewire the harness", "Replace the alternator"],
+      correctAnswer: 1
+    },
+    {
+      id: "tm3-q2",
+      text: "A 'Check Engine Light' typically indicates an issue with:",
+      options: ["Tire pressure", "Emissions or Engine Management System", "Oil level", "Brake fluid"],
+      correctAnswer: 1
+    },
+    {
+      id: "tm3-q3",
+      text: "What does OBD stand for in automotive diagnostics?",
+      options: ["On-Board Diagnostics", "Old Battery Drain", "Oil Brake Differential", "Over-Boost Device"],
+      correctAnswer: 0
+    },
+    {
+      id: "tm3-q4",
+      text: "A multimeter is used to measure:",
+      options: ["Pressure, Force, Temperature", "Voltage, Current, Resistance", "Speed, Distance, Time", "Fuel, Air, Spark"],
+      correctAnswer: 1
+    },
+    {
+      id: "tm3-q5",
+      text: "If a starter motor clicks but doesn't turn, the most likely cause is:",
+      options: ["Bad spark plugs", "Low battery voltage or bad connection", "Broken timing belt", "Clogged fuel filter"],
+      correctAnswer: 1
+    }
+  ],
+  "tcarp3": [
+    {
+      id: "tc3-q1",
+      text: "On a blueprint, what does the scale '1/4\" = 1'0\"' mean?",
+      options: ["Every 1/4 inch on paper equals 1 foot in reality", "Every inch equals 4 feet", "The drawing is full size", "The drawing is 1/4 the size of the building"],
+      correctAnswer: 0
+    },
+    {
+      id: "tc3-q2",
+      text: "Which trim is installed along the floor against the wall?",
+      options: ["Crown Molding", "Chair Rail", "Baseboard", "Casing"],
+      correctAnswer: 2
+    },
+    {
+      id: "tc3-q3",
+      text: "In stair building, the vertical surface of a step is called the:",
+      options: ["Tread", "Riser", "Stringer", "Nosing"],
+      correctAnswer: 1
+    },
+    {
+      id: "tc3-q4",
+      text: "What is 'Coping' in finish carpentry?",
+      options: ["Dealing with stress", "Cutting the end of a molding to fit against another", "Sanding a surface smooth", "Gluing two boards together"],
+      correctAnswer: 1
+    },
+    {
+      id: "tc3-q5",
+      text: "Which joint is strongest for drawer construction?",
+      options: ["Butt Joint", "Miter Joint", "Dovetail Joint", "Lap Joint"],
+      correctAnswer: 2
+    }
+  ],
+  "tech-m2": [
+    {
+      id: "tech-m2-q1",
+      text: "In a noisy workshop, which words signal an immediate safety hazard?",
+      options: ["Please, Thank you", "Isolate, Shut Down, Evacuate", "Review, Analyze, Plan", "Lunch, Break, Shift"],
+      correctAnswer: 1
+    },
+    {
+      id: "tech-m2-q2",
+      text: "The 'Three-Point' listening strategy involves identifying:",
+      options: ["The Subject, The Verb, The Object", "The Object, The Value, The State", "The Time, The Place, The Person", "The Start, The Middle, The End"],
+      correctAnswer: 1
+    },
+    {
+      id: "tech-m2-q3",
+      text: "If you hear 'The lathe is running at 1200 RPM', what is the 'Value'?",
+      options: ["The lathe", "Running", "1200 RPM", "Is"],
+      correctAnswer: 2
+    },
+    {
+      id: "tech-m2-q4",
+      text: "Ambient noise refers to:",
+      options: ["Music playing", "Background noise in the environment", "The sound of the instructor", "Silence"],
+      correctAnswer: 1
+    },
+    {
+      id: "tech-m2-q5",
+      text: "If you miss a word due to noise, what should you rely on?",
+      options: ["Panic", "Grammar and Context clues", "Guess randomly", "Ask the speaker to stop"],
+      correctAnswer: 1
+    }
+  ],
+  "tech-m3": [
+    {
+      id: "tech-m3-q1",
+      text: "What are the '5 Ws' of incident reporting?",
+      options: ["Who, What, When, Where, Why", "Win, Win, Win, Win, Win", "Which, Whose, Whatever, Whenever, Wherever", "Working, Welding, Walking, Waiting, Watching"],
+      correctAnswer: 0
+    },
+    {
+      id: "tech-m3-q2",
+      text: "In a material request, 'Qty' stands for:",
+      options: ["Quality", "Question", "Quantity", "Quickly"],
+      correctAnswer: 2
+    },
+    {
+      id: "tech-m3-q3",
+      text: "Which detail is crucial for a 'Where' description in an accident report?",
+      options: ["'Over there'", "'Near the machine'", "'Workshop B, Bay 4'", "'On the floor'"],
+      correctAnswer: 2
+    },
+    {
+      id: "tech-m3-q4",
+      text: "Why is accurate reporting important?",
+      options: ["To blame someone", "For safety records and insurance", "To make paperwork", "To waste time"],
+      correctAnswer: 1
+    },
+    {
+      id: "tech-m3-q5",
+      text: "What is an SKU?",
+      options: ["Safety Kit Unit", "Stock Keeping Unit (Part ID)", "Standard Kitchen Utensil", "Site Key User"],
       correctAnswer: 1
     }
   ],
