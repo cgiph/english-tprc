@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase, Award, Clock, Zap } from "lucide-react";
+import { BookOpen, Lock, PlayCircle, CheckCircle2, GraduationCap, Wrench, FileText, Briefcase, Award, Clock, Zap, MapPin, Plane, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLMS } from "@/hooks/use-lms";
 import { analytics } from "@/lib/analytics";
@@ -15,9 +15,35 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CertificateView } from "@/components/lms/certificate-view";
 import { useUser } from "@/hooks/use-user";
 
+// Import generated images
+import visionStage1 from "@/assets/images/vision-stage-1.png";
+import visionStage2 from "@/assets/images/vision-stage-2.png";
+import visionStage3 from "@/assets/images/vision-stage-3.png";
+import visionStage4 from "@/assets/images/vision-stage-4.png";
+
 export default function LMSDashboard() {
   const [activeTab, setActiveTab] = useState("all");
   const { state } = useLMS();
+
+  // Calculate overall progress across all courses
+  const calculateOverallProgress = () => {
+    let totalLessons = 0;
+    let completedLessons = 0;
+    
+    COURSES.forEach(course => {
+      course.modules.forEach(module => {
+        totalLessons += module.lessons.length;
+        const userModule = state.modules[module.id];
+        if (userModule && userModule.completedLessons) {
+          completedLessons += userModule.completedLessons.length;
+        }
+      });
+    });
+    
+    return totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
+  };
+  
+  const overallProgress = calculateOverallProgress();
 
   // Filter logic...
   const filteredCourses = activeTab === "all" 
@@ -68,6 +94,9 @@ export default function LMSDashboard() {
           </Link>
         </div>
       </div>
+      
+      {/* Gamification: Vision Board */}
+      <VisionBoard progress={overallProgress} />
 
       <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="space-y-8">
         <TabsList className="bg-muted/50 p-1">
@@ -103,6 +132,119 @@ export default function LMSDashboard() {
           )}
         </div>
       </Tabs>
+    </div>
+  );
+}
+
+function VisionBoard({ progress }: { progress: number }) {
+  // Determine current stage based on progress
+  let currentStage = 1;
+  let stageImage = visionStage1;
+  let stageTitle = "The Dream";
+  let stageDesc = "Visualizing your future in Australia.";
+  
+  if (progress >= 100) {
+    currentStage = 4;
+    stageImage = visionStage4;
+    stageTitle = "Arrival";
+    stageDesc = "Welcome to your new life in Australia!";
+  } else if (progress >= 60) {
+    currentStage = 3;
+    stageImage = visionStage3;
+    stageTitle = "The Journey";
+    stageDesc = "On your way to a brighter future.";
+  } else if (progress >= 20) {
+    currentStage = 2;
+    stageImage = visionStage2;
+    stageTitle = "The Climb";
+    stageDesc = "Building the skills to reach your goals.";
+  }
+
+  // Calculate progress to next stage
+  let nextStageThreshold = 20;
+  if (currentStage === 2) nextStageThreshold = 60;
+  if (currentStage === 3) nextStageThreshold = 100;
+  
+  // Progress bar within the card
+  const cardProgress = Math.min(100, Math.max(0, progress));
+
+  return (
+    <div className="mb-12 relative group rounded-2xl overflow-hidden border border-white/20 shadow-2xl">
+       {/* Holographic Container Effect */}
+       <div className="absolute inset-0 bg-slate-900 z-0"></div>
+       <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] z-0 mix-blend-overlay"></div>
+       
+       {/* Animated Gradient Border/Glow */}
+       <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-orange-500 opacity-30 blur-lg group-hover:opacity-60 transition duration-1000"></div>
+
+       <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-0 bg-slate-900/90 backdrop-blur-md">
+          {/* Image Section with Hologram Overlay */}
+          <div className="col-span-1 md:col-span-1 relative overflow-hidden h-64 md:h-auto border-r border-white/10">
+             <img 
+               src={stageImage} 
+               alt={stageTitle} 
+               className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105" 
+             />
+             {/* Scanline Effect */}
+             <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-20 bg-[length:100%_4px,6px_100%] pointer-events-none"></div>
+             {/* Glitch/Hologram Tint */}
+             <div className="absolute inset-0 bg-cyan-500/10 mix-blend-screen pointer-events-none"></div>
+             
+             <Badge className="absolute top-4 left-4 bg-black/50 backdrop-blur border border-cyan-500/50 text-cyan-400">
+                <Star className="w-3 h-3 mr-1 fill-current" /> Stage {currentStage}
+             </Badge>
+          </div>
+
+          {/* Content Section */}
+          <div className="col-span-1 md:col-span-2 p-8 flex flex-col justify-center relative">
+             <div className="absolute top-0 right-0 p-3 opacity-20">
+                <Plane className="w-24 h-24 text-white rotate-45" />
+             </div>
+             
+             <div className="mb-6">
+                <h3 className="text-sm font-medium text-cyan-400 uppercase tracking-widest mb-2">My Journey to Australia</h3>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 font-serif text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">
+                  {stageTitle}
+                </h2>
+                <p className="text-slate-300 text-lg max-w-xl">{stageDesc}</p>
+             </div>
+
+             <div className="space-y-4">
+                <div className="flex justify-between text-sm font-medium text-slate-400">
+                   <span>Manila</span>
+                   <span className="text-white">{Math.round(cardProgress)}% Complete</span>
+                   <span>Sydney</span>
+                </div>
+                
+                {/* Custom Progress Bar */}
+                <div className="h-3 bg-slate-800 rounded-full overflow-hidden relative border border-white/10">
+                   <div 
+                      className="absolute top-0 left-0 h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-1000 ease-out"
+                      style={{ width: `${cardProgress}%` }}
+                   ></div>
+                   
+                   {/* Markers */}
+                   <div className="absolute top-0 left-[20%] w-0.5 h-full bg-white/20"></div>
+                   <div className="absolute top-0 left-[60%] w-0.5 h-full bg-white/20"></div>
+                </div>
+                
+                <div className="flex justify-between text-xs text-slate-500 font-mono mt-1">
+                   <div className="flex items-center gap-1"><MapPin className="w-3 h-3" /> Start</div>
+                   <div className="flex items-center gap-1">The Climb</div>
+                   <div className="flex items-center gap-1">The Flight</div>
+                   <div className="flex items-center gap-1"><MapPin className="w-3 h-3" /> Goal</div>
+                </div>
+             </div>
+             
+             {progress < 100 && (
+               <div className="mt-8">
+                 <p className="text-sm text-slate-400 mb-3">
+                   <span className="text-orange-400 font-semibold">Next Milestone:</span> Reach {nextStageThreshold}% to unlock the next vision stage.
+                 </p>
+               </div>
+             )}
+          </div>
+       </div>
     </div>
   );
 }
