@@ -1,4 +1,5 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
+import { useEffect } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -35,6 +36,16 @@ import ListeningGuide from "@/pages/listening-guide";
 import WritingGuide from "@/pages/writing-guide";
 import Demo from "@/pages/demo";
 
+function RedirectToDashboard() {
+  const [, setLocation] = useLocation();
+  
+  useEffect(() => {
+    setLocation("/lms");
+  }, [setLocation]);
+  
+  return null;
+}
+
 function Router() {
   return (
     <WouterRouter>
@@ -42,7 +53,8 @@ function Router() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/demo" component={Demo} />
-          {/* Pricing route removed - now accessible via modal only */}
+          {/* Pricing route removed - redirects to dashboard */}
+          <Route path="/pricing" component={RedirectToDashboard} />
           <Route path="/auth" component={AuthPage} />
           <Route path="/reviews" component={Reviews} />
           
