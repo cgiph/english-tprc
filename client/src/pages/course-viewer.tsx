@@ -714,6 +714,7 @@ function SpeakingPractice({ content, lessonId }: { content: string; lessonId?: s
 
 export default function CourseViewer() {
   const { id } = useParams();
+  const { user } = useUser();
   const rawCourse = getCourseById(id || "");
   const { state, completeLesson, unlockModule, submitQuizScore, submitSupportTicket } = useLMS();
   
