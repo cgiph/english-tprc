@@ -42,6 +42,7 @@ interface LMSContextType {
   saveMockResult: (testId: string, difficulty: DifficultyLevel, score: number, breakdown: any) => void;
   submitPracticeResult: (type: PracticeType, score: number, maxScore: number, details?: any) => void;
   submitSupportTicket: (lessonId: string, lessonTitle: string, question: string) => void;
+  toggleCourseEnrollment: (courseId: CourseId) => void;
 }
 
 const LMSContext = createContext<LMSContextType | undefined>(undefined);
@@ -50,7 +51,7 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser();
   const [state, setState] = useState<UserLMSState>(defaultState);
   const [isLoaded, setIsLoaded] = useState(false);
-
+  
   // Load from LocalStorage on mount or user change
   useEffect(() => {
     // Use email as ID since the mock user object doesn't have a numeric ID
@@ -211,8 +212,20 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  const toggleCourseEnrollment = (courseId: CourseId) => {
+    setState(prev => {
+      const isEnrolled = prev.enrolledCourses.includes(courseId);
+      return {
+        ...prev,
+        enrolledCourses: isEnrolled 
+          ? prev.enrolledCourses.filter(id => id !== courseId)
+          : [...prev.enrolledCourses, courseId]
+      };
+    });
+  };
+
   return (
-    <LMSContext.Provider value={{ state, unlockModule, completeLesson, submitQuizScore, submitSectionScore, saveMockResult, submitPracticeResult, submitSupportTicket }}>
+    <LMSContext.Provider value={{ state, unlockModule, completeLesson, submitQuizScore, submitSectionScore, saveMockResult, submitPracticeResult, submitSupportTicket, toggleCourseEnrollment }}>
       {children}
     </LMSContext.Provider>
   );

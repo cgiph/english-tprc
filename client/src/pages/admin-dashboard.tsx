@@ -15,7 +15,10 @@ import {
   ArrowUpRight,
   History,
   GraduationCap,
-  Activity
+  Activity,
+  BookOpen,
+  Plus,
+  Trash2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,6 +43,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
+import { COURSES, Course } from "@/lib/lms-data";
 
 // Mock Data for Candidates
 const CANDIDATES = [
@@ -134,11 +138,14 @@ import { useLocation } from "wouter";
 
 export default function AdminDashboard() {
   const { toast } = useToast();
-  const { state } = useLMS();
+  const { state, toggleCourseEnrollment } = useLMS();
   const { user } = useUser();
   const [_, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [exporting, setExporting] = useState(false);
+  
+  // Available courses for enrollment dropdown
+  const availableCourses = COURSES;
 
   // Protect the route - Only trainers allowed
   useEffect(() => {
@@ -500,32 +507,122 @@ export default function AdminDashboard() {
                                                 <Table>
                                                   <TableHeader>
                                                     <TableRow>
-                                                      <TableHead>Date</TableHead>
                                                       <TableHead>Type</TableHead>
-                                                      <TableHead>Details</TableHead>
                                                       <TableHead>Score</TableHead>
+                                                      <TableHead>Date</TableHead>
                                                     </TableRow>
                                                   </TableHeader>
                                                   <TableBody>
                                                     {state.practiceHistory.map((practice) => (
                                                       <TableRow key={practice.id}>
-                                                        <TableCell>{new Date(practice.date).toLocaleDateString()} {new Date(practice.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</TableCell>
-                                                        <TableCell>
-                                                          <Badge variant="outline" className="bg-slate-50">
-                                                            {practice.type}
-                                                          </Badge>
-                                                        </TableCell>
-                                                        <TableCell className="text-sm text-muted-foreground">
-                                                          {practice.details?.taskType || practice.details?.questionId || "General Practice"}
-                                                        </TableCell>
-                                                        <TableCell className="font-bold">
-                                                          {practice.score}/{practice.maxScore}
-                                                        </TableCell>
+                                                        <TableCell className="capitalize">{practice.type.replace("-", " ")}</TableCell>
+                                                        <TableCell>{practice.score}/{practice.maxScore}</TableCell>
+                                                        <TableCell>{new Date(practice.date).toLocaleDateString()}</TableCell>
                                                       </TableRow>
                                                     ))}
                                                   </TableBody>
                                                 </Table>
                                               )}
+                                           </div>
+
+                                           {/* Enrollment Management (New Section) */}
+                                           <div className="space-y-3 pt-6 border-t border-slate-200">
+                                              <div className="flex items-center gap-2">
+                                                <BookOpen className="h-5 w-5 text-indigo-600" />
+                                                <h3 className="font-bold text-lg">Enrollment Management</h3>
+                                              </div>
+                                              
+                                              <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                                 <div className="flex items-center justify-between mb-4">
+                                                    <div>
+                                                       <h4 className="font-semibold text-slate-800">Active Courses</h4>
+                                                       <p className="text-sm text-slate-500">Manage course access for this candidate.</p>
+                                                    </div>
+                                                    <Button size="sm" variant="outline" className="gap-2">
+                                                       <Plus className="h-4 w-4" /> Assign Course
+                                                    </Button>
+                                                 </div>
+
+                                                 <div className="space-y-2">
+                                                    {/* If it's the current user, show actual state, otherwise show mock data + ability to toggle for demo */}
+                                                    {(candidate.email === user?.email ? state.enrolledCourses : ["eng-a1", "tech-welder"]).map(courseId => {
+                                                       const course = availableCourses.find(c => c.id === courseId);
+                                                       if (!course) return null;
+                                                       
+                                                       return (
+                                                          <div key={courseId} className="flex items-center justify-between bg-white p-3 rounded border border-slate-200 shadow-sm">
+                                                             <div className="flex items-center gap-3">
+                                                                <div className="h-8 w-8 rounded bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xs">
+                                                                   {course.title.substring(0, 2).toUpperCase()}
+                                                                </div>
+                                                                <div>
+                                                                   <p className="font-medium text-sm text-slate-900">{course.title}</p>
+                                                                   <p className="text-xs text-slate-500">{course.category} • {course.level || course.silo}</p>
+                                                                </div>
+                                                             </div>
+                                                             <Button 
+                                                                variant="ghost" 
+                                                                size="sm" 
+                                                                className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
+                                                                onClick={() => {
+                                                                    if (candidate.email === user?.email) {
+                                                                        toggleCourseEnrollment(courseId);
+                                                                        toast({
+                                                                            title: "Enrollment Updated",
+                                                                            description: `Removed ${course.title} from your enrollment.`
+                                                                        });
+                                                                    } else {
+                                                                        toast({
+                                                                            title: "Demo Action",
+                                                                            description: `In a real app, this would remove ${course.title} from ${candidate.name}.`
+                                                                        });
+                                                                    }
+                                                                }}
+                                                             >
+                                                                <Trash2 className="h-4 w-4" />
+                                                             </Button>
+                                                          </div>
+                                                       );
+                                                    })}
+                                                    
+                                                    {/* Add Course Demo Dropdown Area */}
+                                                    <div className="mt-4 pt-4 border-t border-slate-200 border-dashed">
+                                                        <p className="text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">Available to Assign</p>
+                                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                                            {availableCourses
+                                                                .filter(c => !(candidate.email === user?.email ? state.enrolledCourses : ["eng-a1", "tech-welder"]).includes(c.id))
+                                                                .map(course => (
+                                                                <Button 
+                                                                    key={course.id} 
+                                                                    variant="outline" 
+                                                                    size="sm" 
+                                                                    className="justify-start gap-2 h-auto py-2"
+                                                                    onClick={() => {
+                                                                        if (candidate.email === user?.email) {
+                                                                            toggleCourseEnrollment(course.id);
+                                                                            toast({
+                                                                                title: "Enrollment Updated",
+                                                                                description: `Enrolled in ${course.title}.`,
+                                                                                className: "bg-green-50 border-green-200"
+                                                                            });
+                                                                        } else {
+                                                                            toast({
+                                                                                title: "Demo Action",
+                                                                                description: `In a real app, this would assign ${course.title} to ${candidate.name}.`
+                                                                            });
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    <Plus className="h-3 w-3 text-green-600" />
+                                                                    <div className="text-left">
+                                                                        <div className="text-xs font-semibold">{course.title}</div>
+                                                                    </div>
+                                                                </Button>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
                                            </div>
 
                                          </div>
