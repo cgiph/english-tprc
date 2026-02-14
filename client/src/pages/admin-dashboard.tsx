@@ -583,7 +583,11 @@ export default function AdminDashboard() {
 
                                                  <div className="space-y-2">
                                                     {/* If it's the current user, show actual state, otherwise show mock data + ability to toggle for demo */}
-                                                    {(candidate.email === user?.email ? state.enrolledCourses : ["eng-a1", "tech-welder"]).map(courseId => {
+                                                    {(() => {
+                                                      const isCurrentUser = user && candidate.email === user.email;
+                                                      const displayedCourses = isCurrentUser ? state.enrolledCourses : ["eng-a1", "tech-welder"];
+                                                      
+                                                      return displayedCourses.map(courseId => {
                                                        const course = availableCourses.find(c => c.id === courseId);
                                                        if (!course) return null;
                                                        
@@ -603,7 +607,7 @@ export default function AdminDashboard() {
                                                                 size="sm" 
                                                                 className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
                                                                 onClick={() => {
-                                                                    if (candidate.email === user?.email) {
+                                                                    if (isCurrentUser) {
                                                                         toggleCourseEnrollment(courseId);
                                                                         toast({
                                                                             title: "Enrollment Updated",
@@ -621,14 +625,19 @@ export default function AdminDashboard() {
                                                              </Button>
                                                           </div>
                                                        );
-                                                    })}
+                                                    });
+                                                    })()}
                                                     
                                                     {/* Add Course Demo Dropdown Area */}
                                                     <div className="mt-4 pt-4 border-t border-slate-200 border-dashed">
                                                         <p className="text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">Available to Assign</p>
                                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                                             {availableCourses
-                                                                .filter(c => !(candidate.email === user?.email ? state.enrolledCourses : ["eng-a1", "tech-welder"]).includes(c.id))
+                                                                .filter(c => {
+                                                                    const isCurrentUser = user && candidate.email === user.email;
+                                                                    const displayedCourses = isCurrentUser ? state.enrolledCourses : ["eng-a1", "tech-welder"];
+                                                                    return !displayedCourses.includes(c.id);
+                                                                })
                                                                 .map(course => (
                                                                 <Button 
                                                                     key={course.id} 
@@ -636,7 +645,8 @@ export default function AdminDashboard() {
                                                                     size="sm" 
                                                                     className="justify-start gap-2 h-auto py-2"
                                                                     onClick={() => {
-                                                                        if (candidate.email === user?.email) {
+                                                                        const isCurrentUser = user && candidate.email === user.email;
+                                                                        if (isCurrentUser) {
                                                                             toggleCourseEnrollment(course.id);
                                                                             toast({
                                                                                 title: "Enrollment Updated",
