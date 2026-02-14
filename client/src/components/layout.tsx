@@ -65,12 +65,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background font-sans text-foreground">
-      <div className="bg-amber-100 border-b border-amber-200 text-amber-900 px-4 py-1 text-xs font-medium text-center sticky top-0 z-[60]">
-        PROTOTYPE: Institutional Mode - Feature Frozen
-      </div>
       {/* Header */}
       {!isCourseViewer && (
-      <header className="sticky top-[25px] z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex flex-col hover:opacity-90 transition-opacity">
             <span className="font-serif font-bold tracking-tight text-primary text-[20px] leading-none" style={{ color: branding.primaryColor }}>

@@ -212,6 +212,9 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <div className="bg-amber-100 border-b border-amber-200 text-amber-900 px-4 py-1 text-xs font-medium text-center sticky top-0 z-[60]">
+        PROTOTYPE: Institutional Mode - Feature Frozen
+      </div>
       {/* Header */}
       <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-10">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
