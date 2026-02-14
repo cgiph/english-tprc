@@ -277,16 +277,31 @@ export function ContentManager() {
         </CardContent>
       </Card>
       
-      {/* Version Control Info Alert */}
-      <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 flex gap-3 text-sm text-blue-900">
-         <AlertCircle className="w-5 h-5 text-blue-600 shrink-0" />
-         <div>
-            <h4 className="font-bold mb-1">Content Governance</h4>
-            <p>
-               All changes are version-controlled. Content marked as "Draft" is only visible to trainers. 
-               "Published" content is live for all students. We recommend reviewing content every <strong>3 months</strong> to ensure accuracy.
-            </p>
-         </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Version Control Info Alert */}
+        <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 flex gap-3 text-sm text-blue-900">
+           <History className="w-5 h-5 text-blue-600 shrink-0" />
+           <div>
+              <h4 className="font-bold mb-1">Version Control Enabled</h4>
+              <p className="text-blue-800/80">
+                 All edits are automatically versioned (v1.0, v1.1, etc.). You can rollback to previous versions from the history menu.
+                 Content marked as "Draft" is sandbox-only and invisible to students.
+              </p>
+           </div>
+        </div>
+
+        {/* Content Review Policy */}
+        <div className="bg-amber-50 border border-amber-100 rounded-lg p-4 flex gap-3 text-sm text-amber-900">
+           <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
+           <div>
+              <h4 className="font-bold mb-1">Review Frequency Policy</h4>
+              <p className="text-amber-800/80">
+                 <strong>Quarterly Review Required:</strong> All content must be verified every 3 months.
+                 <br />
+                 <span className="text-xs uppercase tracking-wide font-bold mt-1 inline-block opacity-70">Next Audit Due: May 15, 2026</span>
+              </p>
+           </div>
+        </div>
       </div>
     </div>
   );
