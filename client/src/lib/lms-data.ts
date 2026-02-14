@@ -3048,6 +3048,14 @@ export const COURSES: Course[] = [
               </div>
             `
           },
+          { 
+            id: "tech-m3-l4", 
+            title: "Video: Stop Miscommunication", 
+            type: "video", 
+            duration: "5 min", 
+            isCompleted: false,
+            videoUrl: "https://www.youtube.com/embed/EFTGvTAh9O8"
+          },
           { id: "tech-m3-quiz", title: "Communication Assessment", type: "quiz", duration: "20 min", isCompleted: false }
         ]
       }
