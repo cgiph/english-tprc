@@ -90,17 +90,20 @@ function Router() {
 
 import { LMSProvider } from "@/hooks/use-lms";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { BrandingProvider } from "@/hooks/use-branding";
 
 function App() {
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <LMSProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
-        </LMSProvider>
+        <BrandingProvider>
+          <LMSProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Router />
+            </TooltipProvider>
+          </LMSProvider>
+        </BrandingProvider>
       </QueryClientProvider>
     </ErrorBoundary>
   );
