@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export function useUser() {
-  const [user, setUser] = useState<{ name: string; email: string; role?: 'student' | 'trainer' } | null>(() => {
+  const [user, setUser] = useState<{ name: string; email: string; role?: 'student' | 'trainer'; plan?: 'free' | 'pro' | 'trade' } | null>(() => {
     const saved = localStorage.getItem('mock_user');
     if (!saved) return null;
     
@@ -16,6 +16,12 @@ export function useUser() {
     
     if (parsed && trainerEmails.includes(parsed.email.toLowerCase().trim())) {
       parsed.role = 'trainer';
+      parsed.plan = 'pro'; // Trainers get pro access
+    }
+    
+    // Default to free plan if not specified
+    if (parsed && !parsed.plan) {
+      parsed.plan = 'free';
     }
     
     return parsed;
@@ -40,12 +46,18 @@ export function useUser() {
       
       if (parsed && trainerEmails.includes(parsed.email.toLowerCase().trim())) {
         parsed.role = 'trainer';
+        parsed.plan = 'pro';
+      }
+
+      if (parsed && !parsed.plan) {
+        parsed.plan = 'free';
       }
 
       setUser(parsed);
     };
 
     window.addEventListener('storage', handleStorage);
+    window.dispatchEvent(new Event('mock-login')); // Trigger immediately on mount too if needed
     window.addEventListener('mock-login', handleStorage);
     
     return () => {
@@ -54,8 +66,15 @@ export function useUser() {
     };
   }, []);
 
-  const login = (name: string, email: string, role: 'student' | 'trainer' = 'student') => {
-    const userData = { name, email, role };
+  const login = (name: string, email: string, role: 'student' | 'trainer' = 'student', plan: 'free' | 'pro' | 'trade' = 'free') => {
+    const userData = { name, email, role, plan };
+    localStorage.setItem('mock_user', JSON.stringify(userData));
+    window.dispatchEvent(new Event('mock-login'));
+  };
+  
+  const updatePlan = (plan: 'free' | 'pro' | 'trade') => {
+    if (!user) return;
+    const userData = { ...user, plan };
     localStorage.setItem('mock_user', JSON.stringify(userData));
     window.dispatchEvent(new Event('mock-login'));
   };
@@ -65,5 +84,5 @@ export function useUser() {
     window.dispatchEvent(new Event('mock-login'));
   };
 
-  return { user, login, logout };
+  return { user, login, logout, updatePlan };
 }

@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare, ChevronDown, ChevronUp, PanelRightClose, PanelRightOpen, SidebarClose, SidebarOpen, Volume2 } from "lucide-react";
+import { CheckCircle2, Lock, PlayCircle, ChevronLeft, FileText, HelpCircle, Video, Download, ChevronRight, Circle, MessageSquare, ChevronDown, ChevronUp, PanelRightClose, PanelRightOpen, SidebarClose, SidebarOpen, Volume2, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
 import { useRef, useState, useEffect } from "react";
@@ -33,6 +33,7 @@ import { MockExamCompletion } from "@/components/lms/mock-exam-completion";
 import pteBarChart from "@/assets/images/pte-bar-chart.png";
 import waveformBad from "@/assets/images/waveform-bad.png";
 import waveformGood from "@/assets/images/waveform-good.png";
+import { useUser } from "@/hooks/use-user";
 
 function SpeakingPractice({ content, lessonId }: { content: string; lessonId?: string }) {
   const { submitSectionScore, state } = useLMS();
@@ -1162,11 +1163,23 @@ export default function CourseViewer() {
         
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
            {course.modules.map((module, mIdx) => {
-             const isLocked = module.status === "locked";
+             const isPlanLocked = (user?.plan === 'free' && mIdx > 0) || (user?.plan === 'free' && course.category === "Technical");
+             const isLocked = module.status === "locked" || isPlanLocked;
              const isExpanded = expandedModules[module.id];
              
              return (
-               <div key={module.id} className={cn("rounded-lg border", isLocked ? "opacity-60 bg-muted/50" : "bg-card")}>
+               <div key={module.id} className={cn("rounded-lg border relative overflow-hidden", isLocked ? "opacity-90 bg-slate-50" : "bg-card")}>
+                  {isPlanLocked && (
+                    <div className="absolute inset-0 bg-slate-50/60 backdrop-blur-[1px] z-20 flex items-center justify-center">
+                       <Link href="/pricing">
+                          <Button size="sm" className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 border-0 shadow-sm gap-2 h-8 text-xs">
+                             <Zap className="w-3 h-3 fill-white" />
+                             Unlock
+                          </Button>
+                       </Link>
+                    </div>
+                  )}
+
                   <div 
                     className={cn(
                         "p-3 border-b bg-muted/30 flex items-center gap-3 cursor-pointer select-none", 
@@ -1175,7 +1188,7 @@ export default function CourseViewer() {
                     onClick={() => !isLocked && toggleModule(module.id)}
                   >
                      {module.status === "completed" ? <CheckCircle2 className="h-5 w-5 text-green-500" /> :
-                      module.status === "locked" ? <Lock className="h-5 w-5 text-muted-foreground" /> :
+                      isLocked ? <Lock className="h-5 w-5 text-slate-400" /> :
                       <div className="h-5 w-5 rounded-full border-2 border-primary flex items-center justify-center text-[10px] font-bold text-primary">{mIdx + 1}</div>}
                      <div className="flex-1">
                        <h3 className="font-semibold text-sm line-clamp-1">{module.title}</h3>
