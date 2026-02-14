@@ -402,15 +402,15 @@ export default function AdminDashboard() {
                                          <MoreHorizontal className="h-4 w-4 text-slate-400" />
                                        </Button>
                                      </DialogTrigger>
-                                     <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden flex flex-col">
-                                       <DialogHeader>
+                                     <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col p-0">
+                                       <DialogHeader className="p-6 pb-2">
                                          <DialogTitle>Candidate Progress Report</DialogTitle>
                                          <DialogDescription>
                                            Viewing detailed activity for {candidate.name}
                                          </DialogDescription>
                                        </DialogHeader>
                                        
-                                       <ScrollArea className="flex-1 pr-4">
+                                       <ScrollArea className="flex-1 px-6 pb-6">
                                          <div className="space-y-6 py-4">
                                            
                                            {/* Mock Test History */}
