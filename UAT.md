@@ -20,9 +20,12 @@ This UAT plan ensures that the interactive mockup meets the design and functiona
 - **Expected Result**: The lesson content loads correctly, displaying formatted text, slang terminology, and warning boxes.
 - **Status**: [ ] Pass / [ ] Fail
 
-### Test Case 4: Taking a Quiz
-- **Action**: Start the "Aussie Slang Quiz" at the end of Module 4. Select answers and submit.
-- **Expected Result**: The quiz accurately calculates the score. If the score is 80% or higher, a success message appears. If lower, a prompt to retry appears. Local progress state is updated upon passing.
+### Test Case 4: Taking Quizzes (Module & Per-Lesson)
+- **Action**: 
+  - Complete a lesson and click "Mark as Complete" to trigger a per-lesson quiz. 
+  - Start a module quiz at the end of a module.
+  - Retake a per-lesson quiz to observe varied/randomized questions.
+- **Expected Result**: The quiz accurately calculates the score. If the score is 80% or higher, a success message appears and progress is updated. Retaking the quiz pulls a different set of questions if a question bank is configured.
 - **Status**: [ ] Pass / [ ] Fail
 
 ### Test Case 5: Vision Board Progress Update

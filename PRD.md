@@ -20,7 +20,8 @@ The Tradie LMS is a specialized Learning Management System designed to assist sk
 
 ### 3.3. Interactive Learning & Assessments
 - Multimedia lessons (text, mocked videos).
-- Multiple-choice quizzes at the end of modules.
+- **Per-Lesson Quizzes**: Mini-quizzes that appear after clicking "Mark as Complete" to reinforce learning on a per-lesson basis. These quizzes can draw from a randomized question bank for variety on retakes.
+- Multiple-choice module quizzes at the end of modules.
 - Mocked AI speech analysis for pronunciation and hesitation feedback.
 
 ### 3.4. Gamification

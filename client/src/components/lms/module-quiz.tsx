@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -254,7 +254,7 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 2
     }
   ],
-  "pte-grammar": [
+  "pte-grammar-quiz": [
     {
        id: "pg-q1",
        text: "Complete the sentence: 'She has ______ the report.'",
@@ -284,6 +284,18 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
        text: "Identify the Adjective: 'A beautiful day'",
        options: ["A", "beautiful", "day", "None"],
        correctAnswer: 1
+    },
+    {
+       id: "pg-q6",
+       text: "What is a Noun?",
+       options: ["An action", "A describing word", "A person, place, or thing", "A joining word"],
+       correctAnswer: 2
+    },
+    {
+       id: "pg-q7",
+       text: "Which of the following is a Pronoun?",
+       options: ["He", "Quickly", "Dog", "Blue"],
+       correctAnswer: 0
     }
   ],
   "pte-speaking": [
@@ -902,8 +914,18 @@ export function ModuleQuiz({ moduleId, moduleTitle, quizId, isOpen, onClose, onC
   const [score, setScore] = useState(0);
 
   // Look up by specific quizId first, then fallback to moduleId
-  const questions = (quizId && MOCK_QUIZZES[quizId]) || MOCK_QUIZZES[moduleId] || MOCK_QUIZZES["m1"]; // Fallback to m1 if not found
+  const sourceQuestions = (quizId && MOCK_QUIZZES[quizId]) || MOCK_QUIZZES[moduleId] || MOCK_QUIZZES["m1"]; // Fallback to m1 if not found
 
+  // Randomize questions for per-lesson quizzes to ensure variety on retakes
+  const questions = useMemo(() => {
+    if (quizId && quizId.includes('quiz')) {
+      // Shuffle the question bank
+      const shuffled = [...sourceQuestions].sort(() => 0.5 - Math.random());
+      // Pick a subset (e.g., 3 questions) if the bank is large enough
+      return shuffled.length > 3 ? shuffled.slice(0, 3) : shuffled;
+    }
+    return sourceQuestions;
+  }, [sourceQuestions, quizId, isOpen]); // Re-shuffle when modal opens
 
   const handleSelect = (value: string) => {
     // For diagnostic questions, if we are using the new UI, we treat it as standard multiple choice (index)

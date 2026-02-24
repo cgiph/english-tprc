@@ -7,7 +7,7 @@ This document outlines the boundaries of the Tradie LMS rapid prototype. The goa
 - **User Interface Design**: Responsive, accessible layouts using Tailwind CSS and Shadcn UI.
 - **Navigation & Routing**: Client-side routing between Dashboard, Course Lists, and Lesson Views.
 - **Mock Data Integration**: Hardcoded JSON data simulating a backend database for users, courses, modules, and quizzes.
-- **Interactive Quizzes**: Functional quiz components that calculate scores and update local (in-memory) state.
+- **Interactive Quizzes**: Functional quiz components that calculate scores and update local (in-memory) state. Includes per-lesson quizzes with randomized question pools.
 - **Vision Board Logic**: Progress calculation algorithm focusing on a single technical track plus core courses.
 - **Gamification Elements**: UI for badges and completion statuses.
 - **Simulated AI Feedback**: Pre-defined diagnostic feedback screens demonstrating how the AI speech analysis will look.

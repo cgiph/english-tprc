@@ -1432,6 +1432,7 @@ export const COURSES: Course[] = [
             type: "reading",
             duration: "20 min",
             isCompleted: false,
+            quizId: "pte-grammar-quiz",
             content: `
               <div class="space-y-8">
                 <div class="bg-violet-900 text-white p-8 rounded-xl shadow-xl">
@@ -1666,6 +1667,7 @@ export const COURSES: Course[] = [
             type: "reading", 
             duration: "30 min", 
             isCompleted: false,
+            quizId: "pte-grammar-quiz",
             content: `
               <div class="space-y-8">
                 <div class="bg-indigo-900 text-white p-8 rounded-xl shadow-xl">
