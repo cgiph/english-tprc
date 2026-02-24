@@ -736,6 +736,84 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 1
     }
   ],
+  "mock-tra-mech-quiz": [
+    {
+      id: "mtra-m-q1",
+      text: "When diagnosing a misfire, what is a good first step after confirming the symptom?",
+      options: ["Replace the engine", "Read DTCs / freeze frame data with a scan tool", "Change the tyres", "Wash the car"],
+      correctAnswer: 1
+    },
+    {
+      id: "mtra-m-q2",
+      text: "In an Aussie workshop, 'give it a quick squiz' means:",
+      options: ["Test drive at high speed", "Have a quick look/inspection", "Disconnect the battery", "Fill out paperwork"],
+      correctAnswer: 1
+    },
+    {
+      id: "mtra-m-q3",
+      text: "Which is best practice when removing a brake caliper?",
+      options: ["Let it hang on the brake hose", "Support the caliper so the hose isn't strained", "Hit it with a hammer", "Skip torque specs"],
+      correctAnswer: 1
+    },
+    {
+      id: "mtra-m-q4",
+      text: "A misfire code like P0302 usually indicates:",
+      options: ["Misfire cylinder 2", "Misfire all cylinders", "Oxygen sensor failure", "Low tyre pressure"],
+      correctAnswer: 0
+    }
+  ],
+  "mock-tra-weld-quiz": [
+    {
+      id: "mtra-w-q1",
+      text: "Which electrode is commonly described as low-hydrogen for structural work?",
+      options: ["E6010", "E7018", "E6013", "E308L"],
+      correctAnswer: 1
+    },
+    {
+      id: "mtra-w-q2",
+      text: "A key step before welding to reduce defects is:",
+      options: ["Leave oil on the joint", "Clean rust/oil and prep the joint", "Increase travel speed randomly", "Skip tack welds"],
+      correctAnswer: 1
+    },
+    {
+      id: "mtra-w-q3",
+      text: "Which method helps reduce distortion on a welded frame?",
+      options: ["Skip welding one side", "Back-step/skip weld to spread heat", "Weld continuously in one direction only", "Remove clamps early"],
+      correctAnswer: 1
+    },
+    {
+      id: "mtra-w-q4",
+      text: "In a welding bay, 'fire watch' refers to:",
+      options: ["Watching Netflix", "Monitoring for sparks/ignition after welding", "Measuring amps", "Checking paint colour"],
+      correctAnswer: 1
+    }
+  ],
+  "mock-tra-cons-quiz": [
+    {
+      id: "mtra-c-q1",
+      text: "When setting out a slab, checking diagonals helps confirm:",
+      options: ["The concrete mix", "The layout is square", "The weather forecast", "The tool brand"],
+      correctAnswer: 1
+    },
+    {
+      id: "mtra-c-q2",
+      text: "A toolbox talk is best described as:",
+      options: ["A tool inventory", "A pre-start safety briefing", "A wage negotiation", "A concrete test"],
+      correctAnswer: 1
+    },
+    {
+      id: "mtra-c-q3",
+      text: "One good control when working near moving plant is:",
+      options: ["Remove hi-vis", "Set exclusion zones and use a spotter", "Ignore hand signals", "Work faster"],
+      correctAnswer: 1
+    },
+    {
+      id: "mtra-c-q4",
+      text: "A laser level is primarily used to:",
+      options: ["Cut steel", "Transfer/confirm heights and levels", "Mix concrete", "Measure voltage"],
+      correctAnswer: 1
+    }
+  ],
   "tech-m4": [
     {
       id: "tm4-q1",

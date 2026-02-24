@@ -96,7 +96,9 @@ export default function LMSDashboard() {
     ? COURSES 
     : activeTab === "certificates"
         ? COURSES // We will filter for completed courses below
-        : COURSES.filter(c => c.category.toLowerCase().includes(activeTab) || (activeTab === "technical" && c.category === "Technical"));
+        : activeTab === "mock"
+            ? COURSES.filter(c => c.category === "Mock Test")
+            : COURSES.filter(c => c.category.toLowerCase().includes(activeTab) || (activeTab === "technical" && c.category === "Technical"));
 
   // Calculate completed courses for the Certificates tab
   const completedCourses = COURSES.filter(course => {
@@ -154,7 +156,7 @@ export default function LMSDashboard() {
           <TabsTrigger value="all" className="px-6">All Courses</TabsTrigger>
           <TabsTrigger value="english" className="px-6">English Levels</TabsTrigger>
           <TabsTrigger value="technical" className="px-6 data-[state=active]:bg-orange-600 data-[state=active]:text-white">Trade Prep (TSA/TRA)</TabsTrigger>
-          <TabsTrigger value="mock test" className="px-6">Mock Tests</TabsTrigger>
+          <TabsTrigger value="mock" className="px-6">Mock Tests</TabsTrigger>
           <TabsTrigger value="certificates" className="px-6 gap-2">
             <Award className="h-4 w-4" /> Certificates
           </TabsTrigger>

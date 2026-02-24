@@ -50,6 +50,8 @@ export interface Course {
   id: string;
   title: string;
   category: "English" | "Technical" | "Mock Test";
+  examType?: "TRA" | "TSA";
+  industry?: "Automotive" | "Welding" | "Construction";
   level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | "Easy" | "Medium" | "Hard"; // For English & Mock Tests
   silo?: "Mechanics" | "Welders" | "Healthcare" | "General" | "Carpenters"; // For Technical
   description: string;
@@ -2776,6 +2778,284 @@ export const COURSES: Course[] = [
           }
         ]
       },
+    ]
+  },
+  {
+    id: "mock-mechanics-tra",
+    title: "TRA Mock Test: Automotive Mechanic (Q&A)",
+    category: "Mock Test",
+    level: "Medium",
+    examType: "TRA",
+    industry: "Automotive",
+    description: "Trade Recognition Australia-style interview questions and model answers for automotive workshops.",
+    thumbnail: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=800&q=80",
+    totalModules: 1,
+    completedModules: 0,
+    modules: [
+      {
+        id: "mock-tra-mech-m1",
+        title: "TRA Q&A Set 1",
+        description: "Practice common TRA-style technical interview questions for automotive mechanics.",
+        status: "unlocked",
+        progress: 0,
+        lessons: [
+          {
+            id: "mock-tra-mech-intro",
+            title: "How the TRA Q&A Works",
+            type: "reading",
+            duration: "10 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <div class="bg-slate-900 text-white p-8 rounded-xl shadow-xl">
+                  <h1 class="text-3xl font-bold mb-2">TRA Mock Test (Automotive): Q&A Format</h1>
+                  <p class="text-slate-300">This module simulates the kind of questions you may be asked in a TRA assessment or technical interview. Focus on: (1) safe process, (2) correct tools, (3) correct measurements/specs, (4) clear communication.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="bg-white p-6 rounded-xl border border-slate-200">
+                    <h3 class="font-bold text-slate-900 mb-2">What assessors look for</h3>
+                    <ul class="list-disc ml-5 space-y-2 text-slate-700">
+                      <li>Safety-first thinking (isolation, PPE, hazards)</li>
+                      <li>Correct diagnostic sequence</li>
+                      <li>Trade vocabulary (parts, systems, tools)</li>
+                      <li>Quality checks + documentation</li>
+                    </ul>
+                  </div>
+                  <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
+                    <h3 class="font-bold text-indigo-900 mb-2">How to answer</h3>
+                    <ol class="list-decimal ml-5 space-y-2 text-indigo-900/90">
+                      <li>Repeat the task briefly (confirm understanding)</li>
+                      <li>List the tools + safety controls</li>
+                      <li>Give a step-by-step process</li>
+                      <li>Finish with checks and sign-off</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: "mock-tra-mech-q1",
+            title: "Q1: Diagnose an Engine Misfire",
+            type: "reading",
+            duration: "12 min",
+            isCompleted: false,
+            quizId: "mock-tra-mech-quiz",
+            content: `
+              <div class="space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                  <h3 class="text-2xl font-extrabold text-slate-900">Question</h3>
+                  <p class="text-slate-700 mt-2">A customer reports a rough idle and the check engine light is on. Explain how you would diagnose an engine misfire.</p>
+                </div>
+
+                <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200">
+                  <h4 class="font-bold text-emerald-900 mb-2">Model Answer (Structure)</h4>
+                  <ol class="list-decimal ml-5 space-y-2 text-emerald-900/90">
+                    <li><strong>Safety + Confirm:</strong> Confirm symptoms, check for warning messages, ensure vehicle is secure.</li>
+                    <li><strong>Scan Tool:</strong> Read DTCs, freeze frame data, misfire counters (e.g., P030X).</li>
+                    <li><strong>Visual Checks:</strong> Inspect ignition leads/coils, vacuum leaks, intake hose, obvious wiring issues.</li>
+                    <li><strong>Ignition Test:</strong> Swap coil/plug between cylinders to see if misfire follows.</li>
+                    <li><strong>Fuel Test:</strong> Check injector pulse, fuel pressure, injector balance if required.</li>
+                    <li><strong>Mechanical:</strong> Compression test / leak-down test if ignition/fuel are OK.</li>
+                    <li><strong>Confirm Fix:</strong> Repair, clear codes, road test, recheck live data.</li>
+                  </ol>
+                </div>
+
+                <div class="bg-amber-50 p-5 rounded-xl border border-amber-200">
+                  <h4 class="font-bold text-amber-900 mb-2">Aussie workshop phrases you might hear</h4>
+                  <ul class="list-disc ml-5 space-y-1 text-amber-900/90">
+                    <li>"Chuck it on the scanner" (connect scan tool)</li>
+                    <li>"Give it a quick squiz" (have a look)</li>
+                    <li>"Take it for a run" (road test)</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: "mock-tra-mech-q2",
+            title: "Q2: Brake Pad Replacement + Safety Check",
+            type: "reading",
+            duration: "12 min",
+            isCompleted: false,
+            quizId: "mock-tra-mech-quiz",
+            content: `
+              <div class="space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                  <h3 class="text-2xl font-extrabold text-slate-900">Question</h3>
+                  <p class="text-slate-700 mt-2">Explain the steps to replace front brake pads and the checks you must do before handing the vehicle back.</p>
+                </div>
+
+                <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200">
+                  <h4 class="font-bold text-emerald-900 mb-2">Model Answer (Step-by-step)</h4>
+                  <ol class="list-decimal ml-5 space-y-2 text-emerald-900/90">
+                    <li><strong>Safety:</strong> PPE, chock wheels, jack + stands, confirm correct lifting points.</li>
+                    <li><strong>Remove wheel:</strong> Inspect rotor condition + thickness.</li>
+                    <li><strong>Caliper:</strong> Remove caliper bolts, support caliper (don’t hang on hose).</li>
+                    <li><strong>Pads:</strong> Remove pads, clean bracket, check sliders, apply correct grease.</li>
+                    <li><strong>Piston:</strong> Retract piston with tool, watch brake fluid level.</li>
+                    <li><strong>Fit new pads:</strong> Refit, torque bolts to spec, refit wheel, torque wheel nuts.</li>
+                    <li><strong>Checks:</strong> Pump brake pedal, check fluid, road test, verify no noise/pull/vibration.</li>
+                  </ol>
+                </div>
+              </div>
+            `
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "mock-welding-tra",
+    title: "TRA Mock Test: Welder / Fabricator (Q&A)",
+    category: "Mock Test",
+    level: "Medium",
+    examType: "TRA",
+    industry: "Welding",
+    description: "TRA-style technical interview questions for welders: procedure, safety, and quality control.",
+    thumbnail: "https://images.unsplash.com/photo-1518882570151-157128e78fa1?w=800&q=80",
+    totalModules: 1,
+    completedModules: 0,
+    modules: [
+      {
+        id: "mock-tra-weld-m1",
+        title: "TRA Q&A Set 1",
+        description: "Common welding workshop assessment questions.",
+        status: "unlocked",
+        progress: 0,
+        lessons: [
+          {
+            id: "mock-tra-weld-q1",
+            title: "Q1: Explain a Weld Procedure (SMAW)",
+            type: "reading",
+            duration: "12 min",
+            isCompleted: false,
+            quizId: "mock-tra-weld-quiz",
+            content: `
+              <div class="space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                  <h3 class="text-2xl font-extrabold text-slate-900">Question</h3>
+                  <p class="text-slate-700 mt-2">You need to weld mild steel plate using SMAW. Explain how you would select electrodes and set up safely.</p>
+                </div>
+
+                <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200">
+                  <h4 class="font-bold text-emerald-900 mb-2">Model Answer</h4>
+                  <ul class="list-disc ml-5 space-y-2 text-emerald-900/90">
+                    <li>Select electrode type (e.g., E6010 for penetration, E7018 for low-hydrogen structural).</li>
+                    <li>Check WPS if available: amps range, polarity, travel speed.</li>
+                    <li>Prep joint: clean rust/oil, correct bevel, fit-up and tack weld.</li>
+                    <li>Safety: PPE, fume extraction, fire watch, check leads/earth clamp.</li>
+                    <li>Quality: correct weave, slag removal between passes, visual inspection for undercut/porosity.</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: "mock-tra-weld-q2",
+            title: "Q2: Control Distortion",
+            type: "reading",
+            duration: "10 min",
+            isCompleted: false,
+            quizId: "mock-tra-weld-quiz",
+            content: `
+              <div class="space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                  <h3 class="text-2xl font-extrabold text-slate-900">Question</h3>
+                  <p class="text-slate-700 mt-2">During fabrication, a frame is warping after welding. What steps can you take to reduce distortion?</p>
+                </div>
+
+                <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200">
+                  <h4 class="font-bold text-emerald-900 mb-2">Model Answer</h4>
+                  <ol class="list-decimal ml-5 space-y-2 text-emerald-900/90">
+                    <li>Use correct tack sequence and strong tacks.</li>
+                    <li>Clamp and fixture the workpiece.</li>
+                    <li>Back-step or skip weld to spread heat.</li>
+                    <li>Alternate sides and balance welds.</li>
+                    <li>Control heat input (amps, speed) and allow cooling.</li>
+                  </ol>
+                </div>
+              </div>
+            `
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "mock-construction-tra",
+    title: "TRA Mock Test: Construction (Q&A)",
+    category: "Mock Test",
+    level: "Medium",
+    examType: "TRA",
+    industry: "Construction",
+    description: "TRA-style Q&A for construction sites: safety, set-out, and practical workflow communication.",
+    thumbnail: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
+    totalModules: 1,
+    completedModules: 0,
+    modules: [
+      {
+        id: "mock-tra-cons-m1",
+        title: "TRA Q&A Set 1",
+        description: "Construction site interview questions with model answers.",
+        status: "unlocked",
+        progress: 0,
+        lessons: [
+          {
+            id: "mock-tra-cons-q1",
+            title: "Q1: Set-Out and Levels",
+            type: "reading",
+            duration: "12 min",
+            isCompleted: false,
+            quizId: "mock-tra-cons-quiz",
+            content: `
+              <div class="space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                  <h3 class="text-2xl font-extrabold text-slate-900">Question</h3>
+                  <p class="text-slate-700 mt-2">Explain how you would set out a small slab area on site and confirm levels before the pour.</p>
+                </div>
+
+                <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200">
+                  <h4 class="font-bold text-emerald-900 mb-2">Model Answer</h4>
+                  <ol class="list-decimal ml-5 space-y-2 text-emerald-900/90">
+                    <li>Review drawings, confirm dimensions and datum point.</li>
+                    <li>Mark corners with pegs/string lines, check diagonals for square.</li>
+                    <li>Use a laser level/dumpy level to transfer heights.</li>
+                    <li>Confirm formwork height, allow for fall/drainage if required.</li>
+                    <li>Before pour: confirm reinforcement, mesh chairs, penetrations, and access.</li>
+                  </ol>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: "mock-tra-cons-q2",
+            title: "Q2: Toolbox Talk + Hazard Controls",
+            type: "reading",
+            duration: "10 min",
+            isCompleted: false,
+            quizId: "mock-tra-cons-quiz",
+            content: `
+              <div class="space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                  <h3 class="text-2xl font-extrabold text-slate-900">Question</h3>
+                  <p class="text-slate-700 mt-2">What is a toolbox talk, and what hazard controls would you cover before starting work near moving plant?</p>
+                </div>
+
+                <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200">
+                  <h4 class="font-bold text-emerald-900 mb-2">Model Answer</h4>
+                  <ul class="list-disc ml-5 space-y-2 text-emerald-900/90">
+                    <li>A short pre-start safety briefing about today's tasks and hazards.</li>
+                    <li>Controls: exclusion zones, spotter, hi-vis PPE, communication signals, plant inspection.</li>
+                    <li>Emergency procedures and first aid location.</li>
+                    <li>Stop-work authority if conditions change.</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          }
+        ]
+      }
     ]
   },
   {
