@@ -53,7 +53,7 @@ export default function Home() {
       </section>
       {/* Practice Modules Section */}
       <section className="container mx-auto px-4 -mt-24 relative z-20">
-        <h2 className="text-3xl font-serif font-bold text-white mb-6 drop-shadow-md">Practice Modules</h2>
+        <h2 className="text-3xl font-serif font-bold text-white mb-6 drop-shadow-md">PTE Practice Tools</h2>
         <div className="grid md:grid-cols-4 gap-6">
           {[
             {
