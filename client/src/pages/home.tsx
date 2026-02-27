@@ -29,7 +29,7 @@ export default function Home() {
               Supporting Your Journey to <br/>
               <span className="text-secondary">Life in Australia</span>
             </h1>
-            <p className="text-xl text-white/90 max-w-lg leading-relaxed font-light">Join thousands of students sharing real exam experiences, strategies, and verified study resources for the PTE Academic.</p>
+            <p className="text-xl text-white/90 max-w-lg leading-relaxed font-light">Join tradies and skilled professionals sharing technical knowledge, exam strategies, and verified resources for your Australian trade assessment and PTE Academic.</p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold text-lg h-14 px-8 shadow-xl shadow-secondary/20">
                 <Link href="/reviews">Read Reviews</Link>
