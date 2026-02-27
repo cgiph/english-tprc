@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-16 pb-16">
       {/* Hero Section */}
-      <section className="relative min-h-[650px] flex items-center overflow-hidden py-20 mt-[-64px] pt-[80px]">
+      <section className="relative min-h-[650px] flex items-center overflow-hidden py-16 mt-[-64px] pt-[64px]">
         <div className="absolute inset-0 z-0">
           <img 
             src={heroImage} 
@@ -26,7 +26,7 @@ export default function Home() {
           <div className="max-w-2xl space-y-6 animate-in slide-in-from-bottom-10 duration-700 fade-in mt-8">
             <Badge className="bg-secondary/90 text-secondary-foreground hover:bg-secondary border-none px-4 py-1 text-sm font-medium rounded-full backdrop-blur-sm">Exclusively for CGI Community</Badge>
             <h1 className="text-5xl md:text-6xl font-serif font-bold text-white leading-tight tracking-tight drop-shadow-sm">
-              Supporting Your Journey to a <br/>
+              Empowering Your Journey to a <br/>
               <span className="text-secondary">Lifetime in Australia</span>
             </h1>
             <p className="text-xl text-white/90 max-w-lg leading-relaxed font-light">A shared hub for skilled workers, with practical information and guidance to help you live and work confidently in Australia.</p>
