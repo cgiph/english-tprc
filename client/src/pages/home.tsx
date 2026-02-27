@@ -26,11 +26,11 @@ export default function Home() {
           <div className="max-w-2xl space-y-6 animate-in slide-in-from-bottom-10 duration-700 fade-in mt-8">
             <Badge className="bg-secondary/90 text-secondary-foreground hover:bg-secondary border-none px-4 py-1 text-sm font-medium rounded-full backdrop-blur-sm">Exclusively for CGI Community</Badge>
             <h1 className="text-5xl md:text-6xl font-serif font-bold text-white leading-tight tracking-tight drop-shadow-sm">
-              Supporting Your Journey to <br/>
-              <span className="text-secondary">Life in Australia</span>
+              Supporting Your Journey to a <br/>
+              <span className="text-secondary">Lifetime in Australia</span>
             </h1>
             <p className="text-xl text-white/90 max-w-lg leading-relaxed font-light">A shared hub for skilled workers, with practical information and guidance to help you live and work confidently in Australia.</p>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 mt-12 mb-8">
               <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold text-lg h-14 px-8 shadow-xl shadow-secondary/20">
                 <Link href="/reviews">Read Reviews</Link>
               </Button>
@@ -40,7 +40,7 @@ export default function Home() {
             </div>
             
             {/* Practice Modules Section moved up */}
-            <div className="pt-8">
+            <div className="pt-2">
               <h3 className="text-xl font-serif font-bold text-white mb-4 drop-shadow-md">PTE Practice Tools</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
