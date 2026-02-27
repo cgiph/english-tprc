@@ -38,6 +38,51 @@ export default function Home() {
                 <Link href="/lms" onClick={() => analytics.trackExploreCourses()}>Explore Courses</Link>
               </Button>
             </div>
+            
+            {/* Practice Modules Section moved up */}
+            <div className="pt-8">
+              <h3 className="text-xl font-serif font-bold text-white mb-4 drop-shadow-md">PTE Practice Tools</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  {
+                    title: "Speaking",
+                    icon: Mic,
+                    color: "bg-blue-50/10 text-blue-100",
+                    hoverColor: "hover:bg-blue-50/20",
+                    href: "/practice/speaking"
+                  },
+                  {
+                    title: "Reading",
+                    icon: BookOpen,
+                    color: "bg-amber-50/10 text-amber-100",
+                    hoverColor: "hover:bg-amber-50/20",
+                    href: "/practice/reading"
+                  },
+                  {
+                    title: "Listening",
+                    icon: Headphones,
+                    color: "bg-emerald-50/10 text-emerald-100",
+                    hoverColor: "hover:bg-emerald-50/20",
+                    href: "/practice/listening"
+                  },
+                  {
+                    title: "Writing",
+                    icon: PenTool,
+                    color: "bg-purple-50/10 text-purple-100",
+                    hoverColor: "hover:bg-purple-50/20",
+                    href: "/practice/writing"
+                  }
+                ].map((module, i) => (
+                  <Link key={i} href={module.href}>
+                    <div className={`p-4 rounded-xl border border-white/20 backdrop-blur-sm transition-all duration-300 flex flex-col items-center justify-center gap-2 cursor-pointer ${module.color} ${module.hoverColor}`}>
+                      <module.icon className="h-6 w-6" />
+                      <span className="font-medium text-sm text-white">{module.title}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
             <div className="flex items-center gap-4 text-white/80 text-sm pt-4">
               <div className="flex items-center gap-1">
                 <Users className="h-4 w-4" />
@@ -51,58 +96,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* Practice Modules Section */}
-      <section className="container mx-auto px-4 -mt-24 relative z-20">
-        <h2 className="text-3xl font-serif font-bold text-white mb-6 drop-shadow-md">PTE Practice Tools</h2>
-        <div className="grid md:grid-cols-4 gap-6">
-          {[
-            {
-              title: "Speaking",
-              desc: "Read Aloud, Repeat Sentence, Describe Image, and more.",
-              icon: Mic,
-              color: "bg-blue-50 text-blue-700",
-              href: "/practice/speaking"
-            },
-            {
-              title: "Reading",
-              desc: "Fill in the blanks, Multiple Choice, Reorder Paragraphs.",
-              icon: BookOpen,
-              color: "bg-amber-50 text-amber-700",
-              href: "/practice/reading"
-            },
-            {
-              title: "Listening",
-              desc: "Summarize Spoken Text, Write from Dictation.",
-              icon: Headphones,
-              color: "bg-emerald-50 text-emerald-700",
-              href: "/practice/listening"
-            },
-            {
-              title: "Writing",
-              desc: "Summarize Written Text & Essay Writing (10 Practice Qs).",
-              icon: PenTool,
-              color: "bg-purple-50 text-purple-700",
-              href: "/practice/writing"
-            }
-          ].map((module, i) => (
-            <Link key={i} href={module.href}>
-              <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full">
-                <CardContent className="p-6 space-y-4 flex flex-col h-full">
-                  <div className={`w-12 h-12 rounded-xl ${module.color} flex items-center justify-center`}>
-                    <module.icon className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-serif font-bold text-xl mb-2">{module.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{module.desc}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      </section>
+
       {/* Features Grid */}
-      <section className="container mx-auto px-4">
+      <section className="container mx-auto px-4 mt-8">
         <div className="grid md:grid-cols-3 gap-6">
           {[
             {
