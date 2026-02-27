@@ -217,9 +217,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="flex items-center space-x-2">
                 <span className="font-serif font-bold text-lg text-foreground/80">PTE PrepPH</span>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Empowering our candidates to achieve their dreams through a comprehensive PTE Academic preparation, resources, and community support.
-              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">Built for skilled workers who need reliable information, shared experience, and practical tools—before and after arrival.</p>
               <div className="pt-4 border-t border-border/50">
                 <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground mb-2">Data Retention & Integrity</h4>
                 <p className="text-[10px] leading-tight text-muted-foreground/80">
