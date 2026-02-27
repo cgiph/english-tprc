@@ -11,19 +11,19 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-16 pb-16">
       {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center overflow-hidden">
+      <section className="relative min-h-[650px] flex items-center overflow-hidden py-20 mt-[-64px] pt-[80px]">
         <div className="absolute inset-0 z-0">
           <img 
             src={heroImage} 
-            alt="Students studying in library" 
+            alt="Skilled workers in Australia" 
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40 mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         </div>
 
-        <div className="container mx-auto px-4 relative z-10 pt-16 sm:pt-20">
-          <div className="max-w-2xl space-y-6 animate-in slide-in-from-bottom-10 duration-700 fade-in">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-2xl space-y-6 animate-in slide-in-from-bottom-10 duration-700 fade-in mt-8">
             <Badge className="bg-secondary/90 text-secondary-foreground hover:bg-secondary border-none px-4 py-1 text-sm font-medium rounded-full backdrop-blur-sm">Exclusively for CGI Community</Badge>
             <h1 className="text-5xl md:text-6xl font-serif font-bold text-white leading-tight tracking-tight drop-shadow-sm">
               Supporting Your Journey to <br/>
