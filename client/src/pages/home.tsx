@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import heroImage from "@/assets/generated_images/diverse_skilled_workers_australia.png";
+import heroImage from "@/assets/generated_images/filipino_diverse_skilled_workers_australia.png";
 import { Link } from "wouter";
 import { ArrowRight, CheckCircle2, Star, TrendingUp, Users, Mic, BookOpen, Headphones, PenTool, BookA } from "lucide-react";
 import { MOCK_REVIEWS, MOCK_RESOURCES } from "@/lib/mock-data";
