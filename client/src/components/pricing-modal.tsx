@@ -141,6 +141,20 @@ export function PricingContent({ onClose }: { onClose?: () => void }) {
                  onClick={() => {
                    const codeInput = document.getElementById('access-code') as HTMLInputElement;
                    if (codeInput && codeInput.value.trim().toUpperCase() === 'PTEC01_2026') {
+                     // Check usage limit for the mockup
+                     const usageCount = parseInt(localStorage.getItem('mock_access_code_usage') || '0');
+                     if (usageCount >= 2) {
+                       toast({
+                         title: "Code Expired",
+                         description: "This access code has reached its maximum usage limit of 2 redemptions.",
+                         variant: "destructive"
+                       });
+                       return;
+                     }
+                     
+                     // Increment usage
+                     localStorage.setItem('mock_access_code_usage', (usageCount + 1).toString());
+                     
                      updatePlan('pro');
                      toast({
                        title: "Access Granted! 🎉",
