@@ -42,28 +42,20 @@ export default function AuthPage() {
     const newErrors: Record<string, string> = {};
     
     // Email Validation
-    // Standard email regex or simple username format (allowing hyphens, underscores, and letters/numbers)
+    // Standard email regex or simple username format
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!formData.email) {
       newErrors.email = "Username or Email is required";
-    } else if (!emailRegex.test(formData.email) && !/^[a-zA-Z0-9_-]+$/.test(formData.email)) {
-      // Allow valid email OR alphanumeric usernames (like PTEC01_2026 or with hyphens)
+    } else if (!emailRegex.test(formData.email) && !/^[a-zA-Z0-9_.-]+$/.test(formData.email)) {
+      // Allow valid email OR alphanumeric usernames (like PTEC01_2026 or usernames with dots/hyphens)
       newErrors.email = "Please enter a valid email or username";
     } 
 
-    // Password Validation (Alphanumeric)
-    // Must contain at least one letter and one number
-    // We'll relax the strict alphanumeric-only check so users can use special chars if they want,
-    // but still require at least one letter and one number.
-    const hasLetter = /[a-zA-Z]/.test(formData.password);
-    const hasNumber = /[0-9]/.test(formData.password);
-    
+    // Password Validation
     if (!formData.password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
-    } else if (!hasLetter || !hasNumber) {
-      newErrors.password = "Password must contain both letters and numbers";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
     }
 
     // Name Validation (Register only)
@@ -181,7 +173,7 @@ export default function AuthPage() {
                   className={errors.password ? "border-red-500" : ""}
                 />
                 {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
-                <p className="text-[10px] text-muted-foreground">Must be alphanumeric (letters and numbers)</p>
+                <p className="text-[10px] text-muted-foreground">Minimum 6 characters</p>
               </div>
 
               <Button type="submit" className="w-full font-bold text-md" size="lg">
