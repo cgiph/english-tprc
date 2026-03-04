@@ -41,15 +41,25 @@ export default function AuthPage() {
   const validate = () => {
     const newErrors: Record<string, string> = {};
     
-    // Email Validation
-    // Standard email regex or simple username format
+    // User ID Validation (Mocking predefined IDs)
+    const validUserIds = [
+      "PTEC01_2026", "PTEC02_2026", "PTEC03_2026", 
+      "TRA01_2026", "TRA02_2026", "TRA03_2026"
+    ];
+    
+    // Email Validation or User ID
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!formData.email) {
       newErrors.email = "Username or Email is required";
     } else if (!emailRegex.test(formData.email) && !/^[a-zA-Z0-9_.-]+$/.test(formData.email)) {
-      // Allow valid email OR alphanumeric usernames (like PTEC01_2026 or usernames with dots/hyphens)
       newErrors.email = "Please enter a valid email or username";
-    } 
+    }
+
+    // If using a User ID format, check if it's in our valid list (mock verification)
+    const isUserIdFormat = /^[A-Z]{3,4}\d{2}_202[0-9]$/i.test(formData.email);
+    if (isUserIdFormat && !validUserIds.includes(formData.email.toUpperCase())) {
+      newErrors.email = "Invalid User ID. Please check your assigned ID.";
+    }
 
     // Password Validation
     if (!formData.password) {
@@ -83,14 +93,36 @@ export default function AuthPage() {
       ];
 
       const isTrainer = trainerEmails.includes(normalizedEmail);
+      const isUserIdFormat = /^[A-Z]{3,4}\d{2}_202[0-9]$/i.test(formData.email);
       
-      // If it's a known trainer, use their proper name if logging in without registration flow (simplified)
       let finalName = displayName;
-      if (normalizedEmail === "jorge.catiempo@cirrusrecruitment.com") finalName = "Jorge Catiempo";
-      if (normalizedEmail === "susan.centino@cirrusrecruitment.com") finalName = "Susan Centino";
-      if (normalizedEmail === "jobart.benedito@cirrusrecruitment.com") finalName = "Jobart Benedito";
+      let role = isTrainer ? 'trainer' : 'student';
+      let plan: 'free' | 'pro' | 'trade' = 'free';
 
-      login(finalName, normalizedEmail, isTrainer ? 'trainer' : 'student');
+      if (isTrainer) {
+        if (normalizedEmail === "jorge.catiempo@cirrusrecruitment.com") finalName = "Jorge Catiempo";
+        if (normalizedEmail === "susan.centino@cirrusrecruitment.com") finalName = "Susan Centino";
+        if (normalizedEmail === "jobart.benedito@cirrusrecruitment.com") finalName = "Jobart Benedito";
+        plan = 'pro';
+      } else if (isUserIdFormat) {
+         // Auto-upgrade plan based on User ID prefix for the mockup
+         if (formData.email.toUpperCase().startsWith("PTEC")) {
+            plan = "pro";
+         } else if (formData.email.toUpperCase().startsWith("TRA")) {
+            plan = "trade";
+         }
+         
+         // Mock "Already used" check
+         const usedIds = JSON.parse(sessionStorage.getItem('used_user_ids') || '[]');
+         // In a real app this would check the DB. Here we just check if it's been used in this browser session
+         // Since we don't want to permanently block them in a mockup, we'll just simulate the login
+         if (!usedIds.includes(formData.email.toUpperCase())) {
+            usedIds.push(formData.email.toUpperCase());
+            sessionStorage.setItem('used_user_ids', JSON.stringify(usedIds));
+         }
+      }
+
+      login(finalName, formData.email, role as 'student' | 'trainer', plan);
 
       toast({
         title: mode === "login" ? "Login Successful" : "Registration Successful",

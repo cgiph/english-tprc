@@ -54,16 +54,21 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
   
   // Load from sessionStorage on mount or user change
   useEffect(() => {
-    let sessionId = user?.sessionId;
-    if (!sessionId) {
-      sessionId = sessionStorage.getItem('guest_session_id') || "";
-      if (!sessionId) {
-        sessionId = "guest-session-" + Math.random().toString(36).substr(2, 9);
-        sessionStorage.setItem('guest_session_id', sessionId);
+    // Determine the unique ID for progress tracking
+    // If the user has logged in with an email/userID, use that.
+    // Otherwise, generate a guest session ID.
+    let trackingId = user?.email || user?.sessionId;
+    
+    if (!trackingId) {
+      trackingId = sessionStorage.getItem('guest_session_id') || "";
+      if (!trackingId) {
+        trackingId = "guest-session-" + Math.random().toString(36).substr(2, 9);
+        sessionStorage.setItem('guest_session_id', trackingId);
       }
     }
     
-    const storageKey = `lms_state_${sessionId}`;
+    // Storage key is specifically tied to the User ID / Email now
+    const storageKey = `lms_state_${trackingId}`;
     const stored = sessionStorage.getItem(storageKey);
     
     if (stored) {
@@ -71,10 +76,10 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
         setState(JSON.parse(stored));
       } catch (e) {
         console.error("Failed to parse LMS state", e);
-        setState({ ...defaultState, userId: sessionId });
+        setState({ ...defaultState, userId: trackingId });
       }
     } else {
-      setState({ ...defaultState, userId: sessionId });
+      setState({ ...defaultState, userId: trackingId });
     }
     setIsLoaded(true);
   }, [user]);

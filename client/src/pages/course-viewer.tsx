@@ -907,7 +907,7 @@ export default function CourseViewer() {
             completeLesson(activeQuizModule.id, quizLesson.id);
          }
 
-         // Unlock NEXT module logic
+         // Unlock NEXT module logic (Sequentially unlocks for everyone)
          const currentIndex = course.modules.findIndex(m => m.id === activeQuizModule.id);
          if (currentIndex >= 0 && currentIndex < course.modules.length - 1) {
            const nextModule = course.modules[currentIndex + 1];
@@ -1170,7 +1170,7 @@ export default function CourseViewer() {
            {course.modules.map((module, mIdx) => {
              const isPlanLocked = (user?.plan === 'free' && mIdx > 0) || (user?.plan === 'free' && course.category === "Technical");
              // Force unlock if the user's plan is pro (via access code)
-             const isLocked = (module.status === "locked" && user?.plan !== 'pro' && user?.plan !== 'trade') || isPlanLocked;
+             const isLocked = module.status === "locked" || isPlanLocked;
              const isExpanded = expandedModules[module.id];
              
              return (
@@ -1214,7 +1214,7 @@ export default function CourseViewer() {
                        {module.lessons.map((lesson, lIdx) => {
                          const isActive = activeLesson?.lesson.id === lesson.id;
                          // Check if previous lesson is completed to unlock this one (unless user is pro)
-                         const isLessonLocked = lIdx > 0 && !module.lessons[lIdx - 1].isCompleted && user?.plan !== 'pro' && user?.plan !== 'trade';
+                         const isLessonLocked = lIdx > 0 && !module.lessons[lIdx - 1].isCompleted;
                          
                          return (
                            <div 
