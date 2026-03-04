@@ -42,18 +42,14 @@ export default function AuthPage() {
     const newErrors: Record<string, string> = {};
     
     // Email Validation
-    // Standard email regex + specific check for common providers as requested
+    // Standard email regex or simple username format
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!formData.email) {
-      newErrors.email = "Email is required";
-    } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
-    } else {
-      // Optional: Check for specific providers if "recognize" meant validation or suggestion
-      const domain = formData.email.split('@')[1];
-      const commonProviders = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
-      // We don't restrict, but we can validate format rigidly.
-    }
+      newErrors.email = "Username or Email is required";
+    } else if (!emailRegex.test(formData.email) && !/^[a-zA-Z0-9_]+$/.test(formData.email)) {
+      // Allow valid email OR alphanumeric usernames (like PTEC01_2026)
+      newErrors.email = "Please enter a valid email or username";
+    } 
 
     // Password Validation (Alphanumeric)
     // Must contain at least one letter and one number
@@ -157,17 +153,17 @@ export default function AuthPage() {
               )}
               
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Username or Email</Label>
                 <Input 
                   id="email" 
-                  type="email" 
-                  placeholder="name@example.com" 
+                  type="text" 
+                  placeholder="name@example.com or PTEC01_2026" 
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   className={errors.email ? "border-red-500" : ""}
                 />
                 {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
-                <p className="text-[10px] text-muted-foreground">We support Gmail, Yahoo, Outlook, etc.</p>
+                <p className="text-[10px] text-muted-foreground">Enter your email address or assigned student username</p>
               </div>
 
               <div className="space-y-2">
