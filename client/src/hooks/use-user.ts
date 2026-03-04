@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
 export function useUser() {
-  const [user, setUser] = useState<{ name: string; email: string; role?: 'student' | 'trainer'; plan?: 'free' | 'pro' | 'trade' } | null>(() => {
-    const saved = localStorage.getItem('mock_user');
+  const [user, setUser] = useState<{ name: string; email: string; role?: 'student' | 'trainer'; plan?: 'free' | 'pro' | 'trade'; sessionId?: string } | null>(() => {
+    const saved = sessionStorage.getItem('mock_user_session');
     if (!saved) return null;
     
     const parsed = JSON.parse(saved);
@@ -29,7 +29,7 @@ export function useUser() {
 
   useEffect(() => {
     const handleStorage = () => {
-      const saved = localStorage.getItem('mock_user');
+      const saved = sessionStorage.getItem('mock_user_session');
       if (!saved) {
         setUser(null);
         return;
@@ -67,18 +67,18 @@ export function useUser() {
   }, []);
 
   const login = (name: string, email: string, role: 'student' | 'trainer' = 'student', plan: 'free' | 'pro' | 'trade' = 'free') => {
-    const userData = { name, email, role, plan };
-    localStorage.setItem('mock_user', JSON.stringify(userData));
+    const sessionId = Math.random().toString(36).substring(2, 15);
+    const userData = { name, email, role, plan, sessionId };
+    sessionStorage.setItem('mock_user_session', JSON.stringify(userData));
     window.dispatchEvent(new Event('mock-login'));
   };
   
   const updatePlan = (plan: 'free' | 'pro' | 'trade') => {
-    const saved = localStorage.getItem('mock_user');
-    if (!saved) return;
+    const saved = sessionStorage.getItem('mock_user_session');
+    let userData = saved ? JSON.parse(saved) : { name: 'Guest', email: 'guest@example.com', role: 'student', sessionId: Math.random().toString(36).substring(2, 15) };
     
-    const userData = JSON.parse(saved);
     userData.plan = plan;
-    localStorage.setItem('mock_user', JSON.stringify(userData));
+    sessionStorage.setItem('mock_user_session', JSON.stringify(userData));
     
     // Update local state immediately as well
     setUser(userData);
@@ -86,7 +86,7 @@ export function useUser() {
   };
 
   const logout = () => {
-    localStorage.removeItem('mock_user');
+    sessionStorage.removeItem('mock_user_session');
     window.dispatchEvent(new Event('mock-login'));
   };
 

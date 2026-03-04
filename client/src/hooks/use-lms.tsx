@@ -52,31 +52,38 @@ export function LMSProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<UserLMSState>(defaultState);
   const [isLoaded, setIsLoaded] = useState(false);
   
-  // Load from LocalStorage on mount or user change
+  // Load from sessionStorage on mount or user change
   useEffect(() => {
-    // Use email as ID since the mock user object doesn't have a numeric ID
-    const userId = user?.email ? user.email : "guest";
-    const storageKey = `lms_state_${userId}`;
-    const stored = localStorage.getItem(storageKey);
+    let sessionId = user?.sessionId;
+    if (!sessionId) {
+      sessionId = sessionStorage.getItem('guest_session_id') || "";
+      if (!sessionId) {
+        sessionId = "guest-session-" + Math.random().toString(36).substr(2, 9);
+        sessionStorage.setItem('guest_session_id', sessionId);
+      }
+    }
+    
+    const storageKey = `lms_state_${sessionId}`;
+    const stored = sessionStorage.getItem(storageKey);
     
     if (stored) {
       try {
         setState(JSON.parse(stored));
       } catch (e) {
         console.error("Failed to parse LMS state", e);
-        setState({ ...defaultState, userId });
+        setState({ ...defaultState, userId: sessionId });
       }
     } else {
-      setState({ ...defaultState, userId });
+      setState({ ...defaultState, userId: sessionId });
     }
     setIsLoaded(true);
   }, [user]);
 
-  // Save to LocalStorage whenever state changes
+  // Save to sessionStorage whenever state changes
   useEffect(() => {
     if (!isLoaded) return;
     const storageKey = `lms_state_${state.userId}`;
-    localStorage.setItem(storageKey, JSON.stringify(state));
+    sessionStorage.setItem(storageKey, JSON.stringify(state));
   }, [state, isLoaded]);
 
   const unlockModule = (moduleId: ModuleId) => {
