@@ -112,7 +112,53 @@ export function PricingContent({ onClose }: { onClose?: () => void }) {
             <h3 className="text-lg font-bold text-blue-900">Are you a Cirrus Candidate?</h3>
             <p className="text-blue-700">Candidates who have applied through our recruitment partners get <span className="font-bold">Full Access for FREE</span>. Contact your trainer for an access code.</p>
          </div>
-         <Button className="bg-blue-600 hover:bg-blue-700 whitespace-nowrap">Enter Access Code</Button>
+         <Dialog>
+           <DialogTrigger asChild>
+             <Button className="bg-blue-600 hover:bg-blue-700 whitespace-nowrap">Enter Access Code</Button>
+           </DialogTrigger>
+           <DialogContent className="sm:max-w-md">
+             <DialogHeader>
+               <DialogTitle>Enter Access Code</DialogTitle>
+               <DialogDescription>
+                 Enter the access code provided by your Cirrus Recruitment trainer to unlock full course access.
+               </DialogDescription>
+             </DialogHeader>
+             <div className="flex flex-col gap-4 py-4">
+               <Input 
+                 id="access-code" 
+                 placeholder="e.g. PTEC01_2026" 
+                 className="text-center text-lg font-bold tracking-widest uppercase"
+               />
+             </div>
+             <DialogFooter className="sm:justify-between">
+               <Button variant="outline" onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))}>
+                 Cancel
+               </Button>
+               <Button 
+                 className="bg-blue-600 hover:bg-blue-700" 
+                 onClick={() => {
+                   const codeInput = document.getElementById('access-code') as HTMLInputElement;
+                   if (codeInput && codeInput.value.trim().toUpperCase() === 'PTEC01_2026') {
+                     toast({
+                       title: "Access Granted! 🎉",
+                       description: "Your account has been upgraded to Full Access.",
+                       className: "bg-green-50 border-green-200"
+                     });
+                     if (onClose) onClose();
+                   } else {
+                     toast({
+                       title: "Invalid Code",
+                       description: "Please check your access code and try again.",
+                       variant: "destructive"
+                     });
+                   }
+                 }}
+               >
+                 Verify Code
+               </Button>
+             </DialogFooter>
+           </DialogContent>
+         </Dialog>
       </div>
 
       <div className="text-center mt-12 mb-4">
