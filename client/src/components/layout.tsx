@@ -78,24 +78,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-6">
-            <NavigationMenu>
-              <NavigationMenuList>
-                {navItems.map((item) => (
-                  <NavigationMenuItem key={item.href}>
-                    <Link 
-                      href={item.href}
-                      className={cn(
-                        navigationMenuTriggerStyle(), 
-                        "bg-transparent hover:bg-accent hover:text-accent-foreground cursor-pointer text-sm font-medium transition-colors",
-                        location === item.href && "bg-accent text-accent-foreground font-medium"
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
+            {user && (
+              <NavigationMenu>
+                <NavigationMenuList>
+                  {navItems.map((item) => (
+                    <NavigationMenuItem key={item.href}>
+                      <Link 
+                        href={item.href}
+                        className={cn(
+                          navigationMenuTriggerStyle(), 
+                          "bg-transparent hover:bg-accent hover:text-accent-foreground cursor-pointer text-sm font-medium transition-colors",
+                          location === item.href && "bg-accent text-accent-foreground font-medium"
+                        )}
+                      >
+                        {item.label}
+                      </Link>
+                    </NavigationMenuItem>
+                  ))}
+                </NavigationMenuList>
+              </NavigationMenu>
+            )}
             
             <div className="flex items-center space-x-2 pl-4 border-l border-border">
               {user ? (
@@ -152,42 +154,44 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <nav className="flex flex-col gap-4 mt-8">
                   {user && (
-                    <div className="flex items-center gap-3 px-4 py-2 mb-2 bg-muted/50 rounded-lg">
-                      <Avatar className="h-10 w-10">
-                        <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} alt={user.name} />
-                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-medium">{user.name}</span>
-                        <span className="text-xs text-muted-foreground">{user.email}</span>
+                    <>
+                      <div className="flex items-center gap-3 px-4 py-2 mb-2 bg-muted/50 rounded-lg">
+                        <Avatar className="h-10 w-10">
+                          <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} alt={user.name} />
+                          <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium">{user.name}</span>
+                          <span className="text-xs text-muted-foreground">{user.email}</span>
+                        </div>
                       </div>
-                    </div>
+                      
+                      {navItems.map((item) => (
+                        <Link 
+                          key={item.href} 
+                          href={item.href}
+                          className={cn(
+                            "flex items-center space-x-2 text-lg font-medium px-4 py-2 rounded-md transition-colors cursor-pointer",
+                            location === item.href 
+                              ? "bg-primary/10 text-primary" 
+                              : "hover:bg-muted"
+                          )}
+                          onClick={() => setIsMobileOpen(false)}
+                        >
+                          <item.icon className="h-5 w-5" />
+                          <span>{item.label}</span>
+                        </Link>
+                      ))}
+                      <div className="h-px bg-border my-2" />
+                      
+                      <Button variant="destructive" className="w-full justify-start" onClick={logout}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Log out
+                      </Button>
+                    </>
                   )}
                   
-                  {navItems.map((item) => (
-                    <Link 
-                      key={item.href} 
-                      href={item.href}
-                      className={cn(
-                        "flex items-center space-x-2 text-lg font-medium px-4 py-2 rounded-md transition-colors cursor-pointer",
-                        location === item.href 
-                          ? "bg-primary/10 text-primary" 
-                          : "hover:bg-muted"
-                      )}
-                      onClick={() => setIsMobileOpen(false)}
-                    >
-                      <item.icon className="h-5 w-5" />
-                      <span>{item.label}</span>
-                    </Link>
-                  ))}
-                  <div className="h-px bg-border my-2" />
-                  
-                  {user ? (
-                    <Button variant="destructive" className="w-full justify-start" onClick={logout}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Log out
-                    </Button>
-                  ) : (
+                  {!user && (
                     <>
                       <Button asChild variant="outline" className="w-full justify-start">
                         <Link href="/auth?mode=login">Log in</Link>
