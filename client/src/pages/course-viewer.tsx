@@ -1167,7 +1167,8 @@ export default function CourseViewer() {
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
            {course.modules.map((module, mIdx) => {
              const isPlanLocked = (user?.plan === 'free' && mIdx > 0) || (user?.plan === 'free' && course.category === "Technical");
-             const isLocked = module.status === "locked" || isPlanLocked;
+             // Force unlock if the user's plan is pro (via access code)
+             const isLocked = (module.status === "locked" && user?.plan !== 'pro' && user?.plan !== 'trade') || isPlanLocked;
              const isExpanded = expandedModules[module.id];
              
              return (
@@ -1210,8 +1211,8 @@ export default function CourseViewer() {
                     <div className="divide-y">
                        {module.lessons.map((lesson, lIdx) => {
                          const isActive = activeLesson?.lesson.id === lesson.id;
-                         // Check if previous lesson is completed to unlock this one
-                         const isLessonLocked = lIdx > 0 && !module.lessons[lIdx - 1].isCompleted;
+                         // Check if previous lesson is completed to unlock this one (unless user is pro)
+                         const isLessonLocked = lIdx > 0 && !module.lessons[lIdx - 1].isCompleted && user?.plan !== 'pro' && user?.plan !== 'trade';
                          
                          return (
                            <div 

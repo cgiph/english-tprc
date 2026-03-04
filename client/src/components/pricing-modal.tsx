@@ -9,11 +9,13 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/hooks/use-user";
 
 export function PricingContent({ onClose }: { onClose?: () => void }) {
   const [isYearly, setIsYearly] = useState(false);
   const { toast } = useToast();
   const [_, setLocation] = useLocation();
+  const { updatePlan } = useUser();
 
   const plans = [
     {
@@ -139,6 +141,7 @@ export function PricingContent({ onClose }: { onClose?: () => void }) {
                  onClick={() => {
                    const codeInput = document.getElementById('access-code') as HTMLInputElement;
                    if (codeInput && codeInput.value.trim().toUpperCase() === 'PTEC01_2026') {
+                     updatePlan('pro');
                      toast({
                        title: "Access Granted! 🎉",
                        description: "Your account has been upgraded to Full Access.",

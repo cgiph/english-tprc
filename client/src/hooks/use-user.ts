@@ -73,9 +73,15 @@ export function useUser() {
   };
   
   const updatePlan = (plan: 'free' | 'pro' | 'trade') => {
-    if (!user) return;
-    const userData = { ...user, plan };
+    const saved = localStorage.getItem('mock_user');
+    if (!saved) return;
+    
+    const userData = JSON.parse(saved);
+    userData.plan = plan;
     localStorage.setItem('mock_user', JSON.stringify(userData));
+    
+    // Update local state immediately as well
+    setUser(userData);
     window.dispatchEvent(new Event('mock-login'));
   };
 
