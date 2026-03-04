@@ -33,15 +33,20 @@ In the Learning Hub, you will see your "Vision Board" tracking your progress at 
 
 ---
 
-## 4. Using the Course Interface & Unlocking Modules
+## 4. Unlocking the Full Course & Navigating the Syllabus
 
-Once inside the course viewer:
+When you first open the course, you may notice that some advanced modules appear locked. To gain full access:
+
+1. **Enter Your Access Code:** Click on any locked module in the syllabus. A pricing modal will appear. Look for the blue section that says "Are you a Cirrus Candidate?" and click **Enter Access Code**.
+2. **Use Your Code:** Type in your assigned student access code: `PTEC01_2026`
+3. **Verify:** Click "Verify Code". You will receive a success message confirming your account is upgraded to Full Access.
+
+Once unlocked, you must still follow the learning path:
 - **Left Sidebar (Modules & Lessons):** You will see all the modules (e.g., Module 1: Basic Grammar Rules, Module 2: Speaking).
-- **Unlocking Modules:** Modules must be completed in order. To unlock the next module, you must complete **all** lessons in the current module and pass their associated quizzes. 
-  - *If a module appears "locked" (showing a padlock icon), it means you need to finish the previous module's lessons first. There are no payment or subscription gates blocking your progress—simply complete the required lessons and quizzes!*
+- **Progressing Through Lessons:** Even with full access, it is highly recommended to complete modules in order to ensure you understand foundational concepts before tackling advanced strategies.
 - **Main Content Area:** This is where you will read lesson materials, watch tutorial videos, or practice questions.
-- **Marking as Complete:** After you finish reading or watching a lesson, look for the green **Mark as Complete** button at the bottom right. You must click this to record your progress!
-- **End-of-Lesson Quizzes:** Most lessons will have a short, randomized quiz right after you click "Mark as Complete." You must answer these correctly to finish the lesson and proceed.
+- **Marking as Complete:** After you finish reading or watching a lesson, look for the green **Mark as Complete** button at the bottom right. **You must click this to record your progress!**
+- **End-of-Lesson Quizzes:** Most lessons will have a short, randomized quiz right after you click "Mark as Complete." You must answer these correctly to finish the lesson and officially mark it as passed in your syllabus.
 
 ---
 
