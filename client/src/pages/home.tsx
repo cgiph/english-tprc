@@ -2,12 +2,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import heroImage from "@/assets/generated_images/filipino_diverse_skilled_workers_australia.png";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { ArrowRight, CheckCircle2, Star, TrendingUp, Users, Mic, BookOpen, Headphones, PenTool, BookA } from "lucide-react";
 import { MOCK_REVIEWS, MOCK_RESOURCES } from "@/lib/mock-data";
 import { analytics } from "@/lib/analytics";
+import { useUser } from "@/hooks/use-user";
 
 export default function Home() {
+  const { user } = useUser();
+  const [, setLocation] = useLocation();
+
+  const handleProtectedAction = (e: React.MouseEvent, path: string, trackFn?: () => void) => {
+    e.preventDefault();
+    if (!user) {
+      setLocation("/auth?mode=login");
+    } else {
+      if (trackFn) trackFn();
+      setLocation(path);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-16 pb-16">
       {/* Hero Section */}
@@ -32,10 +46,10 @@ export default function Home() {
             <p className="text-xl text-white/90 max-w-lg leading-relaxed font-light">A shared hub for skilled workers, with practical information and guidance to help you live and work confidently in Australia.</p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4 mt-12 mb-8">
               <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold text-lg h-14 px-8 shadow-xl shadow-secondary/20">
-                <Link href="/reviews">Read Reviews</Link>
+                <Link href={user ? "/reviews" : "/auth?mode=login"}>Read Reviews</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 font-medium text-lg h-14 px-8">
-                <Link href="/lms" onClick={() => analytics.trackExploreCourses()}>Explore Courses</Link>
+                <Link href={user ? "/lms" : "/auth?mode=login"} onClick={() => user && analytics.trackExploreCourses()}>Explore Courses</Link>
               </Button>
             </div>
             
@@ -73,7 +87,7 @@ export default function Home() {
                     href: "/practice/writing"
                   }
                 ].map((module, i) => (
-                  <Link key={i} href={module.href}>
+                  <Link key={i} href={user ? module.href : "/auth?mode=login"}>
                     <div className={`p-4 rounded-xl border border-white/20 backdrop-blur-sm transition-all duration-300 flex flex-col items-center justify-center gap-2 cursor-pointer ${module.color} ${module.hoverColor}`}>
                       <module.icon className="h-6 w-6" />
                       <span className="font-medium text-sm text-white">{module.title}</span>
@@ -214,7 +228,7 @@ export default function Home() {
               </p>
             </div>
             <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 h-12 px-8 font-semibold shadow-lg">
-              <Link href="/resources">Browse Library</Link>
+              <Link href={user ? "/resources" : "/auth?mode=login"}>Browse Library</Link>
             </Button>
           </div>
         </div>

@@ -233,19 +233,33 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <h3 className="font-serif font-semibold mb-4 text-foreground">Platform</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/reviews" className="hover:text-primary transition-colors">Exam Reviews</Link></li>
-                <li><Link href="/resources" className="hover:text-primary transition-colors">Study Materials</Link></li>
-                <li><Link href="/practice/speaking" className="hover:text-primary transition-colors">Speaking Practice</Link></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Success Stories</a></li>
+                <li>
+                  {user ? <Link href="/reviews" className="hover:text-primary transition-colors">Exam Reviews</Link> : <span className="cursor-not-allowed opacity-50">Exam Reviews</span>}
+                </li>
+                <li>
+                  {user ? <Link href="/resources" className="hover:text-primary transition-colors">Study Materials</Link> : <span className="cursor-not-allowed opacity-50">Study Materials</span>}
+                </li>
+                <li>
+                  {user ? <Link href="/practice/speaking" className="hover:text-primary transition-colors">Speaking Practice</Link> : <span className="cursor-not-allowed opacity-50">Speaking Practice</span>}
+                </li>
+                <li>
+                  {user ? <a href="#" className="hover:text-primary transition-colors">Success Stories</a> : <span className="cursor-not-allowed opacity-50">Success Stories</span>}
+                </li>
               </ul>
             </div>
 
             <div>
               <h3 className="font-serif font-semibold mb-4 text-foreground">Support</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
-                <li><Link href="/exam-policies" className="hover:text-primary transition-colors">Exam Policies</Link></li>
-                <li><Link href="/faq" className="hover:text-primary transition-colors">Contact Us</Link></li>
+                <li>
+                  {user ? <Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link> : <span className="cursor-not-allowed opacity-50">FAQ</span>}
+                </li>
+                <li>
+                  {user ? <Link href="/exam-policies" className="hover:text-primary transition-colors">Exam Policies</Link> : <span className="cursor-not-allowed opacity-50">Exam Policies</span>}
+                </li>
+                <li>
+                  {user ? <Link href="/faq" className="hover:text-primary transition-colors">Contact Us</Link> : <span className="cursor-not-allowed opacity-50">Contact Us</span>}
+                </li>
               </ul>
             </div>
 
