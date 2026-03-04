@@ -836,7 +836,9 @@ export default function CourseViewer() {
             // Re-open quiz modal if it's a quiz type
             const module = course.modules.find(m => m.id === activeLesson.moduleId);
             if (module) {
-                setActiveQuizModule({ id: module.id, title: module.title });
+                // Determine the correct quiz ID, using the lesson ID as a fallback if not explicitly defined
+                const quizIdToUse = activeLesson.lesson.quizId || activeLesson.lesson.id;
+                setActiveQuizModule({ id: module.id, title: module.title, quizId: quizIdToUse });
                 setQuizOpen(true);
             }
         } else if (activeLesson.lesson.quizId) {

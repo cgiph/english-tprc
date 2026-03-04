@@ -2012,6 +2012,7 @@ export const COURSES: Course[] = [
             title: "Strategy: Read Aloud", 
             type: "video", 
             duration: "20 min", 
+            quizId: "pte-m1-quiz",
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/uNGb7bDtdW0",
             content: "<h3>Read Aloud Tips</h3><ul><li>Speak at a natural pace.</li><li>Do not correct yourself if you make a mistake; keep going.</li><li>Pause slightly at punctuation marks.</li></ul>"
@@ -2021,6 +2022,7 @@ export const COURSES: Course[] = [
             title: "Technique: Repeat Sentence", 
             type: "reading", 
             duration: "25 min", 
+            quizId: "pte-m1-quiz",
             isCompleted: false,
             content: `
               <div class="space-y-6">
@@ -2045,6 +2047,7 @@ export const COURSES: Course[] = [
              title: "Describe Image: The Fluency First Strategy", 
              type: "reading", 
              duration: "30 min", 
+             quizId: "pte-m1-quiz",
              isCompleted: false,
              content: `
 <div class="space-y-6">
@@ -2098,6 +2101,7 @@ export const COURSES: Course[] = [
             title: "Speech Analysis Lab", 
             type: "reading", 
             duration: "20 min", 
+            quizId: "pte-m1-quiz",
             isCompleted: false,
             content: `
 <div class="space-y-6">
@@ -2139,6 +2143,7 @@ export const COURSES: Course[] = [
             title: "Summarize Group Discussion", 
             type: "video", 
             duration: "15 min", 
+            quizId: "pte-m1-quiz",
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/-TWLcLqfC6Y"
           },
@@ -2147,6 +2152,7 @@ export const COURSES: Course[] = [
             title: "Respond to a Situation", 
             type: "video", 
             duration: "15 min", 
+            quizId: "pte-m1-quiz",
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/YoV25DFFADs"
           },
@@ -2155,6 +2161,7 @@ export const COURSES: Course[] = [
             title: "Retell Lecture", 
             type: "video", 
             duration: "15 min", 
+            quizId: "pte-m1-quiz",
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/GmofpAGRFvE"
           },
@@ -2173,6 +2180,7 @@ export const COURSES: Course[] = [
              title: "Multiple Choice Strategies", 
              type: "video", 
              duration: "25 min", 
+             quizId: "pte-m2-quiz",
              isCompleted: false,
              videoUrl: "https://www.youtube.com/embed/bhUr3gGMmi4" 
            },
@@ -2181,6 +2189,7 @@ export const COURSES: Course[] = [
              title: "Fill in the Blanks (Reading & Writing)", 
              type: "reading", 
              duration: "30 min", 
+             quizId: "pte-m2-quiz",
              isCompleted: false,
              content: `
               <div class="space-y-6">
@@ -2287,6 +2296,7 @@ export const COURSES: Course[] = [
             title: "Summarize Written Text: The One-Sentence Rule", 
             type: "reading", 
             duration: "20 min", 
+            quizId: "pte-m3-quiz",
             isCompleted: false,
             content: `
 <div class="space-y-6">
@@ -2318,6 +2328,7 @@ export const COURSES: Course[] = [
             title: "Lab: SWT Interactive Practice", 
             type: "reading", 
             duration: "20 min", 
+            quizId: "pte-m3-quiz",
             isCompleted: false,
             content: "<!-- SWT Practice Lab -->"
           },
@@ -2326,6 +2337,7 @@ export const COURSES: Course[] = [
             title: "Summarize Spoken Text & Retell Lecture", 
             type: "reading", 
             duration: "25 min", 
+            quizId: "pte-m3-quiz",
             isCompleted: false,
             content: `
 <div class="space-y-8">
@@ -2433,6 +2445,7 @@ export const COURSES: Course[] = [
              title: "Overview: The PTE Listening Section",
              type: "reading",
              duration: "10 min",
+             quizId: "pte-listening-quiz",
              isCompleted: false,
              content: `
                <div class="space-y-6">
@@ -2506,6 +2519,7 @@ export const COURSES: Course[] = [
             title: "Listening: Multiple Choice Multiple Answers", 
             type: "video", 
             duration: "15 min", 
+            quizId: "pte-listening-quiz",
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/m1c3X4YtexI"
           },
@@ -2514,6 +2528,7 @@ export const COURSES: Course[] = [
             title: "Listening: Select Missing Word", 
             type: "video", 
             duration: "15 min", 
+            quizId: "pte-listening-quiz",
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/uZx4fpHT_Dw"
           },
@@ -2522,6 +2537,7 @@ export const COURSES: Course[] = [
             title: "Listening: Highlight Incorrect Words", 
             type: "video", 
             duration: "15 min", 
+            quizId: "pte-listening-quiz",
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/1xraH11zCBI"
           },
@@ -2530,6 +2546,7 @@ export const COURSES: Course[] = [
             title: "Listening: Fill in the Blanks", 
             type: "video", 
             duration: "15 min", 
+            quizId: "pte-listening-quiz",
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/UIrtM-hSJcA"
           },
@@ -2538,6 +2555,7 @@ export const COURSES: Course[] = [
             title: "Writing: Write from Dictation", 
             type: "video", 
             duration: "15 min", 
+            quizId: "pte-listening-quiz",
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/9edG9TRte8o"
           },
