@@ -42,24 +42,28 @@ export default function AuthPage() {
     const newErrors: Record<string, string> = {};
     
     // Email Validation
-    // Standard email regex or simple username format
+    // Standard email regex or simple username format (allowing hyphens, underscores, and letters/numbers)
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!formData.email) {
       newErrors.email = "Username or Email is required";
-    } else if (!emailRegex.test(formData.email) && !/^[a-zA-Z0-9_]+$/.test(formData.email)) {
-      // Allow valid email OR alphanumeric usernames (like PTEC01_2026)
+    } else if (!emailRegex.test(formData.email) && !/^[a-zA-Z0-9_-]+$/.test(formData.email)) {
+      // Allow valid email OR alphanumeric usernames (like PTEC01_2026 or with hyphens)
       newErrors.email = "Please enter a valid email or username";
     } 
 
     // Password Validation (Alphanumeric)
     // Must contain at least one letter and one number
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/;
+    // We'll relax the strict alphanumeric-only check so users can use special chars if they want,
+    // but still require at least one letter and one number.
+    const hasLetter = /[a-zA-Z]/.test(formData.password);
+    const hasNumber = /[0-9]/.test(formData.password);
+    
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 8) {
       newErrors.password = "Password must be at least 8 characters";
-    } else if (!passwordRegex.test(formData.password)) {
-      newErrors.password = "Password must be alphanumeric (contain both letters and numbers)";
+    } else if (!hasLetter || !hasNumber) {
+      newErrors.password = "Password must contain both letters and numbers";
     }
 
     // Name Validation (Register only)
