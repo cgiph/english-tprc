@@ -56,7 +56,7 @@ const QUESTIONS: Question[] = [
   }
 ];
 
-export function NounPractice({ onComplete }: { onComplete: () => void }) {
+export function NounPractice({ onComplete }: { onComplete: (completed: boolean) => void }) {
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -90,7 +90,7 @@ export function NounPractice({ onComplete }: { onComplete: () => void }) {
 
   const nextQuestion = () => {
     if (isLastQuestion) {
-      onComplete();
+      onComplete(true);
     } else {
       setCurrentQIndex(prev => prev + 1);
       setSelectedIndices([]);

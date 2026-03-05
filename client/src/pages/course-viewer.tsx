@@ -830,8 +830,20 @@ export default function CourseViewer() {
     }
   }, [activeLesson?.lesson.id]);
 
+  const [nounPracticeCompleted, setNounPracticeCompleted] = useState(false);
+
   const handleMarkComplete = () => {
     if (activeLesson) {
+        if (activeLesson.lesson.id === "l3-bonus" && !nounPracticeCompleted) {
+            // Require interaction for Noun Identification practice
+            toast({
+                variant: "destructive",
+                title: "Practice Incomplete",
+                description: "You must complete the interactive exercise before continuing."
+            });
+            return;
+        }
+
         if (activeLesson.lesson.type === "quiz") {
             // Re-open quiz modal if it's a quiz type
             const module = course.modules.find(m => m.id === activeLesson.moduleId);
@@ -1026,7 +1038,7 @@ export default function CourseViewer() {
                     </div>
                  ) : activeLesson.lesson.id === "l3-bonus" ? (
                     <div className="p-8 max-w-6xl mx-auto w-full">
-                       <NounPractice onComplete={handleMarkComplete} />
+                       <NounPractice onComplete={(completed) => setNounPracticeCompleted(completed)} />
                     </div>
                  ) : (
                     <div className="w-full max-w-6xl mx-auto">
