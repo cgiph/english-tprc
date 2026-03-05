@@ -27,25 +27,25 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       id: "l0q1",
       text: "Which of these is a Noun?",
       options: ["Quickly", "School", "Run", "Beautiful"],
-      correctAnswer: 2
+      correctAnswer: 1
     },
     {
       id: "l0q2",
       text: "Which word is a Verb?",
       options: ["Apple", "Blue", "Jump", "Happy"],
-      correctAnswer: 3
+      correctAnswer: 2
     },
     {
       id: "l0q3",
       text: "Select the Adjective in this sentence: 'The red car is fast.'",
       options: ["Car", "Is", "Red", "The"],
-      correctAnswer: 3
+      correctAnswer: 2
     },
     {
       id: "l0q4",
       text: "What part of speech is RUN? 'She runs every morning.'",
       options: ["Noun", "Verb", "Adverb", "Pronoun"],
-      correctAnswer: 2
+      correctAnswer: 1
     }
   ],
   "l1-quiz": [
@@ -71,14 +71,15 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       id: "l1q4",
       text: "What part of speech is SLOWLY? We walked slowly to the park.",
       options: ["Verb", "Adverb", "Pronoun", "Adjective"],
-      correctAnswer: 2
+      correctAnswer: 1
     },
     {
       id: "l1q5",
       text: "Which sentence is correct?",
       options: ["She is my daughter.", "He is my daughter.", "They is my daughter", "It is my daughter."],
-      correctAnswer: 1
-   ],
+      correctAnswer: 0
+    }
+  ],
   "m1": [
     {
       id: "q1",
@@ -108,7 +109,7 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       id: "q5",
       text: "Select the plural form of 'child'.",
       options: ["childs", "children", "childrens", "child's"],
-      correctAnswer: 2
+      correctAnswer: 1
     }
   ],
   "m2": [
