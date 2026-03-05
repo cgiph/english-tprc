@@ -27,19 +27,19 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       id: "l0q1",
       text: "Which of these is a Noun?",
       options: ["Quickly", "School", "Run", "Beautiful"],
-      correctAnswer: 1
+      correctAnswer: 2
     },
     {
       id: "l0q2",
       text: "Which word is a Verb?",
       options: ["Apple", "Blue", "Jump", "Happy"],
-      correctAnswer: 2
+      correctAnswer: 3
     },
     {
       id: "l0q3",
       text: "Select the Adjective in this sentence: 'The red car is fast.'",
       options: ["Car", "Is", "Red", "The"],
-      correctAnswer: 2
+      correctAnswer: 3
     },
     {
       id: "l0q4",
