@@ -77,9 +77,8 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       id: "l1q5",
       text: "Which sentence is correct?",
       options: ["She is my daughter.", "He is my daughter.", "They is my daughter", "It is my daughter."],
-      correctAnswer: 0
-    }
-  ],
+      correctAnswer: 1
+   ],
   "m1": [
     {
       id: "q1",
