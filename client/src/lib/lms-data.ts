@@ -411,6 +411,7 @@ export const COURSES: Course[] = [
             duration: "15 min", 
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/v9fCKTwytJA",
+            quizId: "l3-vid-quiz",
             resources: [
               { title: "Sentence Structure Cheat Sheet.pdf", type: "pdf" },
               { title: "50 Common English Sentences.pdf", type: "pdf" },

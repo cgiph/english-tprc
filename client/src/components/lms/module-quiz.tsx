@@ -80,6 +80,39 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 0
     }
   ],
+  "l3-vid-quiz": [
+    {
+      id: "l3q1",
+      text: "Parts of speech tell us how a word is used in a sentence.",
+      options: ["TRUE", "FALSE"],
+      correctAnswer: 0
+    },
+    {
+      id: "l3q2",
+      text: "They are also called 'world class.'",
+      options: ["TRUE", "FALSE"],
+      correctAnswer: 1,
+      rationale: "They are also called 'word classes.'"
+    },
+    {
+      id: "l3q3",
+      text: "An example of a conjunction is 'and' or 'but'.",
+      options: ["TRUE", "FALSE"],
+      correctAnswer: 0
+    },
+    {
+      id: "l3q4",
+      text: "'She' is the pronoun for female.",
+      options: ["TRUE", "FALSE"],
+      correctAnswer: 0
+    },
+    {
+      id: "l3q5",
+      text: "An adjective describes a noun, while an adverb describes a verb.",
+      options: ["TRUE", "FALSE"],
+      correctAnswer: 0
+    }
+  ],
   "m1": [
     {
       id: "q1",
