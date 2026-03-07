@@ -170,6 +170,47 @@ export const COURSES: Course[] = [
             content: ""
           }
         ]
+      },
+      {
+        id: "m3",
+        title: "Module 3: Question-type Mastery",
+        description: "Master True/False/Not Given, Fill-in-the-Gaps, and Matching Information with practical exercises.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          {
+            id: "l3-reading",
+            title: "Reading: The Rise of Vertical Farming",
+            type: "reading",
+            duration: "10 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-blue-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">Reading: The Rise of Vertical Farming</h1>
+                   <p class="text-blue-200 text-lg">Read the text below to prepare for your question-type mastery practice.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 text-slate-800 leading-relaxed text-lg space-y-6">
+                  <p>
+                    The traditional method of high-intensity agriculture consumes vast amounts of water and relies heavily on favorable weather conditions. However, a new approach known as vertical farming—growing crops in stacked layers within controlled indoor environments—is gaining traction. Proponents argue that this method could drastically reduce the carbon footprint associated with transporting produce from rural farms to urban centers.
+                  </p>
+                  <p>
+                    Furthermore, by utilizing advanced hydroponic systems, these facilities can recycle nearly 95% of the water used, a significant improvement over conventional soil-based farming which often results in wasteful runoff. While the initial setup costs for such high-tech infrastructure are substantial, the ability to harvest year-round regardless of the season offers a reliable solution to food security in a changing climate.
+                  </p>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: "l3-question-mastery-quiz",
+            title: "Question-type Mastery Quiz",
+            type: "assignment",
+            duration: "20 min",
+            isCompleted: false,
+            content: ""
+          }
+        ]
       }
     ]
   },
