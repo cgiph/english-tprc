@@ -64,6 +64,72 @@ export interface Course {
 // Mock Data
 export const COURSES: Course[] = [
   {
+    id: "ielts-reading",
+    title: "IELTS Reading: Band 5 to 6",
+    category: "English",
+    level: "B2",
+    description: "Improve your IELTS Reading band score from 5 to 6 with targeted scanning and vocabulary strategies.",
+    thumbnail: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800&q=80",
+    totalModules: 1,
+    completedModules: 0,
+    modules: [
+      {
+        id: "m1",
+        title: "Module 1: Build Core Skills (Scanning + Vocabulary Paraphrasing)",
+        description: "Improve your IELTS Reading band score from 5 to 6 by learning to scan effectively and paraphrase vocabulary.",
+        status: "unlocked",
+        progress: 0,
+        lessons: [
+          {
+            id: "l0-reading",
+            title: "Reading Practice: Scanning & Paraphrasing",
+            type: "reading",
+            duration: "30 min",
+            isCompleted: false,
+            quizId: "ielts-reading-q1",
+            content: `
+              <div class="space-y-8">
+                <div class="bg-blue-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">Reading Practice: Scanning & Paraphrasing</h1>
+                   <p class="text-blue-200 text-lg">Read the article below and prepare to locate information quickly.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 text-slate-800 leading-relaxed text-lg space-y-6">
+                  <p>
+                    President Donald Trump is increasing his efforts to acquire Greenland. On Saturday, he announced he would impose 10 per cent tariffs on Denmark, Germany, Norway, Sweden, the UK and other countries if they did not "go along with Greenland". These countries recently sent officials to Greenland.
+                  </p>
+                  <p>
+                    The tariffs will start on the first of February. President Trump suggested the levy would increase to 25 per cent in June, "due and payable until such time as a deal is reached for the complete and total purchase of Greenland".
+                  </p>
+                  <p>
+                    UK Prime Minister Sir Keir Starmer responded to Trump's plans. He said: "Applying tariffs on allies for pursuing the collective security of NATO is completely wrong."
+                  </p>
+                  <p>
+                    The acquisition of Greenland has been a high priority for President Trump since he took office again last year. He stressed that "the national security of the United States and the world at large is at stake" because "China and Russia want Greenland".
+                  </p>
+                  <p>
+                    He added: "It is imperative that, in order to protect global peace and security, strong measures be taken so that this potentially perilous situation ends quickly." President Trump said Greenland was a key component of the USA's Golden Dome missile defence system.
+                  </p>
+                  <p>
+                    Thousands of people in Greenland have protested against Trump's plans. In the capital city of Nuuk, protesters held signs reading "Greenland is not for sale".
+                  </p>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: "l1-scanning-quiz",
+            title: "Scanning Practice: Find the Info",
+            type: "assignment",
+            duration: "5 min",
+            isCompleted: false,
+            content: ""
+          }
+        ]
+      }
+    ]
+  },
+  {
     id: "eng-a1",
     title: "Foundational English (A1)",
     category: "English",
