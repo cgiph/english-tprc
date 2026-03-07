@@ -24,6 +24,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { NounPractice } from "@/components/lms/noun-practice";
 import { IeltsReadingPractice } from "@/components/lms/ielts-reading-practice";
+import { IeltsParaphrasePractice } from "@/components/lms/ielts-paraphrase-practice";
 import { GrammarGuard } from "@/components/lms/grammar-guard";
 import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
 import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
@@ -833,6 +834,7 @@ export default function CourseViewer() {
 
   const [nounPracticeCompleted, setNounPracticeCompleted] = useState(false);
   const [ieltsReadingCompleted, setIeltsReadingCompleted] = useState(false);
+  const [ieltsParaphraseCompleted, setIeltsParaphraseCompleted] = useState(false);
 
   const handleMarkComplete = () => {
     if (activeLesson) {
@@ -852,6 +854,16 @@ export default function CourseViewer() {
                 variant: "destructive",
                 title: "Practice Incomplete",
                 description: "You must complete the scanning quiz before continuing."
+            });
+            return;
+        }
+
+        if (activeLesson.lesson.id === "l2-paraphrase-quiz" && !ieltsParaphraseCompleted) {
+            // Require interaction for IELTS Paraphrase practice
+            toast({
+                variant: "destructive",
+                title: "Practice Incomplete",
+                description: "You must complete the paraphrase exercise before continuing."
             });
             return;
         }
@@ -1055,6 +1067,10 @@ export default function CourseViewer() {
                  ) : activeLesson.lesson.id === "l1-scanning-quiz" ? (
                     <div className="p-8 max-w-6xl mx-auto w-full">
                        <IeltsReadingPractice onComplete={(completed) => setIeltsReadingCompleted(completed)} />
+                    </div>
+                 ) : activeLesson.lesson.id === "l2-paraphrase-quiz" ? (
+                    <div className="p-8 max-w-6xl mx-auto w-full">
+                       <IeltsParaphrasePractice onComplete={(completed) => setIeltsParaphraseCompleted(completed)} />
                     </div>
                  ) : (
                     <div className="w-full max-w-6xl mx-auto">

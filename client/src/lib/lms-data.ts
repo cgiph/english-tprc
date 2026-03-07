@@ -126,6 +126,50 @@ export const COURSES: Course[] = [
             content: ""
           }
         ]
+      },
+      {
+        id: "m2",
+        title: "Module 2: Paraphrase Training",
+        description: "Enhance your True/False/Not Given and Matching Headings skills by mastering synonym substitution.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          {
+            id: "l2-reading",
+            title: "Reading: Ageing and Lifespan",
+            type: "reading",
+            duration: "10 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-blue-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">Reading: Ageing and Lifespan</h1>
+                   <p class="text-blue-200 text-lg">Read the passage below carefully to prepare for the paraphrase training.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 text-slate-800 leading-relaxed text-lg space-y-6">
+                  <p>
+                    A new study suggests that the number of children a woman has might affect her rate of ageing and her lifespan. Research from the University of Helsinki in Finland found that women who had five children or more, or no children, aged faster than those who had a small number of kids. Researcher Mikaela Hukkanen said: "From an evolutionary biology perspective, organisms have limited resources, such as time and energy. When a large amount of energy is invested in reproduction, it is taken away from bodily maintenance and repair mechanisms, which could reduce lifespan." She added that the finding of shorter lifespans of women who never gave birth was "surprising".
+                  </p>
+                  <p>
+                    The researchers used historical data in their analysis of parenthood and ageing. They analysed the health data on 14,836 women. Researchers examined DNA data and blood samples, then modelled the effects of reproduction on women's rates of ageing and longevity.
+                  </p>
+                  <p>
+                    Ms Hukkanen postulated that having a smaller number of pregnancies could have favourable effects on a mother's health. One benefit is a possible lower risk of breast and ovarian cancer. However, the "wear and tear" and physical demands of multiple childbirths can negate this lowered risk. Another factor that could increase longevity is the increased social support a mother receives from the state for having children.
+                  </p>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: "l2-paraphrase-quiz",
+            title: "Paraphrase Training Quiz",
+            type: "assignment",
+            duration: "15 min",
+            isCompleted: false,
+            content: ""
+          }
+        ]
       }
     ]
   },
