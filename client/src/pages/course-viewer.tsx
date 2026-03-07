@@ -27,6 +27,7 @@ import { IeltsReadingPractice } from "@/components/lms/ielts-reading-practice";
 import { IeltsParaphrasePractice } from "@/components/lms/ielts-paraphrase-practice";
 import { IeltsQuestionMastery } from "@/components/lms/ielts-question-mastery";
 import { IeltsTimedPractice } from "@/components/lms/ielts-timed-practice";
+import { IeltsReadingModule4Quiz } from "@/components/lms/ielts-reading-module-4-quiz";
 import { GrammarGuard } from "@/components/lms/grammar-guard";
 import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
 import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
@@ -839,6 +840,7 @@ export default function CourseViewer() {
   const [ieltsParaphraseCompleted, setIeltsParaphraseCompleted] = useState(false);
   const [ieltsMasteryCompleted, setIeltsMasteryCompleted] = useState(false);
   const [ieltsTimedCompleted, setIeltsTimedCompleted] = useState(false);
+  const [ieltsMod4QuizCompleted, setIeltsMod4QuizCompleted] = useState(false);
 
   const handleMarkComplete = () => {
     if (activeLesson) {
@@ -887,7 +889,17 @@ export default function CourseViewer() {
             toast({
                 variant: "destructive",
                 title: "Practice Incomplete",
-                description: "You must complete all 6 paragraphs of the timed practice before continuing."
+                description: "You must complete all paragraphs of the timed practice before continuing."
+            });
+            return;
+        }
+
+        if (activeLesson.lesson.id === "l4-quiz" && !ieltsMod4QuizCompleted) {
+            // Require interaction for IELTS Mod 4 Quiz
+            toast({
+                variant: "destructive",
+                title: "Practice Incomplete",
+                description: "You must complete all parts of the quiz before continuing."
             });
             return;
         }
@@ -1103,6 +1115,10 @@ export default function CourseViewer() {
                  ) : activeLesson.lesson.id === "l4-timed-practice" ? (
                     <div className="p-8 max-w-6xl mx-auto w-full">
                        <IeltsTimedPractice onComplete={(completed) => setIeltsTimedCompleted(completed)} />
+                    </div>
+                 ) : activeLesson.lesson.id === "l4-quiz" ? (
+                    <div className="p-8 max-w-6xl mx-auto w-full">
+                       <IeltsReadingModule4Quiz onComplete={(completed) => setIeltsMod4QuizCompleted(completed)} />
                     </div>
                  ) : (
                     <div className="w-full max-w-6xl mx-auto">

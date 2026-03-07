@@ -85,6 +85,17 @@ const PARAGRAPHS: ParagraphData[] = [
             { word: "Substantial", definition: "large" },
             { word: "Outweigh", definition: "be greater than" },
         ]
+    },
+    {
+        id: "p7",
+        title: "Paragraph 7: Public Perception and the Future",
+        text: "Looking to the future, the success of urban rewilding may depend less on ecological science and more on public perception. Cities will need to engage with residents, explaining the purpose of rewilding projects and addressing misconceptions. If communities can learn to see long grass not as neglect but as habitat, and if they can accept that some wildlife is not a threat but a sign of ecological health, rewilding may become a defining feature of sustainable urban living in the 21st century.",
+        vocabulary: [
+            { word: "Perception", definition: "how people see something" },
+            { word: "Misconceptions", definition: "incorrect beliefs" },
+            { word: "Habitat", definition: "natural home of an organism" },
+            { word: "Sustainable", definition: "able to continue long-term" },
+        ]
     }
 ];
 
