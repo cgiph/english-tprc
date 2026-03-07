@@ -211,6 +211,23 @@ export const COURSES: Course[] = [
             content: ""
           }
         ]
+      },
+      {
+        id: "m4",
+        title: "Module 4: Timed Reading Practice",
+        description: "Improve your reading speed and vocabulary comprehension under timed conditions.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          {
+            id: "l4-timed-practice",
+            title: "Urban Rewilding: 6-Part Timed Reading",
+            type: "assignment",
+            duration: "15 min",
+            isCompleted: false,
+            content: ""
+          }
+        ]
       }
     ]
   },
