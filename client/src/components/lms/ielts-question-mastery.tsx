@@ -175,7 +175,7 @@ export function IeltsQuestionMastery({ onComplete }: { onComplete: (completed: b
              </div>
              
              <div className="space-y-4">
-                 <Label htmlFor="match7" className="text-base text-slate-700">Which paragraph (if there were more) would contain the following? <br/><br/><strong>(7) A comparison of water efficiency between two farming techniques.</strong></p>
+                 <Label htmlFor="match7" className="text-base text-slate-700">Which paragraph (if there were more) would contain the following? <br/><br/><strong>(7) A comparison of water efficiency between two farming techniques.</strong></Label>
                  <Input id="match7" placeholder="Type your answer here..." className="max-w-md border-slate-300" disabled={hasSubmitted} value={match7} onChange={(e) => setMatch7(e.target.value)} />
                  
                  {hasSubmitted && (
