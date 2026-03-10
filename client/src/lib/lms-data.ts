@@ -86,7 +86,6 @@ export const COURSES: Course[] = [
             type: "reading",
             duration: "30 min",
             isCompleted: false,
-            quizId: "ielts-reading-q1",
             content: `
               <div class="space-y-8">
                 <div class="bg-blue-900 text-white p-8 rounded-xl shadow-xl">
