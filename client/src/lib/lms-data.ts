@@ -119,9 +119,9 @@ export const COURSES: Course[] = [
           },
           {
             id: "l1-scanning-quiz",
-            title: "Scanning Practice: Find the Info",
+            title: "Paraphrase Training",
             type: "assignment",
-            duration: "5 min",
+            duration: "10 min",
             isCompleted: false,
             content: ""
           }
