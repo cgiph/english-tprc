@@ -859,7 +859,7 @@ export default function CourseViewer() {
             toast({
                 variant: "destructive",
                 title: "Practice Incomplete",
-                description: "You must complete the scanning quiz before continuing."
+                description: "You must complete the paraphrase training before continuing."
             });
             return;
         }
@@ -919,6 +919,32 @@ export default function CourseViewer() {
         } else {
             completeLesson(activeLesson.moduleId, activeLesson.lesson.id);
             analytics.trackLessonComplete(activeLesson.lesson.id, activeLesson.lesson.title);
+            
+            // Auto-unlock next module if this is the last lesson of the current module
+            const currentModuleIndex = course.modules.findIndex(m => m.id === activeLesson.moduleId);
+            if (currentModuleIndex !== -1) {
+                const currentModule = course.modules[currentModuleIndex];
+                const lessonIndex = currentModule.lessons.findIndex(l => l.id === activeLesson.lesson.id);
+                
+                // If it's the last lesson in the module
+                if (lessonIndex === currentModule.lessons.length - 1) {
+                    // Unlock the next module
+                    if (currentModuleIndex < course.modules.length - 1) {
+                        const nextModule = course.modules[currentModuleIndex + 1];
+                        unlockModule(nextModule.id);
+                        // Automatically navigate to the first lesson of the new module
+                        setActiveLesson({ moduleId: nextModule.id, lesson: nextModule.lessons[0] });
+                        
+                        // Scroll to top
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                } else {
+                    // Move to the next lesson in the current module
+                    setActiveLesson({ moduleId: currentModule.id, lesson: currentModule.lessons[lessonIndex + 1] });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
             toast({
                 title: "Lesson Completed",
                 description: "Progress saved."

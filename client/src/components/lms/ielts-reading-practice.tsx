@@ -49,6 +49,7 @@ export function IeltsReadingPractice({ onComplete }: { onComplete: (completed: b
   const [userAnswer, setUserAnswer] = useState("");
   const [showFeedback, setShowFeedback] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const currentQ = QUESTIONS[currentQIndex];
   const isLastQuestion = currentQIndex === QUESTIONS.length - 1;
@@ -60,6 +61,7 @@ export function IeltsReadingPractice({ onComplete }: { onComplete: (completed: b
 
   const nextQuestion = () => {
     if (isLastQuestion) {
+      setIsCompleted(true);
       onComplete(true);
     } else {
       setCurrentQIndex(prev => prev + 1);
@@ -68,6 +70,20 @@ export function IeltsReadingPractice({ onComplete }: { onComplete: (completed: b
       setShowHint(false);
     }
   };
+
+  if (isCompleted) {
+    return (
+        <div className="flex flex-col items-center justify-center min-h-[400px] p-8 w-full max-w-4xl mx-auto">
+            <div className="w-full bg-white rounded-2xl shadow-xl p-12 text-center border border-green-200">
+                <CheckCircle2 className="w-20 h-20 text-green-500 mx-auto mb-6" />
+                <h2 className="text-3xl font-bold text-slate-900 mb-4">Training Completed!</h2>
+                <p className="text-slate-600 mb-8 text-lg">
+                    You've successfully completed the paraphrase training. You can now mark this lesson as complete below.
+                </p>
+            </div>
+        </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[500px] p-8 w-full max-w-4xl mx-auto">
