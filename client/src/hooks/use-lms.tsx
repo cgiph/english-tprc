@@ -13,6 +13,10 @@ const defaultState: UserLMSState = {
     "m2": { status: "locked", completedLessons: [] },
     "m3": { status: "locked", completedLessons: [] },
     
+    // Aussie Comm
+    "am1": { status: "unlocked", completedLessons: [] },
+    "am2": { status: "locked", completedLessons: [] },
+    
     // Tech Welder
     "tw1": { status: "unlocked", completedLessons: [] },
     "tw2": { status: "locked", completedLessons: [] },

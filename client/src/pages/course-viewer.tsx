@@ -28,6 +28,8 @@ import { IeltsParaphrasePractice } from "@/components/lms/ielts-paraphrase-pract
 import { IeltsQuestionMastery } from "@/components/lms/ielts-question-mastery";
 import { IeltsTimedPractice } from "@/components/lms/ielts-timed-practice";
 import { IeltsReadingModule4Quiz } from "@/components/lms/ielts-reading-module-4-quiz";
+import { AustralianConversationPractice } from "@/components/lms/australian-conversation-practice";
+import { AustralianMimicPractice } from "@/components/lms/australian-mimic-practice";
 import { GrammarGuard } from "@/components/lms/grammar-guard";
 import { SwtPracticeLab } from "@/components/lms/swt-practice-lab";
 import { RepeatSentencePractice } from "@/components/lms/repeat-sentence-practice";
@@ -841,6 +843,8 @@ export default function CourseViewer() {
   const [ieltsMasteryCompleted, setIeltsMasteryCompleted] = useState(false);
   const [ieltsTimedCompleted, setIeltsTimedCompleted] = useState(false);
   const [ieltsMod4QuizCompleted, setIeltsMod4QuizCompleted] = useState(false);
+  const [aussieConvoCompleted, setAussieConvoCompleted] = useState(false);
+  const [aussieMimicCompleted, setAussieMimicCompleted] = useState(false);
 
   const handleMarkComplete = () => {
     if (activeLesson) {
@@ -900,6 +904,24 @@ export default function CourseViewer() {
                 variant: "destructive",
                 title: "Practice Incomplete",
                 description: "You must complete all parts of the quiz before continuing."
+            });
+            return;
+        }
+
+        if (activeLesson.lesson.id === "l1-aussie-convo" && !aussieConvoCompleted) {
+            toast({
+                variant: "destructive",
+                title: "Practice Incomplete",
+                description: "You must complete the conversation practice before continuing."
+            });
+            return;
+        }
+
+        if (activeLesson.lesson.id === "l2-aussie-mimic" && !aussieMimicCompleted) {
+            toast({
+                variant: "destructive",
+                title: "Practice Incomplete",
+                description: "You must complete the mimicry practice before continuing."
             });
             return;
         }
@@ -1145,6 +1167,14 @@ export default function CourseViewer() {
                  ) : activeLesson.lesson.id === "l4-quiz" ? (
                     <div className="p-8 max-w-6xl mx-auto w-full">
                        <IeltsReadingModule4Quiz onComplete={(completed) => setIeltsMod4QuizCompleted(completed)} />
+                    </div>
+                 ) : activeLesson.lesson.id === "l1-aussie-convo" ? (
+                    <div className="p-8 max-w-6xl mx-auto w-full">
+                       <AustralianConversationPractice onComplete={(completed) => setAussieConvoCompleted(completed)} />
+                    </div>
+                 ) : activeLesson.lesson.id === "l2-aussie-mimic" ? (
+                    <div className="p-8 max-w-6xl mx-auto w-full">
+                       <AustralianMimicPractice onComplete={(completed) => setAussieMimicCompleted(completed)} />
                     </div>
                  ) : (
                     <div className="w-full max-w-6xl mx-auto">

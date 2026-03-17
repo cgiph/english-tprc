@@ -49,10 +49,10 @@ export interface Module {
 export interface Course {
   id: string;
   title: string;
-  category: "English" | "Technical" | "Mock Test";
+  category: "English" | "Technical" | "Mock Test" | "Communication";
   examType?: "TRA" | "TSA";
   industry?: "Automotive" | "Welding" | "Construction";
-  level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | "Easy" | "Medium" | "Hard"; // For English & Mock Tests
+  level?: "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | "A2-B1" | "Easy" | "Medium" | "Hard"; // For English & Mock Tests
   silo?: "Mechanics" | "Welders" | "Healthcare" | "General" | "Carpenters"; // For Technical
   description: string;
   thumbnail: string;
@@ -231,6 +231,52 @@ export const COURSES: Course[] = [
             title: "Module 4: Reading Assessment",
             type: "assignment",
             duration: "20 min",
+            isCompleted: false,
+            content: ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "aussie-comm",
+    title: "Australian Workplace Communication",
+    category: "Communication",
+    level: "A2-B1",
+    description: "Master conversational English, WH-questions, and Australian slang to communicate effectively in daily life and on the job.",
+    thumbnail: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=800&q=80",
+    totalModules: 2,
+    completedModules: 0,
+    modules: [
+      {
+        id: "am1",
+        title: "Module 1: Conversational Skills (WH-Questions)",
+        description: "Practice answering basic WH-questions with an AI trainer to improve your daily conversational fluency.",
+        status: "unlocked",
+        progress: 0,
+        lessons: [
+          {
+            id: "l1-aussie-convo",
+            title: "Interactive Conversation Practice",
+            type: "assignment",
+            duration: "15 min",
+            isCompleted: false,
+            content: ""
+          }
+        ]
+      },
+      {
+        id: "am2",
+        title: "Module 2: Listening & Mimicking Slang",
+        description: "Listen to authentic Australian pronunciation of common slang words and mimic them.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          {
+            id: "l2-aussie-mimic",
+            title: "Slang Mimicry Lab",
+            type: "assignment",
+            duration: "15 min",
             isCompleted: false,
             content: ""
           }
