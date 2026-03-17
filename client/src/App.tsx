@@ -102,6 +102,7 @@ function Router() {
 import { LMSProvider } from "@/hooks/use-lms";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { BrandingProvider } from "@/hooks/use-branding";
+import { ActiveUsersBadge } from "@/components/active-users-badge";
 
 function App() {
   return (
@@ -112,6 +113,7 @@ function App() {
             <TooltipProvider>
               <Toaster />
               <Router />
+              <ActiveUsersBadge />
             </TooltipProvider>
           </LMSProvider>
         </BrandingProvider>
