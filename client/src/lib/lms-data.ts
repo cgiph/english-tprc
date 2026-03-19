@@ -3140,6 +3140,120 @@ export const COURSES: Course[] = [
                 </div>
               </div>
             `
+          },
+          {
+            id: "mock-tra-mech-diagram-q",
+            title: "Diagram Assessment: Braking System",
+            type: "reading",
+            duration: "20 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                <div class="bg-white p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm">
+                  <h3 class="text-2xl font-extrabold text-slate-900 mb-6 border-b pb-4">Technical Assessment Questions Based on the Diagram</h3>
+                  
+                  <div class="bg-slate-50 p-4 rounded-xl mb-8 flex justify-center border border-slate-200">
+                    <img src="/assets/brake-diagram.png" alt="Automotive Braking System Diagram" class="max-w-full h-auto rounded-lg shadow-sm" style="max-height: 500px; object-fit: contain;" />
+                  </div>
+                  
+                  <div class="space-y-10">
+                    <!-- Section 1 -->
+                    <div class="bg-indigo-50/50 p-5 rounded-xl border border-indigo-100">
+                      <h4 class="text-xl font-bold text-indigo-900 mb-4 flex items-center gap-2">
+                        <span class="bg-indigo-100 text-indigo-800 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span> 
+                        Component Identification & Function
+                      </h4>
+                      <ol class="list-decimal ml-6 space-y-3 text-slate-700 marker:text-indigo-600 marker:font-medium">
+                        <li>Point to the master cylinder and explain its function in generating hydraulic pressure.</li>
+                        <li>What does the combination valve do? Describe the role of each part (proportioning, metering, residual functions).</li>
+                        <li>Explain the purpose of a residual valve. Why is residual pressure sometimes needed?</li>
+                        <li>Identify the metering valve. What braking condition does it control and why?</li>
+                        <li>Point out the proportioning valve. How does it prevent rear-wheel lockup?</li>
+                        <li>What is the function of the flex lines shown? Why can't rigid lines be used at wheel ends?</li>
+                        <li>Describe the purpose of the "T" fitting on the rear circuit.</li>
+                        <li>Identify where the system provides front vs. rear bias, based on the diagram.</li>
+                      </ol>
+                    </div>
+
+                    <!-- Section 2 -->
+                    <div class="bg-sky-50/50 p-5 rounded-xl border border-sky-100">
+                      <h4 class="text-xl font-bold text-sky-900 mb-4 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-800 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span> 
+                        Hydraulic Principles
+                      </h4>
+                      <ol class="list-decimal ml-6 space-y-3 text-slate-700 marker:text-sky-600 marker:font-medium">
+                        <li>Explain why hydraulic braking systems use incompressible fluid and how force multiplication occurs.</li>
+                        <li>Using the diagram, describe how pressure is distributed from the master cylinder to the wheels.</li>
+                        <li>What would happen if air entered the lines shown in the diagram?</li>
+                        <li>Why are valves placed at different points in the system—what hydraulic conditions require their placement?</li>
+                      </ol>
+                    </div>
+
+                    <!-- Section 3 -->
+                    <div class="bg-amber-50/50 p-5 rounded-xl border border-amber-100">
+                      <h4 class="text-xl font-bold text-amber-900 mb-4 flex items-center gap-2">
+                        <span class="bg-amber-100 text-amber-800 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span> 
+                        Diagnostic Thinking
+                      </h4>
+                      <ol class="list-decimal ml-6 space-y-3 text-slate-700 marker:text-amber-600 marker:font-medium">
+                        <li>If the front brakes engage too early compared to the rear, which valve(s) on the diagram are likely involved and why?</li>
+                        <li>If the rear wheels lock during hard braking, what component(s) should be inspected first?</li>
+                        <li>If the pedal sinks slowly to the floor, which part shown might be faulty?</li>
+                        <li>If a flex line collapses internally, what symptoms might appear in the corresponding wheel shown in the diagram?</li>
+                        <li>If one rear wheel brakes harder than the other, how would you use the diagram to trace the possible restriction?</li>
+                        <li>If the vehicle pulls to one side during braking, how would you narrow down the cause using the illustrated components?</li>
+                      </ol>
+                    </div>
+
+                    <!-- Section 4 -->
+                    <div class="bg-emerald-50/50 p-5 rounded-xl border border-emerald-100">
+                      <h4 class="text-xl font-bold text-emerald-900 mb-4 flex items-center gap-2">
+                        <span class="bg-emerald-100 text-emerald-800 w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span> 
+                        System Behavior & Safety
+                      </h4>
+                      <ol class="list-decimal ml-6 space-y-3 text-slate-700 marker:text-emerald-600 marker:font-medium">
+                        <li>Explain the importance of keeping brake fluid clean given the components shown.</li>
+                        <li>What type of brake system layout is shown (front–rear split or diagonal split)? Explain your reasoning.</li>
+                        <li>Why must braking systems include flexible hoses at wheel ends? What would happen if these were rigid?</li>
+                        <li>Explain how heat affects the components in the diagram, especially the fluid and flexible lines.</li>
+                      </ol>
+                    </div>
+
+                    <!-- Section 5 -->
+                    <div class="bg-rose-50/50 p-5 rounded-xl border border-rose-100">
+                      <h4 class="text-xl font-bold text-rose-900 mb-4 flex items-center gap-2">
+                        <span class="bg-rose-100 text-rose-800 w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span> 
+                        Applied Real World Scenarios
+                      </h4>
+                      <ol class="list-decimal ml-6 space-y-3 text-slate-700 marker:text-rose-600 marker:font-medium">
+                        <li>If upgrading to disc brakes on all four wheels, which of the valves in the diagram might need modification or removal?</li>
+                        <li>If the combination valve is stuck, how would braking behavior change at the wheels shown?</li>
+                        <li>What symptoms would appear if the master cylinder internal seals failed?</li>
+                        <li>If there is a leak in the rear circuit at the "T" fitting, what pedal feel and braking results would you expect?</li>
+                      </ol>
+                    </div>
+
+                    <!-- Section 6 -->
+                    <div class="bg-fuchsia-50/50 p-5 rounded-xl border border-fuchsia-100">
+                      <h4 class="text-xl font-bold text-fuchsia-900 mb-4 flex items-center gap-2">
+                        <span class="bg-fuchsia-100 text-fuchsia-800 w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span> 
+                        Advanced Questions <span class="text-sm font-normal text-fuchsia-700 ml-2">(for highly skilled candidates)</span>
+                      </h4>
+                      <ol class="list-decimal ml-6 space-y-3 text-slate-700 marker:text-fuchsia-600 marker:font-medium">
+                        <li>Explain how the metering valve affects front disc brake timing compared to rear brakes.</li>
+                        <li>Discuss how proportioning changes with vehicle load and how an adjustable proportioning valve (like the one shown) is tuned.</li>
+                        <li>If ABS were added to this system, where would the modulator likely be inserted based on the layout?</li>
+                        <li>Explain how pedal force translates to clamping force at the calipers shown using Pascal's Principle.</li>
+                      </ol>
+                    </div>
+                    
+                    <div class="bg-slate-100 p-4 rounded-xl text-center">
+                      <p class="text-slate-600 font-medium">Need the answer key? Consult your assigned TRA Assessor or Instructor.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `
           }
         ]
       }
