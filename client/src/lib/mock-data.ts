@@ -120,5 +120,17 @@ export const MOCK_RESOURCES: Resource[] = [
     rating: 4.8,
     locked: true,
     viewerUrl: "/resources/full-mock-test"
+  },
+  {
+    id: "5",
+    title: "Pronunciation for Better Reading & Speaking",
+    description: "Master consonant clusters, vowel groups, and learn to correctly syllabicate long-spelled words to improve fluency.",
+    type: "Guide",
+    level: "Beginner",
+    author: "Speech Pathologist Team",
+    downloads: 6800,
+    rating: 4.9,
+    locked: true,
+    viewerUrl: "/resources/viewer?id=5"
   }
 ];

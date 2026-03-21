@@ -847,7 +847,162 @@ export default function ResourceViewer() {
 
   // Default to Describe Image if no ID or ID=2
   const isEssayGuide = resourceId === "1";
-  const resourceTitle = isEssayGuide ? "Ultimate Writing Guide 2026" : "A Guide to Speaking Fluently";
+  const isPronunciationGuide = resourceId === "5";
+  
+  let resourceTitle = "A Guide to Speaking Fluently";
+  if (isEssayGuide) resourceTitle = "Ultimate Writing Guide 2026";
+  if (isPronunciationGuide) resourceTitle = "Pronunciation for Better Reading & Speaking";
+
+  if (isPronunciationGuide) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/resources">
+              <Button variant="ghost" size="sm" className="gap-2">
+                <ArrowLeft className="h-4 w-4" /> Back to Resources
+              </Button>
+            </Link>
+            <h1 className="font-serif font-bold text-xl hidden md:block">
+              {resourceTitle}
+            </h1>
+          </div>
+          <Button variant="outline" size="sm" className="gap-2">
+            <Download className="h-4 w-4" /> Download PDF
+          </Button>
+        </header>
+
+        <main className="container mx-auto px-4 py-8 flex-1 max-w-4xl">
+          <Card className="mb-8 border-l-4 border-l-primary shadow-lg">
+             <CardContent className="pt-8">
+               <h2 className="text-3xl font-serif font-bold mb-3">Pronunciation Guide</h2>
+               <p className="text-lg text-muted-foreground mb-8">Master consonant clusters, vowel groups, and learn to correctly syllabicate long-spelled words to improve fluency.</p>
+               
+               <div className="space-y-10">
+                  <div className="bg-blue-50/80 border-l-4 border-blue-500 p-6 rounded-r-xl">
+                    <h3 className="text-xl font-bold text-blue-900 mb-2 flex items-center gap-2">
+                      <HelpCircle className="h-5 w-5 text-blue-600" /> How to use this guide
+                    </h3>
+                    <p className="text-blue-800 leading-relaxed">
+                      This guide will help you improve your pronunciation for both the Reading and Speaking sections of the PTE.
+                      Focus on clear enunciation of consonant clusters, correct vowel sounds, and proper syllable stress in longer words.
+                    </p>
+                  </div>
+  
+                  <div className="space-y-6">
+                    <h4 className="text-2xl font-bold border-b pb-3 flex items-center gap-2">
+                      <span className="bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                      Consonant Clusters
+                    </h4>
+                    <p className="text-muted-foreground text-lg">Consonant clusters are groups of consonants without vowels between them. They can appear at the beginning, middle, or end of words.</p>
+                    
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <Card className="border-2 hover:border-primary/20 transition-colors">
+                        <CardContent className="p-6 space-y-4">
+                          <h5 className="font-bold text-lg text-primary mb-4">Initial Clusters <span className="text-sm font-normal text-muted-foreground ml-2">(Start of word)</span></h5>
+                          <ul className="space-y-3">
+                            <li className="flex justify-between items-center bg-slate-50 border p-3 rounded-lg hover:bg-slate-100 transition-colors">
+                              <span className="font-mono font-bold text-lg text-slate-800">str-</span>
+                              <span className="text-slate-600 font-medium">strategy, structure, strict</span>
+                            </li>
+                            <li className="flex justify-between items-center bg-slate-50 border p-3 rounded-lg hover:bg-slate-100 transition-colors">
+                              <span className="font-mono font-bold text-lg text-slate-800">spl-</span>
+                              <span className="text-slate-600 font-medium">splendid, split, splash</span>
+                            </li>
+                            <li className="flex justify-between items-center bg-slate-50 border p-3 rounded-lg hover:bg-slate-100 transition-colors">
+                              <span className="font-mono font-bold text-lg text-slate-800">thr-</span>
+                              <span className="text-slate-600 font-medium">through, threat, thrive</span>
+                            </li>
+                          </ul>
+                        </CardContent>
+                      </Card>
+                      <Card className="border-2 hover:border-primary/20 transition-colors">
+                        <CardContent className="p-6 space-y-4">
+                          <h5 className="font-bold text-lg text-primary mb-4">Final Clusters <span className="text-sm font-normal text-muted-foreground ml-2">(End of word)</span></h5>
+                          <ul className="space-y-3">
+                            <li className="flex justify-between items-center bg-slate-50 border p-3 rounded-lg hover:bg-slate-100 transition-colors">
+                              <span className="font-mono font-bold text-lg text-slate-800">-sts</span>
+                              <span className="text-slate-600 font-medium">tests, costs, interests</span>
+                            </li>
+                            <li className="flex justify-between items-center bg-slate-50 border p-3 rounded-lg hover:bg-slate-100 transition-colors">
+                              <span className="font-mono font-bold text-lg text-slate-800">-sks</span>
+                              <span className="text-slate-600 font-medium">tasks, asks, risks</span>
+                            </li>
+                            <li className="flex justify-between items-center bg-slate-50 border p-3 rounded-lg hover:bg-slate-100 transition-colors">
+                              <span className="font-mono font-bold text-lg text-slate-800">-mpts</span>
+                              <span className="text-slate-600 font-medium">attempts, prompts</span>
+                            </li>
+                          </ul>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+  
+                  <div className="space-y-6 pt-6 border-t">
+                    <h4 className="text-2xl font-bold border-b pb-3 flex items-center gap-2">
+                      <span className="bg-amber-100 text-amber-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                      Vowel Groups (Diphthongs)
+                    </h4>
+                    <p className="text-muted-foreground text-lg">A diphthong is a sound formed by the combination of two vowels in a single syllable, where the sound begins as one vowel and moves toward another.</p>
+                    
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+                      <div className="bg-white border-2 hover:border-amber-200 p-5 rounded-xl shadow-sm text-center transition-all hover:shadow-md">
+                        <div className="text-3xl font-bold text-amber-600 mb-3 font-mono bg-amber-50 inline-block px-4 py-1 rounded-lg">/aɪ/</div>
+                        <div className="text-slate-700 font-medium">time, high, fly, buy</div>
+                      </div>
+                      <div className="bg-white border-2 hover:border-amber-200 p-5 rounded-xl shadow-sm text-center transition-all hover:shadow-md">
+                        <div className="text-3xl font-bold text-amber-600 mb-3 font-mono bg-amber-50 inline-block px-4 py-1 rounded-lg">/eɪ/</div>
+                        <div className="text-slate-700 font-medium">make, day, weight, space</div>
+                      </div>
+                      <div className="bg-white border-2 hover:border-amber-200 p-5 rounded-xl shadow-sm text-center transition-all hover:shadow-md">
+                        <div className="text-3xl font-bold text-amber-600 mb-3 font-mono bg-amber-50 inline-block px-4 py-1 rounded-lg">/ɔɪ/</div>
+                        <div className="text-slate-700 font-medium">boy, voice, choice, noise</div>
+                      </div>
+                      <div className="bg-white border-2 hover:border-amber-200 p-5 rounded-xl shadow-sm text-center transition-all hover:shadow-md">
+                        <div className="text-3xl font-bold text-amber-600 mb-3 font-mono bg-amber-50 inline-block px-4 py-1 rounded-lg">/aʊ/</div>
+                        <div className="text-slate-700 font-medium">how, now, round, south</div>
+                      </div>
+                      <div className="bg-white border-2 hover:border-amber-200 p-5 rounded-xl shadow-sm text-center transition-all hover:shadow-md">
+                        <div className="text-3xl font-bold text-amber-600 mb-3 font-mono bg-amber-50 inline-block px-4 py-1 rounded-lg">/oʊ/</div>
+                        <div className="text-slate-700 font-medium">go, home, show, flow</div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div className="space-y-6 pt-6 border-t">
+                    <h4 className="text-2xl font-bold border-b pb-3 flex items-center gap-2">
+                      <span className="bg-emerald-100 text-emerald-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                      Syllabication of Long Words
+                    </h4>
+                    <p className="text-muted-foreground text-lg">Breaking long words into smaller chunks (syllables) makes them easier to read fluently and pronounce correctly. Pay attention to where the primary stress falls (marked in bold).</p>
+                    
+                    <div className="bg-slate-50/80 p-8 rounded-2xl border border-slate-200">
+                       <ul className="space-y-5">
+                          <li className="grid md:grid-cols-[1fr_2fr_auto] gap-6 items-center bg-white p-5 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <span className="font-bold text-xl text-slate-800">Environmental</span>
+                            <span className="font-mono text-lg text-emerald-600 tracking-widest">en-vi-ron-<span className="font-bold text-emerald-800 text-xl bg-emerald-50 px-2 rounded">MEN</span>-tal</span>
+                            <span className="text-sm font-medium bg-slate-100 text-slate-600 px-3 py-1 rounded-full whitespace-nowrap">5 syllables</span>
+                          </li>
+                          <li className="grid md:grid-cols-[1fr_2fr_auto] gap-6 items-center bg-white p-5 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <span className="font-bold text-xl text-slate-800">Significantly</span>
+                            <span className="font-mono text-lg text-emerald-600 tracking-widest">sig-<span className="font-bold text-emerald-800 text-xl bg-emerald-50 px-2 rounded">NIF</span>-i-cant-ly</span>
+                            <span className="text-sm font-medium bg-slate-100 text-slate-600 px-3 py-1 rounded-full whitespace-nowrap">5 syllables</span>
+                          </li>
+                          <li className="grid md:grid-cols-[1fr_2fr_auto] gap-6 items-center bg-white p-5 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <span className="font-bold text-xl text-slate-800">Methodology</span>
+                            <span className="font-mono text-lg text-emerald-600 tracking-widest">meth-o-<span className="font-bold text-emerald-800 text-xl bg-emerald-50 px-2 rounded">DOL</span>-o-gy</span>
+                            <span className="text-sm font-medium bg-slate-100 text-slate-600 px-3 py-1 rounded-full whitespace-nowrap">5 syllables</span>
+                          </li>
+                       </ul>
+                    </div>
+                  </div>
+                </div>
+             </CardContent>
+          </Card>
+        </main>
+      </div>
+    );
+  }
 
   if (isEssayGuide) {
     return (

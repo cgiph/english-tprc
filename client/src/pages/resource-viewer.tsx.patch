@@ -1,0 +1,120 @@
+--- client/src/pages/resource-viewer.tsx
++++ client/src/pages/resource-viewer.tsx
+@@ -997,6 +997,117 @@
+                 </div>
+               </div>
+             </TabsContent>
++
++            <TabsContent value="Pronunciation">
++              <div className="space-y-8">
++                <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
++                  <h3 className="text-xl font-bold text-blue-900 mb-2">How to use this guide</h3>
++                  <p className="text-blue-800">
++                    This guide will help you improve your pronunciation for both the Reading and Speaking sections of the PTE.
++                    Focus on clear enunciation of consonant clusters, correct vowel sounds, and proper syllable stress in longer words.
++                  </p>
++                </div>
++
++                <div className="space-y-6">
++                  <h4 className="text-2xl font-bold border-b pb-2">1. Consonant Clusters</h4>
++                  <p className="text-muted-foreground">Consonant clusters are groups of consonants without vowels between them. They can appear at the beginning, middle, or end of words.</p>
++                  
++                  <div className="grid md:grid-cols-2 gap-6">
++                    <Card>
++                      <CardContent className="p-6 space-y-4">
++                        <h5 className="font-bold text-lg text-primary">Initial Clusters (Start of word)</h5>
++                        <ul className="space-y-3">
++                          <li className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
++                            <span className="font-mono font-bold">str-</span>
++                            <span className="text-slate-600">strategy, structure, strict</span>
++                          </li>
++                          <li className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
++                            <span className="font-mono font-bold">spl-</span>
++                            <span className="text-slate-600">splendid, split, splash</span>
++                          </li>
++                          <li className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
++                            <span className="font-mono font-bold">thr-</span>
++                            <span className="text-slate-600">through, threat, thrive</span>
++                          </li>
++                        </ul>
++                      </CardContent>
++                    </Card>
++                    <Card>
++                      <CardContent className="p-6 space-y-4">
++                        <h5 className="font-bold text-lg text-primary">Final Clusters (End of word)</h5>
++                        <ul className="space-y-3">
++                          <li className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
++                            <span className="font-mono font-bold">-sts</span>
++                            <span className="text-slate-600">tests, costs, interests</span>
++                          </li>
++                          <li className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
++                            <span className="font-mono font-bold">-sks</span>
++                            <span className="text-slate-600">tasks, asks, risks</span>
++                          </li>
++                          <li className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
++                            <span className="font-mono font-bold">-mpts</span>
++                            <span className="text-slate-600">attempts, prompts</span>
++                          </li>
++                        </ul>
++                      </CardContent>
++                    </Card>
++                  </div>
++                </div>
++
++                <div className="space-y-6 pt-6 border-t">
++                  <h4 className="text-2xl font-bold border-b pb-2">2. Vowel Groups (Diphthongs)</h4>
++                  <p className="text-muted-foreground">A diphthong is a sound formed by the combination of two vowels in a single syllable, where the sound begins as one vowel and moves toward another.</p>
++                  
++                  <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
++                    <div className="bg-white border p-4 rounded-xl shadow-sm text-center">
++                      <div className="text-2xl font-bold text-amber-600 mb-2">/aɪ/</div>
++                      <div className="text-slate-600">time, high, fly, buy</div>
++                    </div>
++                    <div className="bg-white border p-4 rounded-xl shadow-sm text-center">
++                      <div className="text-2xl font-bold text-amber-600 mb-2">/eɪ/</div>
++                      <div className="text-slate-600">make, day, weight, space</div>
++                    </div>
++                    <div className="bg-white border p-4 rounded-xl shadow-sm text-center">
++                      <div className="text-2xl font-bold text-amber-600 mb-2">/ɔɪ/</div>
++                      <div className="text-slate-600">boy, voice, choice, noise</div>
++                    </div>
++                    <div className="bg-white border p-4 rounded-xl shadow-sm text-center">
++                      <div className="text-2xl font-bold text-amber-600 mb-2">/aʊ/</div>
++                      <div className="text-slate-600">how, now, round, south</div>
++                    </div>
++                    <div className="bg-white border p-4 rounded-xl shadow-sm text-center">
++                      <div className="text-2xl font-bold text-amber-600 mb-2">/oʊ/</div>
++                      <div className="text-slate-600">go, home, show, flow</div>
++                    </div>
++                  </div>
++                </div>
++
++                <div className="space-y-6 pt-6 border-t">
++                  <h4 className="text-2xl font-bold border-b pb-2">3. Syllabication of Long Words</h4>
++                  <p className="text-muted-foreground">Breaking long words into smaller chunks (syllables) makes them easier to read fluently and pronounce correctly. Pay attention to where the primary stress falls (marked in bold).</p>
++                  
++                  <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
++                     <ul className="space-y-4">
++                        <li className="grid md:grid-cols-3 gap-4 items-center bg-white p-4 rounded-lg shadow-sm border border-slate-100">
++                          <span className="font-semibold text-lg">Environmental</span>
++                          <span className="font-mono text-blue-600 tracking-widest">en-vi-ron-<span className="font-bold text-blue-800">MEN</span>-tal</span>
++                          <span className="text-sm text-slate-500 italic">5 syllables</span>
++                        </li>
++                        <li className="grid md:grid-cols-3 gap-4 items-center bg-white p-4 rounded-lg shadow-sm border border-slate-100">
++                          <span className="font-semibold text-lg">Significantly</span>
++                          <span className="font-mono text-blue-600 tracking-widest">sig-<span className="font-bold text-blue-800">NIF</span>-i-cant-ly</span>
++                          <span className="text-sm text-slate-500 italic">5 syllables</span>
++                        </li>
++                        <li className="grid md:grid-cols-3 gap-4 items-center bg-white p-4 rounded-lg shadow-sm border border-slate-100">
++                          <span className="font-semibold text-lg">Methodology</span>
++                          <span className="font-mono text-blue-600 tracking-widest">meth-o-<span className="font-bold text-blue-800">DOL</span>-o-gy</span>
++                          <span className="text-sm text-slate-500 italic">5 syllables</span>
++                        </li>
++                     </ul>
++                  </div>
++                </div>
++              </div>
++            </TabsContent>
+           </Tabs>
+         </div>
+       </div>
