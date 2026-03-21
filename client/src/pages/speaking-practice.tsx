@@ -56,6 +56,7 @@ export default function SpeakingPractice() {
   const [pauseCount, setPauseCount] = useState(0);
   const recognitionRef = useRef<any>(null);
   const lastSpeechTimeRef = useRef<number>(0);
+  const autoPlayNextRef = useRef(false);
 
   const silenceIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -313,13 +314,27 @@ export default function SpeakingPractice() {
     }
   };
 
+  const [randomizedASQ, setRandomizedASQ] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Randomize ASQ on mount
+    const asq = [...SPEAKING_QUESTIONS["Answer Short Question"]].sort(() => 0.5 - Math.random());
+    setRandomizedASQ(asq);
+  }, []);
+
   const currentQuestionIndex = currentQuestionIndices[activeTab];
-  const questions = SPEAKING_QUESTIONS[activeTab];
+  const questions = activeTab === "Answer Short Question" && randomizedASQ.length > 0 
+    ? randomizedASQ 
+    : SPEAKING_QUESTIONS[activeTab];
   const currentQuestion = questions[currentQuestionIndex];
 
   // Reset state when tab or question changes
   useEffect(() => {
     resetState();
+    if (autoPlayNextRef.current && activeTab === "Answer Short Question") {
+        autoPlayNextRef.current = false;
+        setTimeout(() => startPreparation(), 500);
+    }
   }, [activeTab, currentQuestionIndex]);
 
   // Global cleanup on unmount
@@ -558,6 +573,14 @@ export default function SpeakingPractice() {
         variant: "default", 
         className: "bg-red-500 text-white border-none"
       });
+    } else if (activeTab === "Answer Short Question") {
+      setTimeLeft(3); // 3 seconds for ASQ
+      toast({
+        title: "Recording Started",
+        description: "Speak now! 3 seconds to answer.",
+        variant: "default", 
+        className: "bg-red-500 text-white border-none"
+      });
     } else {
       setTimeLeft(40); // 40s recording for others
       toast({
@@ -573,7 +596,7 @@ export default function SpeakingPractice() {
 
   const stopRecording = () => {
     // Determine max time for calculation
-    const maxTime = activeTab === "Summarize Group Discussion" ? 120 : 40;
+    const maxTime = activeTab === "Summarize Group Discussion" ? 120 : (activeTab === "Answer Short Question" ? 3 : 40);
     const duration = maxTime - timeLeft; 
     setRecordingDuration(duration);
     
@@ -582,6 +605,36 @@ export default function SpeakingPractice() {
     if (recognitionRef.current) {
         recognitionRef.current.stop();
         recognitionRef.current = null;
+    }
+
+    if (activeTab === "Answer Short Question") {
+       setStatus("completed");
+       setTimeLeft(0);
+       
+       if (timeLeft <= 1) {
+         toast({
+           title: "Time's Up!",
+           description: "Moving to next question...",
+         });
+       } else {
+         toast({
+           title: "Answer Recorded",
+           description: "Moving to next question...",
+         });
+       }
+       
+       if (currentQuestionIndex < questions.length - 1) {
+           autoPlayNextRef.current = true;
+           setTimeout(() => {
+               handleNext();
+           }, 1000);
+       } else {
+         toast({
+           title: "Practice Complete",
+           description: "You have finished all questions.",
+         });
+       }
+       return;
     }
 
     setStatus("completed");
@@ -845,12 +898,12 @@ export default function SpeakingPractice() {
               {activeTab === "Answer Short Question" && (
                 <div className="space-y-6">
                   <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground border">
-                    You will hear a question. Give a simple and short answer -- just one or a few words is enough. Once you hear the beep, speak into the microphone and answer the question. Click next right after.
+                    You will hear a question. Give a simple and short answer -- just one or a few words is enough. You have 3 seconds to answer before it automatically moves to the next question.
                   </div>
                   <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto animate-pulse cursor-pointer hover:bg-primary/20 transition-colors" onClick={() => speakText(currentQuestion.content)}>
                     <Volume2 className="h-8 w-8 text-primary" />
                   </div>
-                  <p className="text-sm text-muted-foreground">Click Start or the icon above to listen, then answer.</p>
+                  <p className="text-sm text-muted-foreground">Click Start or the icon above to listen, then answer quickly!</p>
                   <Button variant="secondary" onClick={() => setShowTranscript(!showTranscript)} disabled={status !== "completed"}>
                     {showTranscript ? "Hide Question" : "Show Question"}
                   </Button>
@@ -960,9 +1013,9 @@ export default function SpeakingPractice() {
                    </Button>
                    {showTranscript && (
                      <div className="text-left bg-muted/30 p-6 rounded-lg text-sm leading-relaxed border max-h-[200px] overflow-y-auto">
-                       {currentQuestion.audioScript?.split(/(?=[A-Z][a-z]+ [A-Z0-9]+:)/).map((part, i) => (
+                       {currentQuestion.audioScript?.split(/(?=[A-Z][a-z]+ [A-Z0-9]+:)/).map((part: string, i: number) => (
                          <p key={i} className="mb-2">
-                           {part.split(":").map((subPart, j) => (
+                           {part.split(":").map((subPart: string, j: number) => (
                              j === 0 ? <span key={j} className="font-bold text-primary mr-1">{subPart}:</span> : <span key={j}>{subPart}</span>
                            ))}
                          </p>

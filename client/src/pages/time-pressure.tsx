@@ -387,7 +387,7 @@ export default function TimePressureSimulator() {
               </div>
             </div>
 
-            <Progress value={(timeLeft / currentQ.timeLimit) * 100} className="h-2" indicatorClassName={timeLeft <= 3 ? "bg-red-500" : "bg-blue-500"} />
+            <Progress value={(timeLeft / currentQ.timeLimit) * 100} className={`h-2 [&>div]:${timeLeft <= 3 ? "bg-red-500" : "bg-blue-500"}`} />
 
             <Card className="border-2 shadow-sm mt-8">
               <CardContent className="p-6 md:p-8 space-y-8">
