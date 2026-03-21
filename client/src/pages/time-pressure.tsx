@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Timer, Zap, Target, XCircle, ArrowRight, CheckCircle2, XOctagon, RotateCcw, Award } from "lucide-react";
+import { Timer, Zap, Target, XCircle, ArrowRight, CheckCircle2, XOctagon, RotateCcw, Award, Flame, Volume2, VolumeX } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -128,7 +128,62 @@ export default function TimePressureSimulator() {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
   
+  // Gamification state
+  const [streak, setStreak] = useState(0);
+  const [maxStreak, setMaxStreak] = useState(0);
+  const [lastWasFast, setLastWasFast] = useState(false);
+  const [score, setScore] = useState(0);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Simple sound generator
+  const playSound = (type: 'correct' | 'wrong' | 'fast' | 'tick') => {
+    if (!soundEnabled) return;
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      if (type === 'correct') {
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+        oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.15);
+      } else if (type === 'wrong') {
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.setValueAtTime(300, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.25);
+      } else if (type === 'fast') {
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+        oscillator.frequency.setValueAtTime(1760, audioCtx.currentTime + 0.05);
+        gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.1);
+      } else if (type === 'tick') {
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0.02, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.05);
+      }
+    } catch (e) {
+      // AudioContext might be blocked until user interaction
+    }
+  };
 
   const startSimulator = (selectedMode: 5 | 10) => {
     setMode(selectedMode);
@@ -137,6 +192,9 @@ export default function TimePressureSimulator() {
     setQuestions(shuffled);
     setCurrentIndex(0);
     setAnswers([]);
+    setStreak(0);
+    setMaxStreak(0);
+    setScore(0);
     setGameState('playing');
     startQuestion(shuffled[0]);
   };
@@ -151,8 +209,12 @@ export default function TimePressureSimulator() {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timerRef.current!);
+          playSound('wrong');
           handleTimeUp();
           return 0;
+        }
+        if (prev <= 4) {
+          playSound('tick');
         }
         return prev - 1;
       });
@@ -161,16 +223,37 @@ export default function TimePressureSimulator() {
 
   const handleTimeUp = () => {
     // Auto submit empty if time runs out
-    submitAnswer(null);
+    submitAnswer(null, true);
   };
 
-  const submitAnswer = (optionIndex: number | null) => {
+  const submitAnswer = (optionIndex: number | null, isTimeUp: boolean = false) => {
     if (timerRef.current) clearInterval(timerRef.current);
     setSelectedOption(optionIndex);
     
     const currentQ = questions[currentIndex];
     const isCorrect = optionIndex === currentQ.correctAnswer;
-    const timeTaken = currentQ.timeLimit - timeLeft;
+    const timeTaken = isTimeUp ? currentQ.timeLimit : currentQ.timeLimit - timeLeft;
+    const isFast = isCorrect && timeTaken < 5;
+    
+    if (isCorrect) {
+      setStreak(prev => {
+        const newStreak = prev + 1;
+        setMaxStreak(max => Math.max(max, newStreak));
+        return newStreak;
+      });
+      setLastWasFast(isFast);
+      setScore(prev => prev + 10 + (isFast ? 5 : 0) + (streak >= 2 ? 5 : 0));
+      
+      if (isFast) {
+        setTimeout(() => playSound('fast'), 100);
+      } else {
+        playSound('correct');
+      }
+    } else {
+      setStreak(0);
+      setLastWasFast(false);
+      if (!isTimeUp) playSound('wrong');
+    }
     
     setAnswers(prev => [...prev, {
       questionId: currentQ.id,
@@ -277,9 +360,30 @@ export default function TimePressureSimulator() {
                 </Badge>
               </div>
               
-              <div className={`flex items-center gap-2 font-mono text-2xl font-bold ${timeLeft <= 3 ? 'text-red-500 animate-pulse' : 'text-slate-700'}`}>
-                <Timer className="w-6 h-6" />
-                00:{timeLeft.toString().padStart(2, '0')}
+              <div className="flex items-center gap-4">
+                {streak > 1 && (
+                  <motion.div 
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="flex items-center gap-1 text-orange-500 font-bold bg-orange-50 px-2 py-1 rounded-md"
+                  >
+                    <Flame className="w-4 h-4 fill-current" />
+                    <span>{streak} Streak!</span>
+                  </motion.div>
+                )}
+                
+                <button 
+                  onClick={() => setSoundEnabled(!soundEnabled)} 
+                  className="text-slate-400 hover:text-slate-600 transition-colors"
+                  title={soundEnabled ? "Mute sounds" : "Enable sounds"}
+                >
+                  {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+                </button>
+
+                <div className={`flex items-center gap-2 font-mono text-2xl font-bold ${timeLeft <= 3 ? 'text-red-500 animate-pulse' : 'text-slate-700'}`}>
+                  <Timer className="w-6 h-6" />
+                  00:{timeLeft.toString().padStart(2, '0')}
+                </div>
               </div>
             </div>
 
@@ -337,10 +441,22 @@ export default function TimePressureSimulator() {
                   ) : (
                     <XOctagon className="w-8 h-8 text-rose-500 shrink-0 mt-1" />
                   )}
-                  <div>
-                    <h2 className="text-2xl font-bold text-slate-900 mb-2">
-                      {selectedOption === currentQ.correctAnswer ? 'Correct!' : selectedOption === null ? 'Time\'s Up!' : 'Incorrect'}
-                    </h2>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <h2 className="text-2xl font-bold text-slate-900 mb-2 flex items-center gap-3">
+                        {selectedOption === currentQ.correctAnswer ? 'Correct!' : selectedOption === null ? 'Time\'s Up!' : 'Incorrect'}
+                        {lastWasFast && (
+                          <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-2 py-0.5 animate-bounce">
+                            <Zap className="w-3 h-3 mr-1 fill-current" /> Fast Answer Bonus!
+                          </Badge>
+                        )}
+                      </h2>
+                      {selectedOption === currentQ.correctAnswer && (
+                        <div className="text-emerald-600 font-bold bg-emerald-100 px-3 py-1 rounded-full text-sm">
+                          +{10 + (lastWasFast ? 5 : 0) + (streak >= 2 ? 5 : 0)} pts
+                        </div>
+                      )}
+                    </div>
                     <p className="text-slate-700 mb-6">{currentQ.question}</p>
                     
                     <div className="space-y-3">
@@ -440,6 +556,24 @@ export default function TimePressureSimulator() {
                          <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Avg Time</div>
                          <div className="text-4xl font-bold text-slate-900">{avgTime}s</div>
                          <div className="text-sm text-slate-500">per question</div>
+                       </div>
+                     </div>
+                     
+                     <div className="grid grid-cols-2 gap-4">
+                       <div className="p-4 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-between">
+                         <div className="flex items-center gap-2 text-orange-700 font-bold">
+                           <Flame className="w-5 h-5 fill-current" />
+                           Max Streak
+                         </div>
+                         <div className="text-xl font-black text-orange-600">{maxStreak}</div>
+                       </div>
+                       
+                       <div className="p-4 rounded-xl bg-yellow-50 border border-yellow-100 flex items-center justify-between">
+                         <div className="flex items-center gap-2 text-yellow-700 font-bold">
+                           <Award className="w-5 h-5" />
+                           Total Score
+                         </div>
+                         <div className="text-xl font-black text-yellow-600">{score}</div>
                        </div>
                      </div>
 
