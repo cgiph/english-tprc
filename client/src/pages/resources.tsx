@@ -2,7 +2,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MOCK_RESOURCES, Resource } from "@/lib/mock-data";
-import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard, Lock, BookA, Timer } from "lucide-react";
+import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard, Lock, BookA, Timer, Mic } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useState } from "react";
 import {
@@ -118,10 +118,32 @@ export default function Resources() {
         <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary">Study Resources</h1>
         <p className="text-lg text-muted-foreground">Curated materials to help you master every section of the PTE Academic. From guides to full mock tests.</p>
       </div>
-      {/* Featured Tool: Typing Practice */}
-      <div className="w-full max-w-7xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Featured Tools */}
+      <div className="w-full max-w-7xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Link href="/practice/ai-pronunciation-coach" className="block h-full lg:col-span-2">
+          <Card className="h-full bg-gradient-to-r from-purple-500/5 to-indigo-500/5 border-2 border-purple-500/20 hover:border-purple-500/40 transition-all cursor-pointer group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/5 rounded-full -mr-24 -mt-24 transition-transform group-hover:scale-150 duration-500" />
+            <CardContent className="p-8 flex flex-col md:flex-row items-start md:items-center justify-between h-full gap-6 relative z-10">
+              <div className="space-y-3 max-w-xl">
+                <div className="flex items-center gap-2 text-purple-600 font-bold">
+                  <Mic className="h-5 w-5" />
+                  <span className="uppercase tracking-wider text-xs">New Interactive Tool</span>
+                </div>
+                <h3 className="text-3xl font-serif font-bold text-foreground">AI Pronunciation & Fluency Coach</h3>
+                <p className="text-muted-foreground text-lg">
+                  Practice "Read Aloud" with instant AI feedback. Get real-time waveform analysis, 
+                  phoneme-level corrections, and a PTE-style fluency meter score out of 90.
+                </p>
+              </div>
+              <Button size="lg" className="shrink-0 bg-purple-600 hover:bg-purple-700 text-white shadow-xl group-hover:scale-105 transition-transform w-full md:w-auto text-lg h-14 px-8 rounded-full">
+                Start Speaking
+              </Button>
+            </CardContent>
+          </Card>
+        </Link>
+
         <Link href="/practice/time-pressure" className="block h-full">
-          <Card className="h-full bg-gradient-to-r from-blue-500/5 to-indigo-500/5 border-2 border-blue-500/10 hover:border-blue-500/30 transition-all cursor-pointer group relative overflow-hidden">
+          <Card className="h-full bg-gradient-to-r from-blue-500/5 to-cyan-500/5 border-2 border-blue-500/10 hover:border-blue-500/30 transition-all cursor-pointer group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500" />
             <CardContent className="p-8 flex flex-col justify-between h-full gap-6 relative z-10">
               <div className="space-y-2">
@@ -148,7 +170,7 @@ export default function Resources() {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-primary font-bold">
                   <Keyboard className="h-5 w-5" />
-                  <span className="uppercase tracking-wider text-xs">New Interactive Tool</span>
+                  <span className="uppercase tracking-wider text-xs">Interactive Tool</span>
                 </div>
                 <h3 className="text-2xl font-serif font-bold text-foreground">Typing Speed Trainer</h3>
                 <p className="text-muted-foreground">
@@ -163,7 +185,7 @@ export default function Resources() {
         </Link>
 
         <Link href="/practice/vocabulary" className="block h-full">
-          <Card className="h-full bg-gradient-to-r from-pink-500/5 to-purple-500/5 border-2 border-pink-500/10 hover:border-pink-500/30 transition-all cursor-pointer group relative overflow-hidden">
+          <Card className="h-full bg-gradient-to-r from-pink-500/5 to-rose-500/5 border-2 border-pink-500/10 hover:border-pink-500/30 transition-all cursor-pointer group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-pink-500/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500" />
             <CardContent className="p-8 flex flex-col justify-between h-full gap-6 relative z-10">
               <div className="space-y-2">
