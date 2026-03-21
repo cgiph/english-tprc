@@ -2,7 +2,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MOCK_RESOURCES, Resource } from "@/lib/mock-data";
-import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard, Lock, BookA } from "lucide-react";
+import { Download, FileText, PlayCircle, BarChart, Shield, Keyboard, Lock, BookA, Timer } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useState } from "react";
 import {
@@ -119,7 +119,28 @@ export default function Resources() {
         <p className="text-lg text-muted-foreground">Curated materials to help you master every section of the PTE Academic. From guides to full mock tests.</p>
       </div>
       {/* Featured Tool: Typing Practice */}
-      <div className="w-full max-w-4xl mx-auto grid md:grid-cols-3 gap-6">
+      <div className="w-full max-w-7xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Link href="/practice/time-pressure" className="block h-full">
+          <Card className="h-full bg-gradient-to-r from-blue-500/5 to-indigo-500/5 border-2 border-blue-500/10 hover:border-blue-500/30 transition-all cursor-pointer group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500" />
+            <CardContent className="p-8 flex flex-col justify-between h-full gap-6 relative z-10">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-blue-600 font-bold">
+                  <Timer className="h-5 w-5" />
+                  <span className="uppercase tracking-wider text-xs">PTE Speed Drill</span>
+                </div>
+                <h3 className="text-2xl font-serif font-bold text-foreground">Time Pressure Simulator</h3>
+                <p className="text-muted-foreground">
+                  Train your brain to answer quickly under exam conditions. Fast-paced practice for PTE.
+                </p>
+              </div>
+              <Button size="lg" className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white shadow-lg group-hover:translate-x-1 transition-transform w-full md:w-auto">
+                Start Simulator
+              </Button>
+            </CardContent>
+          </Card>
+        </Link>
+
         <Link href="/practice/typing" className="block h-full">
           <Card className="h-full bg-gradient-to-r from-primary/5 to-secondary/5 border-2 border-primary/10 hover:border-primary/30 transition-all cursor-pointer group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500" />
@@ -131,8 +152,7 @@ export default function Resources() {
                 </div>
                 <h3 className="text-2xl font-serif font-bold text-foreground">Typing Speed Trainer</h3>
                 <p className="text-muted-foreground">
-                  Practice your typing speed and accuracy with our new simulation tool. 
-                  Includes a 60-minute timer and real-time WPM scoring.
+                  Practice your typing speed and accuracy with our new simulation tool. Includes real-time WPM.
                 </p>
               </div>
               <Button size="lg" className="shrink-0 bg-primary text-white shadow-lg group-hover:translate-x-1 transition-transform w-full md:w-auto">

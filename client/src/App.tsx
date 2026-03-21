@@ -35,6 +35,7 @@ import ReadingGuide from "@/pages/reading-guide";
 import ListeningGuide from "@/pages/listening-guide";
 import WritingGuide from "@/pages/writing-guide";
 import Demo from "@/pages/demo";
+import TimePressure from "@/pages/time-pressure";
 
 function RedirectToDashboard() {
   const [, setLocation] = useLocation();
@@ -85,6 +86,7 @@ function Router() {
           <Route path="/guide/writing" component={WritingGuide} />
 
           {/* Practice */}
+          <Route path="/practice/time-pressure" component={TimePressure} />
           <Route path="/practice/speaking" component={SpeakingPractice} />
           <Route path="/practice/speaking-fluency" component={SpeakingFluency} />
           <Route path="/practice/reading" component={ReadingPractice} />
