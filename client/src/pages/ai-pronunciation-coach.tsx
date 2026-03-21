@@ -50,7 +50,7 @@ export default function AIPronunciationCoach() {
     setRecordingState('recording');
     setRecordingProgress(0);
     
-    // Simulate recording for 4 seconds
+    // Simulate recording for 30 seconds
     timerRef.current = setInterval(() => {
       setRecordingProgress(prev => {
         if (prev >= 100) {
@@ -58,7 +58,7 @@ export default function AIPronunciationCoach() {
           analyzeRecording();
           return 100;
         }
-        return prev + 2; // 50 ticks = ~2.5 seconds
+        return prev + (100 / 600); // 600 ticks * 50ms = 30 seconds
       });
     }, 50);
   };
