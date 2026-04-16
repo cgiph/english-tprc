@@ -3846,6 +3846,494 @@ export const COURSES: Course[] = [
         ]
       }
     ]
+  },
+  {
+    id: "computer-essentials",
+    title: "Computer Essentials",
+    category: "Communication",
+    level: "Easy",
+    description: "Master the basics of computing: from using a mouse and keyboard to navigating the web and staying safe online.",
+    thumbnail: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80",
+    totalModules: 6,
+    completedModules: 0,
+    modules: [
+      {
+        id: "comp-m1",
+        title: "Module 1: The 'Digital Hand' (Mouse & Touchpad)",
+        description: "Everything in modern computing starts with navigation. Learn how to control the cursor effectively.",
+        status: "unlocked",
+        progress: 0,
+        lessons: [
+          {
+            id: "comp-l1",
+            title: "Mouse & Touchpad Basics",
+            type: "reading",
+            duration: "15 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-blue-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">The "Digital Hand"</h1>
+                   <p class="text-blue-200 text-lg">Everything in modern computing starts with navigation.</p>
+                </div>
+                
+                <div class="bg-slate-100 p-4 rounded-xl border border-slate-200 flex justify-center">
+                  <div class="aspect-video w-full max-w-2xl bg-slate-800 rounded-lg flex items-center justify-center relative overflow-hidden group cursor-pointer">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white z-20 group-hover:scale-110 transition-transform"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    <div class="absolute bottom-4 left-4 z-20 text-white font-medium text-sm drop-shadow-md">Video: Introduction to the Mouse (3:45)</div>
+                  </div>
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-2">
+                   <div class="bg-white p-6 rounded-lg border shadow-sm">
+                      <h3 class="font-bold text-xl text-blue-800 mb-3 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4v4a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4Z"/><path d="M12 22v-4"/></svg> The Grip & Cursor</h3>
+                      <p class="text-slate-600 mb-3"><strong>The Grip:</strong> Proper hand placement is crucial to avoid fatigue. Rest your palm gently on the desk, with your index finger lightly touching the left button.</p>
+                      <p class="text-slate-600"><strong>The Cursor:</strong> Understanding how movement on the desk translates to movement on the screen. The small arrow on your screen follows your hand's exact movements.</p>
+                   </div>
+                   
+                   <div class="bg-white p-6 rounded-lg border shadow-sm">
+                      <h3 class="font-bold text-xl text-blue-800 mb-3 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> The "Three Clicks"</h3>
+                      <ul class="space-y-3 text-slate-600">
+                        <li><strong class="text-slate-800">Single Left-Click:</strong> To select an item or activate a button.</li>
+                        <li><strong class="text-slate-800">Double Left-Click:</strong> Two quick clicks to open folders or start programs.</li>
+                        <li><strong class="text-slate-800">Right-Click:</strong> To see "The Secret Menu" (Options for the selected item).</li>
+                      </ul>
+                   </div>
+                   
+                   <div class="bg-white p-6 rounded-lg border shadow-sm md:col-span-2">
+                      <h3 class="font-bold text-xl text-blue-800 mb-3 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> Drag & Drop</h3>
+                      <p class="text-slate-600">Holding the left button down while moving the mouse allows you to move items across the screen—a crucial skill for organizing files into folders.</p>
+                      
+                      <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <h4 class="font-bold text-blue-900 mb-2">Practice Exercise</h4>
+                        <p class="text-sm text-blue-800 mb-4">Click and hold the block below, then drag it into the target area.</p>
+                        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+                          <div class="w-24 h-24 bg-blue-500 rounded flex items-center justify-center text-white font-bold cursor-grab active:cursor-grabbing shadow-md hover:scale-105 transition-transform">Drag Me</div>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-300 hidden sm:block"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                          <div class="w-32 h-32 border-4 border-dashed border-blue-300 rounded flex items-center justify-center text-blue-400 font-medium">Drop Here</div>
+                        </div>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "comp-m2",
+        title: "Module 2: The Keyboard Safari",
+        description: "Instead of teaching every key, focus on the 'Action Keys' that do the most work.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          {
+            id: "comp-l2",
+            title: "Essential Keys",
+            type: "reading",
+            duration: "15 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-indigo-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">The Keyboard Safari</h1>
+                   <p class="text-indigo-200 text-lg">Master the action keys that do the most work.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm space-y-8">
+                  <div>
+                    <h3 class="font-bold text-2xl text-slate-800 mb-4">Home Row</h3>
+                    <p class="text-slate-600 mb-4">Find the "bumps" on the <strong>F</strong> and <strong>J</strong> keys to orient your hands without looking. This is where your index fingers should rest.</p>
+                    <div class="flex justify-center my-6">
+                       <div class="bg-slate-100 p-4 rounded-xl border shadow-inner flex gap-2 overflow-x-auto w-full max-w-lg justify-center">
+                          <div class="w-12 h-12 bg-white border-2 border-slate-300 rounded flex items-center justify-center font-bold text-slate-400">A</div>
+                          <div class="w-12 h-12 bg-white border-2 border-slate-300 rounded flex items-center justify-center font-bold text-slate-400">S</div>
+                          <div class="w-12 h-12 bg-white border-2 border-slate-300 rounded flex items-center justify-center font-bold text-slate-400">D</div>
+                          <div class="w-12 h-12 bg-white border-b-4 border-indigo-400 shadow-md rounded flex flex-col items-center justify-center font-bold text-indigo-700 relative">
+                            F
+                            <div class="w-3 h-1 bg-indigo-300 rounded-full mt-1"></div>
+                          </div>
+                          <div class="w-8 h-12"></div>
+                          <div class="w-12 h-12 bg-white border-b-4 border-indigo-400 shadow-md rounded flex flex-col items-center justify-center font-bold text-indigo-700 relative">
+                            J
+                            <div class="w-3 h-1 bg-indigo-300 rounded-full mt-1"></div>
+                          </div>
+                          <div class="w-12 h-12 bg-white border-2 border-slate-300 rounded flex items-center justify-center font-bold text-slate-400">K</div>
+                          <div class="w-12 h-12 bg-white border-2 border-slate-300 rounded flex items-center justify-center font-bold text-slate-400">L</div>
+                          <div class="w-12 h-12 bg-white border-2 border-slate-300 rounded flex items-center justify-center font-bold text-slate-400">;</div>
+                       </div>
+                    </div>
+                  </div>
+
+                  <div class="grid sm:grid-cols-2 gap-6">
+                    <div class="bg-slate-50 p-5 rounded-lg border">
+                      <h4 class="font-bold text-lg text-slate-800 mb-2 flex items-center gap-2"><div class="px-2 py-1 bg-white border rounded text-xs shadow-sm">Enter ↵</div> The Confirmer</h4>
+                      <p class="text-slate-600 text-sm">The Enter (or Return) key is used to confirm an action, start a new line in a document, or send a message.</p>
+                    </div>
+                    
+                    <div class="bg-slate-50 p-5 rounded-lg border">
+                      <h4 class="font-bold text-lg text-slate-800 mb-2 flex items-center gap-2"><div class="px-2 py-1 bg-white border rounded text-xs shadow-sm">Backspace ⌫</div> The Eraser</h4>
+                      <p class="text-slate-600 text-sm">Used to delete text to the left of your cursor. The Delete key removes text to the right.</p>
+                    </div>
+                    
+                    <div class="bg-slate-50 p-5 rounded-lg border">
+                      <h4 class="font-bold text-lg text-slate-800 mb-2 flex items-center gap-2"><div class="px-2 py-1 bg-white border rounded text-xs shadow-sm">Shift ⇧</div> The Modifier</h4>
+                      <p class="text-slate-600 text-sm">Hold Shift while pressing a letter to capitalize it. For long strings of capital letters, use <strong>Caps Lock</strong> instead.</p>
+                    </div>
+                    
+                    <div class="bg-rose-50 p-5 rounded-lg border border-rose-100">
+                      <h4 class="font-bold text-lg text-rose-800 mb-2 flex items-center gap-2"><div class="px-2 py-1 bg-white border border-rose-200 text-rose-600 rounded text-xs shadow-sm">Esc</div> The Panic Button</h4>
+                      <p class="text-rose-700 text-sm">The Escape key is your "get me out of here" button. Use it to close unwanted pop-ups, cancel menus, or exit full-screen mode.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "comp-m3",
+        title: "Module 3: Windows and the Desktop",
+        description: "Teaching them how to organize their 'Digital Desk'.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          {
+            id: "comp-l3",
+            title: "Navigating Your Digital Desk",
+            type: "reading",
+            duration: "20 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-teal-900 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">Windows and the Desktop</h1>
+                   <p class="text-teal-200 text-lg">Learn how to organize your "Digital Desk".</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                   <h3 class="font-bold text-2xl text-slate-800 mb-4">The Start Menu & Taskbar</h3>
+                   <p class="text-slate-600 mb-6">The Taskbar is the bar at the bottom of your screen. It shows you what programs are currently open. The Start Menu (usually the logo at the far left) is where all your programs live.</p>
+                   
+                   <div class="bg-slate-800 p-2 rounded-lg flex items-center justify-between shadow-inner">
+                     <div class="w-10 h-10 bg-blue-500 rounded flex items-center justify-center text-white cursor-pointer hover:bg-blue-400 transition-colors">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6v6H4z"/><path d="M14 4h6v6h-6z"/><path d="M4 14h6v6H4z"/><path d="M14 14h6v6h-6z"/></svg>
+                     </div>
+                     <div class="flex gap-2">
+                       <div class="w-10 h-10 bg-slate-600 rounded border-b-2 border-white flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-300"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg></div>
+                       <div class="w-10 h-10 bg-slate-700 rounded flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></div>
+                       <div class="w-10 h-10 bg-slate-700 rounded flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+                     </div>
+                     <div class="text-white text-xs font-mono pr-2">12:00 PM</div>
+                   </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                   <h3 class="font-bold text-2xl text-slate-800 mb-6">Window Controls</h3>
+                   
+                   <div class="border rounded-lg overflow-hidden mb-6 shadow-md max-w-2xl mx-auto">
+                     <div class="bg-slate-200 px-4 py-2 flex justify-between items-center border-b">
+                       <span class="text-sm font-medium text-slate-600">Sample Program</span>
+                       <div class="flex gap-2">
+                         <div class="w-8 h-8 bg-white hover:bg-slate-300 rounded flex items-center justify-center cursor-pointer transition-colors group" title="Minimize">
+                           <div class="w-3 h-0.5 bg-slate-600 group-hover:bg-slate-900 mt-2"></div>
+                         </div>
+                         <div class="w-8 h-8 bg-white hover:bg-slate-300 rounded flex items-center justify-center cursor-pointer transition-colors group" title="Maximize">
+                           <div class="w-3 h-3 border border-slate-600 group-hover:border-slate-900"></div>
+                         </div>
+                         <div class="w-8 h-8 bg-white hover:bg-red-500 rounded flex items-center justify-center cursor-pointer transition-colors group" title="Close">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-600 group-hover:text-white"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                         </div>
+                       </div>
+                     </div>
+                     <div class="p-8 bg-white h-32 flex items-center justify-center text-slate-400">
+                       Program Content Area
+                     </div>
+                   </div>
+                   
+                   <div class="grid grid-cols-3 gap-4">
+                     <div class="bg-slate-50 p-4 rounded text-center border">
+                       <h4 class="font-bold text-slate-800 mb-1">Minimize (_)</h4>
+                       <p class="text-xs text-slate-600">Hides the window to the taskbar without closing it.</p>
+                     </div>
+                     <div class="bg-slate-50 p-4 rounded text-center border">
+                       <h4 class="font-bold text-slate-800 mb-1">Maximize (□)</h4>
+                       <p class="text-xs text-slate-600">Expands the window to fill your entire screen.</p>
+                     </div>
+                     <div class="bg-rose-50 p-4 rounded text-center border border-rose-100">
+                       <h4 class="font-bold text-rose-800 mb-1">Close (X)</h4>
+                       <p class="text-xs text-rose-700">Completely closes the program.</p>
+                     </div>
+                   </div>
+                </div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "comp-m4",
+        title: "Module 4: Files, Folders, and Saving",
+        description: "Knowing where your work went and how to keep it organized.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          {
+            id: "comp-l4",
+            title: "The Filing Cabinet Metaphor",
+            type: "reading",
+            duration: "20 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-amber-600 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">Files, Folders, and Saving</h1>
+                   <p class="text-amber-100 text-lg">Never lose a document again.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                      <div class="p-3 bg-amber-100 rounded-lg text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                      </div>
+                      <div>
+                        <h3 class="font-bold text-xl text-slate-800">Folders</h3>
+                        <p class="text-slate-500 text-sm">The Filing Cabinet Drawers</p>
+                      </div>
+                    </div>
+                    <p class="text-slate-600">A folder is a container. Just like a physical drawer in an office, it holds other items but doesn't do anything by itself. Use folders to group related items together (e.g., "Resumes", "Family Photos").</p>
+                  </div>
+                  
+                  <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                      <div class="p-3 bg-blue-100 rounded-lg text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+                      </div>
+                      <div>
+                        <h3 class="font-bold text-xl text-slate-800">Files</h3>
+                        <p class="text-slate-500 text-sm">The Documents inside</p>
+                      </div>
+                    </div>
+                    <p class="text-slate-600">A file is an actual item—a document, a photo, a song, or a program. Files must be placed inside folders (even the Desktop is just a special folder!).</p>
+                  </div>
+                </div>
+
+                <div class="bg-slate-50 p-8 rounded-xl border border-slate-200">
+                  <h3 class="font-bold text-2xl text-slate-800 mb-6">"Save As" vs. "Save"</h3>
+                  
+                  <div class="space-y-4">
+                    <div class="flex gap-4 items-start bg-white p-4 rounded-lg shadow-sm border border-l-4 border-l-emerald-500">
+                      <div class="font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded mt-1 shrink-0">Save As</div>
+                      <div>
+                        <p class="font-medium text-slate-800">Used for brand new documents</p>
+                        <p class="text-slate-600 text-sm mt-1">This asks you two questions: <strong>"What do you want to call this?"</strong> and <strong>"Where do you want to put it?"</strong>. Also use this to make a copy of an existing file with a new name.</p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex gap-4 items-start bg-white p-4 rounded-lg shadow-sm border border-l-4 border-l-blue-500">
+                      <div class="font-bold text-blue-700 bg-blue-100 px-3 py-1 rounded mt-1 shrink-0">Save (Ctrl+S)</div>
+                      <div>
+                        <p class="font-medium text-slate-800">Updates an existing document</p>
+                        <p class="text-slate-600 text-sm mt-1">If the file already has a name and a location, clicking "Save" simply updates it with your newest changes. It won't ask you any questions.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "comp-m5",
+        title: "Module 5: Navigating the Web (The Browser)",
+        description: "Your gateway to the internet.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          {
+            id: "comp-l5",
+            title: "Browser Basics",
+            type: "reading",
+            duration: "20 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-rose-700 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">Navigating the Web</h1>
+                   <p class="text-rose-200 text-lg">Master your internet browser.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl border border-slate-200 shadow-lg overflow-hidden">
+                  <div class="bg-slate-100 border-b p-2 flex items-center gap-2">
+                    <div class="flex gap-1.5 px-2">
+                      <div class="w-3 h-3 rounded-full bg-rose-400"></div>
+                      <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                      <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+                    </div>
+                    <div class="flex gap-1 bg-white rounded-t-lg px-3 py-1 text-xs font-medium border border-b-0 border-slate-200 mt-1 relative top-[1px]">
+                      <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline mr-1 text-slate-500"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> Tab 1</span>
+                      <span class="text-slate-400 hover:text-slate-700 ml-2 cursor-pointer">×</span>
+                    </div>
+                    <div class="flex gap-1 bg-slate-200 hover:bg-slate-300 rounded-t-lg px-3 py-1 text-xs font-medium mt-1 cursor-pointer">
+                      <span>Tab 2</span>
+                    </div>
+                    <div class="text-slate-500 hover:text-slate-800 cursor-pointer ml-1">+</div>
+                  </div>
+                  <div class="bg-white p-2 border-b flex items-center gap-2">
+                    <div class="flex gap-1">
+                      <div class="p-1.5 rounded hover:bg-slate-100 cursor-pointer text-slate-600"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></div>
+                      <div class="p-1.5 rounded hover:bg-slate-100 cursor-pointer text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
+                      <div class="p-1.5 rounded hover:bg-slate-100 cursor-pointer text-slate-600"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21v-5h5"/></svg></div>
+                    </div>
+                    <div class="flex-1 bg-slate-100 rounded-full px-4 py-1.5 text-sm text-slate-700 font-mono border border-slate-200">
+                      https://www.example.com
+                    </div>
+                  </div>
+                  
+                  <div class="p-8 grid sm:grid-cols-2 gap-8 bg-slate-50">
+                    <div>
+                      <h4 class="font-bold text-slate-800 mb-2">The Address Bar</h4>
+                      <p class="text-slate-600 text-sm">Where you type a website name (URL) to go directly to it. If you type a question here, it will usually search Google instead.</p>
+                    </div>
+                    
+                    <div>
+                      <h4 class="font-bold text-slate-800 mb-2">Tabs</h4>
+                      <p class="text-slate-600 text-sm">How to have multiple pages open at once. Click the '+' to open a new one, or the '×' to close it.</p>
+                    </div>
+                    
+                    <div>
+                      <h4 class="font-bold text-slate-800 mb-2">Back and Forward</h4>
+                      <p class="text-slate-600 text-sm">The "Undo" buttons of the internet. Click Back (left arrow) to return to the previous page.</p>
+                    </div>
+                    
+                    <div>
+                      <h4 class="font-bold text-slate-800 mb-2">Refresh (Reload)</h4>
+                      <p class="text-slate-600 text-sm">The circular arrow. Click this if a website isn't loading correctly or seems stuck.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: "comp-m6",
+        title: "Module 6: Digital Safety & Hygiene",
+        description: "Best practices for staying secure and keeping your computer running smoothly.",
+        status: "locked",
+        progress: 0,
+        lessons: [
+          {
+            id: "comp-l6",
+            title: "Security and Maintenance",
+            type: "reading",
+            duration: "15 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-8">
+                <div class="bg-emerald-800 text-white p-8 rounded-xl shadow-xl">
+                   <h1 class="text-3xl font-bold mb-4">Digital Safety & Hygiene</h1>
+                   <p class="text-emerald-200 text-lg">Protect yourself and your computer.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                  <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
+                    <div class="mx-auto w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-700 mb-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">Passwords</h3>
+                    <p class="text-slate-600 text-sm">Don't use the same password everywhere. Use a phrase you can remember, like "BlueHorseRunsFast!", rather than a complex word you'll forget.</p>
+                  </div>
+                  
+                  <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
+                    <div class="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4 animate-spin" style="animation-duration: 3s;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">The "Wait" Rule</h3>
+                    <p class="text-slate-600 text-sm">When you see a spinning circle or hourglass, the computer is "thinking". Do not click 20 more times—this confuses the computer and might make it crash!</p>
+                  </div>
+                  
+                  <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center">
+                    <div class="mx-auto w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center text-rose-600 mb-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" x2="12" y1="2" y2="12"/></svg>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">Shutting Down</h3>
+                    <p class="text-slate-600 text-sm">Always use the Start menu to shut down (Start > Power > Shut Down). Don't just hold the physical button or close the laptop lid if you're done for the day.</p>
+                  </div>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: "comp-graduation",
+            title: "Graduation Activity: Chain Task",
+            type: "assignment",
+            duration: "30 min",
+            isCompleted: false,
+            content: `
+              <div class="space-y-6">
+                 <div class="bg-indigo-900 text-white p-8 rounded-xl shadow-xl text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-800 rounded-full mb-4 border-4 border-indigo-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-400"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-2">Graduation Challenge</h2>
+                    <p class="text-indigo-200">Prove you've mastered the essentials by completing this real-world task.</p>
+                 </div>
+
+                 <div class="bg-white p-8 rounded-xl border-2 border-indigo-100 shadow-sm">
+                    <p class="text-lg text-slate-700 mb-6 font-medium">To pass this course, you must complete the following "Chain Task" in your actual computer environment (not in this course viewer).</p>
+                    
+                    <div class="space-y-4">
+                      <div class="flex gap-4 items-start p-4 rounded-lg bg-slate-50 border border-slate-200">
+                        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shrink-0 mt-0.5">1</div>
+                        <div>
+                          <h4 class="font-bold text-slate-800 text-lg">Open your Browser</h4>
+                          <p class="text-slate-600">Open a new tab in Chrome, Edge, or Safari.</p>
+                        </div>
+                      </div>
+                      
+                      <div class="flex gap-4 items-start p-4 rounded-lg bg-slate-50 border border-slate-200">
+                        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shrink-0 mt-0.5">2</div>
+                        <div>
+                          <h4 class="font-bold text-slate-800 text-lg">Navigate</h4>
+                          <p class="text-slate-600">Type <strong>www.example.com</strong> into the Address Bar and press Enter.</p>
+                        </div>
+                      </div>
+                      
+                      <div class="flex gap-4 items-start p-4 rounded-lg bg-slate-50 border border-slate-200">
+                        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shrink-0 mt-0.5">3</div>
+                        <div>
+                          <h4 class="font-bold text-slate-800 text-lg">Create a Folder</h4>
+                          <p class="text-slate-600">Go to your computer's Desktop. Right-click, select "New Folder", and name it <strong>"My Practice"</strong>.</p>
+                        </div>
+                      </div>
+                      
+                      <div class="flex gap-4 items-start p-4 rounded-lg bg-slate-50 border border-slate-200">
+                        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shrink-0 mt-0.5">4</div>
+                        <div>
+                          <h4 class="font-bold text-slate-800 text-lg">Download & Organize</h4>
+                          <p class="text-slate-600">Save any image from the internet, then drag and drop it into your new "My Practice" folder.</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                      <button class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-transform hover:scale-105" onclick="alert('Congratulations! You have completed the Computer Essentials course.')">
+                        I Have Completed This Task
+                      </button>
+                    </div>
+                 </div>
+              </div>
+            `
+          }
+        ]
+      }
+    ]
   }
 ];
 
