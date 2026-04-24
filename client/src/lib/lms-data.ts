@@ -1891,7 +1891,7 @@ export const COURSES: Course[] = [
             isCompleted: false,
             videoUrl: "https://www.youtube.com/embed/eOmR3Pj0Rk4"
           },
-          { id: "tcarp3-final", title: "Final Carpentry Assessment", type: "quiz", duration: "90 min", isCompleted: false }
+          { id: "tcarp3-final", title: "Common Questions asked in Skills Assessments", type: "quiz", duration: "90 min", isCompleted: false }
         ]
       }
     ]

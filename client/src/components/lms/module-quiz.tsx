@@ -822,6 +822,118 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
         correctAnswer: 2
     }
   ],
+  "tcarp3-final": [
+    {
+        id: "q1",
+        text: "Tell me about your experience as a carpenter. What should your answer include?",
+        options: [
+            "Just a list of the companies I worked for and how long.",
+            "Specific tasks like wall framing, roof framing, formwork, tools used, and safety procedures followed.",
+            "Only the biggest projects I've done.",
+            "I should just say I have 5 years experience."
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q2",
+        text: "How do you read construction drawings?",
+        options: [
+            "I just look at the pictures and start building.",
+            "I only read the dimensions.",
+            "I check dimensions, layout, levels, materials, and notes, then confirm measurements on site before starting.",
+            "I ask the supervisor what it says."
+        ],
+        correctAnswer: 2
+    },
+    {
+        id: "q3",
+        text: "Explain how you construct a wall frame. What is the correct sequence?",
+        options: [
+            "Nail studs together, stand it up, then read the plan.",
+            "Read plan, mark stud positions on plates, cut studs, assemble on ground, install noggings, check square, lift and brace.",
+            "Stand the studs up one by one and nail them to the plates in the air.",
+            "Put the top plate up, then attach the studs to it."
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q4",
+        text: "How do you check if a wall frame is square?",
+        options: [
+            "By using a small framing square in one corner.",
+            "By looking at it from a distance.",
+            "By measuring both diagonals. If they are equal, it is square.",
+            "By using a spirit level on the top plate."
+        ],
+        correctAnswer: 2
+    },
+    {
+        id: "q5",
+        text: "What happens if roof trusses are not braced?",
+        options: [
+            "They just look messy.",
+            "It takes longer to put the roof on.",
+            "They can move, collapse, or become misaligned.",
+            "Nothing, bracing is just for extra strength if you have heavy tiles."
+        ],
+        correctAnswer: 2
+    },
+    {
+        id: "q6",
+        text: "Explain how you construct wall formwork.",
+        options: [
+            "Just nail plywood together and pour the concrete.",
+            "Read drawings, assemble form panels, install walers, ties, and braces, then check plumb and dimensions.",
+            "Put the props up first, then attach the plywood.",
+            "Pour the concrete first, then put the forms around it to shape it."
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q7",
+        text: "What is the purpose of a form tie in wall formwork?",
+        options: [
+            "To hold the rebar in place.",
+            "To tie the formwork to the scaffolding.",
+            "To hold both sides of the wall formwork together and resist concrete pressure.",
+            "To make the wall look nice."
+        ],
+        correctAnswer: 2
+    },
+    {
+        id: "q8",
+        text: "What do you do if you see a hazard on site?",
+        options: [
+            "Ignore it, it's not my job.",
+            "Tell the safety officer at the end of the day.",
+            "Stop work if necessary, report it, and apply controls before continuing.",
+            "Just walk around it."
+        ],
+        correctAnswer: 2
+    },
+    {
+        id: "q9",
+        text: "What if the wall frame you just built is out of square?",
+        options: [
+            "Leave it, the plasterers will fix it.",
+            "Recheck measurements, adjust before permanent fixing, then confirm diagonals again.",
+            "Hit it with a hammer until it looks right.",
+            "Just build the next one better."
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q10",
+        text: "If asked 'Did you personally do this work?' during an assessment, what is the best approach?",
+        options: [
+            "Say yes to everything, even if I didn't do it.",
+            "Say 'I don't know' if I'm not sure.",
+            "Be honest and say 'Yes, I performed these tasks as part of my role, depending on project requirements and supervision level.'",
+            "Say my supervisor did it."
+        ],
+        correctAnswer: 2
+    }
+  ],
   "tmec1": [
     {
       id: "mq1",
