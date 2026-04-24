@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUser } from "@/hooks/use-user";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,9 +19,30 @@ export default function Profile() {
     fullName: user?.name || "Alex Johnson",
     username: (user as any)?.username || "alex_j",
     email: user?.email || "alex.johnson@example.com",
+    mobile: "Not provided",
+    occupation: "Not provided",
+    facebook: "Not provided",
     reason: "To prepare for PTE Academic",
     password: "password123" // Mock password
   });
+
+  // Load mock profile data if available
+  useEffect(() => {
+    const savedProfile = sessionStorage.getItem('mock_user_profile');
+    if (savedProfile) {
+      try {
+        const parsed = JSON.parse(savedProfile);
+        setFormData(prev => ({
+          ...prev,
+          mobile: parsed.mobile || prev.mobile,
+          occupation: parsed.occupation || prev.occupation,
+          facebook: parsed.facebook || prev.facebook
+        }));
+      } catch (e) {
+        console.error("Failed to parse mock profile data");
+      }
+    }
+  }, []);
 
   const [showPassword, setShowPassword] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -238,6 +259,37 @@ export default function Profile() {
                   type="email" 
                   value={formData.email} 
                   onChange={(e) => handleInputChange("email", e.target.value)}
+                  disabled={!isEditing}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="mobile">Mobile Number</Label>
+                <Input 
+                  id="mobile" 
+                  type="tel" 
+                  value={formData.mobile} 
+                  onChange={(e) => handleInputChange("mobile", e.target.value)}
+                  disabled={!isEditing}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="occupation">Occupation / Trade</Label>
+                <Input 
+                  id="occupation" 
+                  value={formData.occupation} 
+                  onChange={(e) => handleInputChange("occupation", e.target.value)}
+                  disabled={!isEditing}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="facebook">Facebook Profile Link</Label>
+                <Input 
+                  id="facebook" 
+                  value={formData.facebook} 
+                  onChange={(e) => handleInputChange("facebook", e.target.value)}
                   disabled={!isEditing}
                 />
               </div>
