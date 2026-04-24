@@ -627,6 +627,109 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
       correctAnswer: 2
     }
   ],
+  "tcarp1-safety-quiz": [
+    {
+        id: "q1",
+        text: "Before operating any power tool, what is the most important safety check?",
+        options: [
+            "Checking if the battery is fully charged",
+            "Ensuring the tool is plugged in",
+            "Inspecting the power cord and tool for damage",
+            "Wiping off sawdust from the casing"
+        ],
+        correctAnswer: 2
+    },
+    {
+        id: "q2",
+        text: "When changing a blade or drill bit on a power tool, you must ALWAYS:",
+        options: [
+            "Wear heavy leather gloves",
+            "Disconnect the power source (unplug or remove battery)",
+            "Keep your finger near the trigger for quick testing",
+            "Have a coworker hold the tool steady"
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q3",
+        text: "Which of the following is considered appropriate Personal Protective Equipment (PPE) when using a circular saw?",
+        options: [
+            "Loose-fitting long sleeves and safety glasses",
+            "Safety glasses, hearing protection, and avoiding loose clothing/jewelry",
+            "Cotton gloves and a dust mask",
+            "Steel-toe boots only"
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q4",
+        text: "If a power tool's safety guard is broken or sticks, you should:",
+        options: [
+            "Remove it completely so it doesn't get in the way",
+            "Tape or tie it back temporarily to finish the job",
+            "Tag the tool 'Out of Service' and report it immediately",
+            "Use the tool carefully and slowly"
+        ],
+        correctAnswer: 2
+    },
+    {
+        id: "q5",
+        text: "When operating a nail gun (pneumatic or cordless), what is a critical safety rule?",
+        options: [
+            "Always carry the tool with your finger on the trigger",
+            "Point the tool toward a coworker only if unloaded",
+            "Disconnect the air supply/battery when moving between work areas",
+            "Modify the contact safety tip for faster firing"
+        ],
+        correctAnswer: 2
+    }
+  ],
+  "tcarp1-materials-quiz": [
+    {
+        id: "q1",
+        text: "In carpentry, what is the primary difference between hardwood and softwood?",
+        options: [
+            "Hardwood is always physically harder than softwood",
+            "Hardwoods come from deciduous trees (leaves), softwoods from conifers (needles)",
+            "Softwoods are only used for indoor furniture",
+            "Hardwoods are cheaper and grow faster"
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q2",
+        text: "Which of the following woods is a Softwood typically used for framing?",
+        options: [
+            "Oak",
+            "Pine",
+            "Cherry",
+            "Walnut"
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q3",
+        text: "What is a 'Knot' in lumber?",
+        options: [
+            "A crack along the grain",
+            "A curve across the width of the board",
+            "The base of a branch embedded in the wood",
+            "Missing wood or bark on the edge"
+        ],
+        correctAnswer: 2
+    },
+    {
+        id: "q4",
+        text: "If a board has a 'Wane' defect, what does it look like?",
+        options: [
+            "It has a missing edge or still has bark attached",
+            "It is twisted like a corkscrew",
+            "It has small holes from insects",
+            "It is bowed end-to-end"
+        ],
+        correctAnswer: 0
+    }
+  ],
   "tmec1": [
     {
       id: "mq1",

@@ -1425,13 +1425,95 @@ export const COURSES: Course[] = [
         status: "locked",
         progress: 0,
         lessons: [
-            { id: "tcarp1-l1", title: "Power Tool Safety", type: "video", duration: "20 min", isCompleted: false, videoUrl: "https://www.youtube.com/embed/qQnrZeofF84" },
+            { 
+                id: "tcarp1-l1", 
+                title: "Power Tool Safety", 
+                type: "video", 
+                duration: "20 min", 
+                isCompleted: false, 
+                videoUrl: "https://www.youtube.com/embed/qQnrZeofF84",
+                quizId: "tcarp1-safety-quiz"
+            },
+            {
+                id: "tcarp1-safety-quiz",
+                title: "Power Tool Safety Assessment",
+                type: "quiz",
+                duration: "15 min",
+                isCompleted: false,
+                content: `
+                    {
+                        "questions": [
+                            {
+                                "id": "q1",
+                                "question": "Before operating any power tool, what is the most important safety check?",
+                                "options": [
+                                    "Checking if the battery is fully charged",
+                                    "Ensuring the tool is plugged in",
+                                    "Inspecting the power cord and tool for damage",
+                                    "Wiping off sawdust from the casing"
+                                ],
+                                "correctAnswer": 2,
+                                "explanation": "Always inspect tools and cords for damage before use. Damaged equipment is a major cause of workplace electrical hazards."
+                            },
+                            {
+                                "id": "q2",
+                                "question": "When changing a blade or drill bit on a power tool, you must ALWAYS:",
+                                "options": [
+                                    "Wear heavy leather gloves",
+                                    "Disconnect the power source (unplug or remove battery)",
+                                    "Keep your finger near the trigger for quick testing",
+                                    "Have a coworker hold the tool steady"
+                                ],
+                                "correctAnswer": 1,
+                                "explanation": "Never change accessories while a tool is connected to power. Accidental triggers cause severe lacerations and amputations."
+                            },
+                            {
+                                "id": "q3",
+                                "question": "Which of the following is considered appropriate Personal Protective Equipment (PPE) when using a circular saw?",
+                                "options": [
+                                    "Loose-fitting long sleeves and safety glasses",
+                                    "Safety glasses, hearing protection, and avoiding loose clothing/jewelry",
+                                    "Cotton gloves and a dust mask",
+                                    "Steel-toe boots only"
+                                ],
+                                "correctAnswer": 1,
+                                "explanation": "Loose clothing and jewelry are severe entanglement hazards. Eye and ear protection are mandatory for high-decibel, debris-generating tools."
+                            },
+                            {
+                                "id": "q4",
+                                "question": "If a power tool's safety guard is broken or sticks, you should:",
+                                "options": [
+                                    "Remove it completely so it doesn't get in the way",
+                                    "Tape or tie it back temporarily to finish the job",
+                                    "Tag the tool 'Out of Service' and report it immediately",
+                                    "Use the tool carefully and slowly"
+                                ],
+                                "correctAnswer": 2,
+                                "explanation": "Never disable or bypass safety guards. Defective tools must be locked/tagged out to prevent use until repaired."
+                            },
+                            {
+                                "id": "q5",
+                                "question": "When operating a nail gun (pneumatic or cordless), what is a critical safety rule?",
+                                "options": [
+                                    "Always carry the tool with your finger on the trigger",
+                                    "Point the tool toward a coworker only if unloaded",
+                                    "Disconnect the air supply/battery when moving between work areas",
+                                    "Modify the contact safety tip for faster firing"
+                                ],
+                                "correctAnswer": 2,
+                                "explanation": "Never carry a nail gun with your finger on the trigger, and always disconnect power/air when moving to prevent accidental discharge."
+                            }
+                        ]
+                    }
+                `
+            },
             { 
                 id: "tcarp1-l2", 
                 title: "Wood Types & Grades", 
                 type: "reading", 
                 duration: "30 min", 
                 isCompleted: false,
+                quizId: "tcarp1-materials-quiz",
                 content: `
                     <div class="space-y-8">
                         <div>
@@ -1486,6 +1568,67 @@ export const COURSES: Course[] = [
                             </div>
                         </div>
                     </div>
+                `
+            },
+            {
+                id: "tcarp1-materials-quiz",
+                title: "Materials & Defects Assessment",
+                type: "quiz",
+                duration: "15 min",
+                isCompleted: false,
+                content: `
+                    {
+                        "questions": [
+                            {
+                                "id": "q1",
+                                "question": "In carpentry, what is the primary difference between hardwood and softwood?",
+                                "options": [
+                                    "Hardwood is always physically harder than softwood",
+                                    "Hardwoods come from deciduous trees (leaves), softwoods from conifers (needles)",
+                                    "Softwoods are only used for indoor furniture",
+                                    "Hardwoods are cheaper and grow faster"
+                                ],
+                                "correctAnswer": 1,
+                                "explanation": "The classification refers to the tree's reproduction method, not the physical density of the wood."
+                            },
+                            {
+                                "id": "q2",
+                                "question": "Which of the following woods is a Softwood typically used for framing?",
+                                "options": [
+                                    "Oak",
+                                    "Pine",
+                                    "Cherry",
+                                    "Walnut"
+                                ],
+                                "correctAnswer": 1,
+                                "explanation": "Pine is a softwood (conifer) commonly used in structural framing and construction."
+                            },
+                            {
+                                "id": "q3",
+                                "question": "What is a 'Knot' in lumber?",
+                                "options": [
+                                    "A crack along the grain",
+                                    "A curve across the width of the board",
+                                    "The base of a branch embedded in the wood",
+                                    "Missing wood or bark on the edge"
+                                ],
+                                "correctAnswer": 2,
+                                "explanation": "A knot forms where a branch grew out from the main trunk of the tree."
+                            },
+                            {
+                                "id": "q4",
+                                "question": "If a board has a 'Wane' defect, what does it look like?",
+                                "options": [
+                                    "It has a missing edge or still has bark attached",
+                                    "It is twisted like a corkscrew",
+                                    "It has small holes from insects",
+                                    "It is bowed end-to-end"
+                                ],
+                                "correctAnswer": 0,
+                                "explanation": "Wane refers to the presence of bark or the lack of wood on the edge or corner of a piece of lumber."
+                            }
+                        ]
+                    }
                 `
             },
             { id: "tcarp1-l3", title: "Tools Quiz", type: "quiz", duration: "30 min", isCompleted: false }
