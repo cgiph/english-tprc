@@ -684,50 +684,142 @@ const MOCK_QUIZZES: Record<string, Question[]> = {
         correctAnswer: 2
     }
   ],
-  "tcarp1-materials-quiz": [
+  "tcarp1-formwork-intro-quiz": [
     {
         id: "q1",
-        text: "In carpentry, what is the primary difference between hardwood and softwood?",
+        text: "What is the primary advantage of Engineered Formwork Systems over Conventional Timber?",
         options: [
-            "Hardwood is always physically harder than softwood",
-            "Hardwoods come from deciduous trees (leaves), softwoods from conifers (needles)",
-            "Softwoods are only used for indoor furniture",
-            "Hardwoods are cheaper and grow faster"
+            "They are cheaper to buy initially",
+            "They are faster to assemble and highly reusable",
+            "They are better for complex, custom architectural shapes",
+            "They do not require release agents"
         ],
         correctAnswer: 1
     },
     {
         id: "q2",
-        text: "Which of the following woods is a Softwood typically used for framing?",
+        text: "Which of the following is considered a 'Secondary cross support' in a slab formwork system?",
         options: [
-            "Oak",
-            "Pine",
-            "Cherry",
-            "Walnut"
+            "Acrow Prop",
+            "Bearer",
+            "Joist",
+            "Form Ply"
         ],
-        correctAnswer: 1
+        correctAnswer: 2
     },
     {
         id: "q3",
-        text: "What is a 'Knot' in lumber?",
+        text: "When would Conventional Timber formwork be preferred?",
         options: [
-            "A crack along the grain",
-            "A curve across the width of the board",
-            "The base of a branch embedded in the wood",
-            "Missing wood or bark on the edge"
+            "For a 50-story high-rise elevator core",
+            "For a massive, flat warehouse slab",
+            "For a custom residential staircase with unique curves",
+            "When pouring underwater"
         ],
         correctAnswer: 2
     },
     {
         id: "q4",
-        text: "If a board has a 'Wane' defect, what does it look like?",
+        text: "What is the function of an 'Acrow Prop'?",
         options: [
-            "It has a missing edge or still has bark attached",
-            "It is twisted like a corkscrew",
-            "It has small holes from insects",
-            "It is bowed end-to-end"
+            "To provide a smooth finish to the concrete",
+            "To provide adjustable vertical steel support for the formwork above",
+            "To tie the rebar together",
+            "To seal the edges against concrete leaks"
+        ],
+        correctAnswer: 1
+    }
+  ],
+  "tcarp2-formwork-quiz": [
+    {
+        id: "q1",
+        text: "What is the primary purpose of formwork in construction?",
+        options: [
+            "To provide a permanent decorative finish",
+            "To hold wet concrete in place until it cures and gains strength",
+            "To reinforce the steel rebar",
+            "To insulate the building"
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q2",
+        text: "When stripping (removing) formwork, what is a critical safety hazard to watch out for?",
+        options: [
+            "Concrete curing too quickly",
+            "Falling materials and exposed nails in the timber",
+            "The color of the concrete changing",
+            "Dust from the concrete surface"
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q3",
+        text: "What is 'form release agent' used for?",
+        options: [
+            "To make the concrete set faster",
+            "To strengthen the timber supports",
+            "To prevent the concrete from sticking to the formwork timber/plywood",
+            "To clean the concrete surface after stripping"
+        ],
+        correctAnswer: 2
+    },
+    {
+        id: "q4",
+        text: "Why is bracing essential in vertical formwork (like columns or walls)?",
+        options: [
+            "To resist the lateral (hydrostatic) pressure of the wet concrete during pouring",
+            "To make the formwork look neat",
+            "To hold the rebar in the center",
+            "To stop the concrete from drying out"
         ],
         correctAnswer: 0
+    }
+  ],
+  "tcarp2-slab-quiz": [
+    {
+        id: "q1",
+        text: "In suspended slab formwork, what rests directly on top of the Acrow props?",
+        options: [
+            "The concrete",
+            "The Form Ply",
+            "The Joists (Secondary Bearers)",
+            "The Primary Bearers"
+        ],
+        correctAnswer: 3
+    },
+    {
+        id: "q2",
+        text: "Why must Acrow props be 'plumb'?",
+        options: [
+            "So they look straight",
+            "To ensure they can carry their maximum rated safe working load",
+            "To make them easier to remove later",
+            "To allow for plumbing pipes to run alongside them"
+        ],
+        correctAnswer: 1
+    },
+    {
+        id: "q3",
+        text: "What is the purpose of diagonal lacing/bracing on suspended formwork props?",
+        options: [
+            "To hang tools from",
+            "To provide a scaffold for workers to walk on",
+            "To prevent the entire support structure from swaying or collapsing laterally during the pour",
+            "It is only required for aesthetic reasons"
+        ],
+        correctAnswer: 2
+    },
+    {
+        id: "q4",
+        text: "Why is 'Cleanliness' a critical step on the pre-pour checklist?",
+        options: [
+            "Because the foreman likes a tidy site",
+            "To recover lost tools",
+            "Sawdust and debris trapped in the formwork will cause weak spots and defects in the final concrete structure",
+            "So the concrete sets faster"
+        ],
+        correctAnswer: 2
     }
   ],
   "tmec1": [

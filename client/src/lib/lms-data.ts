@@ -1509,61 +1509,61 @@ export const COURSES: Course[] = [
             },
             { 
                 id: "tcarp1-l2", 
-                title: "Wood Types & Grades", 
+                title: "Formwork Systems", 
                 type: "reading", 
                 duration: "30 min", 
                 isCompleted: false,
-                quizId: "tcarp1-materials-quiz",
+                quizId: "tcarp1-formwork-intro-quiz",
                 content: `
                     <div class="space-y-8">
                         <div>
-                            <h3 class="text-2xl font-bold mb-4 text-amber-800">Understanding Wood</h3>
-                            <p class="text-slate-600 mb-6">Lumber is divided into two main categories: Hardwood and Softwood. This refers to the tree's reproduction (seeds), not necessarily physical hardness.</p>
+                            <h3 class="text-2xl font-bold mb-4 text-amber-800">Understanding Formwork</h3>
+                            <p class="text-slate-600 mb-6">Formwork is the temporary mold that holds wet concrete in place until it cures. It can be divided into two main categories: Conventional Timber and Engineered Systems.</p>
                             
                             <div class="grid grid-cols-2 gap-0 border rounded-xl overflow-hidden">
                                 <div class="bg-amber-50 p-6 border-r border-amber-100">
-                                    <h4 class="font-bold text-lg text-amber-900 mb-2">Softwood</h4>
-                                    <p class="text-xs text-amber-700 uppercase font-bold tracking-wider mb-4">Conifers (Needles/Cones)</p>
+                                    <h4 class="font-bold text-lg text-amber-900 mb-2">Conventional Timber</h4>
+                                    <p class="text-xs text-amber-700 uppercase font-bold tracking-wider mb-4">Custom Built On-Site</p>
                                     <ul class="text-sm space-y-2 text-amber-900/80">
-                                        <li>• Pine</li>
-                                        <li>• Fir</li>
-                                        <li>• Spruce</li>
-                                        <li>• Cedar</li>
+                                        <li>• Timber framing & bearers</li>
+                                        <li>• Plywood sheathing</li>
+                                        <li>• Highly flexible for complex shapes</li>
+                                        <li>• Lower initial material cost</li>
                                     </ul>
-                                    <p class="mt-4 text-xs italic text-amber-600">Used for: Framing, construction, outdoor decks.</p>
+                                    <p class="mt-4 text-xs italic text-amber-600">Used for: Custom residential, stairs, complex architectural concrete.</p>
                                 </div>
                                 <div class="bg-stone-50 p-6">
-                                    <h4 class="font-bold text-lg text-stone-900 mb-2">Hardwood</h4>
-                                    <p class="text-xs text-stone-700 uppercase font-bold tracking-wider mb-4">Deciduous (Leaves)</p>
+                                    <h4 class="font-bold text-lg text-stone-900 mb-2">Engineered Systems</h4>
+                                    <p class="text-xs text-stone-700 uppercase font-bold tracking-wider mb-4">Prefabricated / Modular</p>
                                     <ul class="text-sm space-y-2 text-stone-900/80">
-                                        <li>• Oak</li>
-                                        <li>• Maple</li>
-                                        <li>• Cherry</li>
-                                        <li>• Walnut</li>
+                                        <li>• Steel or aluminum frames</li>
+                                        <li>• Modular interlocking panels</li>
+                                        <li>• Extremely fast to assemble</li>
+                                        <li>• High reusability (100+ pours)</li>
                                     </ul>
-                                    <p class="mt-4 text-xs italic text-stone-600">Used for: Furniture, flooring, fine cabinetry.</p>
+                                    <p class="mt-4 text-xs italic text-stone-600">Used for: Large commercial slabs, high-rise lift cores, repetitive walls.</p>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <h4 class="font-bold text-lg mb-2">Common Lumber Defects</h4>
+                            <h4 class="font-bold text-lg mb-2">Common Formwork Components</h4>
                             <div class="flex gap-4 overflow-x-auto pb-4">
-                                <div class="min-w-[120px] bg-white border p-3 rounded text-center">
-                                    <div class="font-bold text-slate-800">Knot</div>
-                                    <div class="text-xs text-slate-500">Branch base</div>
+                                <div class="min-w-[120px] bg-white border p-3 rounded text-center shadow-sm">
+                                    <div class="font-bold text-slate-800">Acrow Prop</div>
+                                    <div class="text-xs text-slate-500">Vertical steel support</div>
                                 </div>
-                                <div class="min-w-[120px] bg-white border p-3 rounded text-center">
-                                    <div class="font-bold text-slate-800">Check</div>
-                                    <div class="text-xs text-slate-500">Crack along grain</div>
+                                <div class="min-w-[120px] bg-white border p-3 rounded text-center shadow-sm">
+                                    <div class="font-bold text-slate-800">Bearer</div>
+                                    <div class="text-xs text-slate-500">Primary beam support</div>
                                 </div>
-                                <div class="min-w-[120px] bg-white border p-3 rounded text-center">
-                                    <div class="font-bold text-slate-800">Wane</div>
-                                    <div class="text-xs text-slate-500">Missing wood/bark edge</div>
+                                <div class="min-w-[120px] bg-white border p-3 rounded text-center shadow-sm">
+                                    <div class="font-bold text-slate-800">Joist</div>
+                                    <div class="text-xs text-slate-500">Secondary cross support</div>
                                 </div>
-                                <div class="min-w-[120px] bg-white border p-3 rounded text-center">
-                                    <div class="font-bold text-slate-800">Cup</div>
-                                    <div class="text-xs text-slate-500">Curve across width</div>
+                                <div class="min-w-[120px] bg-white border p-3 rounded text-center shadow-sm">
+                                    <div class="font-bold text-slate-800">Form Ply</div>
+                                    <div class="text-xs text-slate-500">Coated concrete facing</div>
                                 </div>
                             </div>
                         </div>
@@ -1571,8 +1571,8 @@ export const COURSES: Course[] = [
                 `
             },
             {
-                id: "tcarp1-materials-quiz",
-                title: "Materials & Defects Assessment",
+                id: "tcarp1-formwork-intro-quiz",
+                title: "Formwork Systems Assessment",
                 type: "quiz",
                 duration: "15 min",
                 isCompleted: false,
@@ -1581,51 +1581,51 @@ export const COURSES: Course[] = [
                         "questions": [
                             {
                                 "id": "q1",
-                                "question": "In carpentry, what is the primary difference between hardwood and softwood?",
+                                "question": "What is the primary advantage of Engineered Formwork Systems over Conventional Timber?",
                                 "options": [
-                                    "Hardwood is always physically harder than softwood",
-                                    "Hardwoods come from deciduous trees (leaves), softwoods from conifers (needles)",
-                                    "Softwoods are only used for indoor furniture",
-                                    "Hardwoods are cheaper and grow faster"
+                                    "They are cheaper to buy initially",
+                                    "They are faster to assemble and highly reusable",
+                                    "They are better for complex, custom architectural shapes",
+                                    "They do not require release agents"
                                 ],
                                 "correctAnswer": 1,
-                                "explanation": "The classification refers to the tree's reproduction method, not the physical density of the wood."
+                                "explanation": "Engineered systems have a high initial cost but save massive amounts of labor time and can be reused dozens or hundreds of times."
                             },
                             {
                                 "id": "q2",
-                                "question": "Which of the following woods is a Softwood typically used for framing?",
+                                "question": "Which of the following is considered a 'Secondary cross support' in a slab formwork system?",
                                 "options": [
-                                    "Oak",
-                                    "Pine",
-                                    "Cherry",
-                                    "Walnut"
+                                    "Acrow Prop",
+                                    "Bearer",
+                                    "Joist",
+                                    "Form Ply"
                                 ],
-                                "correctAnswer": 1,
-                                "explanation": "Pine is a softwood (conifer) commonly used in structural framing and construction."
+                                "correctAnswer": 2,
+                                "explanation": "Joists run across the primary bearers to provide direct support for the form ply."
                             },
                             {
                                 "id": "q3",
-                                "question": "What is a 'Knot' in lumber?",
+                                "question": "When would Conventional Timber formwork be preferred?",
                                 "options": [
-                                    "A crack along the grain",
-                                    "A curve across the width of the board",
-                                    "The base of a branch embedded in the wood",
-                                    "Missing wood or bark on the edge"
+                                    "For a 50-story high-rise elevator core",
+                                    "For a massive, flat warehouse slab",
+                                    "For a custom residential staircase with unique curves",
+                                    "When pouring underwater"
                                 ],
                                 "correctAnswer": 2,
-                                "explanation": "A knot forms where a branch grew out from the main trunk of the tree."
+                                "explanation": "Timber is highly flexible and can be cut and shaped on-site to match complex, unique architectural details."
                             },
                             {
                                 "id": "q4",
-                                "question": "If a board has a 'Wane' defect, what does it look like?",
+                                "question": "What is the function of an 'Acrow Prop'?",
                                 "options": [
-                                    "It has a missing edge or still has bark attached",
-                                    "It is twisted like a corkscrew",
-                                    "It has small holes from insects",
-                                    "It is bowed end-to-end"
+                                    "To provide a smooth finish to the concrete",
+                                    "To provide adjustable vertical steel support for the formwork above",
+                                    "To tie the rebar together",
+                                    "To seal the edges against concrete leaks"
                                 ],
-                                "correctAnswer": 0,
-                                "explanation": "Wane refers to the presence of bark or the lack of wood on the edge or corner of a piece of lumber."
+                                "correctAnswer": 1,
+                                "explanation": "Acrow props (or shore props) are heavy-duty, adjustable steel posts that carry the vertical load of the formwork and wet concrete."
                             }
                         ]
                     }
@@ -1636,77 +1636,136 @@ export const COURSES: Course[] = [
       },
       {
         id: "tcarp2",
-        title: "Module 2: Framing Basics",
-        description: "Structural framing for walls and roofs.",
+        title: "Module 2: Formwork Basics",
+        description: "Temporary structures for concrete pouring.",
         status: "locked",
         progress: 0,
         lessons: [
             { 
                 id: "tcarp2-l1", 
-                title: "Wall Framing", 
+                title: "Introduction to Formwork", 
                 type: "video", 
                 duration: "25 min", 
                 isCompleted: false,
-                videoUrl: "https://www.youtube.com/embed/KGJaA5u9Yj8" 
+                quizId: "tcarp2-formwork-quiz",
+                videoUrl: "https://www.youtube.com/embed/n3o1t2l4h3s" 
+            },
+            {
+                id: "tcarp2-formwork-quiz",
+                title: "Formwork Safety & Basics Assessment",
+                type: "quiz",
+                duration: "15 min",
+                isCompleted: false,
+                content: `
+                    {
+                        "questions": [
+                            {
+                                "id": "q1",
+                                "question": "What is the primary purpose of formwork in construction?",
+                                "options": [
+                                    "To provide a permanent decorative finish",
+                                    "To hold wet concrete in place until it cures and gains strength",
+                                    "To reinforce the steel rebar",
+                                    "To insulate the building"
+                                ],
+                                "correctAnswer": 1,
+                                "explanation": "Formwork is a temporary mold that supports the weight and pressure of wet concrete until it is self-supporting."
+                            },
+                            {
+                                "id": "q2",
+                                "question": "When stripping (removing) formwork, what is a critical safety hazard to watch out for?",
+                                "options": [
+                                    "Concrete curing too quickly",
+                                    "Falling materials and exposed nails in the timber",
+                                    "The color of the concrete changing",
+                                    "Dust from the concrete surface"
+                                ],
+                                "correctAnswer": 1,
+                                "explanation": "Stripping formwork involves removing temporary supports. Falling timber and protruding nails are major injury risks."
+                            },
+                            {
+                                "id": "q3",
+                                "question": "What is 'form release agent' used for?",
+                                "options": [
+                                    "To make the concrete set faster",
+                                    "To strengthen the timber supports",
+                                    "To prevent the concrete from sticking to the formwork timber/plywood",
+                                    "To clean the concrete surface after stripping"
+                                ],
+                                "correctAnswer": 2,
+                                "explanation": "Release agents (like form oil) are applied to the inside of the forms to ensure they can be removed cleanly without damaging the concrete face."
+                            },
+                            {
+                                "id": "q4",
+                                "question": "Why is bracing essential in vertical formwork (like columns or walls)?",
+                                "options": [
+                                    "To resist the lateral (hydrostatic) pressure of the wet concrete during pouring",
+                                    "To make the formwork look neat",
+                                    "To hold the rebar in the center",
+                                    "To stop the concrete from drying out"
+                                ],
+                                "correctAnswer": 0,
+                                "explanation": "Wet concrete exerts immense outward pressure. Without adequate bracing, the forms will blowout or shift during the pour."
+                            }
+                        ]
+                    }
+                `
             },
             { 
                 id: "tcarp2-l2", 
-                title: "Roof Systems", 
+                title: "Slab & Suspended Formwork", 
                 type: "reading", 
                 duration: "30 min", 
                 isCompleted: false,
+                quizId: "tcarp2-slab-quiz",
                 content: `
                     <div class="space-y-6">
-                        <h3 class="text-xl font-bold">Roof Framing Fundamentals</h3>
-                        <p class="text-slate-600">The roof structure supports the covering (shingles/metal) and transfers loads to the walls.</p>
+                        <h3 class="text-xl font-bold">Suspended Slab Fundamentals</h3>
+                        <p class="text-slate-600">Suspended formwork requires careful engineering and precise load calculations as it supports the entire weight of the concrete floor above the ground.</p>
                         
                         <div class="bg-slate-900 text-white p-6 rounded-xl">
-                            <h4 class="font-bold text-lg mb-4 text-blue-300">Key Terminology</h4>
+                            <h4 class="font-bold text-lg mb-4 text-blue-300">Key Components</h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
                                 <div>
-                                    <strong class="block text-yellow-400">Span</strong>
-                                    <span class="text-sm text-slate-400">The distance between the outside edges of the supporting walls.</span>
+                                    <strong class="block text-yellow-400">Props (Acrow Props)</strong>
+                                    <span class="text-sm text-slate-400">Adjustable vertical steel supports that carry the load to the floor below.</span>
                                 </div>
                                 <div>
-                                    <strong class="block text-yellow-400">Run</strong>
-                                    <span class="text-sm text-slate-400">Half the span (for a standard gable roof).</span>
+                                    <strong class="block text-yellow-400">Bearers (Primary Bearers)</strong>
+                                    <span class="text-sm text-slate-400">Heavy timbers or aluminum beams resting directly on the props.</span>
                                 </div>
                                 <div>
-                                    <strong class="block text-yellow-400">Rise</strong>
-                                    <span class="text-sm text-slate-400">The vertical height of the roof from the wall plate to the ridge.</span>
+                                    <strong class="block text-yellow-400">Joists (Secondary Bearers)</strong>
+                                    <span class="text-sm text-slate-400">Run perpendicular to bearers to support the form ply.</span>
                                 </div>
                                 <div>
-                                    <strong class="block text-yellow-400">Pitch (Slope)</strong>
-                                    <span class="text-sm text-slate-400">Ratio of Rise over Run (e.g., 4/12 pitch means 4" rise for every 12" run).</span>
+                                    <strong class="block text-yellow-400">Form Ply</strong>
+                                    <span class="text-sm text-slate-400">Specialized, coated plywood that creates the smooth bottom surface of the slab.</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="border border-slate-200 rounded-lg p-4">
-                            <h4 class="font-bold mb-2">Rafters vs. Trusses</h4>
+                            <h4 class="font-bold mb-2">Pre-Pour Checklist</h4>
                             <table class="w-full text-sm">
                                 <thead class="bg-slate-50">
                                     <tr>
-                                        <th class="p-2 text-left">Feature</th>
-                                        <th class="p-2 text-left">Stick Framing (Rafters)</th>
-                                        <th class="p-2 text-left">Trusses</th>
+                                        <th class="p-2 text-left">Item</th>
+                                        <th class="p-2 text-left">Check Required</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y">
                                     <tr>
-                                        <td class="p-2 font-medium">Space Use</td>
-                                        <td class="p-2">Open (good for attics)</td>
-                                        <td class="p-2">Webbed (hard to use for storage)</td>
+                                        <td class="p-2 font-medium">Props</td>
+                                        <td class="p-2">Plumb (perfectly vertical) and pins secure.</td>
                                     </tr>
                                     <tr>
-                                        <td class="p-2 font-medium">Speed</td>
-                                        <td class="p-2">Slower, more skill required</td>
-                                        <td class="p-2">Fast, crane installation</td>
+                                        <td class="p-2 font-medium">Bracing</td>
+                                        <td class="p-2">Diagonal lacing installed to prevent lateral sway.</td>
                                     </tr>
                                     <tr>
-                                        <td class="p-2 font-medium">Cost</td>
-                                        <td class="p-2">More labor, less material</td>
-                                        <td class="p-2">Less labor, engineered cost</td>
+                                        <td class="p-2 font-medium">Cleanliness</td>
+                                        <td class="p-2">All sawdust, tie wire, and debris blown out before pouring.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1714,7 +1773,68 @@ export const COURSES: Course[] = [
                     </div>
                 `
             },
-            { id: "tcarp2-l3", title: "Framing Quiz", type: "quiz", duration: "30 min", isCompleted: false }
+            {
+                id: "tcarp2-slab-quiz",
+                title: "Suspended Formwork Assessment",
+                type: "quiz",
+                duration: "15 min",
+                isCompleted: false,
+                content: `
+                    {
+                        "questions": [
+                            {
+                                "id": "q1",
+                                "question": "In suspended slab formwork, what rests directly on top of the Acrow props?",
+                                "options": [
+                                    "The concrete",
+                                    "The Form Ply",
+                                    "The Joists (Secondary Bearers)",
+                                    "The Primary Bearers"
+                                ],
+                                "correctAnswer": 3,
+                                "explanation": "The structural hierarchy from top to bottom is: Concrete -> Form Ply -> Joists -> Bearers -> Props."
+                            },
+                            {
+                                "id": "q2",
+                                "question": "Why must Acrow props be 'plumb'?",
+                                "options": [
+                                    "So they look straight",
+                                    "To ensure they can carry their maximum rated safe working load",
+                                    "To make them easier to remove later",
+                                    "To allow for plumbing pipes to run alongside them"
+                                ],
+                                "correctAnswer": 1,
+                                "explanation": "A prop that is out of plumb (leaning) loses a massive amount of its load-bearing capacity and can easily buckle under the weight of wet concrete."
+                            },
+                            {
+                                "id": "q3",
+                                "question": "What is the purpose of diagonal lacing/bracing on suspended formwork props?",
+                                "options": [
+                                    "To hang tools from",
+                                    "To provide a scaffold for workers to walk on",
+                                    "To prevent the entire support structure from swaying or collapsing laterally during the pour",
+                                    "It is only required for aesthetic reasons"
+                                ],
+                                "correctAnswer": 2,
+                                "explanation": "Diagonal bracing ties the props together into a rigid structure, preventing a catastrophic domino-effect collapse."
+                            },
+                            {
+                                "id": "q4",
+                                "question": "Why is 'Cleanliness' a critical step on the pre-pour checklist?",
+                                "options": [
+                                    "Because the foreman likes a tidy site",
+                                    "To recover lost tools",
+                                    "Sawdust and debris trapped in the formwork will cause weak spots and defects in the final concrete structure",
+                                    "So the concrete sets faster"
+                                ],
+                                "correctAnswer": 2,
+                                "explanation": "Debris (like sawdust, tie wire, or trash) embedded in the concrete reduces its structural integrity and leaves ugly surface voids."
+                            }
+                        ]
+                    }
+                `
+            },
+            { id: "tcarp2-l3", title: "Formwork Quiz", type: "quiz", duration: "30 min", isCompleted: false }
         ]
       },
       {
